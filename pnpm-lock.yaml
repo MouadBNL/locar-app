@@ -13,18 +13,27 @@ importers:
       '@hono/node-server':
         specifier: ^1.14.4
         version: 1.14.4(hono@4.8.3)
+      '@hono/zod-validator':
+        specifier: ^0.7.0
+        version: 0.7.0(hono@4.8.3)(zod@3.25.67)
       dotenv:
         specifier: ^16.6.0
         version: 16.6.0
       drizzle-orm:
         specifier: ^0.44.2
         version: 0.44.2(@types/pg@8.15.4)(pg@8.16.2)(postgres@3.4.7)
+      drizzle-zod:
+        specifier: ^0.6.0
+        version: 0.6.1(drizzle-orm@0.44.2(@types/pg@8.15.4)(pg@8.16.2)(postgres@3.4.7))(zod@3.25.67)
       hono:
         specifier: ^4.8.3
         version: 4.8.3
       pg:
         specifier: ^8.16.2
         version: 8.16.2
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
       zod:
         specifier: ^3.25.67
         version: 3.25.67
@@ -47,6 +56,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@locar/api':
+        specifier: workspace:*
+        version: link:../api
       '@locar/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
@@ -655,6 +667,12 @@ packages:
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
+
+  '@hono/zod-validator@0.7.0':
+    resolution: {integrity: sha512-qe2ZE6sHFE98dcUrbYMtS3bAV8hqcCOflykvZga2S7XhmNSZzT+dIz4OuMILsjLHkJw9JMn912/dB7dQOmuPvg==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.25.0
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1669,6 +1687,12 @@ packages:
       sqlite3:
         optional: true
 
+  drizzle-zod@0.6.1:
+    resolution: {integrity: sha512-huEbUgnsuR8tupnmLiyB2F1I2H9dswI3GfM36IbIqx9i0YUeYjRsDpJVyFVeziUvI1ogT9JHRL2Q03cC4QmvxA==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: '>=3.0.0'
+
   electron-to-chromium@1.5.177:
     resolution: {integrity: sha512-7EH2G59nLsEMj97fpDuvVcYi6lwTcM1xuWw3PssD8xzboAW7zj7iB3COEEEATUfjLHrs5uKBLQT03V/8URx06g==}
 
@@ -2403,6 +2427,10 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
   vite@7.0.0:
     resolution: {integrity: sha512-ixXJB1YRgDIw2OszKQS9WxGHKwLdCsbQNkpJN171udl6szi/rIySHL6/Os3s2+oE4P/FLD4dxg4mD7Wust+u5g==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -2895,6 +2923,11 @@ snapshots:
   '@hono/node-server@1.14.4(hono@4.8.3)':
     dependencies:
       hono: 4.8.3
+
+  '@hono/zod-validator@0.7.0(hono@4.8.3)(zod@3.25.67)':
+    dependencies:
+      hono: 4.8.3
+      zod: 3.25.67
 
   '@humanfs/core@0.19.1': {}
 
@@ -3804,6 +3837,11 @@ snapshots:
       pg: 8.16.2
       postgres: 3.4.7
 
+  drizzle-zod@0.6.1(drizzle-orm@0.44.2(@types/pg@8.15.4)(pg@8.16.2)(postgres@3.4.7))(zod@3.25.67):
+    dependencies:
+      drizzle-orm: 0.44.2(@types/pg@8.15.4)(pg@8.16.2)(postgres@3.4.7)
+      zod: 3.25.67
+
   electron-to-chromium@1.5.177: {}
 
   enhanced-resolve@5.18.2:
@@ -4500,6 +4538,8 @@ snapshots:
   use-sync-external-store@1.5.0(react@19.1.0):
     dependencies:
       react: 19.1.0
+
+  uuid@11.1.0: {}
 
   vite@7.0.0(@types/node@24.0.4)(jiti@2.4.2)(lightningcss@1.30.1)(tsx@4.20.3):
     dependencies:

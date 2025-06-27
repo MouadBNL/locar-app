@@ -1,12 +1,11 @@
-import api_client from "@locar/api-client"
+import { http } from "@/lib/http";
 
-const client = api_client("http://localhost:3000");
-
+export * from "./vehicle";
 
 export const HealthRepository = {
-    up: async () => {
-        const res = await client.api.health.up.$get();
-        const data = await res.json();
-        return data;
-    }
-}
+  up: async () => {
+    const res = await http.api.health.up.$get();
+    const data = await res.json();
+    return data;
+  },
+};

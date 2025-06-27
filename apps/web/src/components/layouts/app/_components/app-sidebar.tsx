@@ -56,8 +56,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild tooltip="Vehicles">
-                  <Link to="/app/vehicles">
-                    <WarehouseIcon />
+                  <Link to="/app/vehicles">               
+                    <WarehouseIcon />   
                     <span>Vehicles</span>
                   </Link>
                 </SidebarMenuButton>
