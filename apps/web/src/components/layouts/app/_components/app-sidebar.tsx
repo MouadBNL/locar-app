@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import { GaugeIcon, ShapesIcon } from "lucide-react";
 import { NavUser } from "./nav-user";
+import { Link } from "@tanstack/react-router";
 
 const data = {
   user: {
@@ -44,9 +45,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent className="flex flex-col gap-2">
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Dashboard">
-                  <GaugeIcon />
-                  <span>Dashboard</span>
+                <SidebarMenuButton asChild tooltip="Dashboard">
+                  <Link to="/app">
+                    <GaugeIcon />
+                    <span>Dashboard</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
