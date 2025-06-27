@@ -3,18 +3,29 @@ import type { VehicleData } from "@locar/api/entities";
 
 export const VehicleRepository = {
   index: async () => {
-    return await http.api.vehicle.$get();
+    const res = await http.api.vehicles.$get();
+    const data = await res.json();
+    return data;
   },
   show: async (id: string) => {
-    return await http.api.vehicle[":id"].$get({ param: { id } });
+    const res = await http.api.vehicles[":id"].$get({ param: { id } });
+    const data = await res.json();
+    return data;
   },
   create: async (data: VehicleData) => {
-    return await http.api.vehicle.$post({ json: data });
+    const res = await http.api.vehicles.$post({ json: data });
+    const createdData = await res.json();
+    return createdData;
   },
   update: async (id: string, data: VehicleData) => {
-    return await http.api.vehicle[":id"].$put({ param: { id }, json: data });
+    const res = await http.api.vehicles[":id"].$put({
+      param: { id },
+      json: data,
+    });
+    const updatedData = await res.json();
+    return updatedData;
   },
   destroy: async (id: string) => {
-    return await http.api.vehicle[":id"].$delete({ param: { id } });
+    await http.api.vehicles[":id"].$delete({ param: { id } });
   },
 };

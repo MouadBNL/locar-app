@@ -5,8 +5,8 @@
   "private": "true",
   "types": "./src/index.ts",
   "exports": {
-    "./router" : "./src/index.ts",
-    "./entities" : "./src/entities/index.ts"
+    "./router": "./src/index.ts",
+    "./entities": "./src/entities/index.ts"
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",

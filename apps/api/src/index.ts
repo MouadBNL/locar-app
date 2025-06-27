@@ -2,6 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { healthRoutes, vehicleRoutes } from "./routes";
 import { cors } from "hono/cors";
+import { logger } from "hono/logger"; 
 
 const app = new Hono()
   .use(
@@ -12,8 +13,9 @@ const app = new Hono()
       allowMethods: ["*"],
     })
   )
+  .use("*", logger())
   .route("/api/health", healthRoutes)
-  .route("/api/vehicle", vehicleRoutes)
+  .route("/api/veh        icles", vehicleRoutes)
   .get("/", (c) => {
     return c.text("Hello Hono!");
   });

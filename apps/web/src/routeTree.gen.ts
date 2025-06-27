@@ -16,6 +16,7 @@ import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
 import { Route as AppVehiclesIndexRouteImport } from './routes/app/vehicles/index'
+import { Route as AppVehiclesCreateRouteImport } from './routes/app/vehicles/create'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -52,6 +53,11 @@ const AppVehiclesIndexRoute = AppVehiclesIndexRouteImport.update({
   path: '/vehicles/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppVehiclesCreateRoute = AppVehiclesCreateRouteImport.update({
+  id: '/vehicles/create',
+  path: '/vehicles/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app/': typeof AppIndexRoute
+  '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app': typeof AppIndexRoute
+  '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
 }
 export interface FileRoutesById {
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app/': typeof AppIndexRoute
+  '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/vehicles/': typeof AppVehiclesIndexRoute
 }
 export interface FileRouteTypes {
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app/'
+    | '/app/vehicles/create'
     | '/app/vehicles'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app'
+    | '/app/vehicles/create'
     | '/app/vehicles'
   id:
     | '__root__'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app/'
+    | '/app/vehicles/create'
     | '/app/vehicles/'
   fileRoutesById: FileRoutesById
 }
@@ -168,16 +180,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/vehicles/create': {
+      id: '/app/vehicles/create'
+      path: '/vehicles/create'
+      fullPath: '/app/vehicles/create'
+      preLoaderRoute: typeof AppVehiclesCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
 interface AppRouteRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
+  AppVehiclesCreateRoute: typeof AppVehiclesCreateRoute
   AppVehiclesIndexRoute: typeof AppVehiclesIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIndexRoute: AppIndexRoute,
+  AppVehiclesCreateRoute: AppVehiclesCreateRoute,
   AppVehiclesIndexRoute: AppVehiclesIndexRoute,
 }
 

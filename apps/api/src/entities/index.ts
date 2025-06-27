@@ -1,6 +1,6 @@
 import { createInsertSchema } from "drizzle-zod";
 import { vehicles } from "../database/schema";
-import type { z } from "zod";
+import { z } from "zod";
 
 export const VehicleSchema = createInsertSchema(vehicles, {
   make: (field) => field.min(1).trim(),
@@ -14,5 +14,5 @@ export const VehicleSchema = createInsertSchema(vehicles, {
   created_at: true,
   updated_at: true,
 });
-  
+
 export type VehicleData = z.infer<typeof VehicleSchema>;
