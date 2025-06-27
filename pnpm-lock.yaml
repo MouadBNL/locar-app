@@ -29,6 +29,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@locar/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -69,6 +72,18 @@ importers:
       vite:
         specifier: ^7.0.0
         version: 7.0.0(@types/node@20.19.1)(tsx@4.20.3)
+
+  packages/api-client:
+    dependencies:
+      '@locar/api':
+        specifier: workspace:^
+        version: link:../../apps/api
+      '@types/node':
+        specifier: ^20.19.1
+        version: 20.19.1
+      hono:
+        specifier: ^4.8.3
+        version: 4.8.3
 
 packages:
 
