@@ -1,6 +1,12 @@
 {
-  "name": "api",
+  "name": "@locar/api",
   "type": "module",
+  "version": "1.0.0",
+  "private": "true",
+  "types": "./src/index.ts",
+  "exports": [
+    "./src/index.ts"
+  ],
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
