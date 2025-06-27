@@ -1,11 +1,12 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { healthRoutes } from './routes'
 
 const app = new Hono()
-
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+  .route("/api/health", healthRoutes)
+  .get('/', (c) => {
+    return c.text('Hello Hono!')
+  })
 
 serve({
   fetch: app.fetch,
