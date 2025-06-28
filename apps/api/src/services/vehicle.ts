@@ -48,11 +48,15 @@ export const VehicleService = {
             type: "LICENSE_PLATE_EXISTS_ERROR",
             error: new Error("License plate already exists"),
           },
-        });
+        }); 
       }
     }
 
-    return db.update(vehicles).set(data).where(eq(vehicles.id, id)).returning();
+    return db
+      .update(vehicles)
+      .set({ ...data, id })
+      .where(eq(vehicles.id, id))
+      .returning();
   },
 
   async delete(id: string) {

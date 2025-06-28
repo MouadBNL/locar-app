@@ -15,8 +15,14 @@ import { NumberInput } from "../ui/number-input";
 
 export type VehicleFormProps = {
   initialValues?: Partial<VehicleData>;
+  loading?: boolean;
+  submit?: (data: VehicleData) => void;
 };
-export default function VehicleForm({ initialValues }: VehicleFormProps) {
+export default function VehicleForm({
+  initialValues,
+  loading,
+  submit,
+}: VehicleFormProps) {
   const form = useForm({
     resolver: zodResolver(VehicleSchema),
     defaultValues: {
@@ -35,8 +41,9 @@ export default function VehicleForm({ initialValues }: VehicleFormProps) {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: VehicleData) => {
     console.log(data);
+    submit?.(data);
   };
 
   return (
@@ -176,7 +183,7 @@ export default function VehicleForm({ initialValues }: VehicleFormProps) {
           />
         </div>
 
-        <Button type="submit" loading>
+        <Button type="submit" loading={loading}>
           Submit
         </Button>
       </form>

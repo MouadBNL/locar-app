@@ -1,21 +1,78 @@
+import { VehicleTable } from "@/components/blocks/vehicle-table";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Heading3 } from "@/components/ui/typography";
 import { VehicleRepository } from "@/repositories";
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/vehicles/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const queryClient = useQueryClient();
+
   const { data, isFetching } = useQuery({
     queryKey: ["vehicles"],
     queryFn: async () => VehicleRepository.index(),
     refetchOnWindowFocus: false,
   });
 
+  const { mutate: deleteVehicle, isPending: isDeleting } = useMutation({
+    mutationFn: async (id: string) => VehicleRepository.destroy(id),
+    onSuccess: () => {
+      toast.success("Vehicle deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["vehicles"] });
+    },
+    onError: () => {
+      toast.error("Failed to delete vehicle");
+    },
+  });
+
   return (
-    <div>
-      <pre>{JSON.stringify({ data, isFetching }, null, 2)}</pre>
+    <div className="pt-8">
+      <div className="flex justify-between items-center mb-6">
+        <Heading3>Manage Vehicles</Heading3>
+
+        <Button asChild>
+          <Link to="/app/vehicles/create">
+            <PlusIcon className="w-4 h-4" />
+            Add Vehicle
+          </Link>
+        </Button>
+      </div>
+
+      <Card className="p-2 mb-4">
+        <VehicleTable
+          data={data?.data || []}
+          loading={isFetching}
+          actions={(vehicle) => (
+            <>
+              <Button variant="outline" size="sm" asChild>
+                <Link
+                  from="/"
+                  to="/app/vehicles/$id"
+                  params={{ id: vehicle.id! }}
+                >
+                  <PencilIcon className="w-4 h-4" />
+                </Link>
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                loading={isDeleting}
+                onClick={() => deleteVehicle(vehicle.id!)}
+              >
+                <TrashIcon className="w-4 h-4" />
+              </Button>
+            </>
+          )}
+        />
+      </Card>
     </div>
   );
 }

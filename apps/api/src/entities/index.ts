@@ -3,6 +3,7 @@ import { vehicles } from "../database/schema";
 import { z } from "zod";
 
 export const VehicleSchema = createInsertSchema(vehicles, {
+  id: (field) => field.nullish(),
   make: (field) => field.min(1).trim(),
   model: (field) => field.min(1).trim(),
   license_plate: (field) => field.min(1).trim(),
@@ -10,7 +11,6 @@ export const VehicleSchema = createInsertSchema(vehicles, {
   number_of_seats: (field) => field.min(1),
   number_of_doors: (field) => field.min(1),
 }).omit({
-  id: true,
   created_at: true,
   updated_at: true,
 });

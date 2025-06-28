@@ -17,6 +17,7 @@ import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
 import { Route as AppVehiclesIndexRouteImport } from './routes/app/vehicles/index'
 import { Route as AppVehiclesCreateRouteImport } from './routes/app/vehicles/create'
+import { Route as AppVehiclesIdRouteImport } from './routes/app/vehicles/$id'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -58,6 +59,11 @@ const AppVehiclesCreateRoute = AppVehiclesCreateRouteImport.update({
   path: '/vehicles/create',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppVehiclesIdRoute = AppVehiclesIdRouteImport.update({
+  id: '/vehicles/$id',
+  path: '/vehicles/$id',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app/': typeof AppIndexRoute
+  '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
 }
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app': typeof AppIndexRoute
+  '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
 }
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app/': typeof AppIndexRoute
+  '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/vehicles/': typeof AppVehiclesIndexRoute
 }
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app/'
+    | '/app/vehicles/$id'
     | '/app/vehicles/create'
     | '/app/vehicles'
   fileRoutesByTo: FileRoutesByTo
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app'
+    | '/app/vehicles/$id'
     | '/app/vehicles/create'
     | '/app/vehicles'
   id:
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app/'
+    | '/app/vehicles/$id'
     | '/app/vehicles/create'
     | '/app/vehicles/'
   fileRoutesById: FileRoutesById
@@ -187,17 +199,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesCreateRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/vehicles/$id': {
+      id: '/app/vehicles/$id'
+      path: '/vehicles/$id'
+      fullPath: '/app/vehicles/$id'
+      preLoaderRoute: typeof AppVehiclesIdRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
 interface AppRouteRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
+  AppVehiclesIdRoute: typeof AppVehiclesIdRoute
   AppVehiclesCreateRoute: typeof AppVehiclesCreateRoute
   AppVehiclesIndexRoute: typeof AppVehiclesIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIndexRoute: AppIndexRoute,
+  AppVehiclesIdRoute: AppVehiclesIdRoute,
   AppVehiclesCreateRoute: AppVehiclesCreateRoute,
   AppVehiclesIndexRoute: AppVehiclesIndexRoute,
 }

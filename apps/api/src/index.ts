@@ -15,7 +15,7 @@ const app = new Hono()
   )
   .use("*", logger())
   .route("/api/health", healthRoutes)
-  .route("/api/veh        icles", vehicleRoutes)
+  .route("/api/vehicles", vehicleRoutes)
   .get("/", (c) => {
     return c.text("Hello Hono!");
   });
@@ -31,3 +31,5 @@ serve(
 );
 
 export type AppType = typeof app;
+
+export default app;

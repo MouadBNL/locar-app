@@ -5,23 +5,38 @@ import { Heading3 } from "@/components/ui/typography";
 import { VehicleRepository } from "@/repositories";
 import type { VehicleData } from "@locar/api/entities";
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/app/vehicles/create")({
+export const Route = createFileRoute("/app/vehicles/$id")({
   component: RouteComponent,
+  loader: async ({ params }) => {
+    const vehicle = await VehicleRepository.show(params.id);
+    return { vehicle };
+  },
 });
 
 function RouteComponent() {
+  const { id } = Route.useParams();
   const navigate = useNavigate();
+  const router = useRouter();
+
+  const { vehicle } = Route.useLoaderData();
+
   const { mutate: createVehicle, isPending } = useMutation({
-    mutationFn: (data: VehicleData) => VehicleRepository.create(data),
+    mutationFn: (data: VehicleData) => VehicleRepository.update(id, data),
     onSuccess: () => {
-      toast.success("Vehicle created successfully");
+      toast.success("Vehicle updated successfully");
+      router.invalidate();
       navigate({ to: "/app/vehicles" });
     },
     onError: () => {
-      toast.error("Failed to create vehicle");
+      toast.error("Failed to update vehicle");
     },
   });
 
@@ -37,7 +52,11 @@ function RouteComponent() {
 
       <Card>
         <CardContent>
-          <VehicleForm submit={createVehicle} loading={isPending} />
+          <VehicleForm
+            submit={createVehicle}
+            loading={isPending}
+            initialValues={vehicle ?? undefined}
+          />
         </CardContent>
       </Card>
     </div>

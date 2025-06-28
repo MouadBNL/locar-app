@@ -9,7 +9,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       <SidebarInset>
         <AppHeader />
 
-        <main className="p-4 pt-0">{children}</main>
+        <main className="px-4 lg:px-8 pt-0">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

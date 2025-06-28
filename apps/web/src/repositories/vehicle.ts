@@ -10,7 +10,7 @@ export const VehicleRepository = {
   show: async (id: string) => {
     const res = await http.api.vehicles[":id"].$get({ param: { id } });
     const data = await res.json();
-    return data;
+    return data.data;
   },
   create: async (data: VehicleData) => {
     const res = await http.api.vehicles.$post({ json: data });
