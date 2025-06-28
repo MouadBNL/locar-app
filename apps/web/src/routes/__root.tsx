@@ -20,7 +20,7 @@ function RootComponent() {
           <Toaster />
         </ThemeProvider>
       </QueryClientProvider>
-      <TanStackRouterDevtools />
+      <TanStackRouterDevtools position="bottom-right" />
     </React.Fragment>
   );
 }

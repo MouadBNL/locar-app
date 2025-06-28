@@ -1,3 +1,4 @@
+import { Heading3 } from "@/components/ui/typography";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/app/")({
@@ -6,8 +7,8 @@ export const Route = createFileRoute("/app/")({
 
 function RouteComponent() {
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="pt-8">
+      <Heading3 className="mb-6">Dashboard</Heading3>
       <div className="flex flex-1 flex-col gap-4">
         <div className="grid auto-rows-min gap-4 md:grid-cols-3">
           <div className="bg-muted/50 aspect-video rounded-xl" />

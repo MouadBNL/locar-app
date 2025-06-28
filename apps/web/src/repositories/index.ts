@@ -1,6 +1,7 @@
 import { http } from "@/lib/http";
 
 export * from "./vehicle";
+export * from "./customer";
 
 export const HealthRepository = {
   up: async () => {

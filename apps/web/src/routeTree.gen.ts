@@ -12,12 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DemoIndexRouteImport } from './routes/demo/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
 import { Route as AppVehiclesIndexRouteImport } from './routes/app/vehicles/index'
+import { Route as AppCustomersIndexRouteImport } from './routes/app/customers/index'
 import { Route as AppVehiclesCreateRouteImport } from './routes/app/vehicles/create'
 import { Route as AppVehiclesIdRouteImport } from './routes/app/vehicles/$id'
+import { Route as AppCustomersCreateRouteImport } from './routes/app/customers/create'
+import { Route as AppCustomersIdRouteImport } from './routes/app/customers/$id'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -32,6 +36,11 @@ const AppRouteRoute = AppRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoIndexRoute = DemoIndexRouteImport.update({
+  id: '/demo/',
+  path: '/demo/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -54,6 +63,11 @@ const AppVehiclesIndexRoute = AppVehiclesIndexRouteImport.update({
   path: '/vehicles/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppCustomersIndexRoute = AppCustomersIndexRouteImport.update({
+  id: '/customers/',
+  path: '/customers/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppVehiclesCreateRoute = AppVehiclesCreateRouteImport.update({
   id: '/vehicles/create',
   path: '/vehicles/create',
@@ -64,6 +78,16 @@ const AppVehiclesIdRoute = AppVehiclesIdRouteImport.update({
   path: '/vehicles/$id',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppCustomersCreateRoute = AppCustomersCreateRouteImport.update({
+  id: '/customers/create',
+  path: '/customers/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppCustomersIdRoute = AppCustomersIdRouteImport.update({
+  id: '/customers/$id',
+  path: '/customers/$id',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,8 +96,12 @@ export interface FileRoutesByFullPath {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app/': typeof AppIndexRoute
+  '/demo': typeof DemoIndexRoute
+  '/app/customers/$id': typeof AppCustomersIdRoute
+  '/app/customers/create': typeof AppCustomersCreateRoute
   '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
+  '/app/customers': typeof AppCustomersIndexRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -82,8 +110,12 @@ export interface FileRoutesByTo {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app': typeof AppIndexRoute
+  '/demo': typeof DemoIndexRoute
+  '/app/customers/$id': typeof AppCustomersIdRoute
+  '/app/customers/create': typeof AppCustomersCreateRoute
   '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
+  '/app/customers': typeof AppCustomersIndexRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
 }
 export interface FileRoutesById {
@@ -94,8 +126,12 @@ export interface FileRoutesById {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/app/': typeof AppIndexRoute
+  '/demo/': typeof DemoIndexRoute
+  '/app/customers/$id': typeof AppCustomersIdRoute
+  '/app/customers/create': typeof AppCustomersCreateRoute
   '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
+  '/app/customers/': typeof AppCustomersIndexRoute
   '/app/vehicles/': typeof AppVehiclesIndexRoute
 }
 export interface FileRouteTypes {
@@ -107,8 +143,12 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app/'
+    | '/demo'
+    | '/app/customers/$id'
+    | '/app/customers/create'
     | '/app/vehicles/$id'
     | '/app/vehicles/create'
+    | '/app/customers'
     | '/app/vehicles'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -117,8 +157,12 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app'
+    | '/demo'
+    | '/app/customers/$id'
+    | '/app/customers/create'
     | '/app/vehicles/$id'
     | '/app/vehicles/create'
+    | '/app/customers'
     | '/app/vehicles'
   id:
     | '__root__'
@@ -128,8 +172,12 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/app/'
+    | '/demo/'
+    | '/app/customers/$id'
+    | '/app/customers/create'
     | '/app/vehicles/$id'
     | '/app/vehicles/create'
+    | '/app/customers/'
     | '/app/vehicles/'
   fileRoutesById: FileRoutesById
 }
@@ -139,6 +187,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthSigninRoute: typeof AuthSigninRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  DemoIndexRoute: typeof DemoIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -162,6 +211,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/': {
+      id: '/demo/'
+      path: '/demo'
+      fullPath: '/demo'
+      preLoaderRoute: typeof DemoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -192,6 +248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/customers/': {
+      id: '/app/customers/'
+      path: '/customers'
+      fullPath: '/app/customers'
+      preLoaderRoute: typeof AppCustomersIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/vehicles/create': {
       id: '/app/vehicles/create'
       path: '/vehicles/create'
@@ -206,20 +269,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesIdRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/customers/create': {
+      id: '/app/customers/create'
+      path: '/customers/create'
+      fullPath: '/app/customers/create'
+      preLoaderRoute: typeof AppCustomersCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/customers/$id': {
+      id: '/app/customers/$id'
+      path: '/customers/$id'
+      fullPath: '/app/customers/$id'
+      preLoaderRoute: typeof AppCustomersIdRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
 interface AppRouteRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
+  AppCustomersIdRoute: typeof AppCustomersIdRoute
+  AppCustomersCreateRoute: typeof AppCustomersCreateRoute
   AppVehiclesIdRoute: typeof AppVehiclesIdRoute
   AppVehiclesCreateRoute: typeof AppVehiclesCreateRoute
+  AppCustomersIndexRoute: typeof AppCustomersIndexRoute
   AppVehiclesIndexRoute: typeof AppVehiclesIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIndexRoute: AppIndexRoute,
+  AppCustomersIdRoute: AppCustomersIdRoute,
+  AppCustomersCreateRoute: AppCustomersCreateRoute,
   AppVehiclesIdRoute: AppVehiclesIdRoute,
   AppVehiclesCreateRoute: AppVehiclesCreateRoute,
+  AppCustomersIndexRoute: AppCustomersIndexRoute,
   AppVehiclesIndexRoute: AppVehiclesIndexRoute,
 }
 
@@ -233,6 +316,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthSigninRoute: AuthSigninRoute,
   AuthSignupRoute: AuthSignupRoute,
+  DemoIndexRoute: DemoIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

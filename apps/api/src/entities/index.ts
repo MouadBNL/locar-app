@@ -1,5 +1,5 @@
 import { createInsertSchema } from "drizzle-zod";
-import { vehicles } from "../database/schema";
+import { customers, vehicles } from "../database/schema";
 import { z } from "zod";
 
 export const VehicleSchema = createInsertSchema(vehicles, {
@@ -16,3 +16,14 @@ export const VehicleSchema = createInsertSchema(vehicles, {
 });
 
 export type VehicleData = z.infer<typeof VehicleSchema>;
+
+export const CustomerSchema = createInsertSchema(customers, {
+  id: (field) => field.uuid().nullish(),
+  license_expiration_date: (field) => field.date().nullish(),
+}).omit({
+  created_at: true,
+  updated_at: true,
+  deleted_at: true,
+});
+
+export type CustomerData = z.infer<typeof CustomerSchema>;
