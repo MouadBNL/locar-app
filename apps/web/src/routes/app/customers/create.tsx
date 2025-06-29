@@ -1,3 +1,4 @@
+import CustomerForm from "@/components/blocks/customer-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";

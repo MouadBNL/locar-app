@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { CustomerSchema, type CustomerData } from "@locar/api/entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
-import { DatePicker } from "../ui/datepicker";
+import { DateInput } from "../ui/dateinput";
 
 export type CustomerFormProps = {
   initialValues?: Partial<CustomerData>;
@@ -95,7 +95,7 @@ export default function CustomerForm({
             control={form.control}
             name="license_expiration_date"
             label="License Expiration Date"
-            render={({ field }) => <DatePicker {...field} />}
+            render={({ field }) => <DateInput {...field} />}
           />
         </div>
 

@@ -8,7 +8,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { AppFormField, Form } from "@/components/ui/form";
 import { Card, CardContent } from "@/components/ui/card";
-import { DatePicker } from "@/components/ui/datepicker";
+import { DateInput } from "@/components/ui/dateinput";
 
 export const Route = createFileRoute("/demo/")({
   component: RouteComponent,
@@ -34,10 +34,14 @@ function DatePickerForm() {
       .string({
         required_error: "A license expiration date is required.",
       })
-      .date(),
+      .date()
+      .min(new Date().getTime(), {
+        message: "License expiration date must be in the future",
+      }),
   });
   const form = useForm<z.infer<typeof FormSchemaDemo>>({
     resolver: zodResolver(FormSchemaDemo),
+    defaultValues: {},
   });
 
   function onSubmit(data: z.infer<typeof FormSchemaDemo>) {
@@ -59,7 +63,7 @@ function DatePickerForm() {
           control={form.control}
           name="license_expiration_date"
           label="License Expiration"
-          render={({ field }) => <DatePicker {...field} />}
+          render={({ field }) => <DateInput {...field} />}
         />
         <Button type="submit">Submit</Button>
       </form>
