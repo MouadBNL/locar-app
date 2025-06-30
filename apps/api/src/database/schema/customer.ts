@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { date, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const customers = pgTable("customers", {
   id: uuid("id").primaryKey().notNull(),
@@ -8,14 +8,14 @@ export const customers = pgTable("customers", {
   phone: text("phone"),
   address: text("address"),
   license_number: text("license_number"),
-  license_expiration_date: timestamp("license_expiration_date", {
+  license_expiration_date: date("license_expiration_date", {
     mode: "string",
   }),
-  license_issuing_date: timestamp("license_issuing_date", {
+  license_issuing_date: date("license_issuing_date", {
     mode: "string",
   }),
   license_photo_url: text("license_photo_url"),
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at").defaultNow().notNull(),
   deleted_at: timestamp("deleted_at"),
-});     
+});

@@ -19,7 +19,6 @@ export type VehicleData = z.infer<typeof VehicleSchema>;
 
 export const CustomerSchema = createInsertSchema(customers, {
   id: (field) => field.uuid().nullish(),
-  license_expiration_date: (field) => field.date().nullish(),
 }).omit({
   created_at: true,
   updated_at: true,

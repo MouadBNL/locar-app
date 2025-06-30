@@ -60,7 +60,12 @@ export default function CustomerForm({
             name="email"
             label="Email"
             render={({ field }) => (
-              <Input type="email" placeholder="Email" {...field} />
+              <Input
+                type="email"
+                placeholder="Email"
+                {...field}
+                value={field.value ?? ""}
+              />
             )}
           />
 
@@ -69,7 +74,12 @@ export default function CustomerForm({
             name="phone"
             label="Phone"
             render={({ field }) => (
-              <Input type="text" placeholder="Phone" {...field} />
+              <Input
+                type="text"
+                placeholder="Phone"
+                {...field}
+                value={field.value ?? ""}
+              />
             )}
           />
 
@@ -78,7 +88,12 @@ export default function CustomerForm({
             name="address"
             label="Address"
             render={({ field }) => (
-              <Input type="text" placeholder="Address" {...field} />
+              <Input
+                type="text"
+                placeholder="Address"
+                {...field}
+                value={field.value ?? ""}
+              />
             )}
           />
 
@@ -87,7 +102,12 @@ export default function CustomerForm({
             name="license_number"
             label="License Number"
             render={({ field }) => (
-              <Input type="text" placeholder="License number" {...field} />
+              <Input
+                type="text"
+                placeholder="License number"
+                {...field}
+                value={field.value ?? ""}
+              />
             )}
           />
 
@@ -95,7 +115,26 @@ export default function CustomerForm({
             control={form.control}
             name="license_expiration_date"
             label="License Expiration Date"
-            render={({ field }) => <DateInput {...field} />}
+            render={({ field }) => (
+              <DateInput
+                {...field}
+                value={field.value ?? undefined}
+                onChange={(value) => field.onChange(value)}
+              />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="license_issuing_date"
+            label="License Issuing Date"
+            render={({ field }) => (
+              <DateInput
+                {...field}
+                value={field.value ?? undefined}
+                onChange={(value) => field.onChange(value)}
+              />
+            )}
           />
         </div>
 

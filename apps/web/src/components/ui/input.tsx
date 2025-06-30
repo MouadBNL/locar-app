@@ -6,7 +6,7 @@ function Input({
   className,
   type,
   ...props
-}: React.ComponentProps<"input"> & { value: string | null | undefined }) {
+}: React.ComponentProps<"input"> & { value?: string | null | undefined }) {
   return (
     <input
       type={type}
