@@ -13,10 +13,11 @@ const app = new Hono()
       allowMethods: ["*"],
     })
   )
-  .use("*", logger()) 
+  .use("*", logger())
   .route("/api/health", routes.healthRoutes)
   .route("/api/vehicles", routes.vehicleRoutes)
   .route("/api/customers", routes.customerRoutes)
+  .route("/api/reservations", routes.reservationRoutes)
   .get("/", (c) => {
     return c.text("Hello Hono!");
   });

@@ -17,9 +17,12 @@ import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
 import { Route as AppVehiclesIndexRouteImport } from './routes/app/vehicles/index'
+import { Route as AppReservationsIndexRouteImport } from './routes/app/reservations/index'
 import { Route as AppCustomersIndexRouteImport } from './routes/app/customers/index'
 import { Route as AppVehiclesCreateRouteImport } from './routes/app/vehicles/create'
 import { Route as AppVehiclesIdRouteImport } from './routes/app/vehicles/$id'
+import { Route as AppReservationsCreateRouteImport } from './routes/app/reservations/create'
+import { Route as AppReservationsIdRouteImport } from './routes/app/reservations/$id'
 import { Route as AppCustomersCreateRouteImport } from './routes/app/customers/create'
 import { Route as AppCustomersIdRouteImport } from './routes/app/customers/$id'
 
@@ -63,6 +66,11 @@ const AppVehiclesIndexRoute = AppVehiclesIndexRouteImport.update({
   path: '/vehicles/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppReservationsIndexRoute = AppReservationsIndexRouteImport.update({
+  id: '/reservations/',
+  path: '/reservations/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppCustomersIndexRoute = AppCustomersIndexRouteImport.update({
   id: '/customers/',
   path: '/customers/',
@@ -76,6 +84,16 @@ const AppVehiclesCreateRoute = AppVehiclesCreateRouteImport.update({
 const AppVehiclesIdRoute = AppVehiclesIdRouteImport.update({
   id: '/vehicles/$id',
   path: '/vehicles/$id',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppReservationsCreateRoute = AppReservationsCreateRouteImport.update({
+  id: '/reservations/create',
+  path: '/reservations/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppReservationsIdRoute = AppReservationsIdRouteImport.update({
+  id: '/reservations/$id',
+  path: '/reservations/$id',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppCustomersCreateRoute = AppCustomersCreateRouteImport.update({
@@ -99,9 +117,12 @@ export interface FileRoutesByFullPath {
   '/demo': typeof DemoIndexRoute
   '/app/customers/$id': typeof AppCustomersIdRoute
   '/app/customers/create': typeof AppCustomersCreateRoute
+  '/app/reservations/$id': typeof AppReservationsIdRoute
+  '/app/reservations/create': typeof AppReservationsCreateRoute
   '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/customers': typeof AppCustomersIndexRoute
+  '/app/reservations': typeof AppReservationsIndexRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -113,9 +134,12 @@ export interface FileRoutesByTo {
   '/demo': typeof DemoIndexRoute
   '/app/customers/$id': typeof AppCustomersIdRoute
   '/app/customers/create': typeof AppCustomersCreateRoute
+  '/app/reservations/$id': typeof AppReservationsIdRoute
+  '/app/reservations/create': typeof AppReservationsCreateRoute
   '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/customers': typeof AppCustomersIndexRoute
+  '/app/reservations': typeof AppReservationsIndexRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
 }
 export interface FileRoutesById {
@@ -129,9 +153,12 @@ export interface FileRoutesById {
   '/demo/': typeof DemoIndexRoute
   '/app/customers/$id': typeof AppCustomersIdRoute
   '/app/customers/create': typeof AppCustomersCreateRoute
+  '/app/reservations/$id': typeof AppReservationsIdRoute
+  '/app/reservations/create': typeof AppReservationsCreateRoute
   '/app/vehicles/$id': typeof AppVehiclesIdRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
   '/app/customers/': typeof AppCustomersIndexRoute
+  '/app/reservations/': typeof AppReservationsIndexRoute
   '/app/vehicles/': typeof AppVehiclesIndexRoute
 }
 export interface FileRouteTypes {
@@ -146,9 +173,12 @@ export interface FileRouteTypes {
     | '/demo'
     | '/app/customers/$id'
     | '/app/customers/create'
+    | '/app/reservations/$id'
+    | '/app/reservations/create'
     | '/app/vehicles/$id'
     | '/app/vehicles/create'
     | '/app/customers'
+    | '/app/reservations'
     | '/app/vehicles'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -160,9 +190,12 @@ export interface FileRouteTypes {
     | '/demo'
     | '/app/customers/$id'
     | '/app/customers/create'
+    | '/app/reservations/$id'
+    | '/app/reservations/create'
     | '/app/vehicles/$id'
     | '/app/vehicles/create'
     | '/app/customers'
+    | '/app/reservations'
     | '/app/vehicles'
   id:
     | '__root__'
@@ -175,9 +208,12 @@ export interface FileRouteTypes {
     | '/demo/'
     | '/app/customers/$id'
     | '/app/customers/create'
+    | '/app/reservations/$id'
+    | '/app/reservations/create'
     | '/app/vehicles/$id'
     | '/app/vehicles/create'
     | '/app/customers/'
+    | '/app/reservations/'
     | '/app/vehicles/'
   fileRoutesById: FileRoutesById
 }
@@ -248,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/reservations/': {
+      id: '/app/reservations/'
+      path: '/reservations'
+      fullPath: '/app/reservations'
+      preLoaderRoute: typeof AppReservationsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/customers/': {
       id: '/app/customers/'
       path: '/customers'
@@ -267,6 +310,20 @@ declare module '@tanstack/react-router' {
       path: '/vehicles/$id'
       fullPath: '/app/vehicles/$id'
       preLoaderRoute: typeof AppVehiclesIdRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/reservations/create': {
+      id: '/app/reservations/create'
+      path: '/reservations/create'
+      fullPath: '/app/reservations/create'
+      preLoaderRoute: typeof AppReservationsCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/reservations/$id': {
+      id: '/app/reservations/$id'
+      path: '/reservations/$id'
+      fullPath: '/app/reservations/$id'
+      preLoaderRoute: typeof AppReservationsIdRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/customers/create': {
@@ -290,9 +347,12 @@ interface AppRouteRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
   AppCustomersIdRoute: typeof AppCustomersIdRoute
   AppCustomersCreateRoute: typeof AppCustomersCreateRoute
+  AppReservationsIdRoute: typeof AppReservationsIdRoute
+  AppReservationsCreateRoute: typeof AppReservationsCreateRoute
   AppVehiclesIdRoute: typeof AppVehiclesIdRoute
   AppVehiclesCreateRoute: typeof AppVehiclesCreateRoute
   AppCustomersIndexRoute: typeof AppCustomersIndexRoute
+  AppReservationsIndexRoute: typeof AppReservationsIndexRoute
   AppVehiclesIndexRoute: typeof AppVehiclesIndexRoute
 }
 
@@ -300,9 +360,12 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIndexRoute: AppIndexRoute,
   AppCustomersIdRoute: AppCustomersIdRoute,
   AppCustomersCreateRoute: AppCustomersCreateRoute,
+  AppReservationsIdRoute: AppReservationsIdRoute,
+  AppReservationsCreateRoute: AppReservationsCreateRoute,
   AppVehiclesIdRoute: AppVehiclesIdRoute,
   AppVehiclesCreateRoute: AppVehiclesCreateRoute,
   AppCustomersIndexRoute: AppCustomersIndexRoute,
+  AppReservationsIndexRoute: AppReservationsIndexRoute,
   AppVehiclesIndexRoute: AppVehiclesIndexRoute,
 }
 

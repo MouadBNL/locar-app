@@ -10,7 +10,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { GaugeIcon, ShapesIcon, UsersIcon, WarehouseIcon } from "lucide-react";
+import {
+  CalendarClockIcon,
+  GaugeIcon,
+  ShapesIcon,
+  UsersIcon,
+  WarehouseIcon,
+} from "lucide-react";
 import { NavUser } from "./nav-user";
 import { Link } from "@tanstack/react-router";
 
@@ -52,8 +58,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild tooltip="Vehicles">
                   <Link to="/app/vehicles">
@@ -62,13 +66,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild tooltip="Customers">
                   <Link to="/app/customers">
                     <UsersIcon />
                     <span>Customers</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip="Reservations">
+                  <Link to="/app/reservations">
+                    <CalendarClockIcon />
+                    <span>Reservations</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

@@ -29,7 +29,6 @@ export default function CustomerForm({
   });
 
   const onSubmit = (data: CustomerData) => {
-    console.log(data);
     submit?.(data);
   };
 

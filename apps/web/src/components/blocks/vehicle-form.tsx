@@ -42,7 +42,6 @@ export default function VehicleForm({
   });
 
   const onSubmit = (data: VehicleData) => {
-    console.log(data);
     submit?.(data);
   };
 
@@ -82,7 +81,10 @@ export default function VehicleForm({
             name="transmission"
             label="Transmission"
             render={({ field }) => (
-              <Select {...field}>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value ?? undefined}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Vehicle transmission" />
                 </SelectTrigger>
@@ -99,7 +101,10 @@ export default function VehicleForm({
             name="fuel_type"
             label="Fuel Type"
             render={({ field }) => (
-              <Select {...field}>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value ?? undefined}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Vehicle fuel type" />
                 </SelectTrigger>

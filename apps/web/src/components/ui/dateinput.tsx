@@ -18,14 +18,12 @@ type DateInputProps = {
 
 export function DateInput({ value, onChange }: DateInputProps) {
   const onDateChange = (value: CalendarDate | null) => {
-    console.log(value?.toString());
     onChange?.(value?.toString() ?? "");
   };
 
   const normalizedValue = (v: string | undefined) => {
     if (!v) return undefined;
     const [date, time] = v.split(" ");
-    console.log({ date, time });
     return parseDate(date);
   };
   return (

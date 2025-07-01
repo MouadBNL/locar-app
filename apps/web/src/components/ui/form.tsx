@@ -157,9 +157,9 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
 const AppFormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
->({
-  ...props
-}: ControllerProps<TFieldValues, TName> & { label: string }) => {
+>(
+  props: ControllerProps<TFieldValues, TName> & { label: string }
+) => {
   return (
     <FormField
       control={props.control}
