@@ -1,7 +1,7 @@
 import { SigninForm } from "@/components/blocks/signin-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { authClient, type SigninData } from "@/lib/auth-client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
@@ -11,6 +11,7 @@ export const Route = createFileRoute("/auth/signin")({
 
 function RouteComponent() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: SigninData) => {
@@ -26,6 +27,7 @@ function RouteComponent() {
       return res.data;
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["session"] });
       navigate({ to: "/app" });
     },
     onError: () => {
