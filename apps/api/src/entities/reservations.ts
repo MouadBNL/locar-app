@@ -1,6 +1,8 @@
 import { createInsertSchema } from "drizzle-zod";
 import { reservations } from "../database/schema";
 import { z } from "zod";
+import { CustomerData } from "./customers";
+import { VehicleData } from "./vehicles";
 
 export const ReservationSchema = createInsertSchema(reservations, {
   id: (field) => field.uuid().nullish(),
@@ -24,4 +26,7 @@ export const ReservationSchema = createInsertSchema(reservations, {
     }
   );
 
-export type ReservationData = z.infer<typeof ReservationSchema>;
+export type ReservationData = z.infer<typeof ReservationSchema> & {
+  vehicle?: VehicleData;
+  customer?: CustomerData;
+};

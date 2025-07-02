@@ -15,7 +15,12 @@ export const ReservationService = {
     return newReservation;
   },
   findAll: async () => {
-    const reservations = await db.query.reservations.findMany();
+    const reservations = await db.query.reservations.findMany({
+      with: {
+        vehicle: true,
+        customer: true,
+      },
+    });
     return reservations;
   },
   find: async (id: string) => {

@@ -1,13 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReservationSchema, type ReservationData } from "@locar/api/entities";
-import {
-  AppFormField,
-  Form,
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { AppFormField, Form } from "../ui/form";
 import { VehicleSelect } from "./vehicle-select";
 import { DateInput } from "../ui/dateinput";
 import { Button } from "../ui/button";
@@ -15,6 +8,7 @@ import { NumberInput } from "../ui/number-input";
 import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { CustomerSelect } from "./customer-select";
 
 export type ReservationFormProps = {
   initialValues?: Partial<ReservationData>;
@@ -29,6 +23,8 @@ export default function ReservationForm({
   const form = useForm({
     resolver: zodResolver(ReservationSchema),
     defaultValues: {
+      customer_id: "",
+      vehicle_id: "",
       total_price: 0,
       daily_rate: 300,
       checkin_date: new Date().toISOString().split("T")[0],
@@ -63,20 +59,18 @@ export default function ReservationForm({
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
   }
 
-  const number_of_days = dateDiffInDays(checkin_date, checkout_date);
-
-  const total_price = number_of_days * (daily_rate ?? 0);
-
   useEffect(() => {
+    const number_of_days = dateDiffInDays(checkin_date, checkout_date);
+    const total_price = number_of_days * (daily_rate ?? 0);
+    form.setValue("total_days", number_of_days);
     form.setValue("total_price", total_price);
-  }, [number_of_days, daily_rate, form]);
+  }, [checkin_date, checkout_date, daily_rate, form]);
 
   const onSubmit = (data: ReservationData) => {
-    console.log(data);
     submit?.(data);
   };
 
-  return (  
+  return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -87,7 +81,7 @@ export default function ReservationForm({
             render={({ field }) => (
               <VehicleSelect
                 onValueChange={field.onChange}
-                value={field.value ?? undefined}
+                value={field.value}
               />
             )}
           />
@@ -97,9 +91,9 @@ export default function ReservationForm({
             name="customer_id"
             label="Customer"
             render={({ field }) => (
-              <VehicleSelect
+              <CustomerSelect
                 onValueChange={field.onChange}
-                value={field.value ?? undefined}
+                value={field.value}
               />
             )}
           />
@@ -141,13 +135,14 @@ export default function ReservationForm({
             )}
           />
 
-          <FormItem>
-            <FormLabel>Number of Days</FormLabel>
-            <FormControl>
-              <NumberInput value={number_of_days} disabled />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+          <AppFormField
+            control={form.control}
+            name="total_days"
+            label="Total Days"
+            render={({ field }) => (
+              <NumberInput value={field.value ?? undefined} disabled />
+            )}
+          />
 
           <AppFormField
             control={form.control}
@@ -173,8 +168,6 @@ export default function ReservationForm({
             )}
           />
         </div>
-
-        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
 
         <Button type="submit" loading={loading}>
           Submit

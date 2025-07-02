@@ -43,7 +43,7 @@ function RouteComponent() {
   return (
     <div className="pt-8">
       <div className="flex justify-between items-center mb-6">
-        <Heading3>Create Vehicle</Heading3>
+        <Heading3>Edit Vehicle</Heading3>
 
         <Button asChild variant="destructive">
           <Link to="/app/vehicles">Cancel</Link>

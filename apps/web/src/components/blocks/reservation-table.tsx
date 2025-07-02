@@ -50,8 +50,13 @@ export function ReservationTable({
           data.length > 0 &&
           data.map((reservation) => (
             <TableRow key={reservation.id}>
-              <TableCell>{reservation.customer_id}</TableCell>
-              <TableCell>{reservation.vehicle_id}</TableCell>
+              <TableCell>
+                {reservation.customer?.first_name}{" "}
+                {reservation.customer?.last_name}
+              </TableCell>
+              <TableCell>
+                {reservation.vehicle?.make} {reservation.vehicle?.model}
+              </TableCell>
               <TableCell>{reservation.checkin_date}</TableCell>
               <TableCell>{reservation.checkout_date}</TableCell>
               {actions && (
