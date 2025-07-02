@@ -2,8 +2,11 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { CustomerSchema } from "../entities";
 import { CustomerService } from "../services";
+import { authMiddleware } from "../middlewares/auth";
+import { AuthContext } from "../lib/auth";
 
-export const customerRoutes = new Hono()
+export const customerRoutes = new Hono<AuthContext>()
+  .use("*", authMiddleware)
   .get("/", async (c) => {
     const data = await CustomerService.findAll();
     return c.json({

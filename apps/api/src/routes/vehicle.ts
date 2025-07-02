@@ -2,8 +2,11 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { VehicleSchema } from "../entities";
 import { VehicleService } from "../services";
+import { type AuthContext } from "../lib/auth";
+import { authMiddleware } from "../middlewares/auth";
 
-export const vehicleRoutes = new Hono()
+export const vehicleRoutes = new Hono<AuthContext>()
+  .use("*", authMiddleware)
   .get("/", async (c) => {
     const data = await VehicleService.findAll();
     return c.json({

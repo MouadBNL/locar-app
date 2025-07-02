@@ -2,8 +2,11 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ReservationSchema } from "../entities";
 import { ReservationService } from "../services";
+import { authMiddleware } from "../middlewares/auth";
+import { AuthContext } from "../lib/auth";
 
-export const reservationRoutes = new Hono()
+export const reservationRoutes = new Hono<AuthContext>()
+  .use("*", authMiddleware)
   .get("/", async (c) => {
     const data = await ReservationService.findAll();
     return c.json({
