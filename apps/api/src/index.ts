@@ -15,7 +15,7 @@ const app = new Hono<{
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
 
     if (!session) {
-      c.set("user", null);        
+      c.set("user", null);
       c.set("session", null);
       return next();
     }
@@ -29,6 +29,7 @@ const app = new Hono<{
   .route("/api/vehicles", routes.vehicleRoutes)
   .route("/api/customers", routes.customerRoutes)
   .route("/api/reservations", routes.reservationRoutes)
+  .route("/api/rentals", routes.rentalRoutes)
   .get("/", (c) => {
     return c.text("Hello Hono!");
   });

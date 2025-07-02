@@ -13,6 +13,7 @@ import {
 import {
   CalendarClockIcon,
   GaugeIcon,
+  ReceiptTextIcon,
   ShapesIcon,
   UsersIcon,
   WarehouseIcon,
@@ -71,6 +72,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Link to="/app/reservations">
                     <CalendarClockIcon />
                     <span>Reservations</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip="Rentals">
+                  <Link to="/app/rentals">
+                    <ReceiptTextIcon />
+                    <span>Rentals</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
