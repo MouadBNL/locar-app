@@ -59,7 +59,7 @@ export function ReservationTable({
               </TableCell>
               <TableCell>{reservation.checkin_date}</TableCell>
               <TableCell>{reservation.checkout_date}</TableCell>
-              {actions && (
+              {actions && (             
                 <TableCell className="flex gap-2">
                   {actions(reservation)}
                 </TableCell>
