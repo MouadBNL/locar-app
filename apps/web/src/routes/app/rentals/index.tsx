@@ -5,7 +5,7 @@ import { Heading3 } from "@/components/ui/typography";
 import { RentalRepository } from "@/repositories";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { EyeIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/rentals/")({
@@ -52,8 +52,12 @@ function RouteComponent() {
           actions={(rental) => (
             <>
               <Button variant="outline" size="sm" asChild>
-                <Link from="/" to="/app/rentals">
-                  <PencilIcon className="w-4 h-4" />
+                <Link
+                  from="/"
+                  to="/app/rentals/$id"
+                  params={{ id: rental.code }}
+                >
+                  <EyeIcon className="w-4 h-4" />
                 </Link>
               </Button>
 
