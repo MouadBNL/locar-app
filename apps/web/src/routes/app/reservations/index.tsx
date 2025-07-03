@@ -33,7 +33,7 @@ function RouteComponent() {
   });
 
   return (
-    <div className="pt-8">
+    <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
         <Heading3>Manage Reservations</Heading3>
 
@@ -49,7 +49,7 @@ function RouteComponent() {
         <ReservationTable
           data={data?.data || []}
           loading={isFetching}
-          actions={(reservation) => ( 
+          actions={(reservation) => (
             <>
               <Button variant="outline" size="sm" asChild>
                 <Link

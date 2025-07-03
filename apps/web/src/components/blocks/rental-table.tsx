@@ -22,8 +22,8 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
           <TableHead>Code</TableHead>
           <TableHead>Customer</TableHead>
           <TableHead>Vehicle</TableHead>
-          <TableHead>Started At</TableHead>
-          <TableHead>Finished At</TableHead>
+          <TableHead>Pickup Date</TableHead>
+          <TableHead>Return Date</TableHead>
           {actions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
@@ -48,14 +48,10 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
           data.map((rental) => (
             <TableRow key={rental.id}>
               <TableCell>{rental.code}</TableCell>
-              <TableCell>
-                {rental.customer?.first_name} {rental.customer?.last_name}
-              </TableCell>
-              <TableCell>
-                {rental.vehicle?.make} {rental.vehicle?.model}
-              </TableCell>
-              <TableCell>{rental.started_at}</TableCell>
-              <TableCell>{rental.finished_at}</TableCell>
+              <TableCell>{rental.customer?.full_name}</TableCell>
+              <TableCell>{rental.vehicle?.plate_number}</TableCell>
+              <TableCell>{rental.period?.pickup_date}</TableCell>
+              <TableCell>{rental.period?.return_date}</TableCell>
               {actions && (
                 <TableCell className="flex gap-2">{actions(rental)}</TableCell>
               )}

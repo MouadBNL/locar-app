@@ -26,7 +26,7 @@ function RouteComponent() {
   });
 
   return (
-    <div className="pt-8">
+    <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
         <Heading3>Create Reservation</Heading3>
 

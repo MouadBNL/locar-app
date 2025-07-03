@@ -1,12 +1,25 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { RentalSchema } from "../entities";
+import { RentalInitializationSchema, RentalSchema } from "../entities";
 import { RentalService } from "../services";
 import { authMiddleware } from "../middlewares/auth";
 import { AuthContext } from "../lib/auth";
 
 export const rentalRoutes = new Hono<AuthContext>()
   .use("*", authMiddleware)
+  .post(
+    "/initialize",
+    zValidator("json", RentalInitializationSchema),
+    async (c) => {
+      const data = await c.req.valid("json");
+      const result = await RentalService.initialize(data);
+      return c.json({
+        data: result,
+        success: true,
+        message: "Rental created successfully",
+      });
+    }
+  )
   .get("/", async (c) => {
     const data = await RentalService.findAll();
     return c.json({

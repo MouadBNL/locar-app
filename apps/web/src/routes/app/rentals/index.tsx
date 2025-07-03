@@ -33,12 +33,12 @@ function RouteComponent() {
   });
 
   return (
-    <div className="pt-8">
+    <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
         <Heading3>Manage Rentals</Heading3>
 
         <Button asChild>
-          <Link to="/app/rentals/create">
+          <Link to="/app/rentals/initialize">
             <PlusIcon className="w-4 h-4" />
             Add Rental
           </Link>
@@ -47,16 +47,12 @@ function RouteComponent() {
 
       <Card className="p-2 mb-4">
         <RentalTable
-          data={data?.data || []}
+          data={data?.data ?? []}
           loading={isFetching}
           actions={(rental) => (
             <>
               <Button variant="outline" size="sm" asChild>
-                <Link
-                  from="/"
-                  to="/app/rentals/$id"
-                  params={{ id: rental.id! }}
-                >
+                <Link from="/" to="/app/rentals">
                   <PencilIcon className="w-4 h-4" />
                 </Link>
               </Button>

@@ -23,7 +23,7 @@ export const Route = createFileRoute("/app/reservations/$id")({
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const router = useRouter();
 
   const { reservation } = Route.useLoaderData();
@@ -42,7 +42,7 @@ function RouteComponent() {
   });
 
   return (
-    <div className="pt-8">
+    <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
         <Heading3>Edit Reservation</Heading3>
 

@@ -1,5 +1,5 @@
 import { http } from "@/lib/http";
-import type { RentalData } from "@locar/api/entities";
+import type { RentalData, RentalInitializationData } from "@locar/api/entities";
 
 export const RentalRepository = {
   index: async () => {
@@ -27,5 +27,11 @@ export const RentalRepository = {
   },
   destroy: async (id: string) => {
     await http.api.rentals[":id"].$delete({ param: { id } });
+  },
+
+  initialize: async (data: RentalInitializationData) => {
+    const res = await http.api.rentals.initialize.$post({ json: data });
+    const createdData = await res.json();
+    return createdData.data;
   },
 };

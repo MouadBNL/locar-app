@@ -158,7 +158,7 @@ const AppFormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >(
-  props: ControllerProps<TFieldValues, TName> & { label: string }
+  props: ControllerProps<TFieldValues, TName> & { label?: string }
 ) => {
   return (
     <FormField
@@ -166,7 +166,7 @@ const AppFormField = <
       name={props.name}
       render={(p) => (
         <FormItem>
-          <FormLabel>{props.label}</FormLabel>
+          {props.label && <FormLabel>{props.label}</FormLabel>}
           <FormControl>{props.render(p)}</FormControl>
           <FormMessage />
         </FormItem>
