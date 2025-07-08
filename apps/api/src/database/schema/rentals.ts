@@ -75,6 +75,15 @@ export const rental_vehicles = pgTable("rental_vehicles", {
   brand: text("brand"),
   model: text("model"),
   year: integer("year"),
+  color: text("color"),
+  photo_url: text("photo_url"),
+  doors: integer("doors"),
+  seats: integer("seats"),
+  fuel_type: text("fuel_type", {
+    enum: ["gasoline", "diesel", "electric", "hybrid"],
+  }),
+  transmission: text("transmission", { enum: ["AT", "MT"] }),
+  mileage: integer("mileage"),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
 });

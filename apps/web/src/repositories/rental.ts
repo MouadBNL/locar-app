@@ -7,8 +7,8 @@ export const RentalRepository = {
     const data = await res.json();
     return data;
   },
-  show: async (id: string) => {
-    const res = await http.api.rentals[":id"].$get({ param: { id } });
+  show: async (code: string) => {
+    const res = await http.api.rentals[":code"].$get({ param: { code } });
     const data = await res.json();
     return data.data;
   },

@@ -30,12 +30,17 @@ export const RentalService = {
         rate: true,
       },
     });
-    const vv = rentals[0].vehicle
     return rentals;
   },
-  find: async (id: string) => {
+  find: async (code: string) => {
     const rental = await db.query.rentals.findFirst({
-      where: eq(rentals.id, id),
+      where: eq(rentals.code, code),
+      with: {
+        vehicle: true,
+        customer: true,
+        period: true,
+        rate: true,
+      },
     });
     return rental;
   },
@@ -117,7 +122,13 @@ export const RentalService = {
           brand: originalVehicle.make,
           model: originalVehicle.model,
           year: originalVehicle.year,
-          // color: data.vehicle.color,
+          color: originalVehicle.color,
+          photo_url: originalVehicle.photo_url,
+          doors: originalVehicle.number_of_doors,
+          seats: originalVehicle.number_of_seats,
+          fuel_type: originalVehicle.fuel_type,
+          transmission: originalVehicle.transmission,
+          mileage: originalVehicle.mileage,
         })
         .returning();
 

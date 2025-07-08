@@ -27,9 +27,9 @@ export const rentalRoutes = new Hono<AuthContext>()
       success: true,
     });
   })
-  .get("/:id", async (c) => {
-    const id = c.req.param("id");
-    const data = await RentalService.find(id);
+  .get("/:code", async (c) => {
+    const code = c.req.param("code");
+    const data = await RentalService.find(code);
     if (!data) {
       return c.json(
         {

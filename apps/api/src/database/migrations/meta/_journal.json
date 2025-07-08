@@ -57,6 +57,13 @@
       "when": 1751541844793,
       "tag": "0007_flawless_northstar",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1751975773732,
+      "tag": "0008_mean_sunset_bain",
+      "breakpoints": true
     }
   ]
 }

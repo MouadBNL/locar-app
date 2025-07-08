@@ -1,0 +1,50 @@
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+
+interface CustomerSummaryCardProps {
+  id: string;
+  firstName: string;
+  lastName: string;
+  id_number: string;
+  license: string;
+  phone: string;
+  address: string;
+}
+
+export const CustomerSummaryCard = (props: CustomerSummaryCardProps) => {
+  const fallback =
+    props.firstName.toUpperCase().charAt(0) +
+    props.lastName.toUpperCase().charAt(0);
+
+  return (
+    <div className="flex h-full w-full items-start justify-between gap-4">
+      <div>
+        <Avatar className="size-12 rounded-lg">
+          <AvatarImage src="#" />
+          <AvatarFallback className="rounded-lg">{fallback}</AvatarFallback>
+        </Avatar>
+      </div>
+      <div className="w-full">
+        <div className="mb-4">
+          <h4 className="text-lg font-bold -mb-1">
+            {props.firstName} {props.lastName}
+          </h4>
+          <h5 className="text-sm text-muted-foreground">{props.phone}</h5>
+        </div>
+        <div className="grid grid-cols-2 text-sm gap-2">
+          <div className="flex gap-2 items-center">
+            <span>ID Number:</span>{" "}
+            <span className="text-muted-foreground">{props.id_number}</span>
+          </div>
+          <div className="flex gap-2 items-center">
+            <span>License:</span>{" "}
+            <span className="text-muted-foreground">{props.license}</span>
+          </div>
+          <div className="flex gap-2 items-center col-span-2">
+            <span>Address:</span>{" "}
+            <span className="text-muted-foreground">{props.address}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
