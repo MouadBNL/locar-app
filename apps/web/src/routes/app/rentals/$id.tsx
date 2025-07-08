@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Heading3 } from "@/components/ui/typography";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
 import {
   CarIcon,
   CircleGaugeIcon,
@@ -19,8 +19,9 @@ import {
 import { BoxIcon, HouseIcon, PanelsTopLeftIcon } from "lucide-react";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/app/rentals/$id")({
   component: RouteComponent,
@@ -187,61 +188,74 @@ const CustomerCard = () => {
 };
 
 export default function DetailsSection() {
+  const router = useRouter();
+  const { id } = Route.useParams();
+
+  const [currentPath, setCurrentPath] = useState(
+    router.state.location.pathname
+  );
+
+  // Determine current tab from pathname
+  const activeTab = currentPath.endsWith("/payments")
+    ? "payments"
+    : currentPath.endsWith("/documents")
+    ? "documents"
+    : "summary";
+
+  const basePath = `/app/rentals/${id}`;
+
+  function handleTabChange(value: string) {
+    const target = value === "summary" ? basePath : `${basePath}/${value}`;
+    setCurrentPath(target);
+    router.navigate({ to: target });
+  }
+
   return (
-    <Tabs defaultValue="tab-1">
-      <ScrollArea>
-        <TabsList className="justify-start before:bg-border relative mb-3 h-auto w-full gap-0.5 bg-transparent p-0 px-4 before:absolute before:inset-x-0 before:bottom-0 before:h-px">
-          <TabsTrigger
-            value="tab-1"
-            className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
-          >
-            <HouseIcon
-              className="-ms-0.5 me-1.5 opacity-60"
-              size={16}
-              aria-hidden="true"
-            />
-            Summary
-          </TabsTrigger>
-          <TabsTrigger
-            value="tab-2"
-            className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
-          >
-            <PanelsTopLeftIcon
-              className="-ms-0.5 me-1.5 opacity-60"
-              size={16}
-              aria-hidden="true"
-            />
-            Projects
-          </TabsTrigger>
-          <TabsTrigger
-            value="tab-3"
-            className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
-          >
-            <BoxIcon
-              className="-ms-0.5 me-1.5 opacity-60"
-              size={16}
-              aria-hidden="true"
-            />
-            Packages
-          </TabsTrigger>
-        </TabsList>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-      <TabsContent value="tab-1">
-        <p className="text-muted-foreground p-4 pt-1 text-center text-xs">
-          Content for Tab 1
-        </p>
-      </TabsContent>
-      <TabsContent value="tab-2">
-        <p className="text-muted-foreground p-4 pt-1 text-center text-xs">
-          Content for Tab 2
-        </p>
-      </TabsContent>
-      <TabsContent value="tab-3">
-        <p className="text-muted-foreground p-4 pt-1 text-center text-xs">
-          Content for Tab 3
-        </p>
-      </TabsContent>
-    </Tabs>
+    <div>
+      <Tabs value={activeTab} onValueChange={handleTabChange}>
+        <ScrollArea>
+          <TabsList className="justify-start before:bg-border relative mb-3 h-auto w-full gap-0.5 bg-transparent p-0 px-4 before:absolute before:inset-x-0 before:bottom-0 before:h-px">
+            <TabsTrigger
+              value="summary"
+              className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
+            >
+              <HouseIcon
+                className="-ms-0.5 me-1.5 opacity-60"
+                size={16}
+                aria-hidden="true"
+              />
+              Summary
+            </TabsTrigger>
+            <TabsTrigger
+              value="documents"
+              className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
+            >
+              <PanelsTopLeftIcon
+                className="-ms-0.5 me-1.5 opacity-60"
+                size={16}
+                aria-hidden="true"
+              />
+              Documents
+            </TabsTrigger>
+            <TabsTrigger
+              value="payments"
+              className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
+            >
+              <BoxIcon
+                className="-ms-0.5 me-1.5 opacity-60"
+                size={16}
+                aria-hidden="true"
+              />
+              Payments
+            </TabsTrigger>
+          </TabsList>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </Tabs>
+
+      <div className="border rounded-md p-4">
+        <Outlet />
+      </div>
+    </div>
   );
 }
