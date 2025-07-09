@@ -31,7 +31,7 @@ function RouteComponent() {
   });
 
   return (
-    <div className="pt-8 px-4 lg:px-12 w-full">
+    <div className="py-8 px-4 lg:px-12 w-full">
       <div className="flex justify-between items-center mb-6">
         <Heading3>Create Rental</Heading3>
 
