@@ -5,10 +5,8 @@ export * from "./customer";
 export * from "./reservation";
 export * from "./rental";
 
-export const HealthRepository = {
-  up: async () => {
-    const res = await http.api.health.up.$get();
-    const data = await res.json();
-    return data;
-  },
-};
+
+export type ApiResponse<T = any> = {
+  data: T,
+  message: string | null
+}

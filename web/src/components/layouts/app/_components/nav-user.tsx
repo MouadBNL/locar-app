@@ -15,8 +15,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { authClient } from "@/lib/auth-client";
-import { useMutation } from "@tanstack/react-query";
+import { useSignout } from "@/repositories/auth";
 import { useNavigate } from "@tanstack/react-router";
 import {
   BellIcon,
@@ -31,10 +30,7 @@ export function NavUser() {
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
 
-  const { mutate: signOut } = useMutation({
-    mutationFn: async () => {
-      await authClient.signOut();
-    },
+  const { mutate: signOut } = useSignout({
     onSuccess: () => {
       navigate({ to: "/auth/signin" });
     },

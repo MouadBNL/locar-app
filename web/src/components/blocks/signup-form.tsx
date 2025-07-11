@@ -4,23 +4,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
-import { signupSchema, type SignupData } from "@/lib/auth-client";
+import { SignUpSchema, type SignUpRequest } from "@/repositories/auth";
 
 export type SignupFormProps = {
-  submit?: (data: SignupData) => void;
+  submit?: (data: SignUpRequest) => void;
   loading?: boolean;
 };
 
 export function SignupForm({ submit, loading }: SignupFormProps) {
   const form = useForm({
-    resolver: zodResolver(signupSchema),
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: SignupData) => {
+  const onSubmit = (data: SignUpRequest) => {
     submit?.(data);
   };
 

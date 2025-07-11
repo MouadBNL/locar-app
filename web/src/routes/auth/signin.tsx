@@ -1,7 +1,7 @@
 import { SigninForm } from "@/components/blocks/signin-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { authClient, type SigninData } from "@/lib/auth-client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSingIn, type SignInRequest } from "@/repositories/auth";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
@@ -13,29 +13,21 @@ function RouteComponent() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: SigninData) => {
-      const res = await authClient.signIn.email({
-        email: data.email,
-        password: data.password,
-      });
-
-      if (res.error) {
-        throw new Error(res.error.message);
-      }
-
-      return res.data;
-    },
-    onSuccess: () => {
+  const { mutate: signin, isPending } = useSingIn({
+    onSuccess(data, variables, context) {
+      console.log({ data, variables, context })
+      toast.success("You have been sign in successfully");
       queryClient.invalidateQueries({ queryKey: ["session"] });
       navigate({ to: "/app" });
     },
-    onError: () => {
+    onError(err) {
+      console.error(err);
       toast.error("Signin failed");
-    },
+    }
   });
-  const onSignIn = (data: SigninData) => {
-    mutate(data);
+
+  const onSignIn = (data: SignInRequest) => {
+    signin(data);
   };
 
   return (

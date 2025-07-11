@@ -3,23 +3,23 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { signinSchema, type SigninData } from "@/lib/auth-client";
+import { SignInSchema, type SignInRequest } from "@/repositories/auth";
 
 export type SigninFormProps = {
-  submit?: (data: SigninData) => void;
+  submit?: (data: SignInRequest) => void;
   loading?: boolean;
 };
 
 export function SigninForm({ submit, loading }: SigninFormProps) {
   const form = useForm({
-    resolver: zodResolver(signinSchema),
+    resolver: zodResolver(SignInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: SigninData) => {
+  const onSubmit = (data: SignInRequest) => {
     submit?.(data);
   };
 

@@ -1,31 +1,19 @@
 import * as React from "react";
-import { useSession } from "@/hooks/session";
+import { useAuthMe } from "@/repositories/auth";
 
 type User = {
-  name: string;
-  email: string;
-  emailVerified: boolean;
-  image?: string | null | undefined;
-  createdAt: Date;
-  updatedAt: Date;
-  id: string;
+  name: string,
+  email: string,
+  image: string | null,
+  created_at: string,
+  updated_at: string,
 };
-type Session = {
-  expiresAt: Date;
-  token: string;
-  createdAt: Date;
-  updatedAt: Date;
-  ipAddress?: string | null | undefined;
-  userAgent?: string | null | undefined;
-  userId: string;
-  id: string;
-};
+
 
 type AuthContextValue = {
   isAuthenticated: boolean;
   isLoading: boolean;
   user: User;
-  session: Session;
 };
 
 const AuthContext = React.createContext<AuthContextValue | undefined>(
@@ -41,16 +29,15 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { data: session, isLoading } = useSession();
+  const { data, isLoading } = useAuthMe();
 
   const value: AuthContextValue = React.useMemo(
     () => ({
-      isAuthenticated: !!session,
+      isAuthenticated: !!data,
       isLoading,
-      user: session?.data?.user!,
-      session: session?.data?.session!,
+      user: { ...data!, image: null }
     }),
-    [session, isLoading]
+    [data, isLoading]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

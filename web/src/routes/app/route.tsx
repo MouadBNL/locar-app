@@ -1,6 +1,6 @@
 import { AuthProvider } from "@/components/auth-provider";
 import { AppLayout } from "@/components/layouts/app/app-layout";
-import { useSession } from "@/hooks/session";
+import { useAuthMe } from "@/repositories/auth";
 import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 
@@ -9,7 +9,9 @@ export const Route = createFileRoute("/app")({
 });
 
 function AppLayoutRoot() {
-  const { data: session, isLoading } = useSession();
+  const { data, isLoading } = useAuthMe(undefined, {
+    retry: false,
+  });
 
   if (isLoading) {
     return (
@@ -19,7 +21,7 @@ function AppLayoutRoot() {
     );
   }
 
-  if (!session?.data) {
+  if (!data) {
     return <Navigate to="/auth/signin" />;
   }
 
