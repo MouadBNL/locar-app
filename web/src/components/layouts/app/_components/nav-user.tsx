@@ -15,7 +15,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useSignout } from "@/repositories/auth";
+import { useSignout } from "@/features/auth";
 import { useNavigate } from "@tanstack/react-router";
 import {
   BellIcon,

@@ -1,6 +1,6 @@
 import { SigninForm } from "@/components/blocks/signin-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSingIn, type SignInRequest } from "@/repositories/auth";
+import { useSingIn, type SignInRequest } from "@/features/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";

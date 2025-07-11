@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useAuthMe } from "@/repositories/auth";
+import { useAuthMe } from "@/features/auth";
 
 type User = {
   name: string,

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
-import { SignUpSchema, type SignUpRequest } from "@/repositories/auth";
+import { SignUpSchema, type SignUpRequest } from "@/features/auth";
 
 export type SignupFormProps = {
   submit?: (data: SignUpRequest) => void;

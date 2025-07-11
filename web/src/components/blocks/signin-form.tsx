@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { SignInSchema, type SignInRequest } from "@/repositories/auth";
+import { SignInSchema, type SignInRequest } from "@/features/auth";
 
 export type SigninFormProps = {
   submit?: (data: SignInRequest) => void;

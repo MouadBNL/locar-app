@@ -1,3 +1,5 @@
+import type z from "zod";
+import type { SignInSchema, SignUpSchema } from "./schema";
 
 
 export type SignInRequest = z.infer<typeof SignInSchema>;

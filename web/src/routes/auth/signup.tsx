@@ -1,6 +1,6 @@
 import { SignupForm } from "@/components/blocks/signup-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSignUp, type SignUpRequest } from "@/repositories/auth";
+import { useSignUp, type SignUpRequest } from "@/features/auth";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 

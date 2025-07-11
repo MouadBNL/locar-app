@@ -1,6 +1,6 @@
 import { AuthProvider } from "@/components/auth-provider";
 import { AppLayout } from "@/components/layouts/app/app-layout";
-import { useAuthMe } from "@/repositories/auth";
+import { useAuthMe } from "@/features/auth";
 import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 
