@@ -59,8 +59,17 @@
         ],
         "test": [
             "@php artisan config:clear --ansi",
-            "@php artisan test"
-        ]
+            "@php artisan test",
+            "@test:lint",
+            "@test:types"
+        ],
+        "lint": [
+            "pint"
+        ],
+        "test:lint": [
+            "pint --test"
+        ],
+        "test:types": "phpstan"
     },
     "extra": {
         "laravel": {
