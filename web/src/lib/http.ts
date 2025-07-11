@@ -20,3 +20,9 @@ http.interceptors.request.use(function (config) {
 
 
 export { http };
+
+
+export type ApiResponse<T = any> = {
+  data: T,
+  message: string | null
+}
