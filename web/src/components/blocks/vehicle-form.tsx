@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { AppFormField, Form } from "../ui/form";
 import { Input } from "../ui/input";
-import { VehicleSchema, type VehicleData } from "@locar/api/entities";
+import { VehicleSchema, type VehicleData } from "@/features/vehicles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import {
@@ -24,6 +24,7 @@ export default function VehicleForm({
   submit,
 }: VehicleFormProps) {
   const form = useForm({
+    mode: "onChange",
     resolver: zodResolver(VehicleSchema),
     defaultValues: {
       make: "",
@@ -42,6 +43,7 @@ export default function VehicleForm({
   });
 
   const onSubmit = (data: VehicleData) => {
+    console.log("Data: ", { data });
     submit?.(data);
   };
 

@@ -2,8 +2,8 @@ import { VehicleTable } from "@/components/blocks/vehicle-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import { VehicleRepository } from "@/repositories";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useVehicleDelete, useVehicleIndex } from "@/features/vehicles";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -15,14 +15,9 @@ export const Route = createFileRoute("/app/vehicles/")({
 function RouteComponent() {
   const queryClient = useQueryClient();
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["vehicles"],
-    queryFn: async () => VehicleRepository.index(),
-    refetchOnWindowFocus: false,
-  });
+  const { data, isFetching } = useVehicleIndex()
 
-  const { mutate: deleteVehicle, isPending: isDeleting } = useMutation({
-    mutationFn: async (id: string) => VehicleRepository.destroy(id),
+  const { mutate: deleteVehicle, isPending: isDeleting } = useVehicleDelete({
     onSuccess: () => {
       toast.success("Vehicle deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["vehicles"] });

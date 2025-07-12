@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
@@ -6,16 +5,12 @@ import {
   SelectValue,
   SelectItem,
 } from "../ui/select";
-import { VehicleRepository } from "@/repositories";
+import { useVehicleIndex } from "@/features/vehicles";
 
 export type VehicleSelectProps = React.ComponentProps<typeof Select>;
 
 export function VehicleSelect(props: VehicleSelectProps) {
-  const { data, isFetching } = useQuery({
-    queryKey: ["vehicles"],
-    queryFn: () => VehicleRepository.index(),
-  });
-
+  const { data, isFetching } = useVehicleIndex();
   return (
     <Select disabled={isFetching} {...props}>
       <SelectTrigger className="w-full">
@@ -23,7 +18,7 @@ export function VehicleSelect(props: VehicleSelectProps) {
       </SelectTrigger>
       <SelectContent>
         {data?.data.map((vehicle) => (
-          <SelectItem key={vehicle.id} value={vehicle.id}>
+          <SelectItem key={vehicle.id} value={vehicle.id!}>
             {vehicle.model}
           </SelectItem>
         ))}

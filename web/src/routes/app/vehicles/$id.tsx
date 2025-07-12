@@ -2,9 +2,7 @@ import VehicleForm from "@/components/blocks/vehicle-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import { VehicleRepository } from "@/repositories";
-import type { VehicleData } from "@locar/api/entities";
-import { useMutation } from "@tanstack/react-query";
+import { useVehicleUpdate, vehicleShowFn, type VehicleData } from "@/features/vehicles";
 import {
   createFileRoute,
   Link,
@@ -16,7 +14,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/app/vehicles/$id")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const vehicle = await VehicleRepository.show(params.id);
+    const vehicle = (await vehicleShowFn(params.id)).data
     return { vehicle };
   },
 });
@@ -28,8 +26,7 @@ function RouteComponent() {
 
   const { vehicle } = Route.useLoaderData();
 
-  const { mutate: createVehicle, isPending } = useMutation({
-    mutationFn: (data: VehicleData) => VehicleRepository.update(id, data),
+  const { mutate: updateVehicle, isPending } = useVehicleUpdate({
     onSuccess: () => {
       toast.success("Vehicle updated successfully");
       router.invalidate();
@@ -53,7 +50,7 @@ function RouteComponent() {
       <Card>
         <CardContent>
           <VehicleForm
-            submit={createVehicle}
+            submit={(data: VehicleData) => updateVehicle({ id, data })}
             loading={isPending}
             initialValues={vehicle ?? undefined}
           />

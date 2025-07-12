@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type VehicleData } from "@locar/api/entities";
+import { type VehicleData } from "@/features/vehicles";
 
 export type VehicleTableProps = {
   data: VehicleData[];

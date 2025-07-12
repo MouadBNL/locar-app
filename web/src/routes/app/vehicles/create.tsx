@@ -2,9 +2,7 @@ import VehicleForm from "@/components/blocks/vehicle-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import { VehicleRepository } from "@/repositories";
-import type { VehicleData } from "@locar/api/entities";
-import { useMutation } from "@tanstack/react-query";
+import { useVehicleCreate } from "@/features/vehicles";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
@@ -14,8 +12,7 @@ export const Route = createFileRoute("/app/vehicles/create")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const { mutate: createVehicle, isPending } = useMutation({
-    mutationFn: (data: VehicleData) => VehicleRepository.create(data),
+  const { mutate: createVehicle, isPending } = useVehicleCreate({
     onSuccess: () => {
       toast.success("Vehicle created successfully");
       navigate({ to: "/app/vehicles" });
