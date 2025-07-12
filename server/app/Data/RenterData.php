@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Data;
+
+use Carbon\CarbonImmutable;
+use Spatie\LaravelData\Data;
+
+class RenterData extends Data
+{
+    public function __construct(
+        public string $id,
+        public string $rental_id,
+        public ?string $customer_id,
+        public string $full_name,
+        public ?string $email,
+        public ?string $id_card_number,
+        public ?CarbonImmutable $birth_date,
+        public ?string $address_primary,
+        public ?string $id_card_scan_document,
+        public ?string $driver_license_number,
+        public ?string $driver_license_issuing_city,
+        public ?CarbonImmutable $driver_license_issuing_date,
+        public ?CarbonImmutable $driver_license_expiration_date,
+        public ?string $driver_license_scan_document,
+        public ?string $passport_number,
+        public ?string $passport_country,
+        public ?CarbonImmutable $passport_issuing_date,
+        public ?CarbonImmutable $passport_expiration_date,
+        public ?string $passport_scan_document,
+    ) {}
+
+    public function rules(): array
+    {
+        return [
+            'id' => ['required', 'uuid'],
+            'rental_id' => ['required', 'uuid', 'exists:rentals,id'],
+            'customer_id' => ['nullable', 'uuid', 'exists:customers,id'],
+            'full_name' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'id_card_number' => ['nullable', 'string', 'max:255'],
+            'birth_date' => ['nullable', 'date'],
+            'address_primary' => ['nullable', 'string', 'max:255'],
+            'id_card_scan_document' => ['nullable', 'string', 'max:255'],
+            'driver_license_number' => ['nullable', 'string', 'max:255'],
+            'driver_license_issuing_city' => ['nullable', 'string', 'max:255'],
+            'driver_license_issuing_date' => ['nullable', 'date'],
+            'driver_license_expiration_date' => ['nullable', 'date'],
+            'driver_license_scan_document' => ['nullable', 'string', 'max:255'],
+            'passport_number' => ['nullable', 'string', 'max:255'],
+            'passport_country' => ['nullable', 'string', 'max:255'],
+            'passport_issuing_date' => ['nullable', 'date'],
+            'passport_expiration_date' => ['nullable', 'date'],
+            'passport_scan_document' => ['nullable', 'string', 'max:255'],
+        ];
+    }
+}

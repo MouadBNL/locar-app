@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasUuidAsPrimary;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read string $full_name
  * @property-read ?string $email
  * @property-read ?string $id_card_number
- * @property-read ?string $birth_date
+ * @property-read ?Carbon $birth_date
  * @property-read ?string $address_primary
  * @property-read ?string $id_card_scan_document
  * @property-read ?string $driver_license_number
