@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type CustomerData } from "@locar/api/entities";
+import type { CustomerData } from "@/features/customers";
 
 export type CustomerTableProps = {
   data: CustomerData[];

@@ -2,8 +2,8 @@ import { CustomerTable } from "@/components/blocks/customer-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import { CustomerRepository } from "@/repositories/customer";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCustomerDelete, useCustomerIndex } from "@/features/customers";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -15,14 +15,9 @@ export const Route = createFileRoute("/app/customers/")({
 function RouteComponent() {
   const queryClient = useQueryClient();
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["customers"],
-    queryFn: async () => CustomerRepository.index(),
-    refetchOnWindowFocus: false,
-  });
+  const { data, isFetching } = useCustomerIndex();
 
-  const { mutate: deleteCustomer, isPending: isDeleting } = useMutation({
-    mutationFn: async (id: string) => CustomerRepository.destroy(id),
+  const { mutate: deleteCustomer, isPending: isDeleting } = useCustomerDelete({
     onSuccess: () => {
       toast.success("Customer deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["customers"] });
@@ -47,7 +42,7 @@ function RouteComponent() {
 
       <Card className="p-2 mb-4">
         <CustomerTable
-          data={data || []}
+          data={data?.data || []}
           loading={isFetching}
           actions={(customer) => (
             <>
@@ -65,7 +60,7 @@ function RouteComponent() {
                 variant="outline"
                 size="sm"
                 loading={isDeleting}
-                onClick={() => deleteCustomer(customer.id!)}
+                onClick={() => deleteCustomer({ id: customer.id! })}
               >
                 <TrashIcon className="w-4 h-4" />
               </Button>

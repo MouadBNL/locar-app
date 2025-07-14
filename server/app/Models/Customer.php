@@ -33,4 +33,8 @@ class Customer extends Model
         'passport_number',
         'birth_date',
     ];
+
+    protected $casts = [
+        'birth_date' => 'date',
+    ];
 }

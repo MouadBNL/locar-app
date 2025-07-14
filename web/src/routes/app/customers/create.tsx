@@ -2,9 +2,7 @@ import CustomerForm from "@/components/blocks/customer-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import { CustomerRepository } from "@/repositories";
-import type { CustomerData } from "@locar/api/entities";
-import { useMutation } from "@tanstack/react-query";
+import { useCustomerCreate } from "@/features/customers";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
@@ -14,8 +12,7 @@ export const Route = createFileRoute("/app/customers/create")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const { mutate: createCustomer, isPending } = useMutation({
-    mutationFn: (data: CustomerData) => CustomerRepository.create(data),
+  const { mutate: createCustomer, isPending } = useCustomerCreate({
     onSuccess: () => {
       toast.success("Customer created successfully");
       navigate({ to: "/app/customers" });
@@ -37,7 +34,10 @@ function RouteComponent() {
 
       <Card>
         <CardContent>
-          <CustomerForm submit={createCustomer} loading={isPending} />
+          <CustomerForm
+            submit={(data) => createCustomer({ data })}
+            loading={isPending}
+          />
         </CardContent>
       </Card>
     </div>

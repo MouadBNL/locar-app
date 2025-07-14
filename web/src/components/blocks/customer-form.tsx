@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { AppFormField, Form } from "../ui/form";
 import { Input } from "../ui/input";
-import { CustomerSchema, type CustomerData } from "@locar/api/entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import { DateInput } from "../ui/dateinput";
+import { CustomerSchema, type CustomerData } from "@/features/customers";
 
 export type CustomerFormProps = {
   initialValues?: Partial<CustomerData>;
@@ -98,7 +98,7 @@ export default function CustomerForm({
 
           <AppFormField
             control={form.control}
-            name="license_number"
+            name="driver_license_number"
             label="License Number"
             render={({ field }) => (
               <Input
@@ -112,26 +112,14 @@ export default function CustomerForm({
 
           <AppFormField
             control={form.control}
-            name="license_expiration_date"
-            label="License Expiration Date"
+            name="birth_date"
+            label="Birth Date"
             render={({ field }) => (
               <DateInput
                 {...field}
                 value={field.value ?? undefined}
                 onChange={(value) => field.onChange(value)}
-              />
-            )}
-          />
-
-          <AppFormField
-            control={form.control}
-            name="license_issuing_date"
-            label="License Issuing Date"
-            render={({ field }) => (
-              <DateInput
-                {...field}
-                value={field.value ?? undefined}
-                onChange={(value) => field.onChange(value)}
+                type="string"
               />
             )}
           />

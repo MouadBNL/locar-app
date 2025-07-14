@@ -1,4 +1,3 @@
-import { CustomerRepository } from "@/repositories";
 import { toast } from "sonner";
 import {
   createFileRoute,
@@ -6,18 +5,17 @@ import {
   useNavigate,
   useRouter,
 } from "@tanstack/react-router";
-import { useMutation } from "@tanstack/react-query";
-import type { CustomerData } from "@locar/api/entities";
 import { Heading3 } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import CustomerForm from "@/components/blocks/customer-form";
+import { customerShowFn, useCustomerUpdate } from "@/features/customers";
 
 export const Route = createFileRoute("/app/customers/$id")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const customer = await CustomerRepository.show(params.id);
-    return { customer };
+    const customer = await customerShowFn({ id: params.id });
+    return { customer: customer.data };
   },
 });
 
@@ -28,8 +26,7 @@ function RouteComponent() {
 
   const { customer } = Route.useLoaderData();
 
-  const { mutate: updateCustomer, isPending } = useMutation({
-    mutationFn: (data: CustomerData) => CustomerRepository.update(id, data),
+  const { mutate: updateCustomer, isPending } = useCustomerUpdate({
     onSuccess: () => {
       toast.success("Customer updated successfully");
       router.invalidate();
@@ -53,7 +50,7 @@ function RouteComponent() {
       <Card>
         <CardContent>
           <CustomerForm
-            submit={updateCustomer}
+            submit={(data) => updateCustomer({ id, data })}
             loading={isPending}
             initialValues={customer ?? undefined}
           />

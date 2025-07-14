@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\RentalController;
@@ -16,6 +17,7 @@ Route::prefix('/auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('vehicles', VehicleController::class);
+    Route::apiResource('customers', CustomerController::class);
 
     Route::post('rentals', RentalInitializationController::class);
     Route::get('rentals', [RentalController::class, 'index']);
