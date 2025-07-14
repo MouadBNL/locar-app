@@ -11,11 +11,10 @@ import { Input } from "../ui/input";
 import { fmt_date, generate_rental_code, get_date } from "@/lib/utils";
 import { Heading4 } from "../ui/typography";
 import { useEffect } from "react";
-import { CustomerRepository } from "@/repositories";
-import { useQuery } from "@tanstack/react-query";
 import { RentalSchema, type RentalData } from "@/features/rentals";
 import { Separator } from "../ui/separator";
 import { DateTimeInput } from "../ui/datetime-input";
+import { useCustomerIndex } from "@/features/customers";
 
 export type RentalFormProps = {
   loading?: boolean;
@@ -159,11 +158,8 @@ const RentalPeriodForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
 };
 
 const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
-  const { data: customers } = useQuery({
-    queryKey: ["customers"],
-    queryFn: () => CustomerRepository.index(),
-  });
-
+  const { data } = useCustomerIndex();
+  const customers = data?.data ?? [];
   const customer_id = form.watch("renter.customer_id");
 
   useEffect(() => {
@@ -182,19 +178,19 @@ const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
       // form.setValue("customer.id_number", customer. ?? "");
       form.setValue(
         "renter.driver_license_number",
-        customer.license_number ?? ""
+        customer.driver_license_number ?? ""
       );
       form.setValue(
         "renter.driver_license_issuing_city",
-        customer.license_issuing_city ?? ""
+        customer.address ?? ""
       );
       form.setValue(
         "renter.driver_license_issuing_date",
-        customer.license_issuing_date ?? ""
+        customer.birth_date ?? ""
       );
       form.setValue(
         "renter.driver_license_expiration_date",
-        customer.license_expiration_date ?? ""
+        customer.birth_date ?? ""
       );
     }
   }, [customers, customer_id, form]);
