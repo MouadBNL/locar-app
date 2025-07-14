@@ -4,13 +4,9 @@ Application under developement.<br/>
 
 ## Setup
 
-First make sure you have `pnpm`, and maybe learn a little bit about how workspaces work.<br/>
-Clone this project, and open `package.json` to find the list of scripts you can execute.<br/>
-<br/>
+The application is separated into two apps, Frontend and backend both standalone.<br/>
 
-`pnpm api [...args]` execute pnpm commands in apps/api.<br/>
-`pnpm web [...args]` execute pnpm commands in apps/web.<br/>
-`pnpm api-client [...args]` same things.<br/>
+The backend is created using Laravel, php version 8.3 is needed as well as the sqlite extention<br/>
+To start the backend server run: `cd server` then `php artisan serve`.<br/>
 
-to start all applications:<br/>
-`pnpm dev` which executes `pnpm run -r --parallel --aggregate-output dev`
+To start the frontend, run: `cd web` then `pnpm run dev`.<br/>
