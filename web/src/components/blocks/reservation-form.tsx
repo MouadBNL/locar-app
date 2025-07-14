@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReservationSchema, type ReservationData } from "@locar/api/entities";
 import { AppFormField, Form } from "../ui/form";
 import { VehicleSelect } from "./vehicle-select";
 import { DateInput } from "../ui/dateinput";
@@ -9,6 +8,11 @@ import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { CustomerSelect } from "./customer-select";
+import {
+  ReservationSchema,
+  type ReservationData,
+} from "@/features/reservations";
+import { fmt_date, get_date } from "@/lib/utils";
 
 export type ReservationFormProps = {
   initialValues?: Partial<ReservationData>;
@@ -25,18 +29,17 @@ export default function ReservationForm({
     defaultValues: {
       customer_id: "",
       vehicle_id: "",
+      check_in_date: fmt_date(get_date(), { format: "date" }),
+      check_out_date: fmt_date(get_date({ day: 1 }), { format: "date" }),
       total_price: 0,
       daily_rate: 300,
-      checkin_date: new Date().toISOString().split("T")[0],
-      checkout_date: new Date(new Date().setDate(new Date().getDate() + 1))
-        .toISOString()
-        .split("T")[0],
+      total_days: 1,
       ...initialValues,
     },
   });
 
-  const checkin_date = form.watch("checkin_date");
-  const checkout_date = form.watch("checkout_date");
+  const checkin_date = form.watch("check_in_date");
+  const checkout_date = form.watch("check_out_date");
   const daily_rate = form.watch("daily_rate");
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
@@ -100,11 +103,12 @@ export default function ReservationForm({
 
           <AppFormField
             control={form.control}
-            name="checkin_date"
+            name="check_in_date"
             label="Checkin Date"
             render={({ field }) => (
               <DateInput
                 {...field}
+                type="string"
                 value={field.value ?? undefined}
                 onChange={(value) => field.onChange(value)}
               />
@@ -113,11 +117,12 @@ export default function ReservationForm({
 
           <AppFormField
             control={form.control}
-            name="checkout_date"
+            name="check_out_date"
             label="Checkout Date"
             render={({ field }) => (
               <DateInput
                 {...field}
+                type="string"
                 value={field.value ?? undefined}
                 onChange={(value) => field.onChange(value)}
               />

@@ -2,9 +2,10 @@ import ReservationForm from "@/components/blocks/reservation-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import { ReservationRepository } from "@/repositories";
-import type { ReservationData } from "@locar/api/entities";
-import { useMutation } from "@tanstack/react-query";
+import {
+  reservationShowFn,
+  useReservationUpdate,
+} from "@/features/reservations";
 import {
   createFileRoute,
   Link,
@@ -16,8 +17,8 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/app/reservations/$id")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const reservation = await ReservationRepository.show(params.id);
-    return { reservation };
+    const reservation = await reservationShowFn({ id: params.id });
+    return { reservation: reservation.data };
   },
 });
 
@@ -28,9 +29,7 @@ function RouteComponent() {
 
   const { reservation } = Route.useLoaderData();
 
-  const { mutate: updateReservation, isPending } = useMutation({
-    mutationFn: (data: ReservationData) =>
-      ReservationRepository.update(id, data),
+  const { mutate: updateReservation, isPending } = useReservationUpdate({
     onSuccess: () => {
       toast.success("Reservation updated successfully");
       router.invalidate();
@@ -54,7 +53,7 @@ function RouteComponent() {
       <Card>
         <CardContent>
           <ReservationForm
-            submit={updateReservation}
+            submit={(data) => updateReservation({ id, data })}
             loading={isPending}
             initialValues={reservation ?? undefined}
           />

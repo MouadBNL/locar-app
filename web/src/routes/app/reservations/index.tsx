@@ -2,8 +2,11 @@ import { ReservationTable } from "@/components/blocks/reservation-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import { ReservationRepository } from "@/repositories";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useReservationDelete,
+  useReservationIndex,
+} from "@/features/reservations";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -15,22 +18,18 @@ export const Route = createFileRoute("/app/reservations/")({
 function RouteComponent() {
   const queryClient = useQueryClient();
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["reservations"],
-    queryFn: async () => ReservationRepository.index(),
-    refetchOnWindowFocus: false,
-  });
+  const { data, isFetching } = useReservationIndex();
 
-  const { mutate: deleteReservation, isPending: isDeleting } = useMutation({
-    mutationFn: async (id: string) => ReservationRepository.destroy(id),
-    onSuccess: () => {
-      toast.success("Reservation deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["reservations"] });
-    },
-    onError: () => {
-      toast.error("Failed to delete reservation");
-    },
-  });
+  const { mutate: deleteReservation, isPending: isDeleting } =
+    useReservationDelete({
+      onSuccess: () => {
+        toast.success("Reservation deleted successfully");
+        queryClient.invalidateQueries({ queryKey: ["reservations"] });
+      },
+      onError: () => {
+        toast.error("Failed to delete reservation");
+      },
+    });
 
   return (
     <div className="pt-8 px-4 lg:px-12">
@@ -65,7 +64,7 @@ function RouteComponent() {
                 variant="outline"
                 size="sm"
                 loading={isDeleting}
-                onClick={() => deleteReservation(reservation.id!)}
+                onClick={() => deleteReservation({ id: reservation.id! })}
               >
                 <TrashIcon className="w-4 h-4" />
               </Button>

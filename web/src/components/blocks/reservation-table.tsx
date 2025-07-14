@@ -6,12 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type ReservationData } from "@locar/api/entities";
+import type { ReservationResource } from "@/features/reservations";
+import { CustomerTableCard } from "./customer-table-card";
+import { VehicleTableCard } from "./vehicle-table-card";
+import { DateCard } from "./date-card";
 
 export type ReservationTableProps = {
-  data: ReservationData[];
+  data: ReservationResource[];
   loading?: boolean;
-  actions?: (reservation: ReservationData) => React.ReactNode;
+  actions?: (reservation: ReservationResource) => React.ReactNode;
 };
 
 export function ReservationTable({
@@ -27,6 +30,7 @@ export function ReservationTable({
           <TableHead>Vehicle</TableHead>
           <TableHead>Checkin Date</TableHead>
           <TableHead>Checkout Date</TableHead>
+          <TableHead>Total Price</TableHead>
           {actions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
@@ -51,15 +55,39 @@ export function ReservationTable({
           data.map((reservation) => (
             <TableRow key={reservation.id}>
               <TableCell>
-                {reservation.customer?.first_name}{" "}
-                {reservation.customer?.last_name}
+                <CustomerTableCard
+                  id={reservation.customer_id}
+                  fullName={reservation.customer.full_name}
+                  identifier={reservation.customer.identifier}
+                  phone={reservation.customer.phone}
+                />
               </TableCell>
               <TableCell>
-                {reservation.vehicle?.make} {reservation.vehicle?.model}
+                <VehicleTableCard
+                  id={reservation.vehicle_id}
+                  make={reservation.vehicle.make}
+                  model={reservation.vehicle.model}
+                  year={reservation.vehicle.year}
+                  license_plate={reservation.vehicle.license_plate}
+                />
               </TableCell>
-              <TableCell>{reservation.checkin_date}</TableCell>
-              <TableCell>{reservation.checkout_date}</TableCell>
-              {actions && (             
+              <TableCell>
+                <DateCard date={reservation.check_in_date} />
+              </TableCell>
+              <TableCell>
+                <DateCard date={reservation.check_out_date} />
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium">
+                    {reservation.total_price} Dh
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    {reservation.total_days} days
+                  </span>
+                </div>
+              </TableCell>
+              {actions && (
                 <TableCell className="flex gap-2">
                   {actions(reservation)}
                 </TableCell>

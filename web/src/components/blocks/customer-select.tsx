@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
@@ -6,15 +5,12 @@ import {
   SelectValue,
   SelectItem,
 } from "../ui/select";
-import { CustomerRepository } from "@/repositories";
+import { useCustomerIndex } from "@/features/customers";
 
 export type CustomerSelectProps = React.ComponentProps<typeof Select>;
 
 export function CustomerSelect(props: CustomerSelectProps) {
-  const { data, isFetching } = useQuery({
-    queryKey: ["customers"],
-    queryFn: () => CustomerRepository.index(),
-  });
+  const { data, isFetching } = useCustomerIndex();
 
   return (
     <Select disabled={isFetching} {...props}>
@@ -22,8 +18,8 @@ export function CustomerSelect(props: CustomerSelectProps) {
         <SelectValue placeholder="Customer" />
       </SelectTrigger>
       <SelectContent>
-        {data?.map((customer) => (
-          <SelectItem key={customer.id} value={customer.id}>
+        {data?.data?.map((customer) => (
+          <SelectItem key={customer.id} value={customer.id!}>
             {customer.first_name} {customer.last_name}
           </SelectItem>
         ))}
