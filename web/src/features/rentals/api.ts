@@ -1,5 +1,5 @@
 import { http, type ApiResponse } from "@/lib/http";
-import type { RentalData, RentalSummaryData } from "./type";
+import type { RentalData, RentalShowResponse, RentalSummaryData } from "./type";
 
 export const rentalIndexFn = async () => {
   const res = await http.get<ApiResponse<RentalSummaryData[]>>("/rentals");
@@ -13,4 +13,11 @@ export const rentalCreateFn = async (data: RentalData) => {
 
 export const rentalDeleteFn = async ({ id }: { id: string }) => {
   await http.delete(`/rentals/${id}`);
+};
+
+export const rentalShowFn = async ({ number }: { number: string }) => {
+  const res = await http.get<ApiResponse<RentalShowResponse>>(
+    `/rentals/${number}`
+  );
+  return res.data;
 };

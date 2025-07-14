@@ -36,3 +36,35 @@ export type RenterData = z.infer<typeof RenterSchema>;
 export type RentalVehichleData = z.infer<typeof RentalVehichleSchema>;
 export type RentalRateData = z.infer<typeof RentalRateSchema>;
 export type RentalData = z.infer<typeof RentalSchema>;
+
+export type RentalShowResponse = {
+  id: string;
+  rental_number: string;
+  customer: {
+    id: string;
+    full_name: string;
+    phone: string;
+    identifier: string;
+    address: string;
+    driver_license_number: string;
+  };
+  departure_date: string;
+  return_date: string;
+  duration: number;
+  total_price: number;
+  vehicle: {
+    id: string;
+    make: string;
+    model: string;
+    year: number;
+    license_plate: string;
+    color: string;
+    transmission: "AT" | "MT";
+    seats: number;
+    doors: number;
+    fuel_type: "Petrol" | "Diesel" | "Electric" | "Hybrid";
+    mileage: number;
+  };
+  created_at: string;
+  updated_at: string;
+};

@@ -14,19 +14,21 @@ import { useState } from "react";
 import { VehicleSummaryCard } from "@/components/blocks/vehicle-summary-card";
 import { CustomerSummaryCard } from "@/components/blocks/customer-summary-card";
 import { PeriodSummaryCard } from "@/components/blocks/period-summary-card";
-import { RentalRepository } from "@/repositories";
+import { rentalShowFn } from "@/features/rentals";
 
 export const Route = createFileRoute("/app/rentals/$id")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const rental = await RentalRepository.show(params.id);
-    return { rental };
+    const data = await rentalShowFn({ number: params.id });
+    return { rental: data.data };
   },
 });
 
 function RouteComponent() {
   const { id: code } = Route.useParams();
   const { rental } = Route.useLoaderData();
+
+  console.log({ rental });
 
   if (!rental) {
     return <div>Rental not found</div>;
@@ -67,29 +69,29 @@ function RouteComponent() {
                 id={rental.customer.id}
                 firstName={rental.customer?.full_name?.split(" ")[0] ?? ""}
                 lastName={rental.customer?.full_name?.split(" ")[1] ?? ""}
-                id_number={rental.customer.id_number ?? ""}
-                license={rental.customer.license_number ?? ""}
+                id_number={rental.customer.identifier ?? ""}
+                license={rental.customer.driver_license_number ?? ""}
                 phone={rental.customer.phone ?? ""}
-                address={rental.customer.address1 ?? ""}
+                address={rental.customer.address ?? ""}
               />
             </div>
             <Separator orientation="vertical" />
             <div className="w-full">
               <PeriodSummaryCard
-                pickupDate={rental.period.pickup_date ?? ""}
-                dropoffDate={rental.period.return_date ?? ""}
+                pickupDate={rental.departure_date ?? ""}
+                dropoffDate={rental.return_date ?? ""}
               />
             </div>
             <Separator orientation="vertical" />
             <div className="w-full">
               <VehicleSummaryCard
                 id={rental.vehicle.id}
-                make={rental.vehicle.brand ?? ""}
+                make={rental.vehicle.make ?? ""}
                 model={rental.vehicle.model ?? ""}
                 year={rental.vehicle.year ?? 0}
-                plate={rental.vehicle.plate_number ?? ""}
+                plate={rental.vehicle.license_plate ?? ""}
                 doors={rental.vehicle.doors ?? 0}
-                transmission={rental.vehicle.transmission ?? ""}
+                transmission={rental.vehicle.transmission ?? "unknown"}
                 fuel={rental.vehicle.fuel_type ?? ""}
                 color={rental.vehicle.color ?? ""}
                 seats={rental.vehicle.seats ?? 0}
