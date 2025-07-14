@@ -7,7 +7,7 @@ import {
   I18nProvider,
   Popover,
 } from "react-aria-components";
-import { CalendarDate, parseDate } from "@internationalized/date";
+import { CalendarDateTime, parseDateTime } from "@internationalized/date";
 
 import { Calendar } from "@/components/ui/calendar-rac";
 import { DateInput as DateInputContent } from "@/components/ui/datefield-rac";
@@ -25,11 +25,12 @@ type DateInputProps =
       onChange?: (value: Date) => void;
     };
 
-export function DateInput({ value, onChange, type }: DateInputProps) {
-  const onDateChange = (value: CalendarDate | null) => {
+export function DateTimeInput({ value, onChange, type }: DateInputProps) {
+  const onDateChange = (value: CalendarDateTime | null) => {
+    value?.set({ second: 0, millisecond: 0 });
     if (type === "string") {
       const fmt = value
-        ? fmt_date(value.toDate("UTC"), { format: "date" })
+        ? fmt_date(value.toDate("UTC"), { format: "datetime" })
         : undefined;
       onChange?.(fmt ?? "");
     } else {
@@ -39,8 +40,11 @@ export function DateInput({ value, onChange, type }: DateInputProps) {
 
   const normalizedValue = (v: string | undefined) => {
     if (!v) return undefined;
-    const val = v.split("T")[0];
-    return parseDate(val);
+    const d = new Date(v);
+    d.setMilliseconds(0);
+    d.setSeconds(0);
+    const val = d.toISOString().replace("Z", "");
+    return parseDateTime(val);
   };
   return (
     <I18nProvider locale="en-UK">
@@ -51,7 +55,7 @@ export function DateInput({ value, onChange, type }: DateInputProps) {
         value={normalizedValue(
           type === "string" ? value : value?.toISOString()
         )}
-        granularity="day"
+        granularity="minute"
         hideTimeZone
         onChange={(value) => onDateChange(value)}
       >

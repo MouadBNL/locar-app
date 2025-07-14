@@ -8,10 +8,11 @@ use Spatie\LaravelData\Data;
 class RenterData extends Data
 {
     public function __construct(
-        public string $id,
-        public string $rental_id,
+        public ?string $id,
+        public ?string $rental_id,
         public ?string $customer_id,
         public string $full_name,
+        public ?string $phone,
         public ?string $email,
         public ?string $id_card_number,
         public ?CarbonImmutable $birth_date,
@@ -29,13 +30,14 @@ class RenterData extends Data
         public ?string $passport_scan_document,
     ) {}
 
-    public function rules(): array
+    public static function rules(): array
     {
         return [
-            'id' => ['required', 'uuid'],
-            'rental_id' => ['required', 'uuid', 'exists:rentals,id'],
+            'id' => ['nullable', 'uuid'],
+            'rental_id' => ['nullable', 'uuid', 'exists:rentals,id'],
             'customer_id' => ['nullable', 'uuid', 'exists:customers,id'],
             'full_name' => ['required', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
             'id_card_number' => ['nullable', 'string', 'max:255'],
             'birth_date' => ['nullable', 'date'],

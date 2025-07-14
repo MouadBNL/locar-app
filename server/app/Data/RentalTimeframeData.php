@@ -8,6 +8,8 @@ use Spatie\LaravelData\Data;
 class RentalTimeframeData extends Data
 {
     public function __construct(
+        public ?string $id,
+        public ?string $rental_id,
         public CarbonImmutable $departure_date,
         public CarbonImmutable $return_date,
         public ?CarbonImmutable $actual_departure_date = null,
@@ -18,9 +20,11 @@ class RentalTimeframeData extends Data
         public ?int $total_months = null,
     ) {}
 
-    public function rules(): array
+    public static function rules(): array
     {
         return [
+            'id' => ['nullable', 'uuid'],
+            'rental_id' => ['nullable', 'uuid', 'exists:rentals,id'],
             'departure_date' => ['required', 'date'],
             'return_date' => ['required', 'date', 'after:departure_date'],
             'actual_departure_date' => ['nullable', 'date', 'before:return_date'],

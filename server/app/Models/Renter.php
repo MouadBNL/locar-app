@@ -39,11 +39,11 @@ class Renter extends Model
         'customer_id',
         'full_name',
         'email',
+        'phone',
 
         // Identification information
         'id_card_number',
         'birth_date',
-        'address_primary',
         'address_primary',
         'id_card_scan_document',
 

@@ -7,8 +7,8 @@ use Spatie\LaravelData\Data;
 class RentalRateData extends Data
 {
     public function __construct(
-        public string $id,
-        public string $rental_id,
+        public ?string $id,
+        public ?string $rental_id,
         public ?float $day_quantity,
         public ?float $day_rate,
         public ?float $day_total,
@@ -27,11 +27,11 @@ class RentalRateData extends Data
         public ?float $total,
     ) {}
 
-    public function rules(): array
+    public static function rules(): array
     {
         return [
-            'id' => ['required', 'uuid'],
-            'rental_id' => ['required', 'uuid', 'exists:rentals,id'],
+            'id' => ['nullable', 'uuid'],
+            'rental_id' => ['nullable', 'uuid', 'exists:rentals,id'],
             'day_quantity' => ['nullable', 'numeric', 'min:0'],
             'day_rate' => ['nullable', 'numeric', 'min:0'],
             'day_total' => ['nullable', 'numeric', 'min:0'],

@@ -22,7 +22,6 @@ return new class extends Migration
             // Identification information
             $table->string('id_card_number')->nullable();
             $table->date('birth_date')->nullable();
-            $table->string('address_primary');
             $table->string('profession')->nullable();
             $table->string('address_primary');
             $table->string('address_secondary')->nullable();

@@ -9,19 +9,23 @@ import { Button } from "@/components/ui/button";
 import { AppFormField, Form } from "@/components/ui/form";
 import { Card, CardContent } from "@/components/ui/card";
 import { DateInput } from "@/components/ui/dateinput";
+import { DateTimeInput } from "@/components/ui/datetime-input";
+import { useState } from "react";
 
 export const Route = createFileRoute("/demo/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const [date, setDate] = useState<Date | undefined>();
   return (
     <div className="flex items-center justify-center gap-3 h-screen">
       <div className="grid grid-cols-1 gap-8">
         <Card>
           <CardContent>
-            <DatePickerForm />
+            <DateTimeInput value={date} onChange={setDate} type="date" />
           </CardContent>
+          <pre>{JSON.stringify({ date, type: typeof date }, null, 2)}</pre>
         </Card>
       </div>
     </div>

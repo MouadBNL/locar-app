@@ -14,7 +14,7 @@ class RentalVehicleData extends Data
         public string   $license_plate,
     ) {}
 
-    public function rules(): array
+    public static function rules(): array
     {
         return [
             'vehicle_id' => ['nullable', 'uuid', 'exists:vehicles,id'],

@@ -2,11 +2,9 @@ import RentalInitializationForm from "@/components/blocks/rental-initialization-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import type { RentalInitializationData } from "@locar/api/entities";
-import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { RentalRepository } from "@/repositories/rental";
 import { toast } from "sonner";
+import { useRentalCreate } from "@/features/rentals";
 
 export const Route = createFileRoute("/app/rentals/initialize")({
   component: RouteComponent,
@@ -15,10 +13,7 @@ export const Route = createFileRoute("/app/rentals/initialize")({
 function RouteComponent() {
   const navigate = useNavigate();
 
-  const { mutate: createRental, isPending } = useMutation({
-    mutationFn: (data: RentalInitializationData) => {
-      return RentalRepository.initialize(data);
-    },
+  const { mutate: createRental, isPending } = useRentalCreate({
     onSuccess: (data) => {
       toast.success("Rental created successfully");
       console.log(data);

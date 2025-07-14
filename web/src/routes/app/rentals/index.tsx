@@ -2,8 +2,8 @@ import { RentalTable } from "@/components/blocks/rental-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
-import { RentalRepository } from "@/repositories";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRentalDelete, useRentalIndex } from "@/features/rentals/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EyeIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -15,14 +15,9 @@ export const Route = createFileRoute("/app/rentals/")({
 function RouteComponent() {
   const queryClient = useQueryClient();
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["rentals"],
-    queryFn: async () => RentalRepository.index(),
-    refetchOnWindowFocus: false,
-  });
+  const { data, isFetching } = useRentalIndex();
 
-  const { mutate: deleteRental, isPending: isDeleting } = useMutation({
-    mutationFn: async (id: string) => RentalRepository.destroy(id),
+  const { mutate: deleteRental, isPending: isDeleting } = useRentalDelete({
     onSuccess: () => {
       toast.success("Rental deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["rentals"] });
@@ -55,7 +50,7 @@ function RouteComponent() {
                 <Link
                   from="/"
                   to="/app/rentals/$id"
-                  params={{ id: rental.code }}
+                  params={{ id: rental.rental_number }}
                 >
                   <EyeIcon className="w-4 h-4" />
                 </Link>
@@ -65,7 +60,7 @@ function RouteComponent() {
                 variant="outline"
                 size="sm"
                 loading={isDeleting}
-                onClick={() => deleteRental(rental.id!)}
+                onClick={() => deleteRental({ id: rental.id })}
               >
                 <TrashIcon className="w-4 h-4" />
               </Button>
