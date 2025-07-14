@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
+use App\Http\Controllers\Api\V1\ReservationController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\RentalController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ Route::prefix('/auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('vehicles', VehicleController::class);
     Route::apiResource('customers', CustomerController::class);
+    Route::apiResource('reservations', ReservationController::class);
 
     Route::post('rentals', RentalInitializationController::class);
     Route::get('rentals', [RentalController::class, 'index']);
