@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
+use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
 use App\Http\Controllers\Api\V1\ReservationController;
 use App\Http\Controllers\Api\V1\VehicleController;
@@ -23,4 +24,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('rentals', RentalInitializationController::class);
     Route::get('rentals', [RentalController::class, 'index']);
     Route::get('rentals/{rental:rental_number}', [RentalController::class, 'show']);
+
+
+    /**
+     * Documents
+     */
+    Route::post('documents', [DocumentController::class, 'store']);
+    Route::get('documents/{document}', [DocumentController::class, 'show']);
 });
