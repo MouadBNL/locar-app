@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\DocumentController;
+use App\Http\Controllers\Api\V1\RentalDocumentController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
 use App\Http\Controllers\Api\V1\ReservationController;
 use App\Http\Controllers\Api\V1\VehicleController;
@@ -21,9 +22,22 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('reservations', ReservationController::class);
 
+
+    /**
+     * Rentals
+     */
     Route::post('rentals', RentalInitializationController::class);
     Route::get('rentals', [RentalController::class, 'index']);
     Route::get('rentals/{rental:rental_number}', [RentalController::class, 'show']);
+
+    /**
+     * Rental Documents
+     */
+    Route::get('rentals/{rental:rental_number}/documents', [RentalDocumentController::class, 'index']);
+    Route::post('rentals/{rental:rental_number}/documents', [RentalDocumentController::class, 'store']);
+    Route::get('rentals/{rental:rental_number}/documents/{document}', [RentalDocumentController::class, 'show']);
+    Route::put('rentals/{rental:rental_number}/documents/{document}', [RentalDocumentController::class, 'update']);
+    Route::delete('rentals/{rental:rental_number}/documents/{document}', [RentalDocumentController::class, 'destroy']);
 
 
     /**

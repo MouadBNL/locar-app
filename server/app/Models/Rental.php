@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Traits\HasUuidAsPrimary;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
 
 /**
  * @property-read string $id
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read RentalVehicle $vehicle
  * @property-read Renter $renter
  * @property-read RentalRate $rate
+ * @property-read Collection<array-key, RentalDocument> $documents
  */
 class Rental extends Model
 {
@@ -42,5 +45,10 @@ class Rental extends Model
     public function renter(): HasOne
     {
         return $this->hasOne(Renter::class, 'rental_id', 'id');
+    }
+
+    public function documents(): HasMany
+    {
+        return $this->hasMany(RentalDocument::class, 'rental_id', 'id');
     }
 }

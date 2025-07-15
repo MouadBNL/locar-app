@@ -3,7 +3,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Heading3 } from "@/components/ui/typography";
 import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
-import { DownloadIcon, PlayIcon } from "lucide-react";
+import {
+  DownloadIcon,
+  FileStackIcon,
+  LayoutPanelLeft,
+  PlayIcon,
+  ReceiptTextIcon,
+} from "lucide-react";
 
 import { BoxIcon, HouseIcon, PanelsTopLeftIcon } from "lucide-react";
 
@@ -139,7 +145,7 @@ export default function DetailsSection() {
               value="summary"
               className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
             >
-              <HouseIcon
+              <LayoutPanelLeft
                 className="-ms-0.5 me-1.5 opacity-60"
                 size={16}
                 aria-hidden="true"
@@ -150,7 +156,7 @@ export default function DetailsSection() {
               value="documents"
               className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
             >
-              <PanelsTopLeftIcon
+              <FileStackIcon
                 className="-ms-0.5 me-1.5 opacity-60"
                 size={16}
                 aria-hidden="true"
@@ -161,7 +167,7 @@ export default function DetailsSection() {
               value="payments"
               className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
             >
-              <BoxIcon
+              <ReceiptTextIcon
                 className="-ms-0.5 me-1.5 opacity-60"
                 size={16}
                 aria-hidden="true"
@@ -173,7 +179,7 @@ export default function DetailsSection() {
         </ScrollArea>
       </Tabs>
 
-      <div className="border rounded-md p-4">
+      <div>
         <Outlet />
       </div>
     </div>
