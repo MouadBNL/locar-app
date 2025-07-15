@@ -15,7 +15,6 @@ Route::prefix('/auth')->group(function () {
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 });
 
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('vehicles', VehicleController::class);
     Route::apiResource('customers', CustomerController::class);

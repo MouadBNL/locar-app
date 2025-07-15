@@ -7,11 +7,11 @@ use Spatie\LaravelData\Data;
 class RentalVehicleData extends Data
 {
     public function __construct(
-        public ?string  $vehicle_id,
-        public string   $make,
-        public string   $model,
-        public int      $year,
-        public string   $license_plate,
+        public ?string $vehicle_id,
+        public string $make,
+        public string $model,
+        public int $year,
+        public string $license_plate,
     ) {}
 
     public static function rules(): array

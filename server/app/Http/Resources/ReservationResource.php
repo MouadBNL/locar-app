@@ -6,7 +6,6 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-
 /**
  * @mixin Reservation
  */

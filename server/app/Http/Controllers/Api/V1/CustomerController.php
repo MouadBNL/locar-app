@@ -12,6 +12,7 @@ class CustomerController extends ApiController
     public function index()
     {
         $customers = Customer::all();
+
         return $this->success(CustomerResource::collection($customers), 'customer.index.success');
     }
 
@@ -23,18 +24,21 @@ class CustomerController extends ApiController
     public function store(CustomerCreateRequest $request)
     {
         $customer = Customer::create($request->validated());
+
         return $this->success(new CustomerResource($customer), 'customer.create.success');
     }
 
     public function update(CustomerUpdateRequest $request, Customer $customer)
     {
         $customer->update($request->validated());
+
         return $this->success(new CustomerResource($customer), 'customer.update.success');
     }
 
     public function destroy(Customer $customer)
     {
         $customer->delete();
+
         return $this->success(null, 'customer.delete.success');
     }
 }

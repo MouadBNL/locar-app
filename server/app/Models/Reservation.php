@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read ?string $notes
  * @property-read CarbonImmutable $created_at
  * @property-read CarbonImmutable $updated_at
- * 
  * @property-read Customer $customer
  * @property-read Vehicle $vehicle
  */
@@ -37,7 +36,6 @@ class Reservation extends Model
         'total_price',
         'notes',
     ];
-
 
     public function customer(): BelongsTo
     {

@@ -12,18 +12,18 @@ class RentalController extends ApiController
     {
         $rentals = Rental::with(['rate', 'timeframe', 'renter', 'vehicle'])->get();
 
-        return  $this->success(RentalSummaryResource::collection($rentals));
+        return $this->success(RentalSummaryResource::collection($rentals));
     }
 
     public function show(Rental $rental)
     {
         $rental->load(['rate', 'timeframe', 'renter', 'vehicle.vehicle']);
 
-        return  $this->success([
+        return $this->success([
             'id' => $rental->id,
             'rental_number' => $rental->rental_number,
             'customer' => [
-                'id' => $rental->renter->customer_id ?? "",
+                'id' => $rental->renter->customer_id ?? '',
                 'full_name' => $rental->renter->full_name,
                 'phone' => $rental->renter->phone,
                 'identifier' => $rental->renter->id_card_number ?? $rental->renter->passport_number ?? $rental->renter->driver_license_number,
