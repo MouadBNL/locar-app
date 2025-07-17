@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read string $id
  * @property-read string $rental_id
  * @property-read string $document_id
+ * @property-read string $title
  * @property-read string $type
  * @property-read string $description
  * @property-read CarbonImmutable $created_at
@@ -25,6 +26,7 @@ class RentalDocument extends Model
     protected $fillable = [
         'rental_id',
         'document_id',
+        'title',
         'type',
         'description',
     ];

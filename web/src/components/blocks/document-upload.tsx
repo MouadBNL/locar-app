@@ -11,6 +11,7 @@ type DocumentUploadProps = {
   for?: string;
   value?: string | null;
   onChange?: (value: string | null) => void;
+  onDocumentSelected?: (document: DocumentResource) => void;
 };
 
 export function DocumentUpload(props: DocumentUploadProps) {
@@ -29,6 +30,7 @@ export function DocumentUpload(props: DocumentUploadProps) {
       onSuccess: (data) => {
         toast.success("Document uploaded successfully");
         props.onChange?.(data.data.id);
+        props.onDocumentSelected?.(data.data);
       },
       onError: (error) => {
         console.error("Failed to upload document: ", error);

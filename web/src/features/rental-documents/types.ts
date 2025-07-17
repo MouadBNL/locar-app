@@ -6,6 +6,7 @@ export type RentalDocumentData = z.infer<typeof rentalDocumentSchema>;
 
 export type RentalDocumentResource = {
   id: string;
+  title: string;
   type: (typeof rentalDocumentTypeSchema)[number];
   description: string;
   rental_id: string;

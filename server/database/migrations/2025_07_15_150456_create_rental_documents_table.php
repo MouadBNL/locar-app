@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('rental_id')->constrained('rentals', 'id');
             $table->foreignUuid('document_id')->constrained('documents', 'id');
+            $table->string('title');
             $table->string('type');
             $table->string('description')->nullable();
             $table->timestamps();

@@ -17,6 +17,8 @@ import {
 import { DocumentUpload } from "./document-upload";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import type { DocumentResource } from "@/features/documents";
 
 export type RentalDocumentFormProps = {
   initialValues?: Partial<RentalDocumentData>;
@@ -36,6 +38,12 @@ export const RentalDocumentForm = ({
       ...initialValues,
     },
   });
+
+  const onDocumentSelected = (document: DocumentResource) => {
+    if (!form.getValues("title")) {
+      form.setValue("title", document.filename);
+    }
+  };
 
   const onSubmit = (data: RentalDocumentData) => {
     submit?.(data);
@@ -68,7 +76,18 @@ export const RentalDocumentForm = ({
             control={form.control}
             name="document_id"
             label="Document"
-            render={({ field }) => <DocumentUpload {...field} />}
+            render={({ field }) => (
+              <DocumentUpload
+                {...field}
+                onDocumentSelected={onDocumentSelected}
+              />
+            )}
+          />
+          <AppFormField
+            control={form.control}
+            name="title"
+            label="Title"
+            render={({ field }) => <Input placeholder="Title" {...field} />}
           />
           <AppFormField
             control={form.control}

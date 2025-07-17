@@ -6,6 +6,7 @@ use App\Models\RentalDocument;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
+ * @property-read string $title
  * @property-read string $type
  * @property-read string $document_id
  * @property-read string $description
@@ -28,6 +29,7 @@ class RentalDocumentCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => 'string|required|min:3|max:255',
             'type' => 'string|required|min:3|max:255',
             'document_id' => 'uuid|required|exists:documents,id',
             'description' => 'string|nullable|min:3|max:255',

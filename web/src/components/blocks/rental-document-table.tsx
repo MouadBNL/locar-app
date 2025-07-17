@@ -24,7 +24,8 @@ export const RentalDocumentTable = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Document</TableHead>
+            <TableHead>Title</TableHead>
+            <TableHead>Filename</TableHead>
             <TableHead>Type</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Actions</TableHead>
@@ -33,6 +34,7 @@ export const RentalDocumentTable = ({
         <TableBody>
           {rentalDocuments.map((rentalDocument) => (
             <TableRow key={rentalDocument.id}>
+              <TableCell>{rentalDocument.title}</TableCell>
               <TableCell>{rentalDocument.document.filename}</TableCell>
               <TableCell>
                 {rentalDocumentTypeMap[rentalDocument.type] ?? "Unknown"}

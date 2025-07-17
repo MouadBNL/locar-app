@@ -20,6 +20,7 @@ class RentalDocumentResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'title' => $this->title,
             'type' => $this->type,
             'description' => $this->description,
             'rental_id' => $this->rental_id,

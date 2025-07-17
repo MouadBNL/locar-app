@@ -20,6 +20,7 @@ class RentalDocumentController extends ApiController
     {
         $document = $rental->documents()->create([
             'document_id' => $request->document_id,
+            'title' => $request->title,
             'type' => $request->type,
             'description' => $request->description,
         ]);
@@ -36,6 +37,7 @@ class RentalDocumentController extends ApiController
 
         $document->update([
             'document_id' => $request->document_id,
+            'title' => $request->title,
             'type' => $request->type,
             'description' => $request->description,
         ]);

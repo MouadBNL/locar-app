@@ -16,6 +16,7 @@ export const rentalDocumentTypeMap: Record<
 };
 
 export const rentalDocumentSchema = z.object({
+  title: z.string().min(3).max(255),
   document_id: z.string().uuid(),
   type: z.enum(rentalDocumentTypeSchema),
   description: z.string().optional(),
