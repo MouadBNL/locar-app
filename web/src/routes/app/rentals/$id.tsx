@@ -11,8 +11,6 @@ import {
   ReceiptTextIcon,
 } from "lucide-react";
 
-import { BoxIcon, HouseIcon, PanelsTopLeftIcon } from "lucide-react";
-
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -72,26 +70,26 @@ function RouteComponent() {
           <div className="flex space-x-4 h-26 items-center">
             <div className="w-full">
               <CustomerSummaryCard
-                id={rental.customer.id}
-                firstName={rental.customer?.full_name?.split(" ")[0] ?? ""}
-                lastName={rental.customer?.full_name?.split(" ")[1] ?? ""}
-                id_number={rental.customer.identifier ?? ""}
-                license={rental.customer.driver_license_number ?? ""}
-                phone={rental.customer.phone ?? ""}
-                address={rental.customer.address ?? ""}
+                id={rental.renter.customer_id ?? ""}
+                firstName={rental.renter?.full_name?.split(" ")[0] ?? ""}
+                lastName={rental.renter?.full_name?.split(" ")[1] ?? ""}
+                id_number={rental.renter.identifier ?? ""}
+                license={rental.renter.driver_license_number ?? ""}
+                phone={rental.renter.phone ?? ""}
+                address={rental.renter.address_primary ?? ""}
               />
             </div>
             <Separator orientation="vertical" />
             <div className="w-full">
               <PeriodSummaryCard
-                pickupDate={rental.departure_date ?? ""}
-                dropoffDate={rental.return_date ?? ""}
+                pickupDate={rental.timeframe.departure_date ?? ""}
+                dropoffDate={rental.timeframe.return_date ?? ""}
               />
             </div>
             <Separator orientation="vertical" />
             <div className="w-full">
               <VehicleSummaryCard
-                id={rental.vehicle.id}
+                id={rental.vehicle.vehicle_id ?? ""}
                 make={rental.vehicle.make ?? ""}
                 model={rental.vehicle.model ?? ""}
                 year={rental.vehicle.year ?? 0}

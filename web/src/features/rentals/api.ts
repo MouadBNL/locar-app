@@ -16,8 +16,6 @@ export const rentalDeleteFn = async ({ id }: { id: string }) => {
 };
 
 export const rentalShowFn = async ({ number }: { number: string }) => {
-  const res = await http.get<ApiResponse<RentalShowResponse>>(
-    `/rentals/${number}`
-  );
+  const res = await http.get<ApiResponse<RentalData>>(`/rentals/${number}`);
   return res.data;
 };

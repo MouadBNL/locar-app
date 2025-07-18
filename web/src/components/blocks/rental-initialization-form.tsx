@@ -96,8 +96,8 @@ export default function RentalInitializationForm({
         </Button>
       </form>
 
-      <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
-      <pre>{JSON.stringify(form.getValues(), null, 2)}</pre>
+      {/* <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
+      <pre>{JSON.stringify(form.getValues(), null, 2)}</pre> */}
     </Form>
   );
 }

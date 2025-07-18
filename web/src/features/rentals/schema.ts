@@ -35,6 +35,7 @@ export const RenterSchema = z.object({
   passport_issuing_date: z.string().datetime().nullish(),
   passport_expiration_date: z.string().datetime().nullish(),
   passport_scan_document: z.string().max(255).nullish(),
+  identifier: z.string().max(255).nullish(),
 });
 
 export const RentalVehichleSchema = z.object({
@@ -43,6 +44,13 @@ export const RentalVehichleSchema = z.object({
   model: z.string(),
   year: z.number().int().min(1900).max(3000),
   license_plate: z.string().max(255),
+  // Meta
+  color: z.string().max(255).nullish(),
+  transmission: z.string().max(255).nullish(),
+  seats: z.number().int().min(0).nullish(),
+  doors: z.number().int().min(0).nullish(),
+  fuel_type: z.string().max(255).nullish(),
+  mileage: z.number().int().min(0).nullish(),
 });
 
 export const RentalRateSchema = z.object({
