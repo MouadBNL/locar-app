@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasUuidAsPrimary;
-use Carbon\CarbonImmutable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,14 +11,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read string $id
  * @property-read string $customer_id
  * @property-read string $vehicle_id
- * @property-read CarbonImmutable $check_in_date
- * @property-read CarbonImmutable $check_out_date
+ * @property-read Carbon $check_in_date
+ * @property-read Carbon $check_out_date
  * @property-read float $daily_rate
  * @property-read int $total_days
  * @property-read float $total_price
  * @property-read ?string $notes
- * @property-read CarbonImmutable $created_at
- * @property-read CarbonImmutable $updated_at
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
  * @property-read Customer $customer
  * @property-read Vehicle $vehicle
  */

@@ -2,7 +2,7 @@
 
 namespace App\Data;
 
-use Carbon\CarbonImmutable;
+use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 
 class RentalTimeframeData extends Data
@@ -10,10 +10,10 @@ class RentalTimeframeData extends Data
     public function __construct(
         public ?string $id,
         public ?string $rental_id,
-        public CarbonImmutable $departure_date,
-        public CarbonImmutable $return_date,
-        public ?CarbonImmutable $actual_departure_date = null,
-        public ?CarbonImmutable $actual_return_date = null,
+        public Carbon $departure_date,
+        public Carbon $return_date,
+        public ?Carbon $actual_departure_date = null,
+        public ?Carbon $actual_return_date = null,
         public ?int $total_hours = null,
         public ?int $total_days = null,
         public ?int $total_weeks = null,

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasUuidAsPrimary;
-use Carbon\CarbonImmutable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read string $title
  * @property-read string $type
  * @property-read string $description
- * @property-read CarbonImmutable $created_at
- * @property-read CarbonImmutable $updated_at
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
  * @property-read Rental $rental
  * @property-read Document $document
  */
