@@ -22,6 +22,10 @@ class Customer extends Model
 {
     use HasUuidAsPrimary;
 
+    protected $casts = [
+        'birth_date' => 'datetime',
+    ];
+
     protected $fillable = [
         'first_name',
         'last_name',
@@ -32,9 +36,5 @@ class Customer extends Model
         'driver_license_number',
         'passport_number',
         'birth_date',
-    ];
-
-    protected $casts = [
-        'birth_date' => 'date',
     ];
 }

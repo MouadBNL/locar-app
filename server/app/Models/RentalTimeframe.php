@@ -24,10 +24,10 @@ class RentalTimeframe extends Model
     use HasUuidAsPrimary;
 
     protected $casts = [
-        'departure_date' => 'date',
-        'return_date' => 'date',
-        'actual_departure_date' => 'date',
-        'actual_return_date' => 'date',
+        'departure_date' => 'datetime',
+        'return_date' => 'datetime',
+        'actual_departure_date' => 'datetime',
+        'actual_return_date' => 'datetime',
     ];
 
     protected $fillable = [

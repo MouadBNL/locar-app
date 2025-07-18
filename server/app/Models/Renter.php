@@ -35,11 +35,11 @@ class Renter extends Model
     use HasUuidAsPrimary;
 
     protected $casts = [
-        'birth_date' => 'date',
-        'driver_license_issuing_date' => 'date',
-        'driver_license_expiration_date' => 'date',
-        'passport_issuing_date' => 'date',
-        'passport_expiration_date' => 'date',
+        'birth_date' => 'datetime',
+        'driver_license_issuing_date' => 'datetime',
+        'driver_license_expiration_date' => 'datetime',
+        'passport_issuing_date' => 'datetime',
+        'passport_expiration_date' => 'datetime',
     ];
 
     protected $fillable = [
