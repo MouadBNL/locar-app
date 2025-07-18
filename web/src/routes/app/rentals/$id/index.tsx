@@ -22,11 +22,17 @@ import {
   type RentalTimeframeData,
   type RentalVehichleData,
   type RenterData,
+  useRentalVehicleUpdate,
+  useRentalTimeframeUpdate,
+  useRentalRateUpdate,
+  useRentalRenterUpdate,
+  useRentalNotesUpdate,
 } from "@/features/rentals";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 export const Route = createFileRoute("/app/rentals/$id/")({
@@ -39,15 +45,44 @@ export const Route = createFileRoute("/app/rentals/$id/")({
 
 function RouteComponent() {
   const { rental } = Route.useLoaderData();
+  const { id } = Route.useParams();
+  const router = useRouter();
+
+  function handleUpdate() {
+    router.invalidate({
+      filter: (match) => match.id === id,
+    });
+  }
 
   return (
     <div className="grid grid-cols-3 gap-4">
       <div className="col-span-2 grid grid-cols-1 gap-8">
-        <RentalVehicleFormSection vehicle={rental.vehicle} />
-        <RentalPeriodFormSection period={rental.timeframe} />
-        <RentalRenterFormSection renter={rental.renter} />
-        <RentalRateFormSection rate={rental.rate} period={rental.timeframe} />
-        <RentalNotesFormSection notes={rental.notes ?? undefined} />
+        <RentalVehicleFormSection
+          code={id}
+          vehicle={rental.vehicle}
+          onUpdate={handleUpdate}
+        />
+        <RentalPeriodFormSection
+          code={id}
+          period={rental.timeframe}
+          onUpdate={handleUpdate}
+        />
+        <RentalRenterFormSection
+          code={id}
+          renter={rental.renter}
+          onUpdate={handleUpdate}
+        />
+        <RentalRateFormSection
+          code={id}
+          rate={rental.rate}
+          period={rental.timeframe}
+          onUpdate={handleUpdate}
+        />
+        <RentalNotesFormSection
+          code={id}
+          notes={rental.notes ?? undefined}
+          onUpdate={handleUpdate}
+        />
       </div>
       <div className="col-span-1"></div>
     </div>
@@ -63,8 +98,12 @@ function RouteComponent() {
  */
 function RentalVehicleFormSection({
   vehicle,
+  onUpdate,
+  code,
 }: {
   vehicle?: Partial<RentalVehichleData>;
+  onUpdate: () => void;
+  code: string;
 }) {
   const form = useForm<RentalVehichleData>({
     resolver: zodResolver(RentalVehichleSchema),
@@ -73,8 +112,18 @@ function RentalVehicleFormSection({
     },
   });
 
+  const { mutate: updateVehicle, isPending } = useRentalVehicleUpdate({
+    onSuccess: () => {
+      toast.success("Vehicle updated");
+      onUpdate();
+    },
+    onError: () => {
+      toast.error("Failed to update vehicle");
+    },
+  });
+
   const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
+    updateVehicle({ id: code, data });
   });
 
   return (
@@ -97,7 +146,7 @@ function RentalVehicleFormSection({
                   )}
                 />
               </div> */}
-              <Button type="submit" size="sm">
+              <Button type="submit" size="sm" loading={isPending}>
                 Update
               </Button>
             </CardAction>
@@ -169,8 +218,12 @@ function RentalVehicleFormSection({
  */
 function RentalPeriodFormSection({
   period,
+  onUpdate,
+  code,
 }: {
   period?: Partial<RentalTimeframeData>;
+  onUpdate: () => void;
+  code: string;
 }) {
   const form = useForm<RentalTimeframeData>({
     resolver: zodResolver(RentalTimeframeSchema),
@@ -179,8 +232,18 @@ function RentalPeriodFormSection({
     },
   });
 
+  const { mutate: updatePeriod, isPending } = useRentalTimeframeUpdate({
+    onSuccess: () => {
+      toast.success("Period updated");
+      onUpdate();
+    },
+    onError: () => {
+      toast.error("Failed to update period");
+    },
+  });
+
   const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
+    updatePeriod({ id: code, data });
   });
 
   return (
@@ -190,7 +253,7 @@ function RentalPeriodFormSection({
           <CardHeader>
             <CardTitle>Rental Period</CardTitle>
             <CardAction>
-              <Button type="submit" size="sm">
+              <Button type="submit" size="sm" loading={isPending}>
                 Update
               </Button>
             </CardAction>
@@ -242,9 +305,13 @@ function RentalPeriodFormSection({
 function RentalRateFormSection({
   rate,
   period,
+  onUpdate,
+  code,
 }: {
   rate?: Partial<RentalRateData>;
   period?: RentalTimeframeData;
+  onUpdate: () => void;
+  code: string;
 }) {
   const form = useForm<RentalRateData>({
     resolver: zodResolver(RentalRateSchema),
@@ -253,6 +320,17 @@ function RentalRateFormSection({
       ...rate,
     },
   });
+
+  const { mutate: updateRate, isPending } = useRentalRateUpdate({
+    onSuccess: () => {
+      toast.success("Rate updated");
+      onUpdate();
+    },
+    onError: () => {
+      toast.error("Failed to update rate");
+    },
+  });
+
   const departure_date = period?.departure_date;
   const return_date = period?.return_date;
   const daily_rate = form.watch("day_rate");
@@ -292,7 +370,7 @@ function RentalRateFormSection({
   }, [extra_rate, extra_quantity, daily_rate, departure_date, return_date]);
 
   const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
+    updateRate({ id: code, data });
   });
 
   return (
@@ -302,7 +380,7 @@ function RentalRateFormSection({
           <CardHeader>
             <CardTitle>Rental Rate</CardTitle>
             <CardAction>
-              <Button type="submit" size="sm">
+              <Button type="submit" size="sm" loading={isPending}>
                 Update
               </Button>
             </CardAction>
@@ -396,7 +474,15 @@ function RentalRateFormSection({
  *
  * -------------------------------------------
  */
-function RentalRenterFormSection({ renter }: { renter?: Partial<RenterData> }) {
+function RentalRenterFormSection({
+  renter,
+  onUpdate,
+  code,
+}: {
+  renter?: Partial<RenterData>;
+  onUpdate: () => void;
+  code: string;
+}) {
   const form = useForm<RenterData>({
     resolver: zodResolver(RenterSchema),
     defaultValues: {
@@ -404,8 +490,17 @@ function RentalRenterFormSection({ renter }: { renter?: Partial<RenterData> }) {
     },
   });
 
+  const { mutate: updateRenter, isPending } = useRentalRenterUpdate({
+    onSuccess: () => {
+      toast.success("Renter updated");
+      onUpdate();
+    },
+    onError: () => {
+      toast.error("Failed to update renter");
+    },
+  });
   const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
+    updateRenter({ id: code, data });
   });
 
   return (
@@ -415,7 +510,7 @@ function RentalRenterFormSection({ renter }: { renter?: Partial<RenterData> }) {
           <CardHeader>
             <CardTitle>Renter</CardTitle>
             <CardAction>
-              <Button type="submit" size="sm">
+              <Button type="submit" size="sm" loading={isPending}>
                 Update
               </Button>
             </CardAction>
@@ -574,7 +669,15 @@ function RentalRenterFormSection({ renter }: { renter?: Partial<RenterData> }) {
  *
  * -------------------------------------------
  */
-function RentalNotesFormSection({ notes }: { notes?: string }) {
+function RentalNotesFormSection({
+  notes,
+  onUpdate,
+  code,
+}: {
+  notes?: string;
+  onUpdate: () => void;
+  code: string;
+}) {
   const form = useForm<{ notes: string }>({
     resolver: zodResolver(z.object({ notes: z.string() })),
     defaultValues: {
@@ -582,8 +685,18 @@ function RentalNotesFormSection({ notes }: { notes?: string }) {
     },
   });
 
+  const { mutate: updateNotes, isPending } = useRentalNotesUpdate({
+    onSuccess: () => {
+      toast.success("Notes updated");
+      onUpdate();
+    },
+    onError: () => {
+      toast.error("Failed to update notes");
+    },
+  });
+
   const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
+    updateNotes({ id: code, data });
   });
 
   return (
@@ -593,7 +706,7 @@ function RentalNotesFormSection({ notes }: { notes?: string }) {
           <CardHeader>
             <CardTitle>Notes</CardTitle>
             <CardAction>
-              <Button type="submit" size="sm">
+              <Button type="submit" size="sm" loading={isPending}>
                 Update
               </Button>
             </CardAction>

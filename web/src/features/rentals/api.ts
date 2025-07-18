@@ -1,5 +1,12 @@
 import { http, type ApiResponse } from "@/lib/http";
-import type { RentalData, RentalShowResponse, RentalSummaryData } from "./type";
+import type {
+  RentalData,
+  RentalRateData,
+  RentalSummaryData,
+  RentalTimeframeData,
+  RentalVehichleData,
+  RenterData,
+} from "./type";
 
 export const rentalIndexFn = async () => {
   const res = await http.get<ApiResponse<RentalSummaryData[]>>("/rentals");
@@ -17,5 +24,79 @@ export const rentalDeleteFn = async ({ id }: { id: string }) => {
 
 export const rentalShowFn = async ({ number }: { number: string }) => {
   const res = await http.get<ApiResponse<RentalData>>(`/rentals/${number}`);
+  return res.data;
+};
+
+/**
+ * Details Update
+ */
+
+export const rentalVehicleUpdateFn = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: RentalVehichleData;
+}) => {
+  const res = await http.put<ApiResponse<RentalData>>(
+    `/rentals/${id}/vehicle`,
+    data
+  );
+  return res.data;
+};
+
+export const rentalRenterUpdateFn = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: RenterData;
+}) => {
+  const res = await http.put<ApiResponse<RentalData>>(
+    `/rentals/${id}/renter`,
+    data
+  );
+  return res.data;
+};
+
+export const rentalTimeframeUpdateFn = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: RentalTimeframeData;
+}) => {
+  const res = await http.put<ApiResponse<RentalData>>(
+    `/rentals/${id}/timeframe`,
+    data
+  );
+  return res.data;
+};
+
+export const rentalRateUpdateFn = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: RentalRateData;
+}) => {
+  const res = await http.put<ApiResponse<RentalData>>(
+    `/rentals/${id}/rate`,
+    data
+  );
+  return res.data;
+};
+
+export const rentalNotesUpdateFn = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: { notes: string };
+}) => {
+  const res = await http.put<ApiResponse<RentalData>>(
+    `/rentals/${id}/notes`,
+    data
+  );
   return res.data;
 };

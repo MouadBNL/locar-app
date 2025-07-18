@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\DocumentController;
+use App\Http\Controllers\Api\V1\RentalDetailsUpdateController;
 use App\Http\Controllers\Api\V1\RentalDocumentController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
 use App\Http\Controllers\Api\V1\ReservationController;
@@ -29,6 +30,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('rentals', RentalInitializationController::class);
     Route::get('rentals', [RentalController::class, 'index']);
     Route::get('rentals/{rental:rental_number}', [RentalController::class, 'show']);
+
+    Route::put('rentals/{rental:rental_number}/vehicle', [RentalDetailsUpdateController::class, 'vehicle']);
+    Route::put('rentals/{rental:rental_number}/renter', [RentalDetailsUpdateController::class, 'renter']);
+    Route::put('rentals/{rental:rental_number}/timeframe', [RentalDetailsUpdateController::class, 'timeframe']);
+    Route::put('rentals/{rental:rental_number}/rate', [RentalDetailsUpdateController::class, 'rate']);
+    Route::put('rentals/{rental:rental_number}/notes', [RentalDetailsUpdateController::class, 'notes']);
+
 
     /**
      * Rental Documents
