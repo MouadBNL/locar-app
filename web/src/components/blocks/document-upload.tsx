@@ -83,6 +83,7 @@ export function DocumentUpload(props: DocumentUploadProps) {
         disabled={isPending}
         loading={isPending}
         error={documentError}
+        url={document?.data?.url}
       />
     </div>
   );

@@ -306,7 +306,6 @@ function RentalReturnAction({
 }
 
 function RentalAgreementAction({ code }: { code: string }) {
-  const router = useRouter();
   const { mutate: generateAgreement, isPending: isGeneratingAgreement } =
     useRentalAgreementGenerate({
       onSuccess: (data) => {
@@ -315,12 +314,6 @@ function RentalAgreementAction({ code }: { code: string }) {
         if (data.data.url) {
           window.open(data.data.url, "_blank");
         }
-        router.navigate({
-          to: "/app/rentals/$id/documents",
-          params: {
-            id: code,
-          },
-        });
       },
       onError: () => {
         toast.error("Failed to generate agreement");
