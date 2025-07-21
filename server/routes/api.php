@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\DocumentController;
+use App\Http\Controllers\Api\V1\RentalAgreementGenerateController;
 use App\Http\Controllers\Api\V1\RentalDetailsUpdateController;
 use App\Http\Controllers\Api\V1\RentalDocumentController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
@@ -69,3 +70,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('documents', [DocumentController::class, 'store']);
     Route::get('documents/{document}', [DocumentController::class, 'show']);
 });
+
+
+Route::get('rentals/{rental:rental_number}/agreement', RentalAgreementGenerateController::class);
