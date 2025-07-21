@@ -10,6 +10,7 @@ import {
   rentalVehicleUpdateFn,
   rentalStartFn,
   rentalReturnFn,
+  rentalAgreementGenerateFn,
 } from "./api";
 import { makeMutationHook, makeQueryHook } from "@/lib/query-generator";
 
@@ -28,3 +29,6 @@ export const useRentalNotesUpdate = makeMutationHook(rentalNotesUpdateFn);
 
 export const useRentalStart = makeMutationHook(rentalStartFn);
 export const useRentalReturn = makeMutationHook(rentalReturnFn);
+export const useRentalAgreementGenerate = makeMutationHook(
+  rentalAgreementGenerateFn
+);

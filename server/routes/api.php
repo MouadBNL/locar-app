@@ -45,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
      */
     Route::post('rentals/{rental:rental_number}/start', RentalStartController::class);
     Route::post('rentals/{rental:rental_number}/return', RentalReturnController::class);
+    Route::post('rentals/{rental:rental_number}/agreement', RentalAgreementGenerateController::class);
 
     /**
      * Rental Documents
@@ -70,6 +71,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('documents', [DocumentController::class, 'store']);
     Route::get('documents/{document}', [DocumentController::class, 'show']);
 });
-
-
-Route::get('rentals/{rental:rental_number}/agreement', RentalAgreementGenerateController::class);
