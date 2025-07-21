@@ -21,7 +21,7 @@ class DocumentResource extends JsonResource
         return [
             'id' => $this->id,
             'filename' => $this->filename,
-            'url' => asset('storage/' . $this->path),
+            'url' => asset('storage/'.$this->path),
             'mime_type' => $this->mime_type,
             'size' => $this->size,
             'created_at' => $this->created_at,

@@ -26,7 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('reservations', ReservationController::class);
 
-
     /**
      * Rentals
      */

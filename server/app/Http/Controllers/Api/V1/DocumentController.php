@@ -8,7 +8,6 @@ use App\Models\Document;
 
 class DocumentController extends ApiController
 {
-
     public function store(DocumentCreateRequest $request)
     {
         /** @var mixed $auth */
@@ -16,12 +15,12 @@ class DocumentController extends ApiController
 
         $request->validated();
         $document = Document::create([
-            'filename' => now()->format('Ymd') . '_'  . $request->file->getClientOriginalName(),
+            'filename' => now()->format('Ymd').'_'.$request->file->getClientOriginalName(),
             'original_filename' => $request->file->getClientOriginalName(),
             'disk' => 'public',
             'path' => $request->file->storeAs(
                 'documents',
-                now()->format('Ymd') . '_'  . $request->file->getClientOriginalName(),
+                now()->format('Ymd').'_'.$request->file->getClientOriginalName(),
                 'public'
             ),
             'mime_type' => $request->file->getClientMimeType(),

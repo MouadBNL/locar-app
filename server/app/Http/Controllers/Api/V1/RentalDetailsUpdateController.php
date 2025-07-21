@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class RentalDetailsUpdateController extends ApiController
 {
-
     public function vehicle(RentalVehicleData $data, Rental $rental)
     {
         $rental->vehicle->update([
@@ -22,7 +21,7 @@ class RentalDetailsUpdateController extends ApiController
             'license_plate' => $data->license_plate,
         ]);
 
-        return $this->success(null, "rental.vehicle.updated");
+        return $this->success(null, 'rental.vehicle.updated');
     }
 
     public function renter(RenterData $data, Rental $rental)
@@ -54,7 +53,7 @@ class RentalDetailsUpdateController extends ApiController
             'passport_scan_document' => $data->passport_scan_document,
         ]);
 
-        return $this->success(null, "rental.renter.updated");
+        return $this->success(null, 'rental.renter.updated');
     }
 
     public function timeframe(RentalTimeframeData $data, Rental $rental)
@@ -64,7 +63,7 @@ class RentalDetailsUpdateController extends ApiController
             'return_date' => $data->return_date,
         ]);
 
-        return $this->success(null, "rental.timeframe.updated");
+        return $this->success(null, 'rental.timeframe.updated');
     }
 
     public function rate(RentalRateData $data, Rental $rental)
@@ -88,8 +87,9 @@ class RentalDetailsUpdateController extends ApiController
             'total' => $data->total,
         ]);
 
-        return $this->success(null, "rental.rate.updated");
+        return $this->success(null, 'rental.rate.updated');
     }
+
     public function notes(Request $request, Rental $rental)
     {
         $data = $request->validate([
@@ -100,6 +100,6 @@ class RentalDetailsUpdateController extends ApiController
             'notes' => $data['notes'],
         ]);
 
-        return $this->success(null, "rental.notes.updated");
+        return $this->success(null, 'rental.notes.updated');
     }
 }

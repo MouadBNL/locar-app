@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Enums\RentalPaymentMethod;
 use App\Enums\RentalPaymentType;
-use App\Models\Document;
 use App\Traits\HasUuidAsPrimary;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 

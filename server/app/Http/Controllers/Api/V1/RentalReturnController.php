@@ -14,11 +14,11 @@ class RentalReturnController extends ApiController
     public function __invoke(RentalReturnRequest $request, Rental $rental)
     {
         if ($rental->status !== RentalStatus::STARTED) {
-            return $this->error(null, "rental.return.error.not_started");
+            return $this->error(null, 'rental.return.error.not_started');
         }
 
         if ($rental->timeframe->actual_departure_date->isAfter($request->actual_return_date)) {
-            return $this->error(null, "rental.return.error.return_date_before_departure");
+            return $this->error(null, 'rental.return.error.return_date_before_departure');
         }
 
         $rental->timeframe()->update([
@@ -29,6 +29,6 @@ class RentalReturnController extends ApiController
             'mileage' => $request->mileage,
         ]);
 
-        return $this->success(null, "rental.return.success");
+        return $this->success(null, 'rental.return.success');
     }
 }

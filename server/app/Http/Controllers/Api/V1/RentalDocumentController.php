@@ -28,7 +28,6 @@ class RentalDocumentController extends ApiController
         return $this->success(new RentalDocumentResource($document), 'rental.document.store.success');
     }
 
-
     public function update(Rental $rental, RentalDocument $document, RentalDocumentCreateRequest $request)
     {
         if ($document->rental_id !== $rental->id) {

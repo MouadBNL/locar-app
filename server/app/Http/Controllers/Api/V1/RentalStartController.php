@@ -16,7 +16,6 @@ class RentalStartController extends ApiController
          * TODO: maybe here we should all more validations on the state of the rental
          * checking if the documents are uploaded and valid, and any other state that could be affected
          */
-
         $rental->timeframe()->update([
             'actual_departure_date' => $request->actual_departure_date,
         ]);
@@ -24,6 +23,6 @@ class RentalStartController extends ApiController
             'mileage' => $request->mileage,
         ]);
 
-        return $this->success(null, "rental.start.success");
+        return $this->success(null, 'rental.start.success');
     }
 }
