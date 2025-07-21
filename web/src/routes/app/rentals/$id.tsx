@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Heading3 } from "@/components/ui/typography";
 import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
 import {
+  CircleArrowOutDownLeft,
   DownloadIcon,
   EyeIcon,
   FileStackIcon,
@@ -22,6 +23,7 @@ import {
   rentalShowFn,
   useRentalStart,
   type RentalData,
+  useRentalReturn,
 } from "@/features/rentals";
 import { RentalStatusBadge } from "@/components/blocks/rental-status-badge";
 import {
@@ -34,6 +36,7 @@ import {
 } from "@/components/ui/dialog";
 import { RentalStartForm } from "@/components/blocks/rental-start-form";
 import { toast } from "sonner";
+import { RentalReturnForm } from "@/components/blocks/rental-return-form";
 
 export const Route = createFileRoute("/app/rentals/$id")({
   component: RouteComponent,
@@ -78,6 +81,7 @@ function RouteComponent() {
                 <EyeIcon className="w-4 h-4" />
                 View Agreement
               </Button>
+              <RentalReturnAction code={code} rental={rental} />
             </>
           )}
         </div>
@@ -245,6 +249,57 @@ function RentalStartAction({
             submit={(data) => startRental({ id: code, data })}
             initialValues={{ mileage: rental.vehicle.mileage }}
             loading={isStartingRental}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function RentalReturnAction({
+  code,
+  rental,
+}: {
+  code: string;
+  rental: RentalData;
+}) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const { mutate: returnRental, isPending: isReturningRental } =
+    useRentalReturn({
+      onSuccess: () => {
+        toast.success("Rental returned successfully");
+        router.invalidate({
+          filter: (match) => match.id === code,
+        });
+        setOpen(false);
+      },
+      onError: () => {
+        toast.error("Failed to return rental");
+      },
+    });
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline">
+          <CircleArrowOutDownLeft className="w-4 h-4" />
+          Return Rental
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Return Rental</DialogTitle>
+          <DialogDescription>
+            Return the rental by providing the actual return date and mileage.
+          </DialogDescription>
+        </DialogHeader>
+        <div>
+          <RentalReturnForm
+            submit={(data) => returnRental({ id: code, data })}
+            initialValues={{ mileage: rental.vehicle.mileage }}
+            loading={isReturningRental}
           />
         </div>
       </DialogContent>

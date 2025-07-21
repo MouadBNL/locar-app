@@ -90,3 +90,8 @@ export const RentalStartSchema = z.object({
   actual_departure_date: z.string().datetime(),
   mileage: z.number().int().min(0).nullish(),
 });
+
+export const RentalReturnSchema = z.object({
+  actual_return_date: z.string().datetime(),
+  mileage: z.number().int().min(0).nullish(),
+});

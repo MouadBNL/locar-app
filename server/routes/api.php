@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\V1\RentalDetailsUpdateController;
 use App\Http\Controllers\Api\V1\RentalDocumentController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
+use App\Http\Controllers\Api\V1\RentalReturnController;
 use App\Http\Controllers\Api\V1\RentalStartController;
 use App\Http\Controllers\Api\V1\ReservationController;
 use App\Http\Controllers\Api\V1\VehicleController;
@@ -42,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
      * Rental actions
      */
     Route::post('rentals/{rental:rental_number}/start', RentalStartController::class);
-
+    Route::post('rentals/{rental:rental_number}/return', RentalReturnController::class);
 
     /**
      * Rental Documents

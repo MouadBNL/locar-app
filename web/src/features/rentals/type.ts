@@ -6,6 +6,7 @@ import type {
   RentalVehichleSchema,
   RenterSchema,
   RentalStartSchema,
+  RentalReturnSchema,
 } from "./schema";
 
 export type RentalSummaryData = {
@@ -80,5 +81,5 @@ export const RentalStatusSchema = z.enum([
 ]);
 export type RentalStatus = z.infer<typeof RentalStatusSchema>;
 
-
 export type RentalStartData = z.infer<typeof RentalStartSchema>;
+export type RentalReturnData = z.infer<typeof RentalReturnSchema>;
