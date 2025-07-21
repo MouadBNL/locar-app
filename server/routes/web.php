@@ -8,7 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('rentals/{rental:rental_number}/agreement', function (Rental $rental) {
     return view('agreement.template', ['rental' => RentalData::fromModel($rental)]);
 });
