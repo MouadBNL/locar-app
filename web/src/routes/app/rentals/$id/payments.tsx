@@ -187,6 +187,17 @@ function EditPaymentDialog({
         <DialogTitle>Edit Payment</DialogTitle>
         <DialogDescription>Edit the payment for the rental.</DialogDescription>
         <RentalPaymentForm
+          initialValues={
+            payment
+              ? {
+                  method: payment.method,
+                  type: payment.type,
+                  amount: payment.amount,
+                  date: payment.date,
+                  notes: payment.notes,
+                }
+              : undefined
+          }
           loading={isUpdatingRentalPayment}
           submit={(data) => {
             updateRentalPayment({
