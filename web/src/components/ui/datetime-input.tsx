@@ -7,11 +7,7 @@ import {
   I18nProvider,
   Popover,
 } from "react-aria-components";
-import {
-  CalendarDateTime,
-  parseDateTime,
-  parseZonedDateTime,
-} from "@internationalized/date";
+import { CalendarDateTime } from "@internationalized/date";
 
 import { Calendar } from "@/components/ui/calendar-rac";
 import { DateInput as DateInputContent } from "@/components/ui/datefield-rac";
@@ -20,12 +16,12 @@ import { fmt_date } from "@/lib/utils";
 type DateInputProps =
   | {
       type: "string";
-      value?: string;
+      value?: string | null;
       onChange?: (value: string) => void;
     }
   | {
       type: "date";
-      value?: Date;
+      value?: Date | null;
       onChange?: (value: Date) => void;
     };
 
@@ -48,7 +44,7 @@ export function DateTimeInput({ value, onChange, type }: DateInputProps) {
     }
   };
 
-  const normalizedValue = (v: string | undefined) => {
+  const normalizedValue = (v: string | null | undefined) => {
     // Fallback for ISO strings
     if (!v) return undefined;
     const d = new Date(v);
