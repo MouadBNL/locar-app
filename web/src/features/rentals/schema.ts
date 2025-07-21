@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { RentalStatusSchema } from "./type";
 
 export const RentalTimeframeSchema = z.object({
   id: z.string().uuid().nullish(),
@@ -77,9 +78,20 @@ export const RentalRateSchema = z.object({
 export const RentalSchema = z.object({
   id: z.string().uuid().nullish(),
   rental_number: z.string().max(255),
+  status: RentalStatusSchema.nullish(),
   notes: z.string().max(255).nullish(),
   timeframe: RentalTimeframeSchema,
   renter: RenterSchema,
   vehicle: RentalVehichleSchema,
   rate: RentalRateSchema,
+});
+
+export const RentalStartSchema = z.object({
+  actual_departure_date: z.string().datetime(),
+  mileage: z.number().int().min(0).nullish(),
+});
+
+export const RentalReturnSchema = z.object({
+  actual_return_date: z.string().datetime(),
+  mileage: z.number().int().min(0).nullish(),
 });

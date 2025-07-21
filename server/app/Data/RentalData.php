@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Enums\RentalStatus;
 use Spatie\LaravelData\Data;
 
 class RentalData extends Data
@@ -10,6 +11,7 @@ class RentalData extends Data
         public ?string $id,
         public string $rental_number,
         public ?string $notes,
+        public ?RentalStatus $status,
         public RentalTimeframeData $timeframe,
         public RentalVehicleData $vehicle,
         public RenterData $renter,

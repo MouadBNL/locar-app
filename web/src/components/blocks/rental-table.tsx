@@ -10,6 +10,7 @@ import type { RentalSummaryData } from "@/features/rentals";
 import { DateCard } from "./date-card";
 import { CustomerTableCard } from "./customer-table-card";
 import { VehicleTableCard } from "./vehicle-table-card";
+import { RentalStatusBadge } from "./rental-status-badge";
 
 export type RentalTableProps = {
   data: RentalSummaryData[];
@@ -28,6 +29,7 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
           <TableHead>Pickup Date</TableHead>
           <TableHead>Return Date</TableHead>
           <TableHead>Total Price</TableHead>
+          <TableHead>Status</TableHead>
           {actions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
@@ -76,6 +78,9 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
                 <DateCard date={rental.return_date} />
               </TableCell>
               <TableCell>{rental.total_price}</TableCell>
+              <TableCell>
+                <RentalStatusBadge status={rental.status ?? "draft"} />
+              </TableCell>
               {actions && (
                 <TableCell className="flex gap-2">{actions(rental)}</TableCell>
               )}

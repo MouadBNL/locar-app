@@ -21,6 +21,7 @@ class RentalSummaryResource extends JsonResource
         return [
             'id' => $this->id,
             'rental_number' => $this->rental_number,
+            'status' => $this->status,
             'customer' => [
                 'id' => $this->renter->customer_id,
                 'full_name' => $this->renter->full_name,

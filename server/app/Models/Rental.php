@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\RentalStatus;
 use App\Traits\HasUuidAsPrimary;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -12,6 +14,7 @@ use Illuminate\Support\Collection;
  * @property-read string $id
  * @property-read string $rental_number
  * @property-read ?string $notes
+ * @property-read RentalStatus $status
  * @property-read RentalTimeframe $timeframe
  * @property-read RentalVehicle $vehicle
  * @property-read Renter $renter
@@ -26,6 +29,23 @@ class Rental extends Model
         'rental_number',
         'notes',
     ];
+
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->timeframe->actual_departure_date && $this->timeframe->actual_return_date) {
+                    return RentalStatus::FINISHED;
+                }
+
+                if ($this->timeframe->actual_departure_date) {
+                    return RentalStatus::STARTED;
+                }
+
+                return RentalStatus::DRAFT;
+            },
+        );
+    }
 
     public function timeframe(): HasOne
     {
