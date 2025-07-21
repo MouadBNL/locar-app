@@ -1,24 +1,32 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
 
 // Import the generated route tree
-import { routeTree } from './routeTree.gen'
-import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { routeTree } from "./routeTree.gen";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { Loader2 } from "lucide-react";
 
 // Create a new router instance
-const router = createRouter({ routeTree })
+const router = createRouter({
+  routeTree,
+  defaultPendingComponent: () => (
+    <div className="flex items-center justify-center h-full min-h-64">
+      <Loader2 className="animate-spin" />
+    </div>
+  ),
+  defaultPendingMs: 200,
+});
 
 // Register the router instance for type safety
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
-    router: typeof router
+    router: typeof router;
   }
 }
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>,
-)
+  </StrictMode>
+);
