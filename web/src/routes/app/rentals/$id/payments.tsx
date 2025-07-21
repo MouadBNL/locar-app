@@ -28,6 +28,7 @@ import { RentalPaymentForm } from "@/components/blocks/rental-payment-form";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { fmt_currency } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/rentals/$id/payments")({
   component: RouteComponent,
@@ -225,15 +226,15 @@ function PaymentSummary({
     <div className="grid grid-cols-3 gap-8">
       <div>
         <p className="text-sm">Required:</p>{" "}
-        <p className="font-semibold">{payment_total} MAD</p>
+        <p className="font-semibold">{fmt_currency(payment_total)}</p>
       </div>
       <div>
         <p className="text-sm">Total Paid:</p>{" "}
-        <p className="font-semibold">{payment_paid} MAD</p>
+        <p className="font-semibold">{fmt_currency(payment_paid)}</p>
       </div>
       <div>
         <p className="text-sm">Total Due:</p>{" "}
-        <p className="font-semibold">{payment_due} MAD</p>
+        <p className="font-semibold">{fmt_currency(payment_due)}</p>
       </div>
     </div>
   );
@@ -252,15 +253,15 @@ function DepositSummary({
     <div className="grid grid-cols-3 gap-8">
       <div>
         <p className="text-sm">Deposit Total:</p>{" "}
-        <p className="font-semibold">{deposit_total} MAD</p>
+        <p className="font-semibold">{fmt_currency(deposit_total)}</p>
       </div>
       <div>
         <p className="text-sm">Refunded:</p>{" "}
-        <p className="font-semibold">{deposit_refunded} MAD</p>
+        <p className="font-semibold">{fmt_currency(deposit_refunded)}</p>
       </div>
       <div>
         <p className="text-sm">Due:</p>{" "}
-        <p className="font-semibold">{deposit_due} MAD</p>
+        <p className="font-semibold">{fmt_currency(deposit_due)}</p>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import type { RentalStatus } from "@/features/rentals";
 import { Badge } from "../ui/badge";
 import { CheckIcon } from "lucide-react";
+import { str_to_titlecase } from "@/lib/utils";
 
 export function RentalStatusBadge({ status }: { status: RentalStatus }) {
   const color =
@@ -21,7 +22,7 @@ export function RentalStatusBadge({ status }: { status: RentalStatus }) {
           aria-hidden="true"
         ></span>
       )}
-      {status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
+      {str_to_titlecase(status)}
     </Badge>
   );
 }

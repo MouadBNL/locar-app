@@ -9,6 +9,7 @@ import {
 } from "../ui/table";
 import { Loader2 } from "lucide-react";
 import { DateCard } from "./date-card";
+import { fmt_currency, str_to_titlecase } from "@/lib/utils";
 
 export const RentalPaymentTable = ({
   payments,
@@ -46,9 +47,9 @@ export const RentalPaymentTable = ({
           <>
             {payments.map((payment) => (
               <TableRow key={payment.id}>
-                <TableCell>{payment.method}</TableCell>
-                <TableCell>{payment.type}</TableCell>
-                <TableCell>{payment.amount}</TableCell>
+                <TableCell>{str_to_titlecase(payment.method)}</TableCell>
+                <TableCell>{str_to_titlecase(payment.type)}</TableCell>
+                <TableCell>{fmt_currency(payment.amount)}</TableCell>
                 <TableCell>
                   <DateCard date={payment.date} />
                 </TableCell>
