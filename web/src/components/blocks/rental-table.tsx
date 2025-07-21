@@ -11,6 +11,7 @@ import { DateCard } from "./date-card";
 import { CustomerTableCard } from "./customer-table-card";
 import { VehicleTableCard } from "./vehicle-table-card";
 import { RentalStatusBadge } from "./rental-status-badge";
+import { fmt_currency } from "@/lib/utils";
 
 export type RentalTableProps = {
   data: RentalSummaryData[];
@@ -77,7 +78,7 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
               <TableCell>
                 <DateCard date={rental.return_date} />
               </TableCell>
-              <TableCell>{rental.total_price}</TableCell>
+              <TableCell>{fmt_currency(rental.total_price)}</TableCell>
               <TableCell>
                 <RentalStatusBadge status={rental.status ?? "draft"} />
               </TableCell>

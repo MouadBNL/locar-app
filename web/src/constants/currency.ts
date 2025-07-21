@@ -1,0 +1,1 @@
+export const symbole = "MAD";

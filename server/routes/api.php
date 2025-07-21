@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\V1\RentalDetailsUpdateController;
 use App\Http\Controllers\Api\V1\RentalDocumentController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
+use App\Http\Controllers\Api\V1\RentalPaymentController;
 use App\Http\Controllers\Api\V1\RentalReturnController;
 use App\Http\Controllers\Api\V1\RentalStartController;
 use App\Http\Controllers\Api\V1\ReservationController;
@@ -54,6 +55,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('rentals/{rental:rental_number}/documents/{document}', [RentalDocumentController::class, 'update']);
     Route::delete('rentals/{rental:rental_number}/documents/{document}', [RentalDocumentController::class, 'destroy']);
 
+    /**
+     * Rental Payments
+     */
+    Route::get('rentals/{rental:rental_number}/payments', [RentalPaymentController::class, 'index']);
+    Route::post('rentals/{rental:rental_number}/payments', [RentalPaymentController::class, 'store']);
+    Route::get('rentals/{rental:rental_number}/payments/{payment}', [RentalPaymentController::class, 'show']);
+    Route::put('rentals/{rental:rental_number}/payments/{payment}', [RentalPaymentController::class, 'update']);
+    Route::delete('rentals/{rental:rental_number}/payments/{payment}', [RentalPaymentController::class, 'destroy']);
 
     /**
      * Documents

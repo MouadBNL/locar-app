@@ -20,6 +20,7 @@ use Illuminate\Support\Collection;
  * @property-read Renter $renter
  * @property-read RentalRate $rate
  * @property-read Collection<array-key, RentalDocument> $documents
+ * @property-read Collection<array-key, RentalPayment> $payments
  */
 class Rental extends Model
 {
@@ -70,5 +71,10 @@ class Rental extends Model
     public function documents(): HasMany
     {
         return $this->hasMany(RentalDocument::class, 'rental_id', 'id');
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(RentalPayment::class, 'rental_id', 'id');
     }
 }

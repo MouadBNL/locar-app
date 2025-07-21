@@ -38,3 +38,18 @@ export function fmt_date(date: Date, opt?: { format: "date" | "datetime" }) {
   }
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 }
+
+export function fmt_currency(amount: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "MAD",
+    currencySign: "accounting",
+  }).format(amount);
+}
+
+export function str_to_titlecase(str: string) {
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
