@@ -8,6 +8,7 @@ import {
   DownloadIcon,
   EyeIcon,
   FileStackIcon,
+  FileTextIcon,
   LayoutPanelLeft,
   PlayIcon,
   ReceiptTextIcon,
@@ -68,7 +69,7 @@ function RouteComponent() {
         <div className="flex space-x-2">
           {rental.status === "draft" && (
             <>
-              <RentalAgreementAction code={code} />
+              <RentalAgreementAction code={code} rental={rental} />
               <RentalStartAction code={code} rental={rental} />
             </>
           )}
@@ -305,7 +306,24 @@ function RentalReturnAction({
   );
 }
 
-function RentalAgreementAction({ code }: { code: string }) {
+function RentalAgreementAction({
+  code,
+  rental,
+}: {
+  code: string;
+  rental: RentalData;
+}) {
+  if (rental.agreement_document) {
+    return (
+      <Button variant="outline" asChild>
+        <a href={rental.agreement_document.url} target="_blank">
+          <FileTextIcon className="w-4 h-4" />
+          View Agreement
+        </a>
+      </Button>
+    );
+  }
+  const router = useRouter();
   const { mutate: generateAgreement, isPending: isGeneratingAgreement } =
     useRentalAgreementGenerate({
       onSuccess: (data) => {
@@ -314,6 +332,9 @@ function RentalAgreementAction({ code }: { code: string }) {
         if (data.data.url) {
           window.open(data.data.url, "_blank");
         }
+        router.invalidate({
+          filter: (match) => match.id === code,
+        });
       },
       onError: () => {
         toast.error("Failed to generate agreement");

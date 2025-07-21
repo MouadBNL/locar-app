@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { RentalStatusSchema } from "./type";
 
 export const RentalTimeframeSchema = z.object({
   id: z.string().uuid().nullish(),
@@ -78,7 +77,6 @@ export const RentalRateSchema = z.object({
 export const RentalSchema = z.object({
   id: z.string().uuid().nullish(),
   rental_number: z.string().max(255),
-  status: RentalStatusSchema.nullish(),
   notes: z.string().max(255).nullish(),
   timeframe: RentalTimeframeSchema,
   renter: RenterSchema,

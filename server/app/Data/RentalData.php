@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Enums\RentalStatus;
+use App\Http\Resources\DocumentResource;
 use App\Models\Rental;
 use Spatie\LaravelData\Data;
 
@@ -13,6 +14,7 @@ class RentalData extends Data
         public string $rental_number,
         public ?string $notes,
         public ?RentalStatus $status,
+        public ?DocumentResource $agreement_document,
         public RentalTimeframeData $timeframe,
         public RentalVehicleData $vehicle,
         public RenterData $renter,
@@ -38,6 +40,7 @@ class RentalData extends Data
             rental_number: $rental->rental_number,
             notes: $rental->notes,
             status: $rental->status,
+            agreement_document: $rental->agreement_document ? new DocumentResource($rental->agreement_document->document) : null,
             timeframe: new RentalTimeframeData(
                 id: $rental->timeframe->id,
                 rental_id: $rental->id,

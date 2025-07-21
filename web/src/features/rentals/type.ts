@@ -8,6 +8,7 @@ import type {
   RentalStartSchema,
   RentalReturnSchema,
 } from "./schema";
+import type { DocumentResource } from "../documents";
 
 export type RentalSummaryData = {
   id: string;
@@ -38,7 +39,10 @@ export type RentalTimeframeData = z.infer<typeof RentalTimeframeSchema>;
 export type RenterData = z.infer<typeof RenterSchema>;
 export type RentalVehichleData = z.infer<typeof RentalVehichleSchema>;
 export type RentalRateData = z.infer<typeof RentalRateSchema>;
-export type RentalData = z.infer<typeof RentalSchema>;
+export type RentalData = z.infer<typeof RentalSchema> & {
+  status: RentalStatus;
+  agreement_document: DocumentResource | null;
+};
 
 export type RentalShowResponse = {
   id: string;

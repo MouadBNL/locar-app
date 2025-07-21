@@ -19,7 +19,6 @@ import {
   useFileUpload,
   type FileUploadOptions,
 } from "@/hooks/use-file-upload";
-import { Button } from "../ui/button";
 
 type SingleFileUploadProps = FileUploadOptions & {
   disabled?: boolean;
