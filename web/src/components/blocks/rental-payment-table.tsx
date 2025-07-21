@@ -8,6 +8,7 @@ import {
   TableCell,
 } from "../ui/table";
 import { Loader2 } from "lucide-react";
+import { DateCard } from "./date-card";
 
 export const RentalPaymentTable = ({
   payments,
@@ -48,7 +49,9 @@ export const RentalPaymentTable = ({
                 <TableCell>{payment.method}</TableCell>
                 <TableCell>{payment.type}</TableCell>
                 <TableCell>{payment.amount}</TableCell>
-                <TableCell>{payment.date}</TableCell>
+                <TableCell>
+                  <DateCard date={payment.date} />
+                </TableCell>
                 <TableCell>{payment.reference}</TableCell>
                 <TableCell>{payment.notes}</TableCell>
                 <TableCell>{actions?.(payment)}</TableCell>
