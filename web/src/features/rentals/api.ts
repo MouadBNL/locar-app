@@ -9,6 +9,7 @@ import type {
   RentalVehichleData,
   RenterData,
 } from "./type";
+import type { DocumentResource } from "../documents";
 
 export const rentalIndexFn = async () => {
   const res = await http.get<ApiResponse<RentalSummaryData[]>>("/rentals");
@@ -126,5 +127,12 @@ export const rentalReturnFn = async ({
   data: RentalReturnData;
 }) => {
   const res = await http.post<ApiResponse<void>>(`/rentals/${id}/return`, data);
+  return res.data;
+};
+
+export const rentalAgreementGenerateFn = async ({ code }: { code: string }) => {
+  const res = await http.post<ApiResponse<DocumentResource>>(
+    `/rentals/${code}/agreement`
+  );
   return res.data;
 };

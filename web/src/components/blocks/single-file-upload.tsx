@@ -1,6 +1,7 @@
 import {
   AlertCircleIcon,
   CircleXIcon,
+  ExternalLinkIcon,
   FileArchiveIcon,
   FileIcon,
   FileSpreadsheetIcon,
@@ -18,12 +19,12 @@ import {
   useFileUpload,
   type FileUploadOptions,
 } from "@/hooks/use-file-upload";
-import { Button } from "../ui/button";
 
 type SingleFileUploadProps = FileUploadOptions & {
   disabled?: boolean;
   loading?: boolean;
   error?: unknown;
+  url?: string;
 };
 
 export function SingleFileUpload(props: SingleFileUploadProps) {
@@ -135,31 +136,17 @@ export function SingleFileUpload(props: SingleFileUploadProps) {
           )}
         </div>
 
-        {/* Remove button */}
         {!!props.error && (
-          <div className="absolute top-4 right-4">
-            <button
-              type="button"
-              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/20 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-              onClick={() => props?.onFilesChange?.([])}
-              aria-label="Remove image"
-            >
-              <XIcon className="size-4" aria-hidden="true" />
-            </button>
+          <div className="absolute top-4 right-4 flex gap-2">
+            {!!props.url && <PreviewButton url={props.url} />}
+            <RemoveButton onClick={() => props?.onFilesChange?.([])} />
           </div>
         )}
 
-        {/* Remove button */}
         {previewUrl && (
-          <div className="absolute top-4 right-4">
-            <button
-              type="button"
-              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-              onClick={() => removeFile(files[0]?.id)}
-              aria-label="Remove image"
-            >
-              <XIcon className="size-4" aria-hidden="true" />
-            </button>
+          <div className="absolute top-4 right-4 flex gap-2">
+            {!!props.url && <PreviewButton url={props.url} />}
+            <RemoveButton onClick={() => removeFile(files[0]?.id)} />
           </div>
         )}
       </div>
@@ -268,3 +255,30 @@ const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
 
   return <FileIcon className="size-5 opacity-60" />;
 };
+
+function PreviewButton({ url }: { url: string }) {
+  return (
+    <a
+      href={url}
+      target="_blank"
+      className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex gap-2 px-4 h-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
+      aria-label="Open in new tab"
+    >
+      <ExternalLinkIcon className="size-4" aria-hidden="true" />
+      <span className="text-xs">Open</span>
+    </a>
+  );
+}
+
+function RemoveButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
+      onClick={onClick}
+      aria-label="Remove image"
+    >
+      <XIcon className="size-4" aria-hidden="true" />
+    </button>
+  );
+}

@@ -8,6 +8,7 @@ import {
   DownloadIcon,
   EyeIcon,
   FileStackIcon,
+  FileTextIcon,
   LayoutPanelLeft,
   PlayIcon,
   ReceiptTextIcon,
@@ -24,6 +25,7 @@ import {
   useRentalStart,
   type RentalData,
   useRentalReturn,
+  useRentalAgreementGenerate,
 } from "@/features/rentals";
 import { RentalStatusBadge } from "@/components/blocks/rental-status-badge";
 import {
@@ -67,10 +69,7 @@ function RouteComponent() {
         <div className="flex space-x-2">
           {rental.status === "draft" && (
             <>
-              <Button variant="outline">
-                <DownloadIcon className="w-4 h-4" />
-                Generate Agreement
-              </Button>
+              <RentalAgreementAction code={code} rental={rental} />
               <RentalStartAction code={code} rental={rental} />
             </>
           )}
@@ -304,5 +303,52 @@ function RentalReturnAction({
         </div>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function RentalAgreementAction({
+  code,
+  rental,
+}: {
+  code: string;
+  rental: RentalData;
+}) {
+  if (rental.agreement_document) {
+    return (
+      <Button variant="outline" asChild>
+        <a href={rental.agreement_document.url} target="_blank">
+          <FileTextIcon className="w-4 h-4" />
+          View Agreement
+        </a>
+      </Button>
+    );
+  }
+  const router = useRouter();
+  const { mutate: generateAgreement, isPending: isGeneratingAgreement } =
+    useRentalAgreementGenerate({
+      onSuccess: (data) => {
+        console.log({ data });
+        toast.success("Agreement generated successfully");
+        if (data.data.url) {
+          window.open(data.data.url, "_blank");
+        }
+        router.invalidate({
+          filter: (match) => match.id === code,
+        });
+      },
+      onError: () => {
+        toast.error("Failed to generate agreement");
+      },
+    });
+
+  return (
+    <Button
+      variant="outline"
+      onClick={() => generateAgreement({ code })}
+      loading={isGeneratingAgreement}
+    >
+      <DownloadIcon className="w-4 h-4" />
+      Generate Agreement
+    </Button>
   );
 }

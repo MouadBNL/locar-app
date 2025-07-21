@@ -23,7 +23,7 @@ import {
   type RentalDocumentResource,
 } from "@/features/rental-documents";
 import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { EyeIcon, TrashIcon, UploadCloudIcon } from "lucide-react";
 import { useState } from "react";
 import { DialogTrigger } from "react-aria-components";
@@ -35,6 +35,7 @@ export const Route = createFileRoute("/app/rentals/$id/documents")({
 
 function RouteComponent() {
   const { id } = Route.useParams();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { data: rentalDocuments } = useRentalDocumentIndex(id);
 
@@ -49,6 +50,9 @@ function RouteComponent() {
         setOpen(false);
         queryClient.invalidateQueries({ queryKey: ["rental-documents"] });
         toast.success("Rental document created");
+        router.invalidate({
+          filter: (match) => match.id === id,
+        });
       },
       onError: (error) => {
         console.error(error);
@@ -62,6 +66,9 @@ function RouteComponent() {
         setOpenEdit(false);
         queryClient.invalidateQueries({ queryKey: ["rental-documents"] });
         toast.success("Rental document updated");
+        router.invalidate({
+          filter: (match) => match.id === id,
+        });
       },
     });
 
@@ -70,6 +77,9 @@ function RouteComponent() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["rental-documents"] });
         toast.success("Rental document deleted");
+        router.invalidate({
+          filter: (match) => match.id === id,
+        });
       },
     });
 
