@@ -3,18 +3,42 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Heading3 } from "@/components/ui/typography";
 import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
-import { DownloadIcon, PlayIcon } from "lucide-react";
-
-import { BoxIcon, HouseIcon, PanelsTopLeftIcon } from "lucide-react";
+import {
+  CircleArrowOutDownLeft,
+  DownloadIcon,
+  EyeIcon,
+  FileStackIcon,
+  FileTextIcon,
+  LayoutPanelLeft,
+  PlayIcon,
+  ReceiptTextIcon,
+} from "lucide-react";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { VehicleSummaryCard } from "@/components/blocks/vehicle-summary-card";
 import { CustomerSummaryCard } from "@/components/blocks/customer-summary-card";
 import { PeriodSummaryCard } from "@/components/blocks/period-summary-card";
-import { rentalShowFn } from "@/features/rentals";
+import {
+  rentalShowFn,
+  useRentalStart,
+  type RentalData,
+  useRentalReturn,
+  useRentalAgreementGenerate,
+} from "@/features/rentals";
+import { RentalStatusBadge } from "@/components/blocks/rental-status-badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { RentalStartForm } from "@/components/blocks/rental-start-form";
+import { toast } from "sonner";
+import { RentalReturnForm } from "@/components/blocks/rental-return-form";
 
 export const Route = createFileRoute("/app/rentals/$id")({
   component: RouteComponent,
@@ -39,25 +63,26 @@ function RouteComponent() {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-8">
           <Heading3>Rental #{code}</Heading3>
-          <Badge variant="outline" className="gap-2 text-sm">
-            <span
-              className="size-1.5 rounded-full bg-accent-foreground"
-              aria-hidden="true"
-            ></span>
-            Draft
-          </Badge>
+          <RentalStatusBadge status={rental.status ?? "draft"} />
         </div>
 
         <div className="flex space-x-2">
-          <Button variant="outline">
-            <DownloadIcon className="w-4 h-4" />
-            Generate Agreement
-          </Button>
+          {rental.status === "draft" && (
+            <>
+              <RentalAgreementAction code={code} rental={rental} />
+              <RentalStartAction code={code} rental={rental} />
+            </>
+          )}
 
-          <Button variant="outline">
-            <PlayIcon className="w-4 h-4" />
-            Start Location
-          </Button>
+          {rental.status === "started" && (
+            <>
+              <Button variant="outline">
+                <EyeIcon className="w-4 h-4" />
+                View Agreement
+              </Button>
+              <RentalReturnAction code={code} rental={rental} />
+            </>
+          )}
         </div>
       </div>
 
@@ -66,26 +91,26 @@ function RouteComponent() {
           <div className="flex space-x-4 h-26 items-center">
             <div className="w-full">
               <CustomerSummaryCard
-                id={rental.customer.id}
-                firstName={rental.customer?.full_name?.split(" ")[0] ?? ""}
-                lastName={rental.customer?.full_name?.split(" ")[1] ?? ""}
-                id_number={rental.customer.identifier ?? ""}
-                license={rental.customer.driver_license_number ?? ""}
-                phone={rental.customer.phone ?? ""}
-                address={rental.customer.address ?? ""}
+                id={rental.renter.customer_id ?? ""}
+                firstName={rental.renter?.full_name?.split(" ")[0] ?? ""}
+                lastName={rental.renter?.full_name?.split(" ")[1] ?? ""}
+                id_number={rental.renter.identifier ?? ""}
+                license={rental.renter.driver_license_number ?? ""}
+                phone={rental.renter.phone ?? ""}
+                address={rental.renter.address_primary ?? ""}
               />
             </div>
             <Separator orientation="vertical" />
             <div className="w-full">
               <PeriodSummaryCard
-                pickupDate={rental.departure_date ?? ""}
-                dropoffDate={rental.return_date ?? ""}
+                pickupDate={rental.timeframe.departure_date ?? ""}
+                dropoffDate={rental.timeframe.return_date ?? ""}
               />
             </div>
             <Separator orientation="vertical" />
             <div className="w-full">
               <VehicleSummaryCard
-                id={rental.vehicle.id}
+                id={rental.vehicle.vehicle_id ?? ""}
                 make={rental.vehicle.make ?? ""}
                 model={rental.vehicle.model ?? ""}
                 year={rental.vehicle.year ?? 0}
@@ -107,7 +132,7 @@ function RouteComponent() {
   );
 }
 
-export default function DetailsSection() {
+function DetailsSection() {
   const router = useRouter();
   const { id } = Route.useParams();
 
@@ -139,7 +164,7 @@ export default function DetailsSection() {
               value="summary"
               className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
             >
-              <HouseIcon
+              <LayoutPanelLeft
                 className="-ms-0.5 me-1.5 opacity-60"
                 size={16}
                 aria-hidden="true"
@@ -150,7 +175,7 @@ export default function DetailsSection() {
               value="documents"
               className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
             >
-              <PanelsTopLeftIcon
+              <FileStackIcon
                 className="-ms-0.5 me-1.5 opacity-60"
                 size={16}
                 aria-hidden="true"
@@ -161,7 +186,7 @@ export default function DetailsSection() {
               value="payments"
               className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
             >
-              <BoxIcon
+              <ReceiptTextIcon
                 className="-ms-0.5 me-1.5 opacity-60"
                 size={16}
                 aria-hidden="true"
@@ -173,9 +198,157 @@ export default function DetailsSection() {
         </ScrollArea>
       </Tabs>
 
-      <div className="border rounded-md p-4">
+      <div>
         <Outlet />
       </div>
     </div>
+  );
+}
+
+function RentalStartAction({
+  code,
+  rental,
+}: {
+  code: string;
+  rental: RentalData;
+}) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const { mutate: startRental, isPending: isStartingRental } = useRentalStart({
+    onSuccess: () => {
+      toast.success("Rental started successfully");
+      router.invalidate({
+        filter: (match) => match.id === code,
+      });
+      setOpen(false);
+    },
+    onError: () => {
+      toast.error("Failed to start rental");
+    },
+  });
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline">
+          <PlayIcon className="w-4 h-4" />
+          Start Rental
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Start Rental</DialogTitle>
+          <DialogDescription>
+            Start the rental by providing the actual departure date and mileage.
+          </DialogDescription>
+        </DialogHeader>
+        <div>
+          <RentalStartForm
+            submit={(data) => startRental({ id: code, data })}
+            initialValues={{ mileage: rental.vehicle.mileage }}
+            loading={isStartingRental}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function RentalReturnAction({
+  code,
+  rental,
+}: {
+  code: string;
+  rental: RentalData;
+}) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const { mutate: returnRental, isPending: isReturningRental } =
+    useRentalReturn({
+      onSuccess: () => {
+        toast.success("Rental returned successfully");
+        router.invalidate({
+          filter: (match) => match.id === code,
+        });
+        setOpen(false);
+      },
+      onError: () => {
+        toast.error("Failed to return rental");
+      },
+    });
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline">
+          <CircleArrowOutDownLeft className="w-4 h-4" />
+          Return Rental
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Return Rental</DialogTitle>
+          <DialogDescription>
+            Return the rental by providing the actual return date and mileage.
+          </DialogDescription>
+        </DialogHeader>
+        <div>
+          <RentalReturnForm
+            submit={(data) => returnRental({ id: code, data })}
+            initialValues={{ mileage: rental.vehicle.mileage }}
+            loading={isReturningRental}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function RentalAgreementAction({
+  code,
+  rental,
+}: {
+  code: string;
+  rental: RentalData;
+}) {
+  if (rental.agreement_document) {
+    return (
+      <Button variant="outline" asChild>
+        <a href={rental.agreement_document.url} target="_blank">
+          <FileTextIcon className="w-4 h-4" />
+          View Agreement
+        </a>
+      </Button>
+    );
+  }
+  const router = useRouter();
+  const { mutate: generateAgreement, isPending: isGeneratingAgreement } =
+    useRentalAgreementGenerate({
+      onSuccess: (data) => {
+        console.log({ data });
+        toast.success("Agreement generated successfully");
+        if (data.data.url) {
+          window.open(data.data.url, "_blank");
+        }
+        router.invalidate({
+          filter: (match) => match.id === code,
+        });
+      },
+      onError: () => {
+        toast.error("Failed to generate agreement");
+      },
+    });
+
+  return (
+    <Button
+      variant="outline"
+      onClick={() => generateAgreement({ code })}
+      loading={isGeneratingAgreement}
+    >
+      <DownloadIcon className="w-4 h-4" />
+      Generate Agreement
+    </Button>
   );
 }

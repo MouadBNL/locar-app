@@ -27,18 +27,29 @@ export function get_date(opt?: { day?: number }) {
 }
 
 export function fmt_date(date: Date, opt?: { format: "date" | "datetime" }) {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const day = date.getDate().toString().padStart(2, "0");
-  const hours = date.getHours().toString().padStart(2, "0");
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-  const seconds = date.getSeconds().toString().padStart(2, "0");
-  // const offset = date.getTimezoneOffset();
-  // const offsetHours = Math.abs(Math.floor(offset / 60)).toString().padStart(2, "0");
-  // const offsetMinutes = Math.abs(offset % 60).toString().padStart(2, "0");
-  // const offsetSign = offset <= 0 ? "+" : "-";
+  const str = date.toISOString();
+  const match = str.match(
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{3}))?Z?$/
+  );
+  if (!match) return str;
+  const [, year, month, day, hours, minutes, seconds, _milliseconds] = match;
   if (opt?.format === "date") {
     return `${year}-${month}-${day}T00:00:00Z`;
   }
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+}
+
+export function fmt_currency(amount: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "MAD",
+    currencySign: "accounting",
+  }).format(amount);
+}
+
+export function str_to_titlecase(str: string) {
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }

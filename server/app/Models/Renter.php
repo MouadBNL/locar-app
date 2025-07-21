@@ -19,13 +19,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read ?string $id_card_scan_document
  * @property-read ?string $driver_license_number
  * @property-read ?string $driver_license_issuing_city
- * @property-read ?string $driver_license_issuing_date
- * @property-read ?string $driver_license_expiration_date
+ * @property-read ?Carbon $driver_license_issuing_date
+ * @property-read ?Carbon $driver_license_expiration_date
  * @property-read ?string $driver_license_scan_document
  * @property-read ?string $passport_number
  * @property-read ?string $passport_country
- * @property-read ?string $passport_issuing_date
- * @property-read ?string $passport_expiration_date
+ * @property-read ?Carbon $passport_issuing_date
+ * @property-read ?Carbon $passport_expiration_date
  * @property-read ?string $passport_scan_document
  * @property-read Rental $rental
  * @property-read ?Customer $customer
@@ -33,6 +33,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Renter extends Model
 {
     use HasUuidAsPrimary;
+
+    protected $casts = [
+        'birth_date' => 'datetime',
+        'driver_license_issuing_date' => 'datetime',
+        'driver_license_expiration_date' => 'datetime',
+        'passport_issuing_date' => 'datetime',
+        'passport_expiration_date' => 'datetime',
+    ];
 
     protected $fillable = [
         'rental_id',

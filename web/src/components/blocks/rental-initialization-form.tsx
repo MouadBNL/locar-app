@@ -5,7 +5,7 @@ import { DateInput } from "../ui/dateinput";
 import { Button } from "../ui/button";
 import { NumberInput } from "../ui/number-input";
 import { Textarea } from "../ui/textarea";
-import { useForm, type UseFormReturn } from "react-hook-form";
+import { useForm, type Resolver, type UseFormReturn } from "react-hook-form";
 import { CustomerSelect } from "./customer-select";
 import { Input } from "../ui/input";
 import { fmt_date, generate_rental_code, get_date } from "@/lib/utils";
@@ -25,7 +25,7 @@ export default function RentalInitializationForm({
   submit,
 }: RentalFormProps) {
   const form = useForm<RentalData>({
-    resolver: zodResolver(RentalSchema),
+    resolver: zodResolver(RentalSchema) as unknown as Resolver<RentalData>,
     defaultValues: {
       vehicle: {
         vehicle_id: null,
@@ -96,8 +96,8 @@ export default function RentalInitializationForm({
         </Button>
       </form>
 
-      <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
-      <pre>{JSON.stringify(form.getValues(), null, 2)}</pre>
+      {/* <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
+      <pre>{JSON.stringify(form.getValues(), null, 2)}</pre> */}
     </Form>
   );
 }

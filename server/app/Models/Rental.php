@@ -2,18 +2,26 @@
 
 namespace App\Models;
 
+use App\Enums\RentalStatus;
 use App\Traits\HasUuidAsPrimary;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
 
 /**
  * @property-read string $id
  * @property-read string $rental_number
  * @property-read ?string $notes
+ * @property-read RentalStatus $status
  * @property-read RentalTimeframe $timeframe
  * @property-read RentalVehicle $vehicle
  * @property-read Renter $renter
  * @property-read RentalRate $rate
+ * @property-read ?Document $agreement_document
+ * @property-read Collection<array-key, RentalDocument> $documents
+ * @property-read Collection<array-key, RentalPayment> $payments
  */
 class Rental extends Model
 {
@@ -23,6 +31,30 @@ class Rental extends Model
         'rental_number',
         'notes',
     ];
+
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->timeframe->actual_departure_date && $this->timeframe->actual_return_date) {
+                    return RentalStatus::FINISHED;
+                }
+
+                if ($this->timeframe->actual_departure_date) {
+                    return RentalStatus::STARTED;
+                }
+
+                return RentalStatus::DRAFT;
+            },
+        );
+    }
+
+    public function agreement_document(): HasOne
+    {
+        return $this->hasOne(RentalDocument::class, 'rental_id', 'id')
+            ->where('type', 'rental_agreement')
+            ->with('document');
+    }
 
     public function timeframe(): HasOne
     {
@@ -42,5 +74,15 @@ class Rental extends Model
     public function renter(): HasOne
     {
         return $this->hasOne(Renter::class, 'rental_id', 'id');
+    }
+
+    public function documents(): HasMany
+    {
+        return $this->hasMany(RentalDocument::class, 'rental_id', 'id');
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(RentalPayment::class, 'rental_id', 'id');
     }
 }

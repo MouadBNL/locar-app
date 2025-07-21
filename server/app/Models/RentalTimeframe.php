@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Traits\HasUuidAsPrimary;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Carbon\Carbon;
 
 /**
  * @property-read string $id
@@ -24,10 +24,10 @@ class RentalTimeframe extends Model
     use HasUuidAsPrimary;
 
     protected $casts = [
-        'departure_date' => 'date',
-        'return_date' => 'date',
-        'actual_departure_date' => 'date',
-        'actual_return_date' => 'date',
+        'departure_date' => 'datetime',
+        'return_date' => 'datetime',
+        'actual_departure_date' => 'datetime',
+        'actual_return_date' => 'datetime',
     ];
 
     protected $fillable = [
@@ -41,7 +41,6 @@ class RentalTimeframe extends Model
         'total_weeks',
         'total_months',
     ];
-
 
     public function rental(): BelongsTo
     {

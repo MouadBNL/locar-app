@@ -2,7 +2,7 @@
 
 namespace App\Data;
 
-use Carbon\CarbonImmutable;
+use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 
 class RenterData extends Data
@@ -15,19 +15,21 @@ class RenterData extends Data
         public ?string $phone,
         public ?string $email,
         public ?string $id_card_number,
-        public ?CarbonImmutable $birth_date,
+        public ?Carbon $birth_date,
         public ?string $address_primary,
         public ?string $id_card_scan_document,
         public ?string $driver_license_number,
         public ?string $driver_license_issuing_city,
-        public ?CarbonImmutable $driver_license_issuing_date,
-        public ?CarbonImmutable $driver_license_expiration_date,
+        public ?Carbon $driver_license_issuing_date,
+        public ?Carbon $driver_license_expiration_date,
         public ?string $driver_license_scan_document,
         public ?string $passport_number,
         public ?string $passport_country,
-        public ?CarbonImmutable $passport_issuing_date,
-        public ?CarbonImmutable $passport_expiration_date,
+        public ?Carbon $passport_issuing_date,
+        public ?Carbon $passport_expiration_date,
         public ?string $passport_scan_document,
+        // Meta
+        public ?string $identifier,
     ) {}
 
     public static function rules(): array

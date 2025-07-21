@@ -7,7 +7,7 @@ import {
   I18nProvider,
   Popover,
 } from "react-aria-components";
-import { CalendarDateTime, parseDateTime } from "@internationalized/date";
+import { CalendarDateTime } from "@internationalized/date";
 
 import { Calendar } from "@/components/ui/calendar-rac";
 import { DateInput as DateInputContent } from "@/components/ui/datefield-rac";
@@ -16,35 +16,55 @@ import { fmt_date } from "@/lib/utils";
 type DateInputProps =
   | {
       type: "string";
-      value?: string;
+      value?: string | null;
       onChange?: (value: string) => void;
     }
   | {
       type: "date";
-      value?: Date;
+      value?: Date | null;
       onChange?: (value: Date) => void;
     };
 
 export function DateTimeInput({ value, onChange, type }: DateInputProps) {
   const onDateChange = (value: CalendarDateTime | null) => {
     value?.set({ second: 0, millisecond: 0 });
+    console.log("[onDateChange] value:", {
+      h: value?.hour,
+      m: value?.minute,
+      s: value?.second,
+      ms: value?.millisecond,
+      str: value?.toString(),
+      date: new Date(value ? value.toString() : "").toISOString(),
+    });
+    const date = new Date(value ? value.toString() : "");
     if (type === "string") {
-      const fmt = value
-        ? fmt_date(value.toDate("UTC"), { format: "datetime" })
-        : undefined;
-      onChange?.(fmt ?? "");
+      onChange?.(fmt_date(date, { format: "datetime" }));
     } else {
-      onChange?.(value?.toDate("UTC") ?? new Date());
+      onChange?.(date);
     }
   };
 
-  const normalizedValue = (v: string | undefined) => {
+  const normalizedValue = (v: string | null | undefined) => {
+    // Fallback for ISO strings
     if (!v) return undefined;
     const d = new Date(v);
-    d.setMilliseconds(0);
-    d.setSeconds(0);
-    const val = d.toISOString().replace("Z", "");
-    return parseDateTime(val);
+    if (isNaN(d.getTime())) return undefined;
+
+    // Create a CalendarDateTime directly from the Date object
+    return new CalendarDateTime(
+      d.getFullYear(),
+      d.getMonth() + 1, // getMonth() returns 0-11
+      d.getDate(),
+      d.getHours(),
+      d.getMinutes()
+    );
+    // console.log("[normalizedValue] value:", v);
+    // if (!v) return undefined;
+    // const d = new Date(v);
+    // d.setMilliseconds(0);
+    // d.setSeconds(0);
+    // const val = d.toISOString().replace("Z", "");
+    // return parseDateTime(val);
   };
   return (
     <I18nProvider locale="en-UK">

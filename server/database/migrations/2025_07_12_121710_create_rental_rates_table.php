@@ -27,7 +27,6 @@ return new class extends Migration
             $table->decimal('month_rate', 10, 2)->nullable();
             $table->decimal('month_total', 10, 2)->nullable();
 
-
             $table->decimal('insurance_quantity')->nullable();
             $table->decimal('insurance_rate', 10, 2)->nullable();
             $table->decimal('insurance_total', 10, 2)->nullable();
