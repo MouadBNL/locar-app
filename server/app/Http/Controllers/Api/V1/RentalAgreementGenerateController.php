@@ -13,7 +13,7 @@ class RentalAgreementGenerateController extends Controller
     {
         $rentalData = RentalData::fromModel($rental);
         $path = $generator->generate($rentalData);
-
-        return response()->download($path);
+        return response()->file($path);
+        // return response()->download($path);
     }
 }
