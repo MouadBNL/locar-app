@@ -7,7 +7,12 @@ export const RentalPaymentMethodSchema = z.enum([
   "cheque",
   "other",
 ]);
-export const RentalPaymentTypeSchema = z.enum(["normal", "deposit", "other"]);
+export const RentalPaymentTypeSchema = z.enum([
+  "normal",
+  "deposit",
+  "refund",
+  "other",
+]);
 
 export const RentalPaymentSchema = z.object({
   method: RentalPaymentMethodSchema,
@@ -16,5 +21,5 @@ export const RentalPaymentSchema = z.object({
   date: z.string().datetime().nullish(),
   receipt_document_id: z.string().uuid().nullish(),
   reference: z.string().nullish(),
-  note: z.string().nullish(),
+  notes: z.string().nullish(),
 });

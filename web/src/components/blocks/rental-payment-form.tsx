@@ -78,6 +78,7 @@ export const RentalPaymentForm = ({
               <SelectContent>
                 <SelectItem value="normal">Normal</SelectItem>
                 <SelectItem value="deposit">Deposit</SelectItem>
+                <SelectItem value="refund">Refund</SelectItem>
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
@@ -103,8 +104,8 @@ export const RentalPaymentForm = ({
         />
         <AppFormField
           control={form.control}
-          name="note"
-          label="Note"
+          name="notes"
+          label="Notes"
           render={({ field }) => (
             <Textarea {...field} value={field.value ?? ""} />
           )}

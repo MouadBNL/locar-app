@@ -18,7 +18,19 @@ export type RentalPaymentResource = {
   date: string;
   receipt_document_id: string;
   reference?: string;
-  note?: string;
+  notes?: string;
   created_at: string;
   updated_at: string;
+};
+
+export type RentalPaymentIndexResponse = {
+  payments: RentalPaymentResource[];
+  meta: {
+    payment_total: number;
+    payment_due: number;
+    payment_paid: number;
+    deposit_total: number;
+    deposit_refunded: number;
+    deposit_due: number;
+  };
 };

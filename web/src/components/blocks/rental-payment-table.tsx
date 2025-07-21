@@ -50,7 +50,7 @@ export const RentalPaymentTable = ({
                 <TableCell>{payment.amount}</TableCell>
                 <TableCell>{payment.date}</TableCell>
                 <TableCell>{payment.reference}</TableCell>
-                <TableCell>{payment.note}</TableCell>
+                <TableCell>{payment.notes}</TableCell>
                 <TableCell>{actions?.(payment)}</TableCell>
               </TableRow>
             ))}

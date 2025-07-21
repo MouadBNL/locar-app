@@ -65,13 +65,23 @@ function RouteComponent() {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <EditPaymentDialog
-            payment={editPayment}
-            rental_code={code}
-            setEditPayment={setEditPayment}
-          />
+          <Card className="p-0 mb-8">
+            <CardContent className="py-4 flex justify-between items-center">
+              <PaymentSummary
+                payment_total={rental?.data?.meta.payment_total ?? 0}
+                payment_paid={rental?.data?.meta.payment_paid ?? 0}
+                payment_due={rental?.data?.meta.payment_due ?? 0}
+              />
+
+              <DepositSummary
+                deposit_total={rental?.data?.meta.deposit_total ?? 0}
+                deposit_refunded={rental?.data?.meta.deposit_refunded ?? 0}
+                deposit_due={rental?.data?.meta.deposit_due ?? 0}
+              />
+            </CardContent>
+          </Card>
           <RentalPaymentTable
-            payments={rental?.data ?? []}
+            payments={rental?.data?.payments ?? []}
             loading={isFetching}
             actions={(payment) => (
               <div className="flex gap-2 justify-end items-center">
@@ -98,6 +108,12 @@ function RouteComponent() {
           />
         </CardContent>
       </Card>
+
+      <EditPaymentDialog
+        payment={editPayment}
+        rental_code={code}
+        setEditPayment={setEditPayment}
+      />
     </div>
   );
 }
@@ -182,5 +198,59 @@ function EditPaymentDialog({
         />
       </DialogContent>
     </Dialog>
+  );
+}
+
+function PaymentSummary({
+  payment_total,
+  payment_paid,
+  payment_due,
+}: {
+  payment_total: number;
+  payment_paid: number;
+  payment_due: number;
+}) {
+  return (
+    <div className="grid grid-cols-3 gap-8">
+      <div>
+        <p className="text-sm">Required:</p>{" "}
+        <p className="font-semibold">{payment_total} MAD</p>
+      </div>
+      <div>
+        <p className="text-sm">Total Paid:</p>{" "}
+        <p className="font-semibold">{payment_paid} MAD</p>
+      </div>
+      <div>
+        <p className="text-sm">Total Due:</p>{" "}
+        <p className="font-semibold">{payment_due} MAD</p>
+      </div>
+    </div>
+  );
+}
+
+function DepositSummary({
+  deposit_total,
+  deposit_refunded,
+  deposit_due,
+}: {
+  deposit_total: number;
+  deposit_refunded: number;
+  deposit_due: number;
+}) {
+  return (
+    <div className="grid grid-cols-3 gap-8">
+      <div>
+        <p className="text-sm">Deposit Total:</p>{" "}
+        <p className="font-semibold">{deposit_total} MAD</p>
+      </div>
+      <div>
+        <p className="text-sm">Refunded:</p>{" "}
+        <p className="font-semibold">{deposit_refunded} MAD</p>
+      </div>
+      <div>
+        <p className="text-sm">Due:</p>{" "}
+        <p className="font-semibold">{deposit_due} MAD</p>
+      </div>
+    </div>
   );
 }

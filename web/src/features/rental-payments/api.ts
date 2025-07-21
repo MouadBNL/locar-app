@@ -1,8 +1,12 @@
 import { http, type ApiResponse } from "@/lib/http";
-import type { RentalPaymentData, RentalPaymentResource } from "./types";
+import type {
+  RentalPaymentData,
+  RentalPaymentIndexResponse,
+  RentalPaymentResource,
+} from "./types";
 
 export const rentalPaymentIndexFn = async (ctx: { rental_code: string }) => {
-  const res = await http.get<ApiResponse<RentalPaymentResource[]>>(
+  const res = await http.get<ApiResponse<RentalPaymentIndexResponse>>(
     `/rentals/${ctx.rental_code}/payments`
   );
   return res.data;
