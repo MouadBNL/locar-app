@@ -1,15 +1,17 @@
-import type z from "zod";
+import z from "zod";
 import type {
   RentalSchema,
   RentalRateSchema,
   RentalTimeframeSchema,
   RentalVehichleSchema,
   RenterSchema,
+  RentalStartSchema,
 } from "./schema";
 
 export type RentalSummaryData = {
   id: string;
   rental_number: string;
+  status: RentalStatus;
   customer: {
     id: string;
     full_name: string;
@@ -40,6 +42,7 @@ export type RentalData = z.infer<typeof RentalSchema>;
 export type RentalShowResponse = {
   id: string;
   rental_number: string;
+  status: RentalStatus;
   customer: {
     id: string;
     full_name: string;
@@ -68,3 +71,14 @@ export type RentalShowResponse = {
   created_at: string;
   updated_at: string;
 };
+
+export const RentalStatusSchema = z.enum([
+  "draft",
+  "started",
+  "finished",
+  "cancelled",
+]);
+export type RentalStatus = z.infer<typeof RentalStatusSchema>;
+
+
+export type RentalStartData = z.infer<typeof RentalStartSchema>;

@@ -2,6 +2,7 @@ import { http, type ApiResponse } from "@/lib/http";
 import type {
   RentalData,
   RentalRateData,
+  RentalStartData,
   RentalSummaryData,
   RentalTimeframeData,
   RentalVehichleData,
@@ -98,5 +99,20 @@ export const rentalNotesUpdateFn = async ({
     `/rentals/${id}/notes`,
     data
   );
+  return res.data;
+};
+
+/**
+ * Rental actions
+ */
+
+export const rentalStartFn = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: RentalStartData;
+}) => {
+  const res = await http.post<ApiResponse<void>>(`/rentals/${id}/start`, data);
   return res.data;
 };

@@ -28,6 +28,7 @@ class RentalController extends ApiController
             id: $rental->id,
             rental_number: $rental->rental_number,
             notes: $rental->notes,
+            status: $rental->status,
             timeframe: new RentalTimeframeData(
                 id: $rental->timeframe->id,
                 rental_id: $rental->id,

@@ -5,6 +5,7 @@ import { Heading3 } from "@/components/ui/typography";
 import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
 import {
   DownloadIcon,
+  EyeIcon,
   FileStackIcon,
   LayoutPanelLeft,
   PlayIcon,
@@ -13,12 +14,26 @@ import {
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { VehicleSummaryCard } from "@/components/blocks/vehicle-summary-card";
 import { CustomerSummaryCard } from "@/components/blocks/customer-summary-card";
 import { PeriodSummaryCard } from "@/components/blocks/period-summary-card";
-import { rentalShowFn } from "@/features/rentals";
+import {
+  rentalShowFn,
+  useRentalStart,
+  type RentalData,
+} from "@/features/rentals";
+import { RentalStatusBadge } from "@/components/blocks/rental-status-badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { RentalStartForm } from "@/components/blocks/rental-start-form";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/rentals/$id")({
   component: RouteComponent,
@@ -43,25 +58,28 @@ function RouteComponent() {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-8">
           <Heading3>Rental #{code}</Heading3>
-          <Badge variant="outline" className="gap-2 text-sm">
-            <span
-              className="size-1.5 rounded-full bg-accent-foreground"
-              aria-hidden="true"
-            ></span>
-            Draft
-          </Badge>
+          <RentalStatusBadge status={rental.status ?? "draft"} />
         </div>
 
         <div className="flex space-x-2">
-          <Button variant="outline">
-            <DownloadIcon className="w-4 h-4" />
-            Generate Agreement
-          </Button>
+          {rental.status === "draft" && (
+            <>
+              <Button variant="outline">
+                <DownloadIcon className="w-4 h-4" />
+                Generate Agreement
+              </Button>
+              <RentalStartAction code={code} rental={rental} />
+            </>
+          )}
 
-          <Button variant="outline">
-            <PlayIcon className="w-4 h-4" />
-            Start Location
-          </Button>
+          {rental.status === "started" && (
+            <>
+              <Button variant="outline">
+                <EyeIcon className="w-4 h-4" />
+                View Agreement
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
@@ -111,7 +129,7 @@ function RouteComponent() {
   );
 }
 
-export default function DetailsSection() {
+function DetailsSection() {
   const router = useRouter();
   const { id } = Route.useParams();
 
@@ -181,5 +199,55 @@ export default function DetailsSection() {
         <Outlet />
       </div>
     </div>
+  );
+}
+
+function RentalStartAction({
+  code,
+  rental,
+}: {
+  code: string;
+  rental: RentalData;
+}) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const { mutate: startRental, isPending: isStartingRental } = useRentalStart({
+    onSuccess: () => {
+      toast.success("Rental started successfully");
+      router.invalidate({
+        filter: (match) => match.id === code,
+      });
+      setOpen(false);
+    },
+    onError: () => {
+      toast.error("Failed to start rental");
+    },
+  });
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline">
+          <PlayIcon className="w-4 h-4" />
+          Start Rental
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Start Rental</DialogTitle>
+          <DialogDescription>
+            Start the rental by providing the actual departure date and mileage.
+          </DialogDescription>
+        </DialogHeader>
+        <div>
+          <RentalStartForm
+            submit={(data) => startRental({ id: code, data })}
+            initialValues={{ mileage: rental.vehicle.mileage }}
+            loading={isStartingRental}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
