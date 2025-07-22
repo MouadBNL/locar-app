@@ -68,7 +68,6 @@ class RentalInitializationController extends Controller
                 'driver_license_scan_document' => $data->renter->driver_license_scan_document,
             ]);
 
-
             $rate = RentalRate::create([
                 'rental_id' => $rental->id,
 

@@ -59,13 +59,15 @@ class RentalDetailsUpdateController extends ApiController
 
     public function timeframe(RentalTimeframeData $data, Rental $rental)
     {
+        $diffInDays = $data->departure_date->diffInDays($data->return_date);
+        $days = $diffInDays - floor($diffInDays) > 0.2 ? ceil($diffInDays) : floor($diffInDays);
+
         $rental->timeframe->update([
             'departure_date' => $data->departure_date,
             'return_date' => $data->return_date,
+            'total_days' => $days,
         ]);
 
-        $diffInDays = $data->departure_date->floatDiffInDays($data->return_date);
-        $days = $diffInDays - floor($diffInDays) > 0.2 ? ceil($diffInDays) : floor($diffInDays);
         $rental->rate->update([
             'day_quantity' => $days,
             'day_total' => $rental->rate->day_rate * $days,
