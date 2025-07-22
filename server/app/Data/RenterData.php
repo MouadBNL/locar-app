@@ -17,17 +17,19 @@ class RenterData extends Data
         public ?string $id_card_number,
         public ?Carbon $birth_date,
         public ?string $address_primary,
-        public ?string $id_card_scan_document,
         public ?string $driver_license_number,
         public ?string $driver_license_issuing_city,
         public ?Carbon $driver_license_issuing_date,
         public ?Carbon $driver_license_expiration_date,
-        public ?string $driver_license_scan_document,
         public ?string $passport_number,
         public ?string $passport_country,
         public ?Carbon $passport_issuing_date,
         public ?Carbon $passport_expiration_date,
-        public ?string $passport_scan_document,
+
+        // Documents
+        public ?string $id_card_scan_document,
+        public ?string $driver_license_scan_document,
+
         // Meta
         public ?string $identifier,
     ) {}

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Data\RentalData;
+use App\Enums\RentalDocumentType;
 use App\Http\Controllers\Controller;
 use App\Models\Rental;
+use App\Models\RentalDocument;
 use App\Models\RentalRate;
 use App\Models\RentalTimeframe;
 use App\Models\RentalVehicle;
@@ -51,20 +53,22 @@ class RentalInitializationController extends Controller
                 'id_card_number' => $data->renter->id_card_number,
                 'birth_date' => $data->renter->birth_date,
                 'address_primary' => $data->renter->address_primary,
-                'id_card_scan_document' => $data->renter->id_card_scan_document,
 
                 'driver_license_number' => $data->renter->driver_license_number,
                 'driver_license_issuing_city' => $data->renter->driver_license_issuing_city,
                 'driver_license_issuing_date' => $data->renter->driver_license_issuing_date,
                 'driver_license_expiration_date' => $data->renter->driver_license_expiration_date,
-                'driver_license_scan_document' => $data->renter->driver_license_scan_document,
 
                 'passport_number' => $data->renter->passport_number,
                 'passport_country' => $data->renter->passport_country,
                 'passport_issuing_date' => $data->renter->passport_issuing_date,
                 'passport_expiration_date' => $data->renter->passport_expiration_date,
-                'passport_scan_document' => $data->renter->passport_scan_document,
+
+                'id_card_scan_document' => $data->renter->id_card_scan_document,
+                'driver_license_scan_document' => $data->renter->driver_license_scan_document,
             ]);
+
+
             $rate = RentalRate::create([
                 'rental_id' => $rental->id,
 
@@ -90,6 +94,23 @@ class RentalInitializationController extends Controller
 
                 'total' => $data->rate->total,
             ]);
+
+            if ($data->renter->id_card_scan_document) {
+                RentalDocument::create([
+                    'rental_id' => $rental->id,
+                    'document_id' => $data->renter->id_card_scan_document,
+                    'title' => 'ID Card Scan',
+                    'type' => RentalDocumentType::ID_CARD,
+                ]);
+            }
+            if ($data->renter->driver_license_scan_document) {
+                RentalDocument::create([
+                    'rental_id' => $rental->id,
+                    'document_id' => $data->renter->driver_license_scan_document,
+                    'title' => 'Driver License Scan',
+                    'type' => RentalDocumentType::DRIVER_LICENSE,
+                ]);
+            }
 
             return $rental->id;
         });

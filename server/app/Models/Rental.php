@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RentalDocumentType;
 use App\Enums\RentalStatus;
 use App\Traits\HasUuidAsPrimary;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -54,7 +55,7 @@ class Rental extends Model
     public function agreement_document(): HasOne
     {
         return $this->hasOne(RentalDocument::class, 'rental_id', 'id')
-            ->where('type', 'rental_agreement')
+            ->where('type', RentalDocumentType::RENTAL_AGREEMENT)
             ->with('document');
     }
 

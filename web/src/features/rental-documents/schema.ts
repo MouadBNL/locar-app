@@ -3,6 +3,7 @@ import z from "zod";
 export const rentalDocumentTypeSchema = [
   "rental_agreement",
   "id_card_scan",
+  "driver_license_scan",
   "other",
 ] as const;
 
@@ -12,6 +13,7 @@ export const rentalDocumentTypeMap: Record<
 > = {
   rental_agreement: "Rental Agreement",
   id_card_scan: "ID Card Scan",
+  driver_license_scan: "Driver License Scan",
   other: "Other",
 };
 

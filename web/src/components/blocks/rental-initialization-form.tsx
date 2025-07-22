@@ -15,6 +15,7 @@ import { RentalSchema, type RentalData } from "@/features/rentals";
 import { Separator } from "../ui/separator";
 import { DateTimeInput } from "../ui/datetime-input";
 import { useCustomerIndex } from "@/features/customers";
+import { DocumentUpload } from "./document-upload";
 
 export type RentalFormProps = {
   loading?: boolean;
@@ -348,6 +349,24 @@ const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
               value={field.value ?? undefined}
               type="string"
             />
+          )}
+        />
+
+        <AppFormField
+          control={form.control}
+          name="renter.id_card_scan_document"
+          label="ID Card Scan Document"
+          render={({ field }) => (
+            <DocumentUpload {...field} value={field.value ?? undefined} />
+          )}
+        />
+
+        <AppFormField
+          control={form.control}
+          name="renter.driver_license_scan_document"
+          label="Driver License Scan Document"
+          render={({ field }) => (
+            <DocumentUpload {...field} value={field.value ?? undefined} />
           )}
         />
       </div>
