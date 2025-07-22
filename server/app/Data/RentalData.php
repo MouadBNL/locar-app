@@ -19,7 +19,7 @@ class RentalData extends Data
         public RentalVehicleData $vehicle,
         public RenterData $renter,
         public RentalRateData $rate,
-        public ?RentalChargeSummaryData $charge_summary,
+        public ?RentalChargesSummaryData $charges_summary,
     ) {}
 
     public static function rules(): array
@@ -108,7 +108,7 @@ class RentalData extends Data
                 week_rate: $rental->rate->week_rate,
                 week_total: $rental->rate->week_total,
             ),
-            charge_summary: RentalChargeSummaryData::fromRental($rental),
+            charges_summary: RentalChargesSummaryData::fromRental($rental),
         );
     }
 }

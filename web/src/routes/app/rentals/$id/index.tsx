@@ -86,7 +86,7 @@ function RouteComponent() {
         />
       </div>
       <div className="col-span-1">
-        <RentalChargesSummary charges={rental.charge_summary ?? undefined} />
+        <RentalChargesSummary charges={rental.charges_summary ?? undefined} />
       </div>
     </div>
   );

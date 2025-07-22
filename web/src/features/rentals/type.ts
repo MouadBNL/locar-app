@@ -7,7 +7,7 @@ import type {
   RenterSchema,
   RentalStartSchema,
   RentalReturnSchema,
-  RentalChargeSummarySchema,
+  RentalChargesSummarySchema,
 } from "./schema";
 import type { DocumentResource } from "../documents";
 
@@ -90,5 +90,5 @@ export type RentalStartData = z.infer<typeof RentalStartSchema>;
 export type RentalReturnData = z.infer<typeof RentalReturnSchema>;
 
 export type RentalChargesSummaryData = z.infer<
-  typeof RentalChargeSummarySchema
+  typeof RentalChargesSummarySchema
 >;

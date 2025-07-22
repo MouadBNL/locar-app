@@ -74,7 +74,7 @@ export const RentalRateSchema = z.object({
   total: z.number().min(0).nullish(),
 });
 
-export const RentalChargeSummarySchema = z.object({
+export const RentalChargesSummarySchema = z.object({
   day_rate: z.number().min(0),
   day_quantity: z.number().min(0),
   day_total: z.number().min(0),
@@ -100,7 +100,7 @@ export const RentalSchema = z.object({
   renter: RenterSchema,
   vehicle: RentalVehichleSchema,
   rate: RentalRateSchema,
-  charge_summary: RentalChargeSummarySchema.nullish(),
+  charges_summary: RentalChargesSummarySchema.nullish(),
 });
 
 export const RentalStartSchema = z.object({

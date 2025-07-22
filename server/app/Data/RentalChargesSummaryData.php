@@ -6,7 +6,7 @@ use App\Enums\RentalPaymentType;
 use App\Models\Rental;
 use Spatie\LaravelData\Data;
 
-class RentalChargeSummaryData extends Data
+class RentalChargesSummaryData extends Data
 {
     public function __construct(
         public float $day_rate,
@@ -50,7 +50,7 @@ class RentalChargeSummaryData extends Data
         $due = $total - $paid;
         $deposit = $rental->payments->where('type', RentalPaymentType::DEPOSIT)->sum('amount') ?? 0;
         $refunded = $rental->payments->where('type', RentalPaymentType::REFUND)->sum('amount') ?? 0;
-        $refund_due = $due - $refunded;
+        $refund_due = $deposit - $refunded;
 
         return new self(
             day_rate: $day_rate,
