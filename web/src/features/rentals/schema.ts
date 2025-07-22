@@ -74,6 +74,24 @@ export const RentalRateSchema = z.object({
   total: z.number().min(0).nullish(),
 });
 
+export const RentalChargeSummarySchema = z.object({
+  day_rate: z.number().min(0),
+  day_quantity: z.number().min(0),
+  day_total: z.number().min(0),
+  extra_rate: z.number().min(0),
+  extra_quantity: z.number().min(0),
+  extra_total: z.number().min(0),
+  insurance_rate: z.number().min(0),
+  insurance_quantity: z.number().min(0),
+  insurance_total: z.number().min(0),
+  total: z.number().min(0),
+  paid: z.number().min(0),
+  due: z.number().min(0),
+  deposit: z.number().min(0),
+  refunded: z.number().min(0),
+  refund_due: z.number().min(0),
+});
+
 export const RentalSchema = z.object({
   id: z.string().uuid().nullish(),
   rental_number: z.string().max(255),
@@ -82,6 +100,7 @@ export const RentalSchema = z.object({
   renter: RenterSchema,
   vehicle: RentalVehichleSchema,
   rate: RentalRateSchema,
+  charge_summary: RentalChargeSummarySchema.nullish(),
 });
 
 export const RentalStartSchema = z.object({

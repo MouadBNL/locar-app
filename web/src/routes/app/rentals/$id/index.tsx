@@ -31,7 +31,6 @@ import {
 } from "@/features/rentals";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { BanknoteIcon } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -87,23 +86,7 @@ function RouteComponent() {
         />
       </div>
       <div className="col-span-1">
-        <RentalChargesSummary
-          day_rate={rental.rate?.day_rate ?? 0}
-          day_quantity={rental.rate?.day_quantity ?? 0}
-          day_total={rental.rate?.day_total ?? 0}
-          extra_rate={rental.rate?.extra_rate ?? 0}
-          extra_quantity={rental.rate?.extra_quantity ?? 0}
-          extra_total={rental.rate?.extra_total ?? 0}
-          insurance_rate={rental.rate?.insurance_rate ?? 0}
-          insurance_quantity={rental.rate?.insurance_quantity ?? 0}
-          insurance_total={rental.rate?.insurance_total ?? 0}
-          total={rental.rate?.total ?? 0}
-          paid={rental.rate?.paid ?? 0}
-          due={rental.rate?.due ?? 0}
-          deposit={rental.rate?.deposit ?? 0}
-          refunded={rental.rate?.refunded ?? 0}
-          refund_due={rental.rate?.refund_due ?? 0}
-        />
+        <RentalChargesSummary charges={rental.charge_summary ?? undefined} />
       </div>
     </div>
   );
