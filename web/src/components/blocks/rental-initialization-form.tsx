@@ -176,23 +176,23 @@ const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
       );
       form.setValue("renter.phone", customer.phone);
       form.setValue("renter.address_primary", customer.address ?? "");
-      // form.setValue("customer.id_number", customer. ?? "");
+      form.setValue("renter.id_card_number", customer.id_card_number ?? "");
       form.setValue(
         "renter.driver_license_number",
         customer.driver_license_number ?? ""
       );
-      form.setValue(
-        "renter.driver_license_issuing_city",
-        customer.address ?? ""
-      );
-      form.setValue(
-        "renter.driver_license_issuing_date",
-        customer.birth_date ?? ""
-      );
-      form.setValue(
-        "renter.driver_license_expiration_date",
-        customer.birth_date ?? ""
-      );
+      // form.setValue(
+      //   "renter.driver_license_issuing_city",
+      //   customer.address ?? ""
+      // );
+      // form.setValue(
+      //   "renter.driver_license_issuing_date",
+      //   customer.birth_date ?? ""
+      // );
+      // form.setValue(
+      //   "renter.driver_license_expiration_date",
+      //   customer.birth_date ?? ""
+      // );
     }
   }, [customers, customer_id, form]);
 
