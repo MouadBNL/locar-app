@@ -32,7 +32,7 @@ class RentalData extends Data
 
     public static function fromModel(Rental $rental): self
     {
-        $rental->load(['rate', 'timeframe', 'renter', 'vehicle.vehicle']);
+        $rental->load(['rate', 'timeframe', 'renter', 'vehicle.vehicle', 'agreement_document']);
 
         return new self(
             id: $rental->id,
