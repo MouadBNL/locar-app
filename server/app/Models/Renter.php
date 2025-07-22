@@ -53,21 +53,22 @@ class Renter extends Model
         'id_card_number',
         'birth_date',
         'address_primary',
-        'id_card_scan_document',
 
         // Driver's license information
         'driver_license_number',
         'driver_license_issuing_city',
         'driver_license_issuing_date',
         'driver_license_expiration_date',
-        'driver_license_scan_document',
 
         // Passport information
         'passport_number',
         'passport_country',
         'passport_issuing_date',
         'passport_expiration_date',
-        'passport_scan_document',
+
+        // Documents
+        'id_card_scan_document',
+        'driver_license_scan_document',
     ];
 
     public function rental(): BelongsTo

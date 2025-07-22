@@ -79,13 +79,14 @@ class RentalData extends Data
                 driver_license_expiration_date: $rental->renter->driver_license_expiration_date,
                 address_primary: $rental->renter->address_primary,
                 birth_date: $rental->renter->birth_date,
-                passport_scan_document: $rental->renter->passport_scan_document,
                 email: $rental->renter->email,
-                driver_license_scan_document: $rental->renter->driver_license_scan_document,
-                id_card_scan_document: $rental->renter->id_card_scan_document,
                 passport_country: $rental->renter->passport_country,
                 passport_expiration_date: $rental->renter->passport_expiration_date,
                 passport_issuing_date: $rental->renter->passport_issuing_date,
+
+                driver_license_scan_document: $rental->renter->driver_license_scan_document,
+                id_card_scan_document: $rental->renter->id_card_scan_document,
+
                 identifier: $rental->renter->id_card_number ?? $rental->renter->passport_number ?? $rental->renter->driver_license_number,
             ),
             rate: new RentalRateData(
