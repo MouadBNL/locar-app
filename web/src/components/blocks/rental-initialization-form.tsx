@@ -16,6 +16,7 @@ import { Separator } from "../ui/separator";
 import { DateTimeInput } from "../ui/datetime-input";
 import { useCustomerIndex } from "@/features/customers";
 import { DocumentUpload } from "./document-upload";
+import type { VehicleData } from "@/features/vehicles";
 
 export type RentalFormProps = {
   loading?: boolean;
@@ -30,10 +31,10 @@ export default function RentalInitializationForm({
     defaultValues: {
       vehicle: {
         vehicle_id: null,
-        make: "Dacia",
-        model: "Duster",
-        year: 2020,
-        license_plate: "1234567890",
+        make: undefined,
+        model: undefined,
+        year: undefined,
+        license_plate: undefined,
       },
       rental_number: generate_rental_code(),
       timeframe: {
@@ -375,6 +376,13 @@ const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
 };
 
 const RentalVehicleForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
+  const onVehicleSelected = (vehicle: VehicleData) => {
+    form.setValue("vehicle.make", vehicle.make);
+    form.setValue("vehicle.model", vehicle.model);
+    form.setValue("vehicle.year", vehicle.year);
+    form.setValue("vehicle.license_plate", vehicle.license_plate);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -390,6 +398,7 @@ const RentalVehicleForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
             render={({ field }) => (
               <VehicleSelect
                 onValueChange={field.onChange}
+                onVehicleSelected={onVehicleSelected}
                 value={field.value ?? undefined}
               />
             )}
