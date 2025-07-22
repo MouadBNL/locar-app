@@ -7,6 +7,7 @@ use App\Data\RentalTimeframeData;
 use App\Data\RentalVehicleData;
 use App\Data\RenterData;
 use App\Models\Rental;
+use App\Services\TimeframeService;
 use Illuminate\Http\Request;
 
 class RentalDetailsUpdateController extends ApiController
@@ -57,10 +58,9 @@ class RentalDetailsUpdateController extends ApiController
         return $this->success(null, 'rental.renter.updated');
     }
 
-    public function timeframe(RentalTimeframeData $data, Rental $rental)
+    public function timeframe(RentalTimeframeData $data, Rental $rental, TimeframeService $timeframeService)
     {
-        $diffInDays = $data->departure_date->diffInDays($data->return_date);
-        $days = $diffInDays - floor($diffInDays) > 0.2 ? ceil($diffInDays) : floor($diffInDays);
+        $days = $timeframeService->diffInDays($data->departure_date, $data->return_date);
 
         $rental->timeframe->update([
             'departure_date' => $data->departure_date,

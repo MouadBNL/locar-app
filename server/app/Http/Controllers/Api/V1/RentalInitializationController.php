@@ -11,6 +11,7 @@ use App\Models\RentalRate;
 use App\Models\RentalTimeframe;
 use App\Models\RentalVehicle;
 use App\Models\Renter;
+use App\Services\TimeframeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,9 +20,9 @@ class RentalInitializationController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(RentalData $data)
+    public function __invoke(RentalData $data, TimeframeService $timeframeService)
     {
-        $rental_id = DB::transaction(function () use ($data) {
+        $rental_id = DB::transaction(function () use ($data, $timeframeService) {
             $rental = Rental::create([
                 'rental_number' => $data->rental_number,
                 'notes' => $data->notes,
@@ -30,10 +31,10 @@ class RentalInitializationController extends Controller
                 'rental_id' => $rental->id,
                 'departure_date' => $data->timeframe->departure_date,
                 'return_date' => $data->timeframe->return_date,
-                'total_hours' => $data->timeframe->total_hours,
-                'total_days' => $data->timeframe->total_days,
-                'total_weeks' => $data->timeframe->total_weeks,
-                'total_months' => $data->timeframe->total_months,
+                'total_days' => $timeframeService->diffInDays($data->timeframe->departure_date, $data->timeframe->return_date),
+                // 'total_hours' => $data->timeframe->total_hours,
+                // 'total_weeks' => $data->timeframe->total_weeks,
+                // 'total_months' => $data->timeframe->total_months,
             ]);
             $vehicle = RentalVehicle::create([
                 'rental_id' => $rental->id,
