@@ -105,6 +105,7 @@ function RouteComponent() {
               <PeriodSummaryCard
                 pickupDate={rental.timeframe.departure_date ?? ""}
                 dropoffDate={rental.timeframe.return_date ?? ""}
+                rentalDays={rental.timeframe.total_days ?? 0}
               />
             </div>
             <Separator orientation="vertical" />
