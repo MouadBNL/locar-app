@@ -26,7 +26,6 @@ class RentalChargesSummaryData extends Data
         public float $refund_due,
     ) {}
 
-
     public static function fromRental(Rental $rental): self
     {
         $rental->load(['rate', 'payments']);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Data\RentalChargesSummaryData;
-use App\Enums\RentalPaymentType;
 use App\Http\Requests\RentalPaymentCreateRequest;
 use App\Http\Resources\RentalPaymentResource;
 use App\Models\Rental;
