@@ -9,10 +9,25 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { CustomerSelect } from "./customer-select";
 import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose
+} from "../ui/dialog";
+import {
   ReservationSchema,
   type ReservationData,
 } from "@/features/reservations";
 import { fmt_date, get_date } from "@/lib/utils";
+import { Plus } from "lucide-react";
+import CustomerForm from "./customer-form";
+import { useCustomerCreate } from "@/features/customers";
+import { useQueryClient } from "@tanstack/react-query";
+
 
 export type ReservationFormProps = {
   initialValues?: Partial<ReservationData>;
@@ -35,6 +50,20 @@ export default function ReservationForm({
       daily_rate: 300,
       total_days: 1,
       ...initialValues,
+    },
+  });
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: createCustomer } = useCustomerCreate({
+    onSuccess: (response) => {
+      // Invalidate cached customer list to refresh the Select
+      queryClient.invalidateQueries({ queryKey: ["customers"] });
+
+      const customerId = response?.data?.id;
+      if (customerId) {
+        form.setValue("customer_id", customerId);
+      }
+
     },
   });
 
@@ -89,17 +118,47 @@ export default function ReservationForm({
             )}
           />
 
-          <AppFormField
-            control={form.control}
-            name="customer_id"
-            label="Customer"
-            render={({ field }) => (
-              <CustomerSelect
-                onValueChange={field.onChange}
-                value={field.value}
-              />
-            )}
-          />
+          <div className="flex justify-center items-center gap-2">
+            <div className="flex-1">
+              <AppFormField
+                control={form.control}
+                name="customer_id"
+                label="Customer"
+                render={({ field }) => (
+                  <CustomerSelect
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  />
+                )}
+              />              
+            </div>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <Plus />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add Customer</DialogTitle>
+                  <DialogDescription>
+                    Add new customer
+                  </DialogDescription>
+                </DialogHeader>
+
+              <CustomerForm submit={(data) => createCustomer({ data })} />
+
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
+              </DialogFooter>
+
+              </DialogContent>
+            </Dialog>
+          </div>
+
 
           <AppFormField
             control={form.control}
