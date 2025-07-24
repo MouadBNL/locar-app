@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { DateCard } from "./date-card";
+import { fmt_currency } from "@/lib/utils";
 
 export type VehicleMaintenanceTableProps = {
   data: VehicleMaintenanceResource[];
@@ -29,6 +30,7 @@ export const VehicleMaintenanceTable = ({
           <TableHead>Title</TableHead>
           <TableHead>Reference</TableHead>
           <TableHead>Notes</TableHead>
+          <TableHead>Expenses</TableHead>
           {actions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
@@ -63,6 +65,16 @@ export const VehicleMaintenanceTable = ({
               <TableCell>{vehicleMaintenance.title}</TableCell>
               <TableCell>{vehicleMaintenance.reference}</TableCell>
               <TableCell>{vehicleMaintenance.notes}</TableCell>
+              <TableCell>
+                <div className="">
+                  <p className="text-sm font-bold">
+                    {fmt_currency(vehicleMaintenance.expenses_sum ?? 0)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {vehicleMaintenance.expenses_count} expenses
+                  </p>
+                </div>
+              </TableCell>
               {actions && (
                 <TableCell className="flex gap-2">
                   {actions(vehicleMaintenance)}

@@ -52,7 +52,13 @@ export const VehicleExpenseForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit(onSubmit)(e);
+        }}
+      >
         <AppFormField
           control={form.control}
           name="type"

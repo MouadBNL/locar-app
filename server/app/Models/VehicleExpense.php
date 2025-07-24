@@ -13,7 +13,7 @@ class VehicleExpense extends Model
 
     protected $fillable = [
         'vehicle_id',
-        'maintenance_id',
+        'vehicle_maintenance_id',
         'type',
         'amount',
         'date',
@@ -31,7 +31,7 @@ class VehicleExpense extends Model
 
     public function maintenance(): HasOne|null
     {
-        return $this->hasOne(VehicleMaintenance::class, 'id', 'maintenance_id');
+        return $this->hasOne(VehicleMaintenance::class, 'id', 'vehicle_maintenance_id');
     }
 
     public function receipt(): HasOne|null

@@ -12,7 +12,10 @@ class VehicleMaintenanceController extends ApiController
 {
     public function index(Vehicle $vehicle)
     {
-        $maintenances = $vehicle->maintenances()->get();
+        $maintenances = $vehicle->maintenances()
+            ->with('expenses')
+            ->orderBy('started_at', 'desc')
+            ->get();
         return $this->success(VehicleMaintenanceResource::collection($maintenances));
     }
 
@@ -60,6 +63,7 @@ class VehicleMaintenanceController extends ApiController
             'notes' => $request->notes,
             'receipt_document_id' => $request->receipt_document_id,
         ]);
+        $maintenance->load('expenses');
         $maintenance->expenses()->update([
             'vehicle_maintenance_id' => null,
         ]);
@@ -68,6 +72,8 @@ class VehicleMaintenanceController extends ApiController
                 'vehicle_maintenance_id' => $maintenance->id,
             ]);
         }
+
+        $maintenance->load('expenses');
         return $this->success(new VehicleMaintenanceResource($maintenance));
     }
 

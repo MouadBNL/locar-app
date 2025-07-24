@@ -8,11 +8,5 @@ export const vehicleMaintenanceSchema = z.object({
   reference: z.string().nullish(),
   notes: z.string().nullish(),
   receipt_document_id: z.string().nullish(),
-  expenses: z
-    .array(
-      z.object({
-        id: z.string().uuid(),
-      })
-    )
-    .nullish(),
+  expenses: z.array(z.string().uuid()).nullish(),
 });

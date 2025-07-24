@@ -16,4 +16,8 @@ export type VehicleMaintenanceResource = {
   notes: string | null;
   receipt_document_id: string | null;
   expenses?: VehicleExpenseResource[];
+  expenses_sum?: number;
+  expenses_count?: number;
+  created_at: string;
+  updated_at: string;
 };

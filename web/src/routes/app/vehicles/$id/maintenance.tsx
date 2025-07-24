@@ -144,6 +144,7 @@ function AddMaintenanceDialog() {
           </DialogDescription>
         </DialogHeader>
         <VehicleMaintenanceForm
+          vehicleId={id}
           loading={isPending}
           submit={(data) => {
             createMaintenance({ vehicleId: id, data });
@@ -188,8 +189,12 @@ export function EditMaintenanceDialog({
           </DialogDescription>
         </DialogHeader>
         <VehicleMaintenanceForm
+          vehicleId={id}
           loading={isPending}
-          initialValues={{ ...maintenance }}
+          initialValues={{
+            ...maintenance,
+            expenses: maintenance?.expenses?.map((expense) => expense.id) ?? [],
+          }}
           submit={(data) => {
             updateMaintenance({
               vehicleId: id,

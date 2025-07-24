@@ -3,11 +3,18 @@ import type { VehicleExpenseRequest, VehicleExpenseResource } from "./types";
 
 export const vehicleExpenseIndexFn = async ({
   vehicleId,
+  ids,
 }: {
   vehicleId: string;
+  ids?: string[];
 }) => {
   const res = await http.get<ApiResponse<VehicleExpenseResource[]>>(
-    `/vehicles/${vehicleId}/expenses`
+    `/vehicles/${vehicleId}/expenses`,
+    {
+      params: {
+        ids: ids?.join(",") ?? undefined,
+      },
+    }
   );
   return res.data;
 };
