@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { VehicleStatusBadge } from "@/components/blocks/vehicle-status-badge";
 import { Button } from "@/components/ui/button";
 import { TabsNavigation } from "@/components/ui/tabs-navigation";
 import { Heading3 } from "@/components/ui/typography";
@@ -28,7 +28,7 @@ function RouteComponent() {
             <p>{vehicle?.license_plate}</p>
           </div>
           <div>
-            <Badge variant="outline">Active</Badge>
+            <VehicleStatusBadge status={vehicle.status} />
           </div>
         </div>
 

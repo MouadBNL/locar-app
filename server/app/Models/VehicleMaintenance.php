@@ -23,6 +23,12 @@ class VehicleMaintenance extends Model
         'receipt_document_id',
     ];
 
+    protected $casts = [
+        'started_at' => 'datetime',
+        'finished_at' => 'datetime',
+        'cancelled_at' => 'datetime',
+    ];
+
     public function vehicle(): BelongsTo
     {
         return $this->belongsTo(Vehicle::class);
@@ -35,6 +41,6 @@ class VehicleMaintenance extends Model
 
     public function expenses(): HasMany
     {
-        return $this->hasMany(VehicleExpense::class);
+        return $this->hasMany(VehicleExpense::class, '');
     }
 }

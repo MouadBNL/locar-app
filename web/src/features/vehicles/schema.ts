@@ -1,5 +1,7 @@
 import z from "zod";
 
+export const fuelTypeSchema = z.enum(["gasoline", "diesel", "electric", "hybrid"]);
+
 export const VehicleSchema = z
   .object({
     id: z.string().uuid().nullish(),

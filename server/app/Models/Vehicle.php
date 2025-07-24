@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\VehicleStatus;
 use App\Traits\HasUuidAsPrimary;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -20,6 +22,7 @@ use Illuminate\Support\Collection;
  * @property-read int $number_of_doors
  * @property-read string $color
  * @property-read string $photo_url
+ * @property-read VehicleStatus $status
  * @property-read Collection<VehicleExpense> $expenses
  */
 class Vehicle extends Model
@@ -40,6 +43,32 @@ class Vehicle extends Model
         'photo_url',
     ];
 
+    public function status(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->maintenances()
+                    ->where('cancelled_at', null)
+                    ->where('started_at', '<=', now()->toISOString())
+                    ->where('finished_at', '>=', now()->toISOString())
+                    ->exists()
+                ) {
+                    return VehicleStatus::MAINTENANCE;
+                }
+
+                if ($this->reservations()
+                    ->where('check_in_date', '<=', now()->toISOString())
+                    ->where('check_out_date', '>=', now()->toISOString())
+                    ->exists()
+                ) {
+                    return VehicleStatus::BOOKED;
+                }
+
+                return VehicleStatus::AVAILABLE;
+            }
+        );
+    }
+
     public function expenses(): HasMany
     {
         return $this->hasMany(VehicleExpense::class);
@@ -48,5 +77,10 @@ class Vehicle extends Model
     public function maintenances(): HasMany
     {
         return $this->hasMany(VehicleMaintenance::class);
+    }
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
     }
 }
