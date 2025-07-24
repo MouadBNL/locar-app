@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\HasUuidAsPrimary;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property-read string $id
@@ -18,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int $number_of_doors
  * @property-read string $color
  * @property-read string $photo_url
+ * @property-read Collection<VehicleExpense> $expenses
  */
 class Vehicle extends Model
 {
@@ -36,4 +39,9 @@ class Vehicle extends Model
         'color',
         'photo_url',
     ];
+
+    public function expenses(): HasMany
+    {
+        return $this->hasMany(VehicleExpense::class);
+    }
 }
