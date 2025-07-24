@@ -1,61 +1,37 @@
-import VehicleForm from "@/components/blocks/vehicle-form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { TabsNavigation } from "@/components/ui/tabs-navigation";
 import { Heading3 } from "@/components/ui/typography";
-import { useVehicleUpdate, vehicleShowFn, type VehicleData } from "@/features/vehicles";
-import {
-  createFileRoute,
-  Link,
-  useNavigate,
-  useRouter,
-} from "@tanstack/react-router";
-import { toast } from "sonner";
+import { vehicleShowFn } from "@/features/vehicles";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/app/vehicles/$id")({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const vehicle = (await vehicleShowFn(params.id)).data
+    const vehicle = (await vehicleShowFn(params.id)).data;
     return { vehicle };
   },
 });
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const navigate = useNavigate();
-  const router = useRouter();
-
   const { vehicle } = Route.useLoaderData();
-
-  const { mutate: updateVehicle, isPending } = useVehicleUpdate({
-    onSuccess: () => {
-      toast.success("Vehicle updated successfully");
-      router.invalidate();
-      navigate({ to: "/app/vehicles" });
-    },
-    onError: () => {
-      toast.error("Failed to update vehicle");
-    },
-  });
 
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
-        <Heading3>Edit Vehicle</Heading3>
-
-        <Button asChild variant="destructive">
-          <Link to="/app/vehicles">Cancel</Link>
-        </Button>
+        <Heading3>
+          {vehicle?.make} {vehicle?.model} {vehicle?.year}
+        </Heading3>
+        <p>{vehicle?.license_plate}</p>
       </div>
 
-      <Card>
-        <CardContent>
-          <VehicleForm
-            submit={(data: VehicleData) => updateVehicle({ id, data })}
-            loading={isPending}
-            initialValues={vehicle ?? undefined}
-          />
-        </CardContent>
-      </Card>
+      <TabsNavigation
+        basePath={`/app/vehicles/${id}`}
+        tabs={[
+          { label: "Summary", path: "" },
+          { label: "Expenses", path: "expenses" },
+          { label: "Maintenance", path: "maintenance" },
+        ]}
+      />
     </div>
   );
 }
