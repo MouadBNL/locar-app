@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+export const VehicleExpenseTypeEnum = {
+  maintenance: "Maintenance",
+  fuel: "Fuel",
+  repair: "Repair",
+  other: "Other",
+} as const;
+
 export const vehicleExpenseTypeSchema = z.enum([
   "maintenance",
   "fuel",

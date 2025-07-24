@@ -7,7 +7,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DateCard } from "./date-card";
-import type { VehicleExpenseResource } from "@/features/vehicle-expenses";
+import {
+  VehicleExpenseTypeEnum,
+  type VehicleExpenseResource,
+} from "@/features/vehicle-expenses";
 import { fmt_currency } from "@/lib/utils";
 
 export type VehicleExpenseTableProps = {
@@ -55,7 +58,9 @@ export function VehicleExpenseTable({
           data.length > 0 &&
           data.map((vehicleExpense) => (
             <TableRow key={vehicleExpense.id}>
-              <TableCell>{vehicleExpense.type}</TableCell>
+              <TableCell>
+                {VehicleExpenseTypeEnum[vehicleExpense.type] ?? "Other"}
+              </TableCell>
               <TableCell>{fmt_currency(vehicleExpense.amount)}</TableCell>
               <TableCell>
                 <DateCard date={vehicleExpense.date} />

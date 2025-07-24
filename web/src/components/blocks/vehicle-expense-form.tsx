@@ -1,11 +1,18 @@
 import {
   vehicleExpenseSchema,
+  VehicleExpenseTypeEnum,
   type VehicleExpenseRequest,
 } from "@/features/vehicle-expenses";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AppFormField, Form } from "../ui/form";
-import { Select } from "../ui/select";
+import {
+  Select,
+  SelectItem,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { NumberInput } from "../ui/number-input";
 import { DateTimeInput } from "../ui/datetime-input";
 import { Input } from "../ui/input";
@@ -49,7 +56,20 @@ export const VehicleExpenseForm = ({
         <AppFormField
           control={form.control}
           name="type"
-          render={({ field }) => <Select {...field} />}
+          render={({ field }) => (
+            <Select onValueChange={field.onChange} value={field.value}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a type" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(VehicleExpenseTypeEnum).map(([key, value]) => (
+                  <SelectItem key={key} value={key}>
+                    {value}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         />
 
         <AppFormField
