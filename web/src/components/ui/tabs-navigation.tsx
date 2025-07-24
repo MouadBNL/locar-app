@@ -20,13 +20,19 @@ export function TabsNavigation({ tabs, basePath }: TabsNavigationProps) {
 
   // Determine current tab from pathname
   const activeTab = tabs.find((tab) => {
-    const target = tab.path === basePath ? basePath : `${basePath}/${tab.path}`;
+    const target = tab.path === "" ? basePath : `${basePath}/${tab.path}`;
     return currentPath === target;
   })?.path;
 
+  router.subscribe("onResolved", (state) => {
+    setCurrentPath(state.toLocation.pathname);
+  });
+
   function handleTabChange(value: string) {
     const navpath = tabs.find((tab) => tab.path === value)?.path;
-    const target = navpath ? `${basePath}/${navpath}` : basePath;
+    const target = navpath
+      ? `${basePath}/${navpath}`
+      : `${basePath}/${tabs[0].path}`;
     setCurrentPath(target);
     router.navigate({ to: target });
   }
