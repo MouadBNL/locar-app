@@ -1,3 +1,5 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { TabsNavigation } from "@/components/ui/tabs-navigation";
 import { Heading3 } from "@/components/ui/typography";
 import { vehicleShowFn } from "@/features/vehicles";
@@ -17,11 +19,22 @@ function RouteComponent() {
 
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-center mb-6">
-        <Heading3>
-          {vehicle?.make} {vehicle?.model} {vehicle?.year}
-        </Heading3>
-        <p>{vehicle?.license_plate}</p>
+      <div className="flex justify-between items-start mb-8">
+        <div className="flex items-start gap-8">
+          <div>
+            <Heading3>
+              {vehicle?.make} {vehicle?.model} {vehicle?.year}
+            </Heading3>
+            <p>{vehicle?.license_plate}</p>
+          </div>
+          <div>
+            <Badge variant="outline">Active</Badge>
+          </div>
+        </div>
+
+        <div>
+          <Button variant="outline">Quick Actions</Button>
+        </div>
       </div>
 
       <TabsNavigation
