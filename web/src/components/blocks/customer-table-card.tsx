@@ -20,7 +20,7 @@ export function CustomerTableCard(props: CustomerTableCardProps) {
       <div>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" disabled={!props.phone}>
               <PhoneIcon />
             </Button>
           </TooltipTrigger>

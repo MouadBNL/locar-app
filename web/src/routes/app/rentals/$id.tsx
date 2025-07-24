@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Heading3 } from "@/components/ui/typography";
-import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import {
   CircleArrowOutDownLeft,
   DownloadIcon,
@@ -14,8 +14,6 @@ import {
   ReceiptTextIcon,
 } from "lucide-react";
 
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { VehicleSummaryCard } from "@/components/blocks/vehicle-summary-card";
 import { CustomerSummaryCard } from "@/components/blocks/customer-summary-card";
@@ -39,6 +37,7 @@ import {
 import { RentalStartForm } from "@/components/blocks/rental-start-form";
 import { toast } from "sonner";
 import { RentalReturnForm } from "@/components/blocks/rental-return-form";
+import { TabsNavigation } from "@/components/ui/tabs-navigation";
 
 export const Route = createFileRoute("/app/rentals/$id")({
   component: RouteComponent,
@@ -128,80 +127,50 @@ function RouteComponent() {
         </CardContent>
       </Card>
 
-      <DetailsSection />
-    </div>
-  );
-}
-
-function DetailsSection() {
-  const router = useRouter();
-  const { id } = Route.useParams();
-
-  const [currentPath, setCurrentPath] = useState(
-    router.state.location.pathname
-  );
-
-  // Determine current tab from pathname
-  const activeTab = currentPath.endsWith("/payments")
-    ? "payments"
-    : currentPath.endsWith("/documents")
-    ? "documents"
-    : "summary";
-
-  const basePath = `/app/rentals/${id}`;
-
-  function handleTabChange(value: string) {
-    const target = value === "summary" ? basePath : `${basePath}/${value}`;
-    setCurrentPath(target);
-    router.navigate({ to: target });
-  }
-
-  return (
-    <div>
-      <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <ScrollArea>
-          <TabsList className="justify-start before:bg-border relative mb-3 h-auto w-full gap-0.5 bg-transparent p-0 px-4 before:absolute before:inset-x-0 before:bottom-0 before:h-px">
-            <TabsTrigger
-              value="summary"
-              className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
-            >
-              <LayoutPanelLeft
-                className="-ms-0.5 me-1.5 opacity-60"
-                size={16}
-                aria-hidden="true"
-              />
-              Summary
-            </TabsTrigger>
-            <TabsTrigger
-              value="documents"
-              className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
-            >
-              <FileStackIcon
-                className="-ms-0.5 me-1.5 opacity-60"
-                size={16}
-                aria-hidden="true"
-              />
-              Documents
-            </TabsTrigger>
-            <TabsTrigger
-              value="payments"
-              className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
-            >
-              <ReceiptTextIcon
-                className="-ms-0.5 me-1.5 opacity-60"
-                size={16}
-                aria-hidden="true"
-              />
-              Payments
-            </TabsTrigger>
-          </TabsList>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </Tabs>
-
-      <div>
-        <Outlet />
-      </div>
+      <TabsNavigation
+        basePath={`/app/rentals/${code}`}
+        tabs={[
+          {
+            label: (
+              <>
+                <LayoutPanelLeft
+                  className="-ms-0.5 me-1.5 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
+                Summary
+              </>
+            ),
+            path: "",
+          },
+          {
+            label: (
+              <>
+                <FileStackIcon
+                  className="-ms-0.5 me-1.5 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
+                Documents
+              </>
+            ),
+            path: "documents",
+          },
+          {
+            label: (
+              <>
+                <ReceiptTextIcon
+                  className="-ms-0.5 me-1.5 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
+                Payments
+              </>
+            ),
+            path: "payments",
+          },
+        ]}
+      />
     </div>
   );
 }
