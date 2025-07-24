@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RentalDocumentType;
 use App\Enums\RentalStatus;
 use App\Traits\HasUuidAsPrimary;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -19,7 +20,6 @@ use Illuminate\Support\Collection;
  * @property-read RentalVehicle $vehicle
  * @property-read Renter $renter
  * @property-read RentalRate $rate
- * @property-read ?Document $agreement_document
  * @property-read Collection<array-key, RentalDocument> $documents
  * @property-read Collection<array-key, RentalPayment> $payments
  */
@@ -49,10 +49,13 @@ class Rental extends Model
         );
     }
 
+    /**
+     * @return HasOne<RentalDocument, $this>
+     */
     public function agreement_document(): HasOne
     {
         return $this->hasOne(RentalDocument::class, 'rental_id', 'id')
-            ->where('type', 'rental_agreement')
+            ->where('type', RentalDocumentType::RENTAL_AGREEMENT)
             ->with('document');
     }
 

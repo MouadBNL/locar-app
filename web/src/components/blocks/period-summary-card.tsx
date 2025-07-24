@@ -3,13 +3,12 @@ import { CarIcon } from "lucide-react";
 interface PeriodSummaryCardProps {
   pickupDate: string;
   dropoffDate: string;
+  rentalDays: number;
 }
 
 export const PeriodSummaryCard = (props: PeriodSummaryCardProps) => {
   const pickupDate = new Date(props.pickupDate);
   const dropoffDate = new Date(props.dropoffDate);
-  const duration = dropoffDate.getTime() - pickupDate.getTime();
-  const durationDays = Math.ceil(duration / (1000 * 60 * 60 * 24));
 
   return (
     <div className="flex h-full w-full items-center justify-between">
@@ -24,7 +23,7 @@ export const PeriodSummaryCard = (props: PeriodSummaryCardProps) => {
       </div>
       <div className="flex flex-col items-center justify-center">
         <span className="block text-sm mb-2 text-muted-foreground">
-          {durationDays} days
+          {props.rentalDays} days
         </span>
         <div className="flex items-center">
           <div className="h-3 w-3 rounded-full bg-muted-foreground" />

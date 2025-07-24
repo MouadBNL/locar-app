@@ -7,6 +7,7 @@ use App\Data\RentalTimeframeData;
 use App\Data\RentalVehicleData;
 use App\Data\RenterData;
 use App\Models\Rental;
+use App\Services\TimeframeService;
 use Illuminate\Http\Request;
 
 class RentalDetailsUpdateController extends ApiController
@@ -36,31 +37,41 @@ class RentalDetailsUpdateController extends ApiController
             'id_card_number' => $data->id_card_number,
             'birth_date' => $data->birth_date,
             'address_primary' => $data->address_primary,
-            'id_card_scan_document' => $data->id_card_scan_document,
 
             // Driver's license information
             'driver_license_number' => $data->driver_license_number,
             'driver_license_issuing_city' => $data->driver_license_issuing_city,
             'driver_license_issuing_date' => $data->driver_license_issuing_date,
             'driver_license_expiration_date' => $data->driver_license_expiration_date,
-            'driver_license_scan_document' => $data->driver_license_scan_document,
 
             // Passport information
             'passport_number' => $data->passport_number,
             'passport_country' => $data->passport_country,
             'passport_issuing_date' => $data->passport_issuing_date,
             'passport_expiration_date' => $data->passport_expiration_date,
-            'passport_scan_document' => $data->passport_scan_document,
+
+            // Documents
+            'id_card_scan_document' => $data->id_card_scan_document,
+            'driver_license_scan_document' => $data->driver_license_scan_document,
         ]);
 
         return $this->success(null, 'rental.renter.updated');
     }
 
-    public function timeframe(RentalTimeframeData $data, Rental $rental)
+    public function timeframe(RentalTimeframeData $data, Rental $rental, TimeframeService $timeframeService)
     {
+        $days = $timeframeService->diffInDays($data->departure_date, $data->return_date);
+
         $rental->timeframe->update([
             'departure_date' => $data->departure_date,
             'return_date' => $data->return_date,
+            'total_days' => $days,
+        ]);
+
+        $rental->rate->update([
+            'day_quantity' => $days,
+            'day_total' => $rental->rate->day_rate * $days,
+            'total' => $rental->rate->day_rate * $days + $rental->rate->insurance_total + $rental->rate->extra_total,
         ]);
 
         return $this->success(null, 'rental.timeframe.updated');

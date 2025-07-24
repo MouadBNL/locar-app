@@ -5,15 +5,22 @@ import {
   SelectValue,
   SelectItem,
 } from "../ui/select";
-import { useCustomerIndex } from "@/features/customers";
+import { useCustomerIndex, type CustomerData } from "@/features/customers";
 
-export type CustomerSelectProps = React.ComponentProps<typeof Select>;
+export type CustomerSelectProps = React.ComponentProps<typeof Select> & {
+  onCustomerSelected?: (customer: CustomerData) => void;
+};
 
 export function CustomerSelect(props: CustomerSelectProps) {
   const { data, isFetching } = useCustomerIndex();
 
+  const onValueChange = (value: string) => {
+    props.onValueChange?.(value);
+    props.onCustomerSelected?.(data?.data.find((c) => c.id === value)!);
+  };
+
   return (
-    <Select disabled={isFetching} {...props}>
+    <Select disabled={isFetching} {...props} onValueChange={onValueChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Customer" />
       </SelectTrigger>

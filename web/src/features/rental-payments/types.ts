@@ -4,6 +4,7 @@ import type {
   RentalPaymentSchema,
   RentalPaymentTypeSchema,
 } from "./schema";
+import type { RentalChargesSummaryData } from "../rentals";
 
 export type RentalPaymentData = z.infer<typeof RentalPaymentSchema>;
 export type RentalPaymentMethod = z.infer<typeof RentalPaymentMethodSchema>;
@@ -25,12 +26,5 @@ export type RentalPaymentResource = {
 
 export type RentalPaymentIndexResponse = {
   payments: RentalPaymentResource[];
-  meta: {
-    payment_total: number;
-    payment_due: number;
-    payment_paid: number;
-    deposit_total: number;
-    deposit_refunded: number;
-    deposit_due: number;
-  };
+  meta: RentalChargesSummaryData;
 };

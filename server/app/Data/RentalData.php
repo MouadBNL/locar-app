@@ -19,6 +19,7 @@ class RentalData extends Data
         public RentalVehicleData $vehicle,
         public RenterData $renter,
         public RentalRateData $rate,
+        public ?RentalChargesSummaryData $charges_summary,
     ) {}
 
     public static function rules(): array
@@ -32,7 +33,7 @@ class RentalData extends Data
 
     public static function fromModel(Rental $rental): self
     {
-        $rental->load(['rate', 'timeframe', 'renter', 'vehicle.vehicle']);
+        $rental->load(['rate', 'timeframe', 'renter', 'vehicle.vehicle', 'agreement_document']);
 
         return new self(
             id: $rental->id,
@@ -78,13 +79,14 @@ class RentalData extends Data
                 driver_license_expiration_date: $rental->renter->driver_license_expiration_date,
                 address_primary: $rental->renter->address_primary,
                 birth_date: $rental->renter->birth_date,
-                passport_scan_document: $rental->renter->passport_scan_document,
                 email: $rental->renter->email,
-                driver_license_scan_document: $rental->renter->driver_license_scan_document,
-                id_card_scan_document: $rental->renter->id_card_scan_document,
                 passport_country: $rental->renter->passport_country,
                 passport_expiration_date: $rental->renter->passport_expiration_date,
                 passport_issuing_date: $rental->renter->passport_issuing_date,
+
+                driver_license_scan_document: $rental->renter->driver_license_scan_document,
+                id_card_scan_document: $rental->renter->id_card_scan_document,
+
                 identifier: $rental->renter->id_card_number ?? $rental->renter->passport_number ?? $rental->renter->driver_license_number,
             ),
             rate: new RentalRateData(
@@ -107,6 +109,7 @@ class RentalData extends Data
                 week_rate: $rental->rate->week_rate,
                 week_total: $rental->rate->week_total,
             ),
+            charges_summary: RentalChargesSummaryData::fromRental($rental),
         );
     }
 }

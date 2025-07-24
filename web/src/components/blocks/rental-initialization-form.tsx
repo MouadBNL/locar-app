@@ -14,7 +14,9 @@ import { useEffect } from "react";
 import { RentalSchema, type RentalData } from "@/features/rentals";
 import { Separator } from "../ui/separator";
 import { DateTimeInput } from "../ui/datetime-input";
-import { useCustomerIndex } from "@/features/customers";
+import { type CustomerData } from "@/features/customers";
+import { DocumentUpload } from "./document-upload";
+import type { VehicleData } from "@/features/vehicles";
 
 export type RentalFormProps = {
   loading?: boolean;
@@ -29,10 +31,10 @@ export default function RentalInitializationForm({
     defaultValues: {
       vehicle: {
         vehicle_id: null,
-        make: "Dacia",
-        model: "Duster",
-        year: 2020,
-        license_plate: "1234567890",
+        make: undefined,
+        model: undefined,
+        year: undefined,
+        license_plate: undefined,
       },
       rental_number: generate_rental_code(),
       timeframe: {
@@ -158,42 +160,21 @@ const RentalPeriodForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
 };
 
 const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
-  const { data } = useCustomerIndex();
-  const customers = data?.data ?? [];
-  const customer_id = form.watch("renter.customer_id");
-
-  useEffect(() => {
-    if (customers && customers.length > 0 && customer_id) {
-      const customer = customers.find((c: any) => c.id === customer_id);
-      if (!customer) {
-        return;
-      }
-      form.setValue("renter.customer_id", customer.id);
-      form.setValue(
-        "renter.full_name",
-        customer.first_name + " " + customer.last_name
-      );
-      form.setValue("renter.phone", customer.phone);
-      form.setValue("renter.address_primary", customer.address ?? "");
-      // form.setValue("customer.id_number", customer. ?? "");
-      form.setValue(
-        "renter.driver_license_number",
-        customer.driver_license_number ?? ""
-      );
-      form.setValue(
-        "renter.driver_license_issuing_city",
-        customer.address ?? ""
-      );
-      form.setValue(
-        "renter.driver_license_issuing_date",
-        customer.birth_date ?? ""
-      );
-      form.setValue(
-        "renter.driver_license_expiration_date",
-        customer.birth_date ?? ""
-      );
-    }
-  }, [customers, customer_id, form]);
+  const onCustomerSelected = (customer: CustomerData) => {
+    if (!customer) return;
+    form.setValue("renter.customer_id", customer.id);
+    form.setValue(
+      "renter.full_name",
+      customer.first_name + " " + customer.last_name
+    );
+    form.setValue("renter.phone", customer.phone);
+    form.setValue("renter.address_primary", customer.address ?? "");
+    form.setValue("renter.id_card_number", customer.id_card_number ?? "");
+    form.setValue(
+      "renter.driver_license_number",
+      customer.driver_license_number ?? ""
+    );
+  };
 
   return (
     <div>
@@ -208,6 +189,7 @@ const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
         render={({ field }) => (
           <CustomerSelect
             onValueChange={field.onChange}
+            onCustomerSelected={onCustomerSelected}
             value={field.value ?? undefined}
           />
         )}
@@ -350,12 +332,37 @@ const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
             />
           )}
         />
+
+        <AppFormField
+          control={form.control}
+          name="renter.id_card_scan_document"
+          label="ID Card Scan Document"
+          render={({ field }) => (
+            <DocumentUpload {...field} value={field.value ?? undefined} />
+          )}
+        />
+
+        <AppFormField
+          control={form.control}
+          name="renter.driver_license_scan_document"
+          label="Driver License Scan Document"
+          render={({ field }) => (
+            <DocumentUpload {...field} value={field.value ?? undefined} />
+          )}
+        />
       </div>
     </div>
   );
 };
 
 const RentalVehicleForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
+  const onVehicleSelected = (vehicle: VehicleData) => {
+    form.setValue("vehicle.make", vehicle.make);
+    form.setValue("vehicle.model", vehicle.model);
+    form.setValue("vehicle.year", vehicle.year);
+    form.setValue("vehicle.license_plate", vehicle.license_plate);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -371,6 +378,7 @@ const RentalVehicleForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
             render={({ field }) => (
               <VehicleSelect
                 onValueChange={field.onChange}
+                onVehicleSelected={onVehicleSelected}
                 value={field.value ?? undefined}
               />
             )}

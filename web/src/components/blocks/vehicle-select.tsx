@@ -5,14 +5,22 @@ import {
   SelectValue,
   SelectItem,
 } from "../ui/select";
-import { useVehicleIndex } from "@/features/vehicles";
+import { useVehicleIndex, type VehicleData } from "@/features/vehicles";
 
-export type VehicleSelectProps = React.ComponentProps<typeof Select>;
+export type VehicleSelectProps = React.ComponentProps<typeof Select> & {
+  onVehicleSelected?: (vehicle: VehicleData) => void;
+};
 
 export function VehicleSelect(props: VehicleSelectProps) {
   const { data, isFetching } = useVehicleIndex();
+
+  const onValueChange = (value: string) => {
+    props.onValueChange?.(value);
+    props.onVehicleSelected?.(data?.data.find((v) => v.id === value)!);
+  };
+
   return (
-    <Select disabled={isFetching} {...props}>
+    <Select disabled={isFetching} {...props} onValueChange={onValueChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Vehicle" />
       </SelectTrigger>

@@ -24,17 +24,16 @@ export const RenterSchema = z.object({
   birth_date: z.string().datetime().nullish(),
   address_primary: z.string().max(255).nullish(),
   address_secondary: z.string().max(255).nullish(),
-  id_card_scan_document: z.string().max(255).nullish(),
   driver_license_number: z.string().max(255).nullish(),
   driver_license_issuing_city: z.string().max(255).nullish(),
   driver_license_issuing_date: z.string().datetime().nullish(),
   driver_license_expiration_date: z.string().datetime().nullish(),
-  driver_license_scan_document: z.string().max(255).nullish(),
   passport_number: z.string().max(255).nullish(),
   passport_country: z.string().max(255).nullish(),
   passport_issuing_date: z.string().datetime().nullish(),
   passport_expiration_date: z.string().datetime().nullish(),
-  passport_scan_document: z.string().max(255).nullish(),
+  id_card_scan_document: z.string().max(255).nullish(),
+  driver_license_scan_document: z.string().max(255).nullish(),
   identifier: z.string().max(255).nullish(),
 });
 
@@ -74,6 +73,24 @@ export const RentalRateSchema = z.object({
   total: z.number().min(0).nullish(),
 });
 
+export const RentalChargesSummarySchema = z.object({
+  day_rate: z.number().min(0),
+  day_quantity: z.number().min(0),
+  day_total: z.number().min(0),
+  extra_rate: z.number().min(0),
+  extra_quantity: z.number().min(0),
+  extra_total: z.number().min(0),
+  insurance_rate: z.number().min(0),
+  insurance_quantity: z.number().min(0),
+  insurance_total: z.number().min(0),
+  total: z.number().min(0),
+  paid: z.number().min(0),
+  due: z.number().min(0),
+  deposit: z.number().min(0),
+  refunded: z.number().min(0),
+  refund_due: z.number().min(0),
+});
+
 export const RentalSchema = z.object({
   id: z.string().uuid().nullish(),
   rental_number: z.string().max(255),
@@ -82,6 +99,7 @@ export const RentalSchema = z.object({
   renter: RenterSchema,
   vehicle: RentalVehichleSchema,
   rate: RentalRateSchema,
+  charges_summary: RentalChargesSummarySchema.nullish(),
 });
 
 export const RentalStartSchema = z.object({

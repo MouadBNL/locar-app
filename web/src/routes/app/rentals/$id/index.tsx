@@ -1,3 +1,4 @@
+import { RentalChargesSummary } from "@/components/blocks/rental-charges-summary";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -84,7 +85,9 @@ function RouteComponent() {
           onUpdate={handleUpdate}
         />
       </div>
-      <div className="col-span-1"></div>
+      <div className="col-span-1">
+        <RentalChargesSummary charges={rental.charges_summary ?? undefined} />
+      </div>
     </div>
   );
 }

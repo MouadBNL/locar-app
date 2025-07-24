@@ -40,11 +40,17 @@ export function fmt_date(date: Date, opt?: { format: "date" | "datetime" }) {
 }
 
 export function fmt_currency(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "MAD",
-    currencySign: "accounting",
-  }).format(amount);
+  return (
+    new Intl.NumberFormat("en-US", {
+      style: "decimal",
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2,
+      useGrouping: true,
+      // currency: "MAD",
+      // unit: "DH",
+      // currencySign: "accounting",
+    }).format(amount) + " DH"
+  );
 }
 
 export function str_to_titlecase(str: string) {

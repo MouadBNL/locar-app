@@ -69,15 +69,15 @@ function RouteComponent() {
           <Card className="p-0 mb-8">
             <CardContent className="py-4 flex justify-between items-center">
               <PaymentSummary
-                payment_total={rental?.data?.meta.payment_total ?? 0}
-                payment_paid={rental?.data?.meta.payment_paid ?? 0}
-                payment_due={rental?.data?.meta.payment_due ?? 0}
+                payment_total={rental?.data?.meta.total ?? 0}
+                payment_paid={rental?.data?.meta.paid ?? 0}
+                payment_due={rental?.data?.meta.due ?? 0}
               />
 
               <DepositSummary
-                deposit_total={rental?.data?.meta.deposit_total ?? 0}
-                deposit_refunded={rental?.data?.meta.deposit_refunded ?? 0}
-                deposit_due={rental?.data?.meta.deposit_due ?? 0}
+                deposit_total={rental?.data?.meta.deposit ?? 0}
+                deposit_refunded={rental?.data?.meta.refunded ?? 0}
+                deposit_due={rental?.data?.meta.refund_due ?? 0}
               />
             </CardContent>
           </Card>
