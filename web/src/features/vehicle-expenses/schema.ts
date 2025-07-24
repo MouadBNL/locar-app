@@ -23,3 +23,10 @@ export const vehicleExpenseSchema = z.object({
   receipt_document_id: z.string().nullish(),
   notes: z.string().nullish(),
 });
+
+export const VehicleStatus = {
+  available: "Available",
+  maintenance: "Maintenance",
+  booked: "Booked",
+  rented: "Rented",
+} as const;

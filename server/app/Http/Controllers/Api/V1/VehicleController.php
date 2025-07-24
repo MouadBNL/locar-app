@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\VehicleCreateRequest;
 use App\Http\Requests\VehicleUpdateRequest;
+use App\Http\Resources\VehicleResource;
 use App\Models\Vehicle;
 
 class VehicleController extends ApiController
@@ -12,7 +13,7 @@ class VehicleController extends ApiController
     {
         $vehicles = Vehicle::all();
 
-        return $this->success($vehicles);
+        return $this->success(VehicleResource::collection($vehicles));
     }
 
     public function store(VehicleCreateRequest $request)
@@ -20,12 +21,12 @@ class VehicleController extends ApiController
         $data = $request->validated();
         $vehicle = Vehicle::create($data);
 
-        return $this->success($vehicle, 'vehicle.store.success');
+        return $this->success(new VehicleResource($vehicle), 'vehicle.store.success');
     }
 
     public function show(Vehicle $vehicle)
     {
-        return $this->success($vehicle);
+        return $this->success(new VehicleResource($vehicle));
     }
 
     public function update(VehicleUpdateRequest $request, Vehicle $vehicle)
@@ -33,7 +34,7 @@ class VehicleController extends ApiController
         $data = $request->validated();
         $vehicle->update($data);
 
-        return $this->success($vehicle, 'vehicle.update.success');
+        return $this->success(new VehicleResource($vehicle), 'vehicle.update.success');
     }
 
     public function destroy(Vehicle $vehicle)

@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogTrigger,
+  DialogPortal,
 } from "@/components/ui/dialog";
 import {
   useVehicleExpenseCreate,
@@ -56,12 +57,16 @@ function RouteComponent() {
       },
     });
 
+  const handleExpensesChange = () => {
+    queryClient.invalidateQueries({ queryKey: ["vehicle-expenses"] });
+  };
+
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
         <CardTitle>Vehicle Expenses</CardTitle>
         <CardAction>
-          <AddExpenseDialog />
+          <AddExpenseDialog vehicleId={id} onChange={handleExpensesChange} />
         </CardAction>
       </CardHeader>
 
@@ -96,24 +101,30 @@ function RouteComponent() {
       </CardContent>
 
       <EditExpenseDialog
+        vehicleId={id}
         expense={editExpense}
         setEditExpense={setEditExpense}
+        onChange={handleExpensesChange}
       />
     </Card>
   );
 }
 
-function AddExpenseDialog() {
-  const { id } = Route.useParams();
+export function AddExpenseDialog({
+  vehicleId,
+  onChange,
+}: {
+  vehicleId: string;
+  onChange?: (expense: VehicleExpenseResource) => void;
+}) {
   const [open, setOpen] = useState(false);
-  const queryClient = useQueryClient();
 
   const { mutate: createVehicleExpense, isPending: isCreatingVehicleExpense } =
     useVehicleExpenseCreate({
-      onSuccess: () => {
+      onSuccess: (data) => {
         toast.success("Expense created");
         setOpen(false);
-        queryClient.invalidateQueries({ queryKey: ["vehicle-expenses"] });
+        onChange?.(data.data);
       },
       onError: (error) => {
         console.error(error);
@@ -129,38 +140,41 @@ function AddExpenseDialog() {
           Add Expense
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>Add Expense</DialogTitle>
-        <DialogDescription>
-          Add a new expense for the vehicle.
-        </DialogDescription>
-        <VehicleExpenseForm
-          loading={isCreatingVehicleExpense}
-          submit={(data) => {
-            createVehicleExpense({ vehicleId: id, data });
-          }}
-        />
-      </DialogContent>
+      <DialogPortal>
+        <DialogContent>
+          <DialogTitle>Add Expense</DialogTitle>
+          <DialogDescription>
+            Add a new expense for the vehicle.
+          </DialogDescription>
+          <VehicleExpenseForm
+            loading={isCreatingVehicleExpense}
+            submit={(data) => {
+              createVehicleExpense({ vehicleId, data });
+            }}
+          />
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   );
 }
 
-function EditExpenseDialog({
+export function EditExpenseDialog({
+  vehicleId,
   expense,
   setEditExpense,
+  onChange,
 }: {
+  vehicleId: string;
   expense: VehicleExpenseResource | null;
   setEditExpense: (expense: VehicleExpenseResource | null) => void;
+  onChange?: (expense: VehicleExpenseResource) => void;
 }) {
-  const queryClient = useQueryClient();
-  const { id } = Route.useParams();
-
   const { mutate: updateVehicleExpense, isPending: isUpdatingVehicleExpense } =
     useVehicleExpenseUpdate({
-      onSuccess: () => {
+      onSuccess: (data) => {
         toast.success("Expense updated");
         setEditExpense(null);
-        queryClient.invalidateQueries({ queryKey: ["vehicle-expenses"] });
+        onChange?.(data.data);
       },
       onError: (error) => {
         console.error(error);
@@ -178,7 +192,7 @@ function EditExpenseDialog({
           loading={isUpdatingVehicleExpense}
           submit={(data) => {
             updateVehicleExpense({
-              vehicleId: id,
+              vehicleId: vehicleId,
               expenseId: expense!.id,
               data,
             });

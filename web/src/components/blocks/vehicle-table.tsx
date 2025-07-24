@@ -6,12 +6,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type VehicleData } from "@/features/vehicles";
+import { type VehicleResource } from "@/features/vehicles";
+import { VehicleStatusBadge } from "./vehicle-status-badge";
 
 export type VehicleTableProps = {
-  data: VehicleData[];
+  data: VehicleResource[];
   loading?: boolean;
-  actions?: (vehicle: VehicleData) => React.ReactNode;
+  actions?: (vehicle: VehicleResource) => React.ReactNode;
 };
 
 export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
@@ -22,7 +23,7 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
           <TableHead>Plate</TableHead>
           <TableHead>Model</TableHead>
           <TableHead>Year</TableHead>
-          <TableHead>Color</TableHead>
+          <TableHead>Status</TableHead>
           {actions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
@@ -49,7 +50,9 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
               <TableCell>{vehicle.license_plate}</TableCell>
               <TableCell>{vehicle.model}</TableCell>
               <TableCell>{vehicle.year}</TableCell>
-              <TableCell>{vehicle.color}</TableCell>
+              <TableCell>
+                <VehicleStatusBadge status={vehicle.status} />
+              </TableCell>
               {actions && (
                 <TableCell className="flex gap-2">{actions(vehicle)}</TableCell>
               )}

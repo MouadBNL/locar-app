@@ -11,7 +11,11 @@ class VehicleExpenseController extends ApiController
 {
     public function index(Vehicle $vehicle)
     {
-        $expenses = $vehicle->expenses()->get();
+        $query = $vehicle->expenses();
+        if (request()->has('ids')) {
+            $query->whereIn('id', explode(',', request()->ids));
+        }
+        $expenses = $query->get();
         return $this->success(VehicleExpenseResource::collection($expenses));
     }
 
