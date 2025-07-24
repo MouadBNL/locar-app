@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { NumberInput } from "../ui/number-input";
 import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { CustomerSelect } from "./customer-select";
 import {
   Dialog,
@@ -53,6 +53,7 @@ export default function ReservationForm({
     },
   });
   const queryClient = useQueryClient();
+  const dialogCloseRef = useRef<HTMLButtonElement>(null);
 
   const { mutateAsync: createCustomer } = useCustomerCreate({
     onSuccess: (response) => {
@@ -147,11 +148,25 @@ export default function ReservationForm({
                   </DialogDescription>
                 </DialogHeader>
 
-              <CustomerForm submit={(data) => createCustomer({ data })} />
+              <CustomerForm 
+                submit={async (data) => {
+                  const response = await createCustomer({ data });
+                  const customerId = response?.data?.id;
+
+                  if (customerId) {
+                    await queryClient.invalidateQueries({ queryKey: ["customers"] });
+                    form.setValue("customer_id", customerId);  
+                  }
+                }}
+                onSuccess={() => dialogCloseRef.current?.click()}
+              />
 
               <DialogFooter>
                 <DialogClose asChild>
                   <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <DialogClose asChild>
+                    <button ref={dialogCloseRef} className="hidden" type="button" />
                 </DialogClose>
               </DialogFooter>
 
