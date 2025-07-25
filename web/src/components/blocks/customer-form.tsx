@@ -10,13 +10,11 @@ export type CustomerFormProps = {
   initialValues?: Partial<CustomerData>;
   loading?: boolean;
   submit?: (data: CustomerData) => void;
-  onSuccess?: () => void;
 };
 export default function CustomerForm({
   initialValues,
   loading,
   submit,
-  onSuccess,
 }: CustomerFormProps) {
   const form = useForm({
     resolver: zodResolver(CustomerSchema),
@@ -32,12 +30,15 @@ export default function CustomerForm({
 
   const onSubmit = (data: CustomerData) => {
     submit?.(data);
-    onSuccess?.();
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit(onSubmit)(e);
+      }} className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           <AppFormField
             control={form.control}

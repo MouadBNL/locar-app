@@ -6,27 +6,26 @@ import { Button } from "../ui/button";
 import { NumberInput } from "../ui/number-input";
 import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { CustomerSelect } from "./customer-select";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose
-} from "../ui/dialog";
+//import {
+//  Dialog,
+//  DialogTrigger,
+//  DialogContent,
+//  DialogHeader,
+//  DialogTitle,
+//  DialogDescription,
+//  DialogPortal
+//} from "../ui/dialog";
 import {
   ReservationSchema,
   type ReservationData,
 } from "@/features/reservations";
 import { fmt_date, get_date } from "@/lib/utils";
-import { Plus } from "lucide-react";
-import CustomerForm from "./customer-form";
-import { useCustomerCreate } from "@/features/customers";
-import { useQueryClient } from "@tanstack/react-query";
+//import { Plus } from "lucide-react";
+//import CustomerForm from "./customer-form";
+//import { useCustomerCreate } from "@/features/customers";
+//import { useQueryClient } from "@tanstack/react-query";
 
 
 export type ReservationFormProps = {
@@ -52,21 +51,27 @@ export default function ReservationForm({
       ...initialValues,
     },
   });
-  const queryClient = useQueryClient();
-  const dialogCloseRef = useRef<HTMLButtonElement>(null);
+  // const queryClient = useQueryClient();
+  // const [open, setOpen] = useState(false);
 
-  const { mutateAsync: createCustomer } = useCustomerCreate({
-    onSuccess: (response) => {
-      // Invalidate cached customer list to refresh the Select
-      queryClient.invalidateQueries({ queryKey: ["customers"] });
+  // const { mutateAsync: createCustomer } = useCustomerCreate({
+  //   onSuccess: async (response) => {
+  //     console.log("Customer created successfully", response);
+  //     // Invalidate cached customer list to refresh the Select
+  //     await queryClient.invalidateQueries({ queryKey: ["customers"] });
 
-      const customerId = response?.data?.id;
-      if (customerId) {
-        form.setValue("customer_id", customerId);
-      }
 
-    },
-  });
+  //       const customerId = response.data.id;
+  //       if (customerId) {
+  //         form.setValue("customer_id", customerId);
+  //       }
+
+  //       console.log("FORM DATA ID set in form:", form.getValues());
+  //       setOpen(false);
+
+
+  //   },
+  // });
 
   const checkin_date = form.watch("check_in_date");
   const checkout_date = form.watch("check_out_date");
@@ -100,12 +105,16 @@ export default function ReservationForm({
   }, [checkin_date, checkout_date, daily_rate, form]);
 
   const onSubmit = (data: ReservationData) => {
+    alert("Submitting reservation data: " + JSON.stringify(data, null, 2));
     submit?.(data);
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+        <pre>{JSON.stringify(form.getValues(), null, 2)}</pre>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <AppFormField
             control={form.control}
@@ -119,7 +128,19 @@ export default function ReservationForm({
             )}
           />
 
-          <div className="flex justify-center items-center gap-2">
+          <AppFormField
+            control={form.control}
+            name="customer_id"
+            label="Customer"
+            render={({ field }) => (
+              <CustomerSelect
+                onValueChange={field.onChange}
+                value={field.value}
+              />
+            )}
+          />
+
+          {/* <div className="flex justify-center items-center gap-2">
             <div className="flex-1">
               <AppFormField
                 control={form.control}
@@ -134,13 +155,15 @@ export default function ReservationForm({
               />              
             </div>
 
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline">
                   <Plus />
                 </Button>
               </DialogTrigger>
+                <DialogPortal>
               <DialogContent>
+
                 <DialogHeader>
                   <DialogTitle>Add Customer</DialogTitle>
                   <DialogDescription>
@@ -149,30 +172,13 @@ export default function ReservationForm({
                 </DialogHeader>
 
               <CustomerForm 
-                submit={async (data) => {
-                  const response = await createCustomer({ data });
-                  const customerId = response?.data?.id;
-
-                  if (customerId) {
-                    await queryClient.invalidateQueries({ queryKey: ["customers"] });
-                    form.setValue("customer_id", customerId);  
-                  }
-                }}
-                onSuccess={() => dialogCloseRef.current?.click()}
+                submit={async (data) => createCustomer({ data })}
               />
 
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button variant="outline">Cancel</Button>
-                </DialogClose>
-                <DialogClose asChild>
-                    <button ref={dialogCloseRef} className="hidden" type="button" />
-                </DialogClose>
-              </DialogFooter>
-
               </DialogContent>
+                </DialogPortal>
             </Dialog>
-          </div>
+          </div> */}
 
 
           <AppFormField
