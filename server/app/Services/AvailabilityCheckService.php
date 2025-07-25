@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Data\AvailabilityCheckData;
+use App\Data\AvailabilityCheckOptions;
+use App\Data\AvailabilityData;
 use App\Models\Customer;
 use App\Models\RentalVehicle;
 use App\Models\Renter;
@@ -13,12 +16,49 @@ use Illuminate\Support\Facades\Log;
 
 class AvailabilityCheckService
 {
-    /**
-     * @param ?array{type: "rental" | "reservation", id: string} $current
-     * @return array{available: bool, message: string, start_date: Carbon, end_date: Carbon}
-     */
-    public function checkCustomerAvailability(Customer $customer, Carbon $startDate, Carbon $endDate, ?array $current = null)
+
+    public function check(AvailabilityCheckData $data): AvailabilityData
     {
+        if ($data->customer) {
+            $customerAvailability = $this->checkCustomerAvailability(
+                $data->customer,
+                $data->start_date,
+                $data->end_date,
+                $data->options,
+            );
+            if (!$customerAvailability->available) {
+                return $customerAvailability;
+            }
+        }
+
+        if ($data->vehicle) {
+            $vehicleAvailability = $this->checkVehicleAvailability(
+                $data->vehicle,
+                $data->start_date,
+                $data->end_date,
+                $data->options,
+            );
+            if (!$vehicleAvailability->available) {
+                return $vehicleAvailability;
+            }
+        }
+
+        return new AvailabilityData(
+            available: true,
+            message: '=available',
+            start_date: null,
+            end_date: null,
+            entity_blocked: null,
+            entity_blocker: null,
+        );
+    }
+
+    public function checkCustomerAvailability(
+        Customer $customer,
+        Carbon $startDate,
+        Carbon $endDate,
+        ?AvailabilityCheckOptions $options = null,
+    ): AvailabilityData {
         $startDate = $startDate->toISOString();
         $endDate = $endDate->toISOString();
 
@@ -30,9 +70,9 @@ class AvailabilityCheckService
 
         /** @var ?Renter $collidingRental */
         $collidingRental = $customer->renters()
-            ->whereHas('rental', function ($query) use ($current) {
-                if ($current && $current['type'] === 'rental') {
-                    $query->where('id', '!=', $current['id']);
+            ->whereHas('rental', function ($query) use ($options) {
+                if ($options && $options->ignore_rental) {
+                    $query->where('id', '!=', $options->ignore_rental);
                 }
             })
             ->whereHas('rental.timeframe', function ($query) use ($startDate, $endDate) {
@@ -44,17 +84,19 @@ class AvailabilityCheckService
             ->first();
 
         if ($collidingRental) {
-            return [
-                'available' => false,
-                'message' => 'customer.unavailable.rental',
-                'start_date' => $collidingRental->rental->timeframe->departure_date,
-                'end_date' => $collidingRental->rental->timeframe->return_date,
-            ];
+            return new AvailabilityData(
+                available: false,
+                message: 'customer.unavailable.rental',
+                entity_blocked: 'customer',
+                entity_blocker: 'rental',
+                start_date: $collidingRental->rental->timeframe->departure_date,
+                end_date: $collidingRental->rental->timeframe->return_date,
+            );
         }
 
         /** @var ?Reservation $collidingReservation */
         $collidingReservation = $customer->reservations()
-            ->where('id', '!=', $current && $current['type'] === 'reservation' ? $current['id'] : null)
+            ->where('id', '!=', $options && $options->ignore_reservation ? $options->ignore_reservation : null)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->where(function ($q) use ($startDate, $endDate) {
                     $q->where('check_in_date', '<', $endDate)
@@ -64,22 +106,32 @@ class AvailabilityCheckService
             ->first();
 
         if ($collidingReservation) {
-            return [
-                'available' => false,
-                'message' => 'customer.unavailable.reservation',
-                'start_date' => $collidingReservation->check_in_date,
-                'end_date' => $collidingReservation->check_out_date,
-            ];
+            return new AvailabilityData(
+                available: false,
+                message: 'customer.unavailable.reservation',
+                entity_blocked: 'customer',
+                entity_blocker: 'reservation',
+                start_date: $collidingReservation->check_in_date,
+                end_date: $collidingReservation->check_out_date,
+            );
         }
 
-        return [
-            'available' => true,
-            'message' => 'customer.available',
-        ];
+        return new AvailabilityData(
+            available: true,
+            message: 'customer.available',
+            start_date: null,
+            end_date: null,
+            entity_blocked: null,
+            entity_blocker: null,
+        );
     }
 
-    public function checkVehicleAvailability(Vehicle $vehicle, Carbon $startDate, Carbon $endDate, ?array $current = null)
-    {
+    public function checkVehicleAvailability(
+        Vehicle $vehicle,
+        Carbon $startDate,
+        Carbon $endDate,
+        ?AvailabilityCheckOptions $options = null,
+    ): AvailabilityData {
         $startDate = $startDate->toISOString();
         $endDate = $endDate->toISOString();
 
@@ -91,9 +143,9 @@ class AvailabilityCheckService
 
         /** @var ?RentalVehicle $collidingRental */
         $collidingRental = $vehicle->rentalVehicles()
-            ->whereHas('rental', function ($query) use ($current) {
-                if ($current && $current['type'] === 'rental') {
-                    $query->where('id', '!=', $current['id']);
+            ->whereHas('rental', function ($query) use ($options) {
+                if ($options && $options->ignore_rental) {
+                    $query->where('id', '!=', $options->ignore_rental);
                 }
             })
             ->whereHas('rental.timeframe', function ($query) use ($startDate, $endDate) {
@@ -105,17 +157,19 @@ class AvailabilityCheckService
             ->first();
 
         if ($collidingRental) {
-            return [
-                'available' => false,
-                'message' => 'vehicle.unavailable.rental',
-                'start_date' => $collidingRental->rental->timeframe->departure_date,
-                'end_date' => $collidingRental->rental->timeframe->return_date,
-            ];
+            return new AvailabilityData(
+                available: false,
+                message: 'vehicle.unavailable.rental',
+                entity_blocked: 'vehicle',
+                entity_blocker: 'rental',
+                start_date: $collidingRental->rental->timeframe->departure_date,
+                end_date: $collidingRental->rental->timeframe->return_date,
+            );
         }
 
         /** @var ?Reservation $collidingReservation */
         $collidingReservation = $vehicle->reservations()
-            ->where('id', '!=', $current && $current['type'] === 'reservation' ? $current['id'] : null)
+            ->where('id', '!=', $options && $options->ignore_reservation ? $options->ignore_reservation : null)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->where(function ($q) use ($startDate, $endDate) {
                     $q->where('check_in_date', '<', $endDate)
@@ -125,12 +179,14 @@ class AvailabilityCheckService
             ->first();
 
         if ($collidingReservation) {
-            return [
-                'available' => false,
-                'message' => 'vehicle.unavailable.reservation',
-                'start_date' => $collidingReservation->check_in_date,
-                'end_date' => $collidingReservation->check_out_date,
-            ];
+            return new AvailabilityData(
+                available: false,
+                message: 'vehicle.unavailable.reservation',
+                entity_blocked: 'vehicle',
+                entity_blocker: 'reservation',
+                start_date: $collidingReservation->check_in_date,
+                end_date: $collidingReservation->check_out_date,
+            );
         }
 
         /** @var ?VehicleMaintenance $collidingMaintenance */
@@ -144,17 +200,23 @@ class AvailabilityCheckService
             ->first();
 
         if ($collidingMaintenance) {
-            return [
-                'available' => false,
-                'message' => 'vehicle.unavailable.maintenance',
-                'start_date' => $collidingMaintenance->started_at,
-                'end_date' => $collidingMaintenance->finished_at,
-            ];
+            return new AvailabilityData(
+                available: false,
+                message: 'vehicle.unavailable.maintenance',
+                entity_blocked: 'vehicle',
+                entity_blocker: 'maintenance',
+                start_date: $collidingMaintenance->started_at,
+                end_date: $collidingMaintenance->finished_at,
+            );
         }
 
-        return [
-            'available' => true,
-            'message' => 'customer.available',
-        ];
+        return new AvailabilityData(
+            available: true,
+            message: 'vehicle.available',
+            start_date: null,
+            end_date: null,
+            entity_blocked: null,
+            entity_blocker: null,
+        );
     }
 }

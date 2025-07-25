@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Data\AvailabilityCheckData;
+use App\Data\AvailabilityCheckOptions;
 use App\Http\Requests\ReservationCreateRequest;
 use App\Http\Requests\ReservationUpdateRequest;
 use App\Http\Resources\ReservationResource;
@@ -32,27 +34,17 @@ class ReservationController extends ApiController
     {
         $data = $request->validated();
 
-        // Check vehicle availability
-        $vehicle = Vehicle::find($data['vehicle_id']);
-        $availability = $this->availabilityCheckService->checkVehicleAvailability(
-            $vehicle,
-            Carbon::parse($data['check_in_date']),
-            Carbon::parse($data['check_out_date']),
-        );
-        if (!$availability['available']) {
-            return $this->error($availability['message'], $availability, 409);
+        $availability = $this->availabilityCheckService->check(new AvailabilityCheckData(
+            vehicle: Vehicle::findOrFail($data['vehicle_id']),
+            customer: Customer::findOrFail($data['customer_id']),
+            start_date: Carbon::parse($data['check_in_date']),
+            end_date: Carbon::parse($data['check_out_date']),
+            options: null,
+        ));
+        if (!$availability->available) {
+            return $this->error($availability->message, $availability, 409);
         }
 
-        // Check customer availability
-        $customer = Customer::find($data['customer_id']);
-        $availability = $this->availabilityCheckService->checkCustomerAvailability(
-            $customer,
-            Carbon::parse($data['check_in_date']),
-            Carbon::parse($data['check_out_date']),
-        );
-        if (!$availability['available']) {
-            return $this->error($availability['message'], $availability, 409);
-        }
         $reservation = Reservation::create($data);
         return $this->success(new ReservationResource($reservation));
     }
@@ -61,29 +53,19 @@ class ReservationController extends ApiController
     {
         $data = $request->validated();
 
-        // Check vehicle availability
-        $vehicle = Vehicle::find($data['vehicle_id']);
-        $availability = $this->availabilityCheckService->checkVehicleAvailability(
-            $vehicle,
-            Carbon::parse($data['check_in_date']),
-            Carbon::parse($data['check_out_date']),
-            $reservation->id ? ['type' => 'reservation', 'id' => $reservation->id] : null
-        );
-        if (!$availability['available']) {
-            return $this->error($availability['message'], $availability, 409);
+        $availability = $this->availabilityCheckService->check(new AvailabilityCheckData(
+            vehicle: Vehicle::findOrFail($data['vehicle_id']),
+            customer: Customer::findOrFail($data['customer_id']),
+            start_date: Carbon::parse($data['check_in_date']),
+            end_date: Carbon::parse($data['check_out_date']),
+            options: new AvailabilityCheckOptions(
+                ignore_reservation: $reservation->id,
+            ),
+        ));
+        if (!$availability->available) {
+            return $this->error($availability->message, $availability, 409);
         }
 
-        // Check customer availability
-        $customer = Customer::find($data['customer_id']);
-        $availability = $this->availabilityCheckService->checkCustomerAvailability(
-            $customer,
-            Carbon::parse($data['check_in_date']),
-            Carbon::parse($data['check_out_date']),
-            $reservation->id ? ['type' => 'reservation', 'id' => $reservation->id] : null
-        );
-        if (!$availability['available']) {
-            return $this->error($availability['message'], $availability, 409);
-        }
         $reservation->update($data);
         return $this->success(new ReservationResource($reservation));
     }
