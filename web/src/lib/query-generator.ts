@@ -68,12 +68,14 @@ export function makeQueryHook<
       UseQueryOptions<TData, TError, TData, TKey>,
       "queryKey" | "queryFn"
     > = {}
-  ): UseQueryResult<TData, TError> =>
-    useQuery<TData, TError, TData, TKey>({
+  ): UseQueryResult<TData, TError> => {
+    // console.log("queryKey", [...prefix, variables]);
+    return useQuery<TData, TError, TData, TKey>({
       queryKey: (variables === undefined
         ? [...prefix]
         : [...prefix, variables]) as TKey,
       queryFn: () => fetcher(variables as any),
       ...opts,
     });
+  };
 }

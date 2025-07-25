@@ -1,15 +1,9 @@
 import {
-  useVehicleExpenseDelete,
   useVehicleExpenseIndex,
   VehicleExpenseTypeEnum,
   type VehicleExpenseResource,
 } from "@/features/vehicle-expenses";
-import {
-  AddExpenseDialog,
-  EditExpenseDialog,
-} from "@/routes/app/vehicles/$id/expenses";
-import { PencilIcon, TrashIcon } from "lucide-react";
-import { useState } from "react";
+import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { fmt_currency } from "@/lib/utils";
 
@@ -17,37 +11,44 @@ export type VehicleExpenseListProps = {
   vehicleId: string;
   value: string[];
   onValueChange?: (value: string[]) => void;
+  onAddExpense?: () => void;
+  onEditExpense?: (expense: VehicleExpenseResource) => void;
+  onDeleteExpense?: (expense: VehicleExpenseResource) => void;
 };
 
 export function VehicleExpenseList({
   vehicleId,
   value,
-  onValueChange,
+  onAddExpense,
+  onEditExpense,
+  onDeleteExpense,
 }: VehicleExpenseListProps) {
-  const [editExpense, setEditExpense] = useState<VehicleExpenseResource | null>(
-    null
-  );
-  const {
-    data: expenses,
-    isLoading,
-    refetch,
-  } = useVehicleExpenseIndex({
+  const { data: expenses, isLoading } = useVehicleExpenseIndex({
     vehicleId,
     ids: value,
   });
 
-  const { mutate: deleteExpense } = useVehicleExpenseDelete({
-    onSuccess: () => {
-      onValueChange?.(value.filter((id) => id !== editExpense?.id));
-    },
-  });
+  // const handleAddExpense = async () => {
+  //   const expense = await onAddExpense?.();
+  //   if (!expense) return;
+  //   const newValues = Array.from(new Set([...value, expense.id]));
+  //   console.log("newValues", newValues);
+  //   onValueChange?.(newValues);
+  // };
 
-  const handleValueChange = (expense: VehicleExpenseResource) => {
-    const newValues = Array.from(new Set([...value, expense.id]));
-    console.log("newValues", newValues);
-    onValueChange?.(newValues);
-    refetch();
-  };
+  // const handleEditExpense = async (expense: VehicleExpenseResource) => {
+  //   const newExpense = await onEditExpense?.(expense);
+  //   if (!expense) return;
+  //   const newValues = Array.from(new Set([...value, expense.id]));
+  //   console.log("newValues", newValues);
+  //   onValueChange?.(newValues);
+  // };
+
+  // const handleDeleteExpense = async (expense: VehicleExpenseResource) => {
+  //   await onDeleteExpense?.(expense);
+  //   const newValues = value.filter((id) => id !== expense.id);
+  //   onValueChange?.(newValues);
+  // };
 
   return (
     <div className="mt-2">
@@ -66,7 +67,11 @@ export function VehicleExpenseList({
             {expenses?.data?.length} expenses
           </p>
         </div>
-        <AddExpenseDialog vehicleId={vehicleId} onChange={handleValueChange} />
+
+        <Button variant="outline" onClick={onAddExpense}>
+          <PlusIcon />
+          Add Expense
+        </Button>
       </div>
       <div className="grid grid-cols-1 gap-2 mt-6">
         {isLoading && <div>Loading...</div>}
@@ -89,7 +94,7 @@ export function VehicleExpenseList({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  setEditExpense(expense);
+                  onEditExpense?.(expense);
                 }}
               >
                 <PencilIcon />
@@ -98,10 +103,7 @@ export function VehicleExpenseList({
                 variant="destructive"
                 size="sm"
                 onClick={() => {
-                  deleteExpense({
-                    vehicleId,
-                    expenseId: expense.id,
-                  });
+                  onDeleteExpense?.(expense);
                 }}
               >
                 <TrashIcon />
@@ -110,12 +112,6 @@ export function VehicleExpenseList({
           </div>
         ))}
       </div>
-      <EditExpenseDialog
-        vehicleId={vehicleId}
-        expense={editExpense}
-        setEditExpense={setEditExpense}
-        onChange={handleValueChange}
-      />
     </div>
   );
 }
