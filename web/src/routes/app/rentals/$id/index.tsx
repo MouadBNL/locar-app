@@ -376,7 +376,14 @@ function RentalRateFormSection({
     form.setValue("day_total", day_total_price);
     const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0);
     form.setValue("total", total_price);
-  }, [extra_rate, extra_quantity, daily_rate, departure_date, return_date]);
+  }, [
+    extra_rate,
+    extra_quantity,
+    daily_rate,
+    departure_date,
+    return_date,
+    form,
+  ]);
 
   const onSubmit = form.handleSubmit((data) => {
     updateRate({ id: code, data });

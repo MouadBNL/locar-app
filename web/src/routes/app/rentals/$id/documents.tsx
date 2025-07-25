@@ -170,7 +170,7 @@ function RouteComponent() {
             submit={(data) => {
               updateRentalDocument({
                 rental_code: id,
-                id: selectedRentalDocument?.id!,
+                id: selectedRentalDocument!.id,
                 data: data,
               });
             }}

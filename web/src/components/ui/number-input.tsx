@@ -131,6 +131,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           min={min}
           suffix={suffix}
           prefix={prefix}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           customInput={Input as any}
           placeholder={placeholder}
           className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-r-none relative"

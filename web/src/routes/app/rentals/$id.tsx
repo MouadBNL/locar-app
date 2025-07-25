@@ -283,16 +283,6 @@ function RentalAgreementAction({
   code: string;
   rental: RentalData;
 }) {
-  if (rental.agreement_document) {
-    return (
-      <Button variant="outline" asChild>
-        <a href={rental.agreement_document.url} target="_blank">
-          <FileTextIcon className="w-4 h-4" />
-          View Agreement
-        </a>
-      </Button>
-    );
-  }
   const router = useRouter();
   const { mutate: generateAgreement, isPending: isGeneratingAgreement } =
     useRentalAgreementGenerate({
@@ -310,6 +300,17 @@ function RentalAgreementAction({
         toast.error("Failed to generate agreement");
       },
     });
+
+  if (rental.agreement_document) {
+    return (
+      <Button variant="outline" asChild>
+        <a href={rental.agreement_document.url} target="_blank">
+          <FileTextIcon className="w-4 h-4" />
+          View Agreement
+        </a>
+      </Button>
+    );
+  }
 
   return (
     <Button

@@ -16,7 +16,10 @@ export function VehicleSelect(props: VehicleSelectProps) {
 
   const onValueChange = (value: string) => {
     props.onValueChange?.(value);
-    props.onVehicleSelected?.(data?.data.find((v) => v.id === value)!);
+    const vehicle = data?.data.find((v) => v.id === value);
+    if (vehicle) {
+      props.onVehicleSelected?.(vehicle);
+    }
   };
 
   return (

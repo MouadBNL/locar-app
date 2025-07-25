@@ -6,23 +6,23 @@ const http = axios.create({
 http.defaults.withCredentials = true;
 http.defaults.withXSRFToken = true;
 
-http.interceptors.request.use(function (config) {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = 'Bearer ' + token;
+http.interceptors.request.use(
+  function (config) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = "Bearer " + token;
+    }
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
   }
-  return config;
-}, function (error) {
-  // Do something with request error
-  return Promise.reject(error);
-});
-
-
+);
 
 export { http };
 
-
-export type ApiResponse<T = any> = {
-  data: T,
-  message: string | null
-}
+export type ApiResponse<T = unknown> = {
+  data: T;
+  message: string | null;
+};

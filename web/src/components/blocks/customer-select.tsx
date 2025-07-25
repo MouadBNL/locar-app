@@ -16,7 +16,10 @@ export function CustomerSelect(props: CustomerSelectProps) {
 
   const onValueChange = (value: string) => {
     props.onValueChange?.(value);
-    props.onCustomerSelected?.(data?.data.find((c) => c.id === value)!);
+    const customer = data?.data.find((c) => c.id === value);
+    if (customer) {
+      props.onCustomerSelected?.(customer);
+    }
   };
 
   return (

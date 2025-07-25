@@ -33,7 +33,7 @@ export function fmt_date(date: Date, opt?: { format: "date" | "datetime" }) {
     /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{3}))?Z?$/
   );
   if (!match) return str;
-  const [, year, month, day, hours, minutes, seconds, _milliseconds] = match;
+  const [, year, month, day, hours, minutes, seconds] = match;
   if (opt?.format === "date") {
     return `${year}-${month}-${day}T00:00:00Z`;
   }
@@ -73,7 +73,7 @@ export function parse_availability_error(error: unknown) {
         end_date: string;
       };
     };
-    const [entity, _, type] = data.message.split(".") as [
+    const [entity, , type] = data.message.split(".") as [
       "vehicle" | "customer",
       "unavailable",
       "rental" | "reservation" | "maintenance"

@@ -203,7 +203,7 @@ function EditPaymentDialog({
           submit={(data) => {
             updateRentalPayment({
               rental_code,
-              id: payment?.id!,
+              id: payment!.id,
               data,
             });
           }}
