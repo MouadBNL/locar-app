@@ -67,6 +67,18 @@ class Vehicle extends Model
                     return VehicleStatus::BOOKED;
                 }
 
+                $rental = $this->whereHas('rentalVehicles', function ($query) {
+                    $query->whereHas('rental', function ($query) {
+                        $query->whereHas('timeframe', function ($query) {
+                            $query->where('departure_date', '<=', now()->toISOString())
+                                ->where('return_date', '>=', now()->toISOString());
+                        });
+                    });
+                })->first();
+                if ($rental) {
+                    return VehicleStatus::RENTED;
+                }
+
                 return VehicleStatus::AVAILABLE;
             }
         );
