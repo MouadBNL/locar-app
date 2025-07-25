@@ -29,6 +29,7 @@ import {
   useRentalRenterUpdate,
   useRentalNotesUpdate,
 } from "@/features/rentals";
+import { parse_availability_error } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
@@ -240,8 +241,13 @@ function RentalPeriodFormSection({
       toast.success("Period updated");
       onUpdate();
     },
-    onError: () => {
-      toast.error("Failed to update period");
+    onError: (error) => {
+      const msg = parse_availability_error(error);
+      if (msg) {
+        toast.error(msg);
+      } else {
+        toast.error("Failed to update period");
+      }
     },
   });
 

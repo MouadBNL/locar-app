@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Data\AvailabilityCheckData;
+use App\Data\AvailabilityCheckOptions;
 use App\Data\RentalRateData;
 use App\Data\RentalTimeframeData;
 use App\Data\RentalVehicleData;
 use App\Data\RenterData;
+use App\Models\Customer;
 use App\Models\Rental;
+use App\Models\Vehicle;
+use App\Services\AvailabilityCheckService;
 use App\Services\TimeframeService;
 use Illuminate\Http\Request;
 
 class RentalDetailsUpdateController extends ApiController
 {
+    public function __construct(
+        private AvailabilityCheckService $availabilityCheckService
+    ) {}
+
     public function vehicle(RentalVehicleData $data, Rental $rental)
     {
         $rental->vehicle->update([
@@ -60,6 +69,19 @@ class RentalDetailsUpdateController extends ApiController
 
     public function timeframe(RentalTimeframeData $data, Rental $rental, TimeframeService $timeframeService)
     {
+        $availability = $this->availabilityCheckService->check(new AvailabilityCheckData(
+            vehicle: Vehicle::find($rental->vehicle->vehicle_id),
+            customer: Customer::find($rental->renter->customer_id),
+            start_date: $data->departure_date,
+            end_date: $data->return_date,
+            options: new AvailabilityCheckOptions(
+                ignore_rental: $rental->id,
+            ),
+        ));
+        if (!$availability->available) {
+            return $this->error($availability->message, $availability, 409);
+        }
+
         $days = $timeframeService->diffInDays($data->departure_date, $data->return_date);
 
         $rental->timeframe->update([

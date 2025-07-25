@@ -5,6 +5,7 @@ import { Heading3 } from "@/components/ui/typography";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useRentalCreate } from "@/features/rentals";
+import { parse_availability_error } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/rentals/initialize")({
   component: RouteComponent,
@@ -20,8 +21,12 @@ function RouteComponent() {
       navigate({ to: "/app/rentals" });
     },
     onError: (error) => {
-      toast.error("Failed to create rental");
-      console.error(error);
+      const msg = parse_availability_error(error);
+      if (msg) {
+        toast.error(msg);
+      } else {
+        toast.error("Failed to create rental");
+      }
     },
   });
 
