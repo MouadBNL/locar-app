@@ -20,6 +20,7 @@ class RentalController extends ApiController
     {
         return $this->success(RentalData::fromModel($rental));
     }
+
     public function destroy(Rental $rental)
     {
         $rental->load(['rate', 'timeframe', 'renter', 'vehicle']);

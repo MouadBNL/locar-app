@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Log;
 
 class AvailabilityCheckService
 {
-
     public function check(AvailabilityCheckData $data): AvailabilityData
     {
         if ($data->customer) {
@@ -26,7 +25,7 @@ class AvailabilityCheckService
                 $data->end_date,
                 $data->options,
             );
-            if (!$customerAvailability->available) {
+            if (! $customerAvailability->available) {
                 return $customerAvailability;
             }
         }
@@ -38,7 +37,7 @@ class AvailabilityCheckService
                 $data->end_date,
                 $data->options,
             );
-            if (!$vehicleAvailability->available) {
+            if (! $vehicleAvailability->available) {
                 return $vehicleAvailability;
             }
         }

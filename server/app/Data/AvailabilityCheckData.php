@@ -17,7 +17,6 @@ class AvailabilityCheckData
     ) {}
 }
 
-
 class AvailabilityCheckOptions
 {
     public function __construct(

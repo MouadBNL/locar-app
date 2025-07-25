@@ -78,7 +78,7 @@ class RentalDetailsUpdateController extends ApiController
                 ignore_rental: $rental->id,
             ),
         ));
-        if (!$availability->available) {
+        if (! $availability->available) {
             return $this->error($availability->message, $availability, 409);
         }
 

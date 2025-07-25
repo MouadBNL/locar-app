@@ -22,6 +22,7 @@ class ReservationController extends ApiController
     public function index()
     {
         $reservations = Reservation::all();
+
         return $this->success(ReservationResource::collection($reservations));
     }
 
@@ -41,11 +42,12 @@ class ReservationController extends ApiController
             end_date: Carbon::parse($data['check_out_date']),
             options: null,
         ));
-        if (!$availability->available) {
+        if (! $availability->available) {
             return $this->error($availability->message, $availability, 409);
         }
 
         $reservation = Reservation::create($data);
+
         return $this->success(new ReservationResource($reservation));
     }
 
@@ -62,17 +64,19 @@ class ReservationController extends ApiController
                 ignore_reservation: $reservation->id,
             ),
         ));
-        if (!$availability->available) {
+        if (! $availability->available) {
             return $this->error($availability->message, $availability, 409);
         }
 
         $reservation->update($data);
+
         return $this->success(new ReservationResource($reservation));
     }
 
     public function destroy(Reservation $reservation)
     {
         $reservation->delete();
+
         return $this->success(null, 'reservation.delete.success');
     }
 }

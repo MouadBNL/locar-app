@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1;
 use App\Data\AvailabilityCheckData;
 use App\Data\RentalData;
 use App\Enums\RentalDocumentType;
-use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Rental;
 use App\Models\RentalDocument;
@@ -22,7 +21,6 @@ use Illuminate\Support\Facades\DB;
 
 class RentalInitializationController extends ApiController
 {
-
     public function __construct(
         private AvailabilityCheckService $availabilityCheckService
     ) {}
@@ -40,7 +38,7 @@ class RentalInitializationController extends ApiController
             options: null,
         ));
 
-        if (!$availability->available) {
+        if (! $availability->available) {
             return $this->error($availability->message, $availability, 409);
         }
 
