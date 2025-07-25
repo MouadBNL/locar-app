@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import CustomerForm from "@/components/blocks/customer-form";
 import { customerShowFn, useCustomerUpdate } from "@/features/customers";
+import { CustomerStatusBadge } from "@/components/blocks/customer-status-badge";
 
 export const Route = createFileRoute("/app/customers/$id")({
   component: RouteComponent,
@@ -40,7 +41,12 @@ function RouteComponent() {
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
-        <Heading3>Edit Customer</Heading3>
+        <div className="flex items-center gap-4">
+          <Heading3>
+            Customer: {customer?.first_name} {customer?.last_name}
+          </Heading3>
+          <CustomerStatusBadge status={customer?.status} />
+        </div>
 
         <Button asChild variant="destructive">
           <Link to="/app/customers">Cancel</Link>

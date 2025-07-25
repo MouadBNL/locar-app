@@ -6,12 +6,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { CustomerData } from "@/features/customers";
+import type { CustomerResource } from "@/features/customers";
+import { CustomerStatusBadge } from "./customer-status-badge";
 
 export type CustomerTableProps = {
-  data: CustomerData[];
+  data: CustomerResource[];
   loading?: boolean;
-  actions?: (customer: CustomerData) => React.ReactNode;
+  actions?: (customer: CustomerResource) => React.ReactNode;
 };
 
 export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
@@ -23,6 +24,7 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
           <TableHead>Last Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Phone</TableHead>
+          <TableHead>Status</TableHead>
           {actions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
@@ -50,6 +52,9 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
               <TableCell>{customer.last_name}</TableCell>
               <TableCell>{customer.email}</TableCell>
               <TableCell>{customer.phone}</TableCell>
+              <TableCell>
+                <CustomerStatusBadge status={customer.status} />
+              </TableCell>
               {actions && (
                 <TableCell className="flex gap-2">
                   {actions(customer)}
