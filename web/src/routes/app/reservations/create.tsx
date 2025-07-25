@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading3 } from "@/components/ui/typography";
 import { useReservationCreate } from "@/features/reservations";
+import { parse_availability_error } from "@/lib/utils";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
@@ -17,8 +18,13 @@ function RouteComponent() {
       toast.success("Reservation created successfully");
       navigate({ to: "/app/reservations" });
     },
-    onError: () => {
-      toast.error("Failed to create reservation");
+    onError: (error) => {
+      const msg = parse_availability_error(error);
+      if (msg) {
+        toast.error(msg);
+      } else {
+        toast.error("Failed to create reservation");
+      }
     },
   });
 

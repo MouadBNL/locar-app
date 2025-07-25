@@ -6,6 +6,7 @@ import {
   reservationShowFn,
   useReservationUpdate,
 } from "@/features/reservations";
+import { parse_availability_error } from "@/lib/utils";
 import {
   createFileRoute,
   Link,
@@ -35,8 +36,13 @@ function RouteComponent() {
       router.invalidate();
       navigate({ to: "/app/reservations" });
     },
-    onError: () => {
-      toast.error("Failed to update reservation");
+    onError: (error) => {
+      const msg = parse_availability_error(error);
+      if (msg) {
+        toast.error(msg);
+      } else {
+        toast.error("Failed to update reservation");
+      }
     },
   });
 

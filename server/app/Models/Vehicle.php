@@ -82,8 +82,16 @@ class Vehicle extends Model
         return $this->hasMany(VehicleMaintenance::class);
     }
 
+    /**
+     * @return HasMany<Reservation, $this>
+     */
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function rentalVehicles(): HasMany
+    {
+        return $this->hasMany(RentalVehicle::class);
     }
 }
