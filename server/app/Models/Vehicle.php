@@ -50,7 +50,10 @@ class Vehicle extends Model
                 if ($this->maintenances()
                     ->where('cancelled_at', null)
                     ->where('started_at', '<=', now()->toISOString())
-                    ->where('finished_at', '>=', now()->toISOString())
+                    ->where(function ($query) {
+                        $query->where('finished_at', '>=', now()->toISOString())
+                            ->orWhereNull('finished_at');
+                    })
                     ->exists()
                 ) {
                     return VehicleStatus::MAINTENANCE;
