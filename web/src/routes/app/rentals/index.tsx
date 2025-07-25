@@ -60,7 +60,7 @@ function RouteComponent() {
                 variant="outline"
                 size="sm"
                 loading={isDeleting}
-                onClick={() => deleteRental({ id: rental.id })}
+                onClick={() => deleteRental({ id: rental.rental_number })}
               >
                 <TrashIcon className="w-4 h-4" />
               </Button>
