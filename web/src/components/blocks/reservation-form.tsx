@@ -113,7 +113,7 @@ export default function ReservationForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
-        <pre>{JSON.stringify(form.getValues(), null, 2)}</pre>
+        {/* <pre>{JSON.stringify(form.getValues(), null, 2)}</pre> */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <AppFormField

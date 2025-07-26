@@ -13,13 +13,14 @@ import {
   Select,
   SelectContent,
   SelectTrigger,
-  SelectValue,
+  
   SelectItem,
 } from "../ui/select";
 import { useCustomerCreate, useCustomerIndex, type CustomerData } from "@/features/customers";
 import CustomerForm from "./customer-form";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ApiResponse } from "@/lib/http";
+import { Input } from "../ui/input";
 
 export type CustomerSelectProps = React.ComponentProps<typeof Select> & {
   onCustomerSelected?: (customer: CustomerData) => void;
@@ -29,7 +30,9 @@ export function CustomerSelect(props: CustomerSelectProps) {
   const [open, setOpen] = useState(false);
   const [newCustomerId, setNewCustomerId] = useState<string | null>(null);
 
+
   const { data, isFetching, isPending } = useCustomerIndex();
+  const [search, setSearch] = useState("");
   const queryClient = useQueryClient();
 
   const handleValueChange = (value: string) => {
@@ -67,6 +70,15 @@ export function CustomerSelect(props: CustomerSelectProps) {
   }, [newCustomerId, data]);
 
 
+  // Filter customers by search
+  const filteredCustomers = data?.data?.filter((customer) => {
+    const searchLower = search.toLowerCase();
+    return (
+      customer.first_name.toLowerCase().includes(searchLower) ||
+      customer.last_name.toLowerCase().includes(searchLower)
+    );
+  }) ?? [];
+
   return (
     <Select
       disabled={isFetching || isPending}
@@ -75,13 +87,37 @@ export function CustomerSelect(props: CustomerSelectProps) {
     >
       <div className="flex justify-center items-center gap-2">
         <SelectTrigger className="w-full">
-          <SelectValue placeholder={isPending ? "......." : "Customer"} />
+          <div className="truncate">
+            {isPending
+              ? "loading"
+              : (() => {
+                const selected = data?.data?.find((c) => c.id === props.value);
+                return selected
+                  ? `${selected.first_name} ${selected.last_name}`
+                  : "Customer";
+              })()}
+          </div>
         </SelectTrigger>
 
+
         <SelectContent>
-          {data?.data?.map((customer) => (
+          <div className="px-2 py-1 mb-2">
+            <Input
+              type="text"
+              placeholder="Search customer..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="w-full"
+              autoFocus
+              onKeyDown={e => e.stopPropagation()}
+              onFocus={e => e.stopPropagation()}
+              onMouseDown={e => e.stopPropagation()}
+            />
+          </div>
+          <hr className="mb-2 mx-2" />
+          {filteredCustomers.map((customer) => (
             <SelectItem key={customer.id} value={customer.id!}>
-              {customer.first_name} {customer.last_name}
+              {customer.first_name} {customer.last_name} <i className="opacity-15">{customer.id_card_number} | {customer.email} | {customer.phone} </i>
             </SelectItem>
           ))}
         </SelectContent>
