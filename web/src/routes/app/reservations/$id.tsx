@@ -4,6 +4,7 @@ import {
   useNavigate,
   useRouter,
 } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import ReservationForm from '@/components/blocks/reservation-form';
 import { Button } from '@/components/ui/button';
@@ -27,22 +28,25 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const router = useRouter();
-
+  const { t } = useTranslation(['reservation', 'common', 'exceptions']);
   const { reservation } = Route.useLoaderData();
 
   const { mutate: updateReservation, isPending } = useReservationUpdate({
     onSuccess: () => {
-      toast.success('Reservation updated successfully');
+      toast.success(t('reservation:action.update.success'));
       router.invalidate();
       navigate({ to: '/app/reservations' });
     },
     onError: (error) => {
-      const msg = parse_availability_error(error);
-      if (msg) {
-        toast.error(msg);
+      const result = parse_availability_error(error);
+      if (result) {
+        toast.error(t(`exceptions:availability.${result.code}`, {
+          start_date: result.start_date,
+          end_date: result.end_date,
+        }));
       }
       else {
-        toast.error('Failed to update reservation');
+        toast.error(t('reservation:action.update.error'));
       }
     },
   });
@@ -50,10 +54,10 @@ function RouteComponent() {
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
-        <Heading3>Edit Reservation</Heading3>
+        <Heading3>{t('reservation:edit_reservation')}</Heading3>
 
         <Button asChild variant="destructive">
-          <Link to="/app/reservations">Cancel</Link>
+          <Link to="/app/reservations">{t('common:cancel')}</Link>
         </Button>
       </div>
 

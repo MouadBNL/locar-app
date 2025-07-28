@@ -14,5 +14,7 @@
   "randomLink": "Lien aléatoire",
   "actions": "Actions",
   "cancel": "Annuler",
-  "submit": "Enregistrer"
+  "submit": "Enregistrer",
+  "dh": "Dh",
+  "days": "jours"
 }

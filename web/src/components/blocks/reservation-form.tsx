@@ -2,6 +2,7 @@ import type { ReservationData } from '@/features/reservations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
   ReservationSchema,
 } from '@/features/reservations';
@@ -24,6 +25,7 @@ export default function ReservationForm({
   loading,
   submit,
 }: ReservationFormProps) {
+  const { t } = useTranslation(['reservation', 'common']);
   const form = useForm({
     resolver: zodResolver(ReservationSchema),
     defaultValues: {
@@ -37,25 +39,6 @@ export default function ReservationForm({
       ...initialValues,
     },
   });
-  // const queryClient = useQueryClient();
-  // const [open, setOpen] = useState(false);
-
-  // const { mutateAsync: createCustomer } = useCustomerCreate({
-  //   onSuccess: async (response) => {
-  //     console.log("Customer created successfully", response);
-  //     // Invalidate cached customer list to refresh the Select
-  //     await queryClient.invalidateQueries({ queryKey: ["customers"] });
-
-  //       const customerId = response.data.id;
-  //       if (customerId) {
-  //         form.setValue("customer_id", customerId);
-  //       }
-
-  //       console.log("FORM DATA ID set in form:", form.getValues());
-  //       setOpen(false);
-
-  //   },
-  // });
 
   const checkin_date = form.watch('check_in_date');
   const checkout_date = form.watch('check_out_date');
@@ -97,13 +80,11 @@ export default function ReservationForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
-        {/* <pre>{JSON.stringify(form.getValues(), null, 2)}</pre> */}
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <AppFormField
             control={form.control}
             name="vehicle_id"
-            label="Vehicle"
+            label={t('reservation:attributes.vehicle')}
             render={({ field }) => (
               <VehicleSelect
                 onValueChange={field.onChange}
@@ -115,7 +96,7 @@ export default function ReservationForm({
           <AppFormField
             control={form.control}
             name="customer_id"
-            label="Customer"
+            label={t('reservation:attributes.customer')}
             render={({ field }) => (
               <CustomerSelect
                 onValueChange={field.onChange}
@@ -124,50 +105,10 @@ export default function ReservationForm({
             )}
           />
 
-          {/* <div className="flex justify-center items-center gap-2">
-            <div className="flex-1">
-              <AppFormField
-                control={form.control}
-                name="customer_id"
-                label="Customer"
-                render={({ field }) => (
-                  <CustomerSelect
-                    onValueChange={field.onChange}
-                    value={field.value}
-                  />
-                )}
-              />
-            </div>
-
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline">
-                  <Plus />
-                </Button>
-              </DialogTrigger>
-                <DialogPortal>
-              <DialogContent>
-
-                <DialogHeader>
-                  <DialogTitle>Add Customer</DialogTitle>
-                  <DialogDescription>
-                    Add new customer
-                  </DialogDescription>
-                </DialogHeader>
-
-              <CustomerForm
-                submit={async (data) => createCustomer({ data })}
-              />
-
-              </DialogContent>
-                </DialogPortal>
-            </Dialog>
-          </div> */}
-
           <AppFormField
             control={form.control}
             name="check_in_date"
-            label="Checkin Date"
+            label={t('reservation:attributes.check_in_date')}
             render={({ field }) => (
               <DateInput
                 {...field}
@@ -181,7 +122,7 @@ export default function ReservationForm({
           <AppFormField
             control={form.control}
             name="check_out_date"
-            label="Checkout Date"
+            label={t('reservation:attributes.check_out_date')}
             render={({ field }) => (
               <DateInput
                 {...field}
@@ -197,7 +138,7 @@ export default function ReservationForm({
           <AppFormField
             control={form.control}
             name="daily_rate"
-            label="Daily Rate"
+            label={t('reservation:attributes.daily_rate')}
             render={({ field }) => (
               <NumberInput value={field.value} onChange={field.onChange} />
             )}
@@ -206,7 +147,7 @@ export default function ReservationForm({
           <AppFormField
             control={form.control}
             name="total_days"
-            label="Total Days"
+            label={t('reservation:attributes.total_days')}
             render={({ field }) => (
               <NumberInput value={field.value} onChange={field.onChange} disabled />
             )}
@@ -215,7 +156,7 @@ export default function ReservationForm({
           <AppFormField
             control={form.control}
             name="total_price"
-            label="Total Price"
+            label={t('reservation:attributes.total_price')}
             render={({ field }) => (
               <NumberInput
                 value={field.value}
@@ -230,7 +171,7 @@ export default function ReservationForm({
           <AppFormField
             control={form.control}
             name="notes"
-            label="Notes"
+            label={t('reservation:attributes.notes')}
             render={({ field }) => (
               <Textarea {...field} value={field.value ?? undefined} />
             )}
@@ -238,7 +179,7 @@ export default function ReservationForm({
         </div>
 
         <Button type="submit" loading={loading}>
-          Submit
+          {t('common:submit')}
         </Button>
       </form>
     </Form>

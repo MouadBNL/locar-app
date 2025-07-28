@@ -2,9 +2,13 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en_common from './locales/en/common.json';
 import en_customer from './locales/en/customer.json';
+import en_exceptions from './locales/en/exceptions.json';
+import en_reservation from './locales/en/reservation.json';
 import en_vehicle from './locales/en/vehicle.json';
 import fr_common from './locales/fr/common.json';
 import fr_customer from './locales/fr/customer.json';
+import fr_exceptions from './locales/fr/exceptions.json';
+import fr_reservation from './locales/fr/reservation.json';
 import fr_vehicle from './locales/fr/vehicle.json';
 
 // the translations
@@ -16,12 +20,16 @@ const resources = {
     common: en_common,
     vehicle: en_vehicle,
     customer: en_customer,
+    reservation: en_reservation,
+    exceptions: en_exceptions,
   },
   fr: {
     translation: {},
     common: fr_common,
     vehicle: fr_vehicle,
     customer: fr_customer,
+    reservation: fr_reservation,
+    exceptions: fr_exceptions,
   },
 };
 i18n
