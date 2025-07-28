@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { SignupForm } from '@/components/blocks/signup-form';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSignUp } from '@/features/auth';
+import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/auth/signup')({
   component: RouteComponent,
@@ -11,13 +12,14 @@ export const Route = createFileRoute('/auth/signup')({
 
 function RouteComponent() {
   const navigate = useNavigate();
+  const { t } = useTranslation(['auth', 'common']);
   const { mutate, isPending } = useSignUp({
     onSuccess: () => {
-      toast.success('Signup successful');
+      toast.success(t('auth:sign_up.success'));
       navigate({ to: '/app' });
     },
     onError: () => {
-      toast.error('Signup failed');
+      toast.error(t('auth:sign_up.error'));
     },
   });
 

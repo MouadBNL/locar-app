@@ -5,6 +5,7 @@ import { SignInSchema } from '@/features/auth';
 import { Button } from '../ui/button';
 import { AppFormField, Form } from '../ui/form';
 import { Input } from '../ui/input';
+import { useTranslation } from 'react-i18next';
 
 export interface SigninFormProps {
   submit?: (data: SignInRequest) => void;
@@ -12,6 +13,7 @@ export interface SigninFormProps {
 }
 
 export function SigninForm({ submit, loading }: SigninFormProps) {
+  const { t } = useTranslation(['auth', 'common']);
   const form = useForm({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -31,23 +33,23 @@ export function SigninForm({ submit, loading }: SigninFormProps) {
           <AppFormField
             control={form.control}
             name="email"
-            label="Email"
+            label={t('auth:login.email')}
             render={({ field }) => (
-              <Input type="email" placeholder="Email" {...field} />
+              <Input type="email" placeholder={t('auth:login.email')} {...field} />
             )}
           />
           <AppFormField
             control={form.control}
             name="password"
-            label="Password"
+            label={t('auth:login.password')}
             render={({ field }) => (
-              <Input type="password" placeholder="Password" {...field} />
+              <Input type="password" placeholder={t('auth:login.password')} {...field} />
             )}
           />
         </div>
         <div className="flex justify-end flex-col gap-4 mt-4">
           <Button type="submit" className="w-full" loading={loading}>
-            Sign In
+              {t('auth:login.login')}
           </Button>
         </div>
       </form>

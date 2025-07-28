@@ -8,6 +8,7 @@ import en_payment from './locales/en/payment.json';
 import en_rental from './locales/en/rental.json';
 import en_reservation from './locales/en/reservation.json';
 import en_vehicle from './locales/en/vehicle.json';
+import en_auth from './locales/en/auth.json';
 import fr_common from './locales/fr/common.json';
 import fr_customer from './locales/fr/customer.json';
 import fr_document from './locales/fr/document.json';
@@ -16,6 +17,7 @@ import fr_payment from './locales/fr/payment.json';
 import fr_rental from './locales/fr/rental.json';
 import fr_reservation from './locales/fr/reservation.json';
 import fr_vehicle from './locales/fr/vehicle.json';
+import fr_auth from './locales/fr/auth.json';
 
 // the translations
 // (tip move them in a JSON file and import them,
@@ -31,6 +33,7 @@ const resources = {
     rental: en_rental,
     payment: en_payment,
     document: en_document,
+    auth: en_auth,
   },
   fr: {
     translation: {},
@@ -42,6 +45,7 @@ const resources = {
     rental: fr_rental,
     payment: fr_payment,
     document: fr_document,
+    auth: fr_auth,
   },
 };
 i18n
