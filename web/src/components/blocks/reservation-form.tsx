@@ -2,28 +2,19 @@ import type { ReservationData } from '@/features/reservations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-//import {
-//  Dialog,
-//  DialogTrigger,
-//  DialogContent,
-//  DialogHeader,
-//  DialogTitle,
-//  DialogDescription,
-//  DialogPortal
-//} from "../ui/dialog";
 import {
-
   ReservationSchema,
-  type ReservationData,
-} from "@/features/reservations";
-import { fmt_date, get_date } from "@/lib/utils";
-//import { Plus } from "lucide-react";
-//import CustomerForm from "./customer-form";
-//import { useCustomerCreate } from "@/features/customers";
-//import { useQueryClient } from "@tanstack/react-query";
+} from '@/features/reservations';
+import { fmt_date, get_date } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { DateInput } from '../ui/dateinput';
+import { AppFormField, Form } from '../ui/form';
+import { NumberInput } from '../ui/number-input';
+import { Textarea } from '../ui/textarea';
+import { CustomerSelect } from './customer-select';
+import { VehicleSelect } from './vehicle-select';
 
-
-export type ReservationFormProps = {
+export interface ReservationFormProps {
   initialValues?: Partial<ReservationData>;
   loading?: boolean;
   submit?: (data: ReservationData) => void;
@@ -55,7 +46,6 @@ export default function ReservationForm({
   //     // Invalidate cached customer list to refresh the Select
   //     await queryClient.invalidateQueries({ queryKey: ["customers"] });
 
-
   //       const customerId = response.data.id;
   //       if (customerId) {
   //         form.setValue("customer_id", customerId);
@@ -64,13 +54,12 @@ export default function ReservationForm({
   //       console.log("FORM DATA ID set in form:", form.getValues());
   //       setOpen(false);
 
-
   //   },
   // });
 
-  const checkin_date = form.watch("check_in_date");
-  const checkout_date = form.watch("check_out_date");
-  const daily_rate = form.watch("daily_rate");
+  const checkin_date = form.watch('check_in_date');
+  const checkout_date = form.watch('check_out_date');
+  const daily_rate = form.watch('daily_rate');
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
     if (!a || !b)
@@ -101,7 +90,6 @@ export default function ReservationForm({
   }, [checkin_date, checkout_date, daily_rate, form]);
 
   const onSubmit = (data: ReservationData) => {
-    alert("Submitting reservation data: " + JSON.stringify(data, null, 2));
     submit?.(data);
   };
 
@@ -148,7 +136,7 @@ export default function ReservationForm({
                     value={field.value}
                   />
                 )}
-              />              
+              />
             </div>
 
             <Dialog open={open} onOpenChange={setOpen}>
@@ -167,7 +155,7 @@ export default function ReservationForm({
                   </DialogDescription>
                 </DialogHeader>
 
-              <CustomerForm 
+              <CustomerForm
                 submit={async (data) => createCustomer({ data })}
               />
 
@@ -175,7 +163,6 @@ export default function ReservationForm({
                 </DialogPortal>
             </Dialog>
           </div> */}
-
 
           <AppFormField
             control={form.control}
@@ -212,7 +199,7 @@ export default function ReservationForm({
             name="daily_rate"
             label="Daily Rate"
             render={({ field }) => (
-              <NumberInput {...field} value={field.value ?? undefined} />
+              <NumberInput value={field.value} onChange={field.onChange} />
             )}
           />
 
@@ -221,7 +208,7 @@ export default function ReservationForm({
             name="total_days"
             label="Total Days"
             render={({ field }) => (
-              <NumberInput value={field.value ?? undefined} disabled />
+              <NumberInput value={field.value} onChange={field.onChange} disabled />
             )}
           />
 
@@ -231,8 +218,8 @@ export default function ReservationForm({
             label="Total Price"
             render={({ field }) => (
               <NumberInput
-                {...field}
-                value={field.value ?? undefined}
+                value={field.value}
+                onChange={field.onChange}
                 disabled
               />
             )}

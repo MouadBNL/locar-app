@@ -1,26 +1,27 @@
-import { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
-import { Button } from "../ui/button";
+import type { CustomerData } from '@/features/customers';
+import type { ApiResponse } from '@/lib/http';
+import { useQueryClient } from '@tanstack/react-query';
+import { Plus } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { useCustomerCreate, useCustomerIndex } from '@/features/customers';
+import { Button } from '../ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTrigger,
   DialogDescription,
+  DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
+  DialogTrigger,
+} from '../ui/dialog';
+import { Input } from '../ui/input';
 import {
   Select,
   SelectContent,
-  SelectTrigger,
-  
   SelectItem,
-} from "../ui/select";
-import { useCustomerCreate, useCustomerIndex, type CustomerData } from "@/features/customers";
-import CustomerForm from "./customer-form";
-import { useQueryClient } from "@tanstack/react-query";
-import type { ApiResponse } from "@/lib/http";
-import { Input } from "../ui/input";
+
+  SelectTrigger,
+} from '../ui/select';
+import CustomerForm from './customer-form';
 
 export type CustomerSelectProps = React.ComponentProps<typeof Select> & {
   onCustomerSelected?: (customer: CustomerData) => void;
@@ -30,52 +31,51 @@ export function CustomerSelect(props: CustomerSelectProps) {
   const [open, setOpen] = useState(false);
   const [newCustomerId, setNewCustomerId] = useState<string | null>(null);
 
-
   const { data, isFetching, isPending } = useCustomerIndex();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const queryClient = useQueryClient();
 
-  const handleValueChange = (value: string) => {
+  const handleValueChange = useCallback((value: string) => {
     props.onValueChange?.(value);
 
     const customerList = data?.data;
-    if (!customerList) return; 
+    if (!customerList)
+      return;
 
-    const selectedCustomer = customerList.find((c) => c.id === value);
+    const selectedCustomer = customerList.find(c => c.id === value);
     if (selectedCustomer) {
       props.onCustomerSelected?.(selectedCustomer);
     }
-  };
-
+  }, [data, props]);
 
   const { mutateAsync: createCustomer } = useCustomerCreate({
     onSuccess: (response) => {
       const customer = response.data;
-      const existingData = queryClient.getQueryData<ApiResponse<CustomerData[]>>(["customers"]) ?? { data: [] };
+      const existingData = queryClient.getQueryData<ApiResponse<CustomerData[]>>(['customers']) ?? { data: [] };
 
-      queryClient.setQueryData(["customers"], [...existingData.data, customer]);
+      queryClient.setQueryData(['customers'], [...existingData.data, customer]);
       if (customer.id) {
         setNewCustomerId(customer.id);
       }
       setOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["customers"] });
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
     },
   });
 
   useEffect(() => {
     if (newCustomerId && data?.data) {
       handleValueChange(newCustomerId);
+      // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
       setNewCustomerId(null);
     }
-  }, [newCustomerId, data]);
-
+  }, [newCustomerId, data, handleValueChange]);
 
   // Filter customers by search
   const filteredCustomers = data?.data?.filter((customer) => {
     const searchLower = search.toLowerCase();
     return (
-      customer.first_name.toLowerCase().includes(searchLower) ||
-      customer.last_name.toLowerCase().includes(searchLower)
+      customer.first_name.toLowerCase().includes(searchLower)
+      || customer.last_name.toLowerCase().includes(searchLower)
     );
   }) ?? [];
 
@@ -89,16 +89,15 @@ export function CustomerSelect(props: CustomerSelectProps) {
         <SelectTrigger className="w-full">
           <div className="truncate">
             {isPending
-              ? "loading"
+              ? 'loading'
               : (() => {
-                const selected = data?.data?.find((c) => c.id === props.value);
-                return selected
-                  ? `${selected.first_name} ${selected.last_name}`
-                  : "Customer";
-              })()}
+                  const selected = data?.data?.find(c => c.id === props.value);
+                  return selected
+                    ? `${selected.first_name} ${selected.last_name}`
+                    : 'Customer';
+                })()}
           </div>
         </SelectTrigger>
-
 
         <SelectContent>
           <div className="px-2 py-1 mb-2">
@@ -115,9 +114,24 @@ export function CustomerSelect(props: CustomerSelectProps) {
             />
           </div>
           <hr className="mb-2 mx-2" />
-          {filteredCustomers.map((customer) => (
+          {filteredCustomers.map(customer => (
             <SelectItem key={customer.id} value={customer.id!}>
-              {customer.first_name} {customer.last_name} <i className="opacity-15">{customer.id_card_number} | {customer.email} | {customer.phone} </i>
+              {customer.first_name}
+              {' '}
+              {customer.last_name}
+              {' '}
+              <i className="opacity-15">
+                {customer.id_card_number}
+                {' '}
+                |
+                {' '}
+                {customer.email}
+                {' '}
+                |
+                {' '}
+                {customer.phone}
+                {' '}
+              </i>
             </SelectItem>
           ))}
         </SelectContent>
@@ -137,7 +151,7 @@ export function CustomerSelect(props: CustomerSelectProps) {
               </DialogDescription>
             </DialogHeader>
 
-            <CustomerForm submit={(data) => createCustomer({ data })} />
+            <CustomerForm submit={data => createCustomer({ data })} />
           </DialogContent>
         </Dialog>
       </div>
