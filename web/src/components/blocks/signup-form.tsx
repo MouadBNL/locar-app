@@ -1,23 +1,24 @@
-import { AppFormField, Form } from "../ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Link } from "@tanstack/react-router";
-import { SignUpSchema, type SignUpRequest } from "@/features/auth";
+import type { SignUpRequest } from '@/features/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from '@tanstack/react-router';
+import { useForm } from 'react-hook-form';
+import { SignUpSchema } from '@/features/auth';
+import { Button } from '../ui/button';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
 
-export type SignupFormProps = {
+export interface SignupFormProps {
   submit?: (data: SignUpRequest) => void;
   loading?: boolean;
-};
+}
 
 export function SignupForm({ submit, loading }: SignupFormProps) {
   const form = useForm({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     },
   });
 
@@ -59,7 +60,8 @@ export function SignupForm({ submit, loading }: SignupFormProps) {
             Sign up
           </Button>
           <p className="text-sm text-muted-foreground text-center">
-            Already have an account?{" "}
+            Already have an account?
+            {' '}
             <Link className="underline" to="/auth/signin">
               Sign in
             </Link>

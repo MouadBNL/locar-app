@@ -1,5 +1,13 @@
-import { useAuth } from "@/components/auth-provider";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useNavigate } from '@tanstack/react-router';
+import {
+  BellIcon,
+  CreditCardIcon,
+  EllipsisVerticalIcon,
+  LogOutIcon,
+  UserIcon,
+} from 'lucide-react';
+import { useAuth } from '@/components/auth-provider';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,22 +16,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
-import { useSignout } from "@/features/auth";
-import { useNavigate } from "@tanstack/react-router";
-import {
-  BellIcon,
-  CreditCardIcon,
-  EllipsisVerticalIcon,
-  LogOutIcon,
-  UserIcon,
-} from "lucide-react";
+} from '@/components/ui/sidebar';
+import { useSignout } from '@/features/auth';
 
 export function NavUser() {
   const { user } = useAuth();
@@ -32,7 +32,7 @@ export function NavUser() {
 
   const { mutate: signOut } = useSignout({
     onSuccess: () => {
-      navigate({ to: "/auth/signin" });
+      navigate({ to: '/auth/signin' });
     },
   });
 
@@ -62,7 +62,7 @@ export function NavUser() {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >

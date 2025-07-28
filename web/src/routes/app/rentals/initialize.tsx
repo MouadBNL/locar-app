@@ -1,12 +1,13 @@
-import RentalInitializationForm from "@/components/blocks/rental-initialization-form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
-import { useRentalCreate } from "@/features/rentals";
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import RentalInitializationForm from '@/components/blocks/rental-initialization-form';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import { useRentalCreate } from '@/features/rentals';
+import { parse_availability_error } from '@/lib/utils';
 
-export const Route = createFileRoute("/app/rentals/initialize")({
+export const Route = createFileRoute('/app/rentals/initialize')({
   component: RouteComponent,
 });
 
@@ -14,14 +15,18 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   const { mutate: createRental, isPending } = useRentalCreate({
-    onSuccess: (data) => {
-      toast.success("Rental created successfully");
-      console.log(data);
-      navigate({ to: "/app/rentals" });
+    onSuccess: () => {
+      toast.success('Rental created successfully');
+      navigate({ to: '/app/rentals' });
     },
     onError: (error) => {
-      toast.error("Failed to create rental");
-      console.error(error);
+      const msg = parse_availability_error(error);
+      if (msg) {
+        toast.error(msg);
+      }
+      else {
+        toast.error('Failed to create rental');
+      }
     },
   });
 

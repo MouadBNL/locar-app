@@ -1,10 +1,10 @@
-import type z from "zod";
-import type { VehicleSchema } from ".";
-import type { VehicleStatus } from "../vehicle-expenses";
+import type z from 'zod';
+import type { VehicleSchema } from '.';
+import type { VehicleStatus } from '../vehicle-expenses';
 
 export type VehicleData = z.infer<typeof VehicleSchema>;
 
-export type VehicleResource = {
+export interface VehicleResource {
   id: string;
   make: string;
   model: string;
@@ -20,14 +20,14 @@ export type VehicleResource = {
   status: VehicleStatusType;
   created_at: string;
   updated_at: string;
-};
+}
 
-export type VehicleSummaryResource = {
+export interface VehicleSummaryResource {
   id: string;
   make: string;
   model: string;
   year: number;
   license_plate: string;
-};
+}
 
 export type VehicleStatusType = keyof typeof VehicleStatus;

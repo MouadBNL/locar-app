@@ -1,48 +1,49 @@
-import { http, type ApiResponse } from "@/lib/http";
 import type {
   VehicleMaintenanceRequest,
   VehicleMaintenanceResource,
-} from "./types";
+} from './types';
+import type { ApiResponse } from '@/lib/http';
+import { http } from '@/lib/http';
 
-export const vehicleMaintenanceIndexFn = async ({
+export async function vehicleMaintenanceIndexFn({
   vehicleId,
 }: {
   vehicleId: string;
-}) => {
+}) {
   const res = await http.get<ApiResponse<VehicleMaintenanceResource[]>>(
-    `/vehicles/${vehicleId}/maintenances`
+    `/vehicles/${vehicleId}/maintenances`,
   );
   return res.data;
-};
+}
 
-export const vehicleMaintenanceShowFn = async ({
+export async function vehicleMaintenanceShowFn({
   vehicleId,
   maintenanceId,
 }: {
   vehicleId: string;
   maintenanceId: string;
-}) => {
+}) {
   const res = await http.get<ApiResponse<VehicleMaintenanceResource>>(
-    `/vehicles/${vehicleId}/maintenances/${maintenanceId}`
+    `/vehicles/${vehicleId}/maintenances/${maintenanceId}`,
   );
   return res.data;
-};
+}
 
-export const vehicleMaintenanceCreateFn = async ({
+export async function vehicleMaintenanceCreateFn({
   vehicleId,
   data,
 }: {
   vehicleId: string;
   data: VehicleMaintenanceRequest;
-}) => {
+}) {
   const res = await http.post<ApiResponse<VehicleMaintenanceResource>>(
     `/vehicles/${vehicleId}/maintenances`,
-    data
+    data,
   );
   return res.data;
-};
+}
 
-export const vehicleMaintenanceUpdateFn = async ({
+export async function vehicleMaintenanceUpdateFn({
   vehicleId,
   maintenanceId,
   data,
@@ -50,23 +51,23 @@ export const vehicleMaintenanceUpdateFn = async ({
   vehicleId: string;
   maintenanceId: string;
   data: VehicleMaintenanceRequest;
-}) => {
+}) {
   const res = await http.put<ApiResponse<VehicleMaintenanceResource>>(
     `/vehicles/${vehicleId}/maintenances/${maintenanceId}`,
-    data
+    data,
   );
   return res.data;
-};
+}
 
-export const vehicleMaintenanceDeleteFn = async ({
+export async function vehicleMaintenanceDeleteFn({
   vehicleId,
   maintenanceId,
 }: {
   vehicleId: string;
   maintenanceId: string;
-}) => {
+}) {
   const res = await http.delete<ApiResponse<VehicleMaintenanceResource>>(
-    `/vehicles/${vehicleId}/maintenances/${maintenanceId}`
+    `/vehicles/${vehicleId}/maintenances/${maintenanceId}`,
   );
   return res.data;
-};
+}

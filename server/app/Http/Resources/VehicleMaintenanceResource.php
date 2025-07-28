@@ -28,9 +28,9 @@ class VehicleMaintenanceResource extends JsonResource
             'reference' => $this->reference,
             'notes' => $this->notes,
             'receipt_document_id' => $this->receipt_document_id,
-            'expenses' => VehicleExpenseResource::collection($this->whenLoaded('expenses')),
-            'expenses_sum' => $this->whenLoaded('expenses')->sum('amount'),
-            'expenses_count' => $this->whenLoaded('expenses')->count(),
+            'expenses' => VehicleExpenseResource::collection($this->expenses),
+            'expenses_sum' => $this->expenses->sum('amount'),
+            'expenses_count' => $this->expenses->count(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

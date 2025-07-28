@@ -20,4 +20,19 @@ class RentalController extends ApiController
     {
         return $this->success(RentalData::fromModel($rental));
     }
+
+    public function destroy(Rental $rental)
+    {
+        $rental->load(['rate', 'timeframe', 'renter', 'vehicle']);
+
+        $rental->rate->delete();
+        $rental->timeframe->delete();
+        $rental->renter->delete();
+        $rental->vehicle->delete();
+
+        $rental->delete();
+        // TODO: need to delete related entities (rate, timeframe, renter, vehicle)
+
+        return $this->success(null, 'rental.deleted');
+    }
 }

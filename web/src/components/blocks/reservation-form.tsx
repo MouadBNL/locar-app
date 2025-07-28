@@ -1,13 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AppFormField, Form } from "../ui/form";
-import { VehicleSelect } from "./vehicle-select";
-import { DateInput } from "../ui/dateinput";
-import { Button } from "../ui/button";
-import { NumberInput } from "../ui/number-input";
-import { Textarea } from "../ui/textarea";
-import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-import { CustomerSelect } from "./customer-select";
+import type { ReservationData } from '@/features/reservations';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 //import {
 //  Dialog,
 //  DialogTrigger,
@@ -18,6 +12,7 @@ import { CustomerSelect } from "./customer-select";
 //  DialogPortal
 //} from "../ui/dialog";
 import {
+
   ReservationSchema,
   type ReservationData,
 } from "@/features/reservations";
@@ -32,7 +27,7 @@ export type ReservationFormProps = {
   initialValues?: Partial<ReservationData>;
   loading?: boolean;
   submit?: (data: ReservationData) => void;
-};
+}
 export default function ReservationForm({
   initialValues,
   loading,
@@ -41,10 +36,10 @@ export default function ReservationForm({
   const form = useForm({
     resolver: zodResolver(ReservationSchema),
     defaultValues: {
-      customer_id: "",
-      vehicle_id: "",
-      check_in_date: fmt_date(get_date(), { format: "date" }),
-      check_out_date: fmt_date(get_date({ day: 1 }), { format: "date" }),
+      customer_id: '',
+      vehicle_id: '',
+      check_in_date: fmt_date(get_date(), { format: 'date' }),
+      check_out_date: fmt_date(get_date({ day: 1 }), { format: 'date' }),
       total_price: 0,
       daily_rate: 300,
       total_days: 1,
@@ -78,7 +73,8 @@ export default function ReservationForm({
   const daily_rate = form.watch("daily_rate");
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
-    if (!a || !b) return 0;
+    if (!a || !b)
+      return 0;
     const dateA = new Date(a);
     const dateB = new Date(b);
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -86,12 +82,12 @@ export default function ReservationForm({
     const utc1 = Date.UTC(
       dateA.getFullYear(),
       dateA.getMonth(),
-      dateA.getDate()
+      dateA.getDate(),
     );
     const utc2 = Date.UTC(
       dateB.getFullYear(),
       dateB.getMonth(),
-      dateB.getDate()
+      dateB.getDate(),
     );
 
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
@@ -100,8 +96,8 @@ export default function ReservationForm({
   useEffect(() => {
     const number_of_days = dateDiffInDays(checkin_date, checkout_date);
     const total_price = number_of_days * (daily_rate ?? 0);
-    form.setValue("total_days", number_of_days);
-    form.setValue("total_price", total_price);
+    form.setValue('total_days', number_of_days);
+    form.setValue('total_price', total_price);
   }, [checkin_date, checkout_date, daily_rate, form]);
 
   const onSubmit = (data: ReservationData) => {
@@ -190,7 +186,7 @@ export default function ReservationForm({
                 {...field}
                 type="string"
                 value={field.value ?? undefined}
-                onChange={(value) => field.onChange(value)}
+                onChange={value => field.onChange(value)}
               />
             )}
           />
@@ -204,7 +200,7 @@ export default function ReservationForm({
                 {...field}
                 type="string"
                 value={field.value ?? undefined}
-                onChange={(value) => field.onChange(value)}
+                onChange={value => field.onChange(value)}
               />
             )}
           />

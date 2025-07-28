@@ -1,3 +1,4 @@
+import type { ReservationResource } from '@/features/reservations';
 import {
   Table,
   TableBody,
@@ -5,17 +6,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import type { ReservationResource } from "@/features/reservations";
-import { CustomerTableCard } from "./customer-table-card";
-import { VehicleTableCard } from "./vehicle-table-card";
-import { DateCard } from "./date-card";
+} from '@/components/ui/table';
+import { CustomerTableCard } from './customer-table-card';
+import { DateCard } from './date-card';
+import { VehicleTableCard } from './vehicle-table-card';
 
-export type ReservationTableProps = {
+export interface ReservationTableProps {
   data: ReservationResource[];
   loading?: boolean;
   actions?: (reservation: ReservationResource) => React.ReactNode;
-};
+}
 
 export function ReservationTable({
   data,
@@ -35,8 +35,8 @@ export function ReservationTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {loading &&
-          [1, 2, 3].map((i) => (
+        {loading
+          && [1, 2, 3].map(i => (
             <TableRow key={i}>
               <TableCell colSpan={5} className="text-center">
                 <div className="w-full animate-pulse bg-muted h-8 rounded-md"></div>
@@ -50,9 +50,9 @@ export function ReservationTable({
             </TableCell>
           </TableRow>
         )}
-        {data &&
-          data.length > 0 &&
-          data.map((reservation) => (
+        {data
+          && data.length > 0
+          && data.map(reservation => (
             <TableRow key={reservation.id}>
               <TableCell>
                 <CustomerTableCard
@@ -80,10 +80,14 @@ export function ReservationTable({
               <TableCell>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">
-                    {reservation.total_price} Dh
+                    {reservation.total_price}
+                    {' '}
+                    Dh
                   </span>
                   <span className="text-sm text-muted-foreground">
-                    {reservation.total_days} days
+                    {reservation.total_days}
+                    {' '}
+                    days
                   </span>
                 </div>
               </TableCell>

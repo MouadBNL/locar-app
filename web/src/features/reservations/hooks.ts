@@ -1,19 +1,19 @@
-import { makeMutationHook, makeQueryHook } from "@/lib/query-generator";
+import { makeMutationHook, makeQueryHook } from '@/lib/query-generator';
 import {
   reservationCreateFn,
   reservationDeleteFn,
   reservationIndexFn,
   reservationShowFn,
   reservationUpdateFn,
-} from "./api";
+} from './api';
 
 export const useReservationIndex = makeQueryHook(
-  ["reservations"],
-  reservationIndexFn
+  ['reservations'],
+  reservationIndexFn,
 );
 export const useReservationShow = makeQueryHook(
-  ["reservations", "show"],
-  reservationShowFn
+  ['reservations', 'show'],
+  reservationShowFn,
 );
 export const useReservationCreate = makeMutationHook(reservationCreateFn);
 export const useReservationUpdate = makeMutationHook(reservationUpdateFn);

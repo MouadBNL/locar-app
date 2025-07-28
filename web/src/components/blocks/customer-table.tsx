@@ -1,3 +1,4 @@
+import type { CustomerResource } from '@/features/customers';
 import {
   Table,
   TableBody,
@@ -5,14 +6,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import type { CustomerData } from "@/features/customers";
+} from '@/components/ui/table';
+import { CustomerStatusBadge } from './customer-status-badge';
 
-export type CustomerTableProps = {
-  data: CustomerData[];
+export interface CustomerTableProps {
+  data: CustomerResource[];
   loading?: boolean;
-  actions?: (customer: CustomerData) => React.ReactNode;
-};
+  actions?: (customer: CustomerResource) => React.ReactNode;
+}
 
 export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
   return (
@@ -23,12 +24,13 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
           <TableHead>Last Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Phone</TableHead>
+          <TableHead>Status</TableHead>
           {actions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {loading &&
-          [1, 2, 3].map((i) => (
+        {loading
+          && [1, 2, 3].map(i => (
             <TableRow key={i}>
               <TableCell colSpan={5} className="text-center">
                 <div className="w-full animate-pulse bg-muted h-8 rounded-md"></div>
@@ -42,14 +44,17 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
             </TableCell>
           </TableRow>
         )}
-        {data &&
-          data.length > 0 &&
-          data.map((customer) => (
+        {data
+          && data.length > 0
+          && data.map(customer => (
             <TableRow key={customer.id}>
               <TableCell>{customer.first_name}</TableCell>
               <TableCell>{customer.last_name}</TableCell>
               <TableCell>{customer.email}</TableCell>
               <TableCell>{customer.phone}</TableCell>
+              <TableCell>
+                <CustomerStatusBadge status={customer.status} />
+              </TableCell>
               {actions && (
                 <TableCell className="flex gap-2">
                   {actions(customer)}

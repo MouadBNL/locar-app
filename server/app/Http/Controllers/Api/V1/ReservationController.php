@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Data\AvailabilityCheckData;
+use App\Data\AvailabilityCheckOptions;
 use App\Http\Requests\ReservationCreateRequest;
 use App\Http\Requests\ReservationUpdateRequest;
 use App\Http\Resources\ReservationResource;
+use App\Models\Customer;
 use App\Models\Reservation;
+use App\Models\Vehicle;
+use App\Services\AvailabilityCheckService;
+use Carbon\Carbon;
 
 class ReservationController extends ApiController
 {
+    public function __construct(
+        private AvailabilityCheckService $availabilityCheckService
+    ) {}
+
     public function index()
     {
         $reservations = Reservation::all();
@@ -23,14 +33,42 @@ class ReservationController extends ApiController
 
     public function store(ReservationCreateRequest $request)
     {
-        $reservation = Reservation::create($request->validated());
+        $data = $request->validated();
+
+        $availability = $this->availabilityCheckService->check(new AvailabilityCheckData(
+            vehicle: Vehicle::findOrFail($data['vehicle_id']),
+            customer: Customer::findOrFail($data['customer_id']),
+            start_date: Carbon::parse($data['check_in_date']),
+            end_date: Carbon::parse($data['check_out_date']),
+            options: null,
+        ));
+        if (! $availability->available) {
+            return $this->error($availability->message, $availability, 409);
+        }
+
+        $reservation = Reservation::create($data);
 
         return $this->success(new ReservationResource($reservation));
     }
 
     public function update(ReservationUpdateRequest $request, Reservation $reservation)
     {
-        $reservation->update($request->validated());
+        $data = $request->validated();
+
+        $availability = $this->availabilityCheckService->check(new AvailabilityCheckData(
+            vehicle: Vehicle::findOrFail($data['vehicle_id']),
+            customer: Customer::findOrFail($data['customer_id']),
+            start_date: Carbon::parse($data['check_in_date']),
+            end_date: Carbon::parse($data['check_out_date']),
+            options: new AvailabilityCheckOptions(
+                ignore_reservation: $reservation->id,
+            ),
+        ));
+        if (! $availability->available) {
+            return $this->error($availability->message, $availability, 409);
+        }
+
+        $reservation->update($data);
 
         return $this->success(new ReservationResource($reservation));
     }

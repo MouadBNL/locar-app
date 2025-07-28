@@ -1,29 +1,29 @@
-import * as React from "react";
-import { useAuthMe } from "@/features/auth";
+/* eslint-disable react-refresh/only-export-components */
+import * as React from 'react';
+import { useAuthMe } from '@/features/auth';
 
-type User = {
-  name: string,
-  email: string,
-  image: string | null,
-  created_at: string,
-  updated_at: string,
-};
+interface User {
+  name: string;
+  email: string;
+  image: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
-
-type AuthContextValue = {
+interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
   user: User;
-};
+}
 
 const AuthContext = React.createContext<AuthContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 export function useAuth() {
-  const context = React.useContext(AuthContext);
+  const context = React.use(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }
@@ -35,10 +35,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     () => ({
       isAuthenticated: !!data,
       isLoading,
-      user: { ...data!, image: null }
+      user: { ...data!, image: null },
     }),
-    [data, isLoading]
+    [data, isLoading],
   );
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext value={value}>{children}</AuthContext>;
 }

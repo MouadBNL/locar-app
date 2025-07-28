@@ -1,12 +1,12 @@
-import CustomerForm from "@/components/blocks/customer-form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
-import { useCustomerCreate } from "@/features/customers";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import CustomerForm from '@/components/blocks/customer-form';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import { useCustomerCreate } from '@/features/customers';
 
-export const Route = createFileRoute("/app/customers/create")({
+export const Route = createFileRoute('/app/customers/create')({
   component: RouteComponent,
 });
 
@@ -14,11 +14,11 @@ function RouteComponent() {
   const navigate = useNavigate();
   const { mutate: createCustomer, isPending } = useCustomerCreate({
     onSuccess: () => {
-      toast.success("Customer created successfully");
-      navigate({ to: "/app/customers" });
+      toast.success('Customer created successfully');
+      navigate({ to: '/app/customers' });
     },
     onError: () => {
-      toast.error("Failed to create customer");
+      toast.error('Failed to create customer');
     },
   });
 
@@ -35,7 +35,7 @@ function RouteComponent() {
       <Card>
         <CardContent>
           <CustomerForm
-            submit={(data) => createCustomer({ data })}
+            submit={data => createCustomer({ data })}
             loading={isPending}
           />
         </CardContent>

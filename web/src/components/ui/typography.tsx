@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 export function Heading1({
   children,
@@ -10,8 +10,8 @@ export function Heading1({
   return (
     <h1
       className={cn(
-        "scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance",
-        className
+        'scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance',
+        className,
       )}
     >
       {children}
@@ -29,8 +29,8 @@ export function Heading2({
   return (
     <h2
       className={cn(
-        "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
-        className
+        'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0',
+        className,
       )}
     >
       {children}
@@ -48,8 +48,8 @@ export function Heading3({
   return (
     <h3
       className={cn(
-        "scroll-m-20 text-2xl font-semibold tracking-tight",
-        className
+        'scroll-m-20 text-2xl font-semibold tracking-tight',
+        className,
       )}
     >
       {children}
@@ -67,8 +67,8 @@ export function Heading4({
   return (
     <h4
       className={cn(
-        "scroll-m-20 text-xl font-semibold tracking-tight",
-        className
+        'scroll-m-20 text-xl font-semibold tracking-tight',
+        className,
       )}
     >
       {children}

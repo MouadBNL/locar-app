@@ -1,3 +1,4 @@
+import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
 import {
   Table,
   TableBody,
@@ -5,19 +6,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { DateCard } from "./date-card";
+} from '@/components/ui/table';
 import {
-  VehicleExpenseTypeEnum,
-  type VehicleExpenseResource,
-} from "@/features/vehicle-expenses";
-import { fmt_currency } from "@/lib/utils";
 
-export type VehicleExpenseTableProps = {
+  VehicleExpenseTypeEnum,
+} from '@/features/vehicle-expenses';
+import { fmt_currency } from '@/lib/utils';
+import { DateCard } from './date-card';
+
+export interface VehicleExpenseTableProps {
   data: VehicleExpenseResource[];
   loading?: boolean;
   actions?: (vehicleExpense: VehicleExpenseResource) => React.ReactNode;
-};
+}
 
 export function VehicleExpenseTable({
   data,
@@ -39,8 +40,8 @@ export function VehicleExpenseTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {loading &&
-          [1, 2, 3].map((i) => (
+        {loading
+          && [1, 2, 3].map(i => (
             <TableRow key={i}>
               <TableCell colSpan={5} className="text-center">
                 <div className="w-full animate-pulse bg-muted h-8 rounded-md"></div>
@@ -54,12 +55,12 @@ export function VehicleExpenseTable({
             </TableCell>
           </TableRow>
         )}
-        {data &&
-          data.length > 0 &&
-          data.map((vehicleExpense) => (
+        {data
+          && data.length > 0
+          && data.map(vehicleExpense => (
             <TableRow key={vehicleExpense.id}>
               <TableCell>
-                {VehicleExpenseTypeEnum[vehicleExpense.type] ?? "Other"}
+                {VehicleExpenseTypeEnum[vehicleExpense.type] ?? 'Other'}
               </TableCell>
               <TableCell>{fmt_currency(vehicleExpense.amount)}</TableCell>
               <TableCell>

@@ -1,11 +1,12 @@
+import type { VehicleData } from '@/features/vehicles';
+import { useVehicleIndex } from '@/features/vehicles';
 import {
   Select,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectItem,
-} from "../ui/select";
-import { useVehicleIndex, type VehicleData } from "@/features/vehicles";
+} from '../ui/select';
 
 export type VehicleSelectProps = React.ComponentProps<typeof Select> & {
   onVehicleSelected?: (vehicle: VehicleData) => void;
@@ -16,7 +17,10 @@ export function VehicleSelect(props: VehicleSelectProps) {
 
   const onValueChange = (value: string) => {
     props.onValueChange?.(value);
-    props.onVehicleSelected?.(data?.data.find((v) => v.id === value)!);
+    const vehicle = data?.data.find(v => v.id === value);
+    if (vehicle) {
+      props.onVehicleSelected?.(vehicle);
+    }
   };
 
   return (
@@ -25,7 +29,7 @@ export function VehicleSelect(props: VehicleSelectProps) {
         <SelectValue placeholder="Vehicle" />
       </SelectTrigger>
       <SelectContent>
-        {data?.data.map((vehicle) => (
+        {data?.data.map(vehicle => (
           <SelectItem key={vehicle.id} value={vehicle.id!}>
             {vehicle.model}
           </SelectItem>

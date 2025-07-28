@@ -1,17 +1,17 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const VehicleExpenseTypeEnum = {
-  maintenance: "Maintenance",
-  fuel: "Fuel",
-  repair: "Repair",
-  other: "Other",
+  maintenance: 'Maintenance',
+  fuel: 'Fuel',
+  repair: 'Repair',
+  other: 'Other',
 } as const;
 
 export const vehicleExpenseTypeSchema = z.enum([
-  "maintenance",
-  "fuel",
-  "repair",
-  "other",
+  'maintenance',
+  'fuel',
+  'repair',
+  'other',
 ]);
 
 export const vehicleExpenseSchema = z.object({
@@ -25,8 +25,8 @@ export const vehicleExpenseSchema = z.object({
 });
 
 export const VehicleStatus = {
-  available: "Available",
-  maintenance: "Maintenance",
-  booked: "Booked",
-  rented: "Rented",
+  available: 'Available',
+  maintenance: 'Maintenance',
+  booked: 'Booked',
+  rented: 'Rented',
 } as const;

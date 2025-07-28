@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const vehicleMaintenanceSchema = z.object({
   started_at: z.string().datetime(),

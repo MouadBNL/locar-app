@@ -1,10 +1,10 @@
-import { AuthProvider } from "@/components/auth-provider";
-import { AppLayout } from "@/components/layouts/app/app-layout";
-import { useAuthMe } from "@/features/auth";
-import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
-import { Loader2 } from "lucide-react";
+import { createFileRoute, Navigate, Outlet } from '@tanstack/react-router';
+import { Loader2 } from 'lucide-react';
+import { AuthProvider } from '@/components/auth-provider';
+import { AppLayout } from '@/components/layouts/app/app-layout';
+import { useAuthMe } from '@/features/auth';
 
-export const Route = createFileRoute("/app")({
+export const Route = createFileRoute('/app')({
   component: AppLayoutRoot,
 });
 

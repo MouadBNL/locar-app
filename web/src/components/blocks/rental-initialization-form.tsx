@@ -1,27 +1,29 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AppFormField, Form } from "../ui/form";
-import { VehicleSelect } from "./vehicle-select";
-import { DateInput } from "../ui/dateinput";
-import { Button } from "../ui/button";
-import { NumberInput } from "../ui/number-input";
-import { Textarea } from "../ui/textarea";
-import { useForm, type Resolver, type UseFormReturn } from "react-hook-form";
-import { CustomerSelect } from "./customer-select";
-import { Input } from "../ui/input";
-import { fmt_date, generate_rental_code, get_date } from "@/lib/utils";
-import { Heading4 } from "../ui/typography";
-import { useEffect } from "react";
-import { RentalSchema, type RentalData } from "@/features/rentals";
-import { Separator } from "../ui/separator";
-import { DateTimeInput } from "../ui/datetime-input";
-import { type CustomerData } from "@/features/customers";
-import { DocumentUpload } from "./document-upload";
-import type { VehicleData } from "@/features/vehicles";
+import type { Resolver, UseFormReturn } from 'react-hook-form';
+import type { CustomerData } from '@/features/customers';
+import type { RentalData } from '@/features/rentals';
+import type { VehicleData } from '@/features/vehicles';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { RentalSchema } from '@/features/rentals';
+import { fmt_date, generate_rental_code, get_date } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { DateInput } from '../ui/dateinput';
+import { DateTimeInput } from '../ui/datetime-input';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
+import { NumberInput } from '../ui/number-input';
+import { Separator } from '../ui/separator';
+import { Textarea } from '../ui/textarea';
+import { Heading4 } from '../ui/typography';
+import { CustomerSelect } from './customer-select';
+import { DocumentUpload } from './document-upload';
+import { VehicleSelect } from './vehicle-select';
 
-export type RentalFormProps = {
+export interface RentalFormProps {
   loading?: boolean;
   submit?: (data: RentalData) => void;
-};
+}
 export default function RentalInitializationForm({
   loading,
   submit,
@@ -38,8 +40,8 @@ export default function RentalInitializationForm({
       },
       rental_number: generate_rental_code(),
       timeframe: {
-        departure_date: fmt_date(get_date(), { format: "datetime" }),
-        return_date: fmt_date(get_date({ day: 1 }), { format: "datetime" }),
+        departure_date: fmt_date(get_date(), { format: 'datetime' }),
+        return_date: fmt_date(get_date({ day: 1 }), { format: 'datetime' }),
       },
       rate: {
         day_rate: 300,
@@ -52,24 +54,23 @@ export default function RentalInitializationForm({
       },
       renter: {
         customer_id: null,
-        full_name: "John Doe",
-        phone: "+212 6 66 66 66 66",
-        address_primary: "123 Main St",
-        address_secondary: "Apt 4B",
-        id_card_number: "1234567890",
-        birth_date: fmt_date(get_date(), { format: "date" }),
-        driver_license_number: "1234567890",
-        driver_license_issuing_city: "Casablanca",
-        driver_license_issuing_date: fmt_date(get_date(), { format: "date" }),
+        full_name: 'John Doe',
+        phone: '+212 6 66 66 66 66',
+        address_primary: '123 Main St',
+        address_secondary: 'Apt 4B',
+        id_card_number: '1234567890',
+        birth_date: fmt_date(get_date(), { format: 'date' }),
+        driver_license_number: '1234567890',
+        driver_license_issuing_city: 'Casablanca',
+        driver_license_issuing_date: fmt_date(get_date(), { format: 'date' }),
         driver_license_expiration_date: fmt_date(get_date({ day: 365 * 5 }), {
-          format: "date",
+          format: 'date',
         }),
       },
     },
   });
 
   const onSubmit = (data: RentalData) => {
-    console.log(data);
     submit?.(data);
   };
 
@@ -104,7 +105,7 @@ export default function RentalInitializationForm({
   );
 }
 
-const RentalCodeForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
+function RentalCodeForm({ form }: { form: UseFormReturn<RentalData> }) {
   return (
     <div>
       <AppFormField
@@ -117,9 +118,9 @@ const RentalCodeForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
       />
     </div>
   );
-};
+}
 
-const RentalPeriodForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
+function RentalPeriodForm({ form }: { form: UseFormReturn<RentalData> }) {
   return (
     <div>
       <FormSectionSeparator
@@ -135,7 +136,7 @@ const RentalPeriodForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
             <DateTimeInput
               {...field}
               value={field.value ?? undefined}
-              onChange={(value) => field.onChange(value)}
+              onChange={value => field.onChange(value)}
               type="string"
             />
           )}
@@ -149,7 +150,7 @@ const RentalPeriodForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
             <DateTimeInput
               {...field}
               value={field.value ?? undefined}
-              onChange={(value) => field.onChange(value)}
+              onChange={value => field.onChange(value)}
               type="string"
             />
           )}
@@ -157,22 +158,23 @@ const RentalPeriodForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
       </div>
     </div>
   );
-};
+}
 
-const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
+function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
   const onCustomerSelected = (customer: CustomerData) => {
-    if (!customer) return;
-    form.setValue("renter.customer_id", customer.id);
+    if (!customer)
+      return;
+    form.setValue('renter.customer_id', customer.id);
     form.setValue(
-      "renter.full_name",
-      customer.first_name + " " + customer.last_name
+      'renter.full_name',
+      `${customer.first_name} ${customer.last_name}`,
     );
-    form.setValue("renter.phone", customer.phone);
-    form.setValue("renter.address_primary", customer.address ?? "");
-    form.setValue("renter.id_card_number", customer.id_card_number ?? "");
+    form.setValue('renter.phone', customer.phone);
+    form.setValue('renter.address_primary', customer.address ?? '');
+    form.setValue('renter.id_card_number', customer.id_card_number ?? '');
     form.setValue(
-      "renter.driver_license_number",
-      customer.driver_license_number ?? ""
+      'renter.driver_license_number',
+      customer.driver_license_number ?? '',
     );
   };
 
@@ -353,14 +355,14 @@ const RentalCustomerForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
       </div>
     </div>
   );
-};
+}
 
-const RentalVehicleForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
+function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
   const onVehicleSelected = (vehicle: VehicleData) => {
-    form.setValue("vehicle.make", vehicle.make);
-    form.setValue("vehicle.model", vehicle.model);
-    form.setValue("vehicle.year", vehicle.year);
-    form.setValue("vehicle.license_plate", vehicle.license_plate);
+    form.setValue('vehicle.make', vehicle.make);
+    form.setValue('vehicle.model', vehicle.model);
+    form.setValue('vehicle.year', vehicle.year);
+    form.setValue('vehicle.license_plate', vehicle.license_plate);
   };
 
   return (
@@ -416,11 +418,7 @@ const RentalVehicleForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
           name="vehicle.year"
           label="Year"
           render={({ field }) => (
-            <NumberInput
-              {...field}
-              value={field.value ?? undefined}
-              placeholder="2020"
-            />
+            <NumberInput placeholder="2020" value={field.value} onChange={field.onChange} />
           )}
         />
         <AppFormField
@@ -438,17 +436,18 @@ const RentalVehicleForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
       </div>
     </div>
   );
-};
+}
 
-const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
-  const departure_date = form.watch("timeframe.departure_date");
-  const return_date = form.watch("timeframe.return_date");
-  const daily_rate = form.watch("rate.day_rate");
-  const extra_rate = form.watch("rate.extra_rate");
-  const extra_quantity = form.watch("rate.extra_quantity");
+function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
+  const departure_date = form.watch('timeframe.departure_date');
+  const return_date = form.watch('timeframe.return_date');
+  const daily_rate = form.watch('rate.day_rate');
+  const extra_rate = form.watch('rate.extra_rate');
+  const extra_quantity = form.watch('rate.extra_quantity');
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
-    if (!a || !b) return 0;
+    if (!a || !b)
+      return 0;
     const dateA = new Date(a);
     const dateB = new Date(b);
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -456,12 +455,12 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
     const utc1 = Date.UTC(
       dateA.getFullYear(),
       dateA.getMonth(),
-      dateA.getDate()
+      dateA.getDate(),
     );
     const utc2 = Date.UTC(
       dateB.getFullYear(),
       dateB.getMonth(),
-      dateB.getDate()
+      dateB.getDate(),
     );
 
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
@@ -469,15 +468,22 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
 
   useEffect(() => {
     const extra_total_price = (extra_rate ?? 0) * (extra_quantity ?? 0);
-    form.setValue("rate.extra_total", extra_total_price);
-    form.setValue("rate.total", extra_total_price);
+    form.setValue('rate.extra_total', extra_total_price);
+    form.setValue('rate.total', extra_total_price);
     const number_of_days = dateDiffInDays(departure_date, return_date);
     const day_total_price = number_of_days * (daily_rate ?? 0);
-    form.setValue("rate.day_quantity", number_of_days);
-    form.setValue("rate.day_total", day_total_price);
+    form.setValue('rate.day_quantity', number_of_days);
+    form.setValue('rate.day_total', day_total_price);
     const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0);
-    form.setValue("rate.total", total_price);
-  }, [extra_rate, extra_quantity, daily_rate, departure_date, return_date]);
+    form.setValue('rate.total', total_price);
+  }, [
+    extra_rate,
+    extra_quantity,
+    daily_rate,
+    departure_date,
+    return_date,
+    form,
+  ]);
 
   return (
     <div>
@@ -513,7 +519,7 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
           name="rate.day_rate"
           label="Day Rate"
           render={({ field }) => (
-            <NumberInput {...field} value={field.value ?? undefined} />
+            <NumberInput value={field.value} onChange={field.onChange} />
           )}
         />
 
@@ -522,7 +528,7 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
           name="rate.day_quantity"
           label="Day Quantity"
           render={({ field }) => (
-            <NumberInput value={field.value ?? undefined} disabled />
+            <NumberInput value={field.value} onChange={field.onChange} disabled />
           )}
         />
 
@@ -531,7 +537,7 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
           name="rate.day_total"
           label="Day Total"
           render={({ field }) => (
-            <NumberInput {...field} value={field.value ?? undefined} disabled />
+            <NumberInput value={field.value} onChange={field.onChange} disabled />
           )}
         />
 
@@ -540,7 +546,7 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
           name="rate.extra_rate"
           label="Extra Rate"
           render={({ field }) => (
-            <NumberInput {...field} value={field.value ?? undefined} />
+            <NumberInput value={field.value} onChange={field.onChange} />
           )}
         />
 
@@ -549,7 +555,7 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
           name="rate.extra_quantity"
           label="Extra Quantity"
           render={({ field }) => (
-            <NumberInput {...field} value={field.value ?? undefined} />
+            <NumberInput value={field.value} onChange={field.onChange} />
           )}
         />
 
@@ -558,7 +564,7 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
           name="rate.extra_total"
           label="Extra Total"
           render={({ field }) => (
-            <NumberInput {...field} value={field.value ?? undefined} />
+            <NumberInput value={field.value} onChange={field.onChange} />
           )}
         />
 
@@ -568,20 +574,16 @@ const RentalRateForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
             name="rate.total"
             label="Total"
             render={({ field }) => (
-              <NumberInput
-                {...field}
-                value={field.value ?? undefined}
-                disabled
-              />
+              <NumberInput value={field.value} onChange={field.onChange} disabled />
             )}
           />
         </div>
       </div>
     </div>
   );
-};
+}
 
-const RentalNotesForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
+function RentalNotesForm({ form }: { form: UseFormReturn<RentalData> }) {
   return (
     <div className="space-y-4">
       <FormSectionSeparator
@@ -602,19 +604,19 @@ const RentalNotesForm = ({ form }: { form: UseFormReturn<RentalData> }) => {
       />
     </div>
   );
-};
+}
 
-const FormSectionSeparator = ({
+function FormSectionSeparator({
   heading,
   subheading,
 }: {
   heading: string;
   subheading: string;
-}) => {
+}) {
   return (
     <div className="flex flex-col gap-0 mb-4">
       <Heading4 className="mb-0">{heading}</Heading4>
       <p className="text-sm text-muted-foreground">{subheading}</p>
     </div>
   );
-};
+}

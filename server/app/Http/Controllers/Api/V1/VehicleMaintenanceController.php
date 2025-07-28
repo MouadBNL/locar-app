@@ -16,6 +16,7 @@ class VehicleMaintenanceController extends ApiController
             ->with('expenses')
             ->orderBy('started_at', 'desc')
             ->get();
+
         return $this->success(VehicleMaintenanceResource::collection($maintenances));
     }
 
@@ -24,6 +25,7 @@ class VehicleMaintenanceController extends ApiController
         if ($maintenance->vehicle_id !== $vehicle->id) {
             return $this->error('Maintenance not found', 404);
         }
+
         return $this->success(new VehicleMaintenanceResource($maintenance));
     }
 
@@ -45,6 +47,7 @@ class VehicleMaintenanceController extends ApiController
                 'vehicle_maintenance_id' => $maintenance->id,
             ]);
         }
+
         return $this->success(new VehicleMaintenanceResource($maintenance));
     }
 
@@ -74,6 +77,7 @@ class VehicleMaintenanceController extends ApiController
         }
 
         $maintenance->load('expenses');
+
         return $this->success(new VehicleMaintenanceResource($maintenance));
     }
 
@@ -84,6 +88,7 @@ class VehicleMaintenanceController extends ApiController
         }
         $maintenance->expenses()->delete();
         $maintenance->delete();
+
         return $this->success(null, 'Maintenance deleted successfully');
     }
 }

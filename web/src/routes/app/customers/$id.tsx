@@ -1,17 +1,18 @@
-import { toast } from "sonner";
 import {
   createFileRoute,
   Link,
   useNavigate,
   useRouter,
-} from "@tanstack/react-router";
-import { Heading3 } from "@/components/ui/typography";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import CustomerForm from "@/components/blocks/customer-form";
-import { customerShowFn, useCustomerUpdate } from "@/features/customers";
+} from '@tanstack/react-router';
+import { toast } from 'sonner';
+import CustomerForm from '@/components/blocks/customer-form';
+import { CustomerStatusBadge } from '@/components/blocks/customer-status-badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import { customerShowFn, useCustomerUpdate } from '@/features/customers';
 
-export const Route = createFileRoute("/app/customers/$id")({
+export const Route = createFileRoute('/app/customers/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const customer = await customerShowFn({ id: params.id });
@@ -28,19 +29,28 @@ function RouteComponent() {
 
   const { mutate: updateCustomer, isPending } = useCustomerUpdate({
     onSuccess: () => {
-      toast.success("Customer updated successfully");
+      toast.success('Customer updated successfully');
       router.invalidate();
-      navigate({ to: "/app/customers" });
+      navigate({ to: '/app/customers' });
     },
     onError: () => {
-      toast.error("Failed to update customer");
+      toast.error('Failed to update customer');
     },
   });
 
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
-        <Heading3>Edit Customer</Heading3>
+        <div className="flex items-center gap-4">
+          <Heading3>
+            Customer:
+            {' '}
+            {customer?.first_name}
+            {' '}
+            {customer?.last_name}
+          </Heading3>
+          <CustomerStatusBadge status={customer?.status} />
+        </div>
 
         <Button asChild variant="destructive">
           <Link to="/app/customers">Cancel</Link>
@@ -50,7 +60,7 @@ function RouteComponent() {
       <Card>
         <CardContent>
           <CustomerForm
-            submit={(data) => updateCustomer({ id, data })}
+            submit={data => updateCustomer({ id, data })}
             loading={isPending}
             initialValues={customer ?? undefined}
           />

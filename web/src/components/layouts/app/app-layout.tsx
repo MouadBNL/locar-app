@@ -1,7 +1,7 @@
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AppHeader } from "./app-header";
-import { AppSidebar } from "./_components/app-sidebar";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from '@/components/ui/separator';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from './_components/app-sidebar';
+import { AppHeader } from './app-header';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (

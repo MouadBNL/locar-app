@@ -1,47 +1,48 @@
+import type { DocumentResource } from '@/features/documents';
+import type { RentalDocumentData } from '@/features/rental-documents';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import {
+
   rentalDocumentSchema,
   rentalDocumentTypeMap,
   rentalDocumentTypeSchema,
-  type RentalDocumentData,
-} from "@/features/rental-documents";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { AppFormField, Form } from "../ui/form";
+} from '@/features/rental-documents';
+import { Button } from '../ui/button';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
 import {
   Select,
-  SelectItem,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { DocumentUpload } from "./document-upload";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import type { DocumentResource } from "@/features/documents";
+} from '../ui/select';
+import { Textarea } from '../ui/textarea';
+import { DocumentUpload } from './document-upload';
 
-export type RentalDocumentFormProps = {
+export interface RentalDocumentFormProps {
   initialValues?: Partial<RentalDocumentData>;
   loading?: boolean;
   submit?: (data: RentalDocumentData) => void;
-};
-export const RentalDocumentForm = ({
+}
+export function RentalDocumentForm({
   initialValues,
   submit,
   loading,
-}: RentalDocumentFormProps) => {
+}: RentalDocumentFormProps) {
   const form = useForm({
     resolver: zodResolver(rentalDocumentSchema),
     defaultValues: {
-      type: "rental_agreement",
-      description: "",
+      type: 'rental_agreement',
+      description: '',
       ...initialValues,
     },
   });
 
   const onDocumentSelected = (document: DocumentResource) => {
-    if (!form.getValues("title")) {
-      form.setValue("title", document.filename);
+    if (!form.getValues('title')) {
+      form.setValue('title', document.filename);
     }
   };
 
@@ -63,7 +64,7 @@ export const RentalDocumentForm = ({
                   <SelectValue placeholder="Select a type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {rentalDocumentTypeSchema.map((type) => (
+                  {rentalDocumentTypeSchema.map(type => (
                     <SelectItem key={type} value={type}>
                       {rentalDocumentTypeMap[type]}
                     </SelectItem>
@@ -101,10 +102,10 @@ export const RentalDocumentForm = ({
 
         <div className="flex justify-end">
           <Button type="submit" loading={loading}>
-            {loading ? "Saving..." : "Save"}
+            {loading ? 'Saving...' : 'Save'}
           </Button>
         </div>
       </form>
     </Form>
   );
-};
+}

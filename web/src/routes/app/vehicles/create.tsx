@@ -1,12 +1,12 @@
-import VehicleForm from "@/components/blocks/vehicle-form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
-import { useVehicleCreate } from "@/features/vehicles";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import VehicleForm from '@/components/blocks/vehicle-form';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import { useVehicleCreate } from '@/features/vehicles';
 
-export const Route = createFileRoute("/app/vehicles/create")({
+export const Route = createFileRoute('/app/vehicles/create')({
   component: RouteComponent,
 });
 
@@ -14,11 +14,11 @@ function RouteComponent() {
   const navigate = useNavigate();
   const { mutate: createVehicle, isPending } = useVehicleCreate({
     onSuccess: () => {
-      toast.success("Vehicle created successfully");
-      navigate({ to: "/app/vehicles" });
+      toast.success('Vehicle created successfully');
+      navigate({ to: '/app/vehicles' });
     },
     onError: () => {
-      toast.error("Failed to create vehicle");
+      toast.error('Failed to create vehicle');
     },
   });
 

@@ -2,26 +2,46 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Data\AvailabilityCheckData;
 use App\Data\RentalData;
 use App\Enums\RentalDocumentType;
-use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Rental;
 use App\Models\RentalDocument;
 use App\Models\RentalRate;
 use App\Models\RentalTimeframe;
 use App\Models\RentalVehicle;
 use App\Models\Renter;
+use App\Models\Vehicle;
+use App\Services\AvailabilityCheckService;
 use App\Services\TimeframeService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class RentalInitializationController extends Controller
+class RentalInitializationController extends ApiController
 {
+    public function __construct(
+        private AvailabilityCheckService $availabilityCheckService
+    ) {}
+
     /**
      * Handle the incoming request.
      */
     public function __invoke(RentalData $data, TimeframeService $timeframeService)
     {
+        $availability = $this->availabilityCheckService->check(new AvailabilityCheckData(
+            vehicle: Vehicle::find($data->vehicle->vehicle_id),
+            customer: Customer::find($data->renter->customer_id),
+            start_date: Carbon::parse($data->timeframe->departure_date),
+            end_date: Carbon::parse($data->timeframe->return_date),
+            options: null,
+        ));
+
+        if (! $availability->available) {
+            return $this->error($availability->message, $availability, 409);
+        }
+
         $rental_id = DB::transaction(function () use ($data, $timeframeService) {
             $rental = Rental::create([
                 'rental_number' => $data->rental_number,
@@ -117,9 +137,6 @@ class RentalInitializationController extends Controller
 
         $rental = Rental::findOrFail($rental_id);
 
-        return response()->json([
-            'message' => 'rental.create.success',
-            'data' => $rental,
-        ], 201);
+        return $this->success(RentalData::fromModel($rental));
     }
 }
