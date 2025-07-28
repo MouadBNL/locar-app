@@ -1,4 +1,12 @@
-import { RentalPaymentTable } from "@/components/blocks/rental-payment-table";
+import type { RentalPaymentResource } from '@/features/rental-payments';
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { RentalPaymentForm } from '@/components/blocks/rental-payment-form';
+import { RentalPaymentTable } from '@/components/blocks/rental-payment-table';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardAction,
@@ -6,31 +14,24 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/card';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+
   useRentalPaymentCreate,
   useRentalPaymentDelete,
   useRentalPaymentIndex,
   useRentalPaymentUpdate,
-  type RentalPaymentResource,
-} from "@/features/rental-payments";
-import { createFileRoute } from "@tanstack/react-router";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { RentalPaymentForm } from "@/components/blocks/rental-payment-form";
-import { toast } from "sonner";
-import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { fmt_currency } from "@/lib/utils";
+} from '@/features/rental-payments';
+import { fmt_currency } from '@/lib/utils';
 
-export const Route = createFileRoute("/app/rentals/$id/payments")({
+export const Route = createFileRoute('/app/rentals/$id/payments')({
   component: RouteComponent,
 });
 
@@ -38,7 +39,7 @@ function RouteComponent() {
   const { id: code } = Route.useParams();
   const queryClient = useQueryClient();
   const [editPayment, setEditPayment] = useState<RentalPaymentResource | null>(
-    null
+    null,
   );
   const { data: rental, isFetching } = useRentalPaymentIndex({
     rental_code: code,
@@ -50,8 +51,8 @@ function RouteComponent() {
     variables: deleteRentalPaymentVariables,
   } = useRentalPaymentDelete({
     onSuccess: () => {
-      toast.success("Payment deleted");
-      queryClient.invalidateQueries({ queryKey: ["rental-payments"] });
+      toast.success('Payment deleted');
+      queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
     },
   });
 
@@ -84,7 +85,7 @@ function RouteComponent() {
           <RentalPaymentTable
             payments={rental?.data?.payments ?? []}
             loading={isFetching}
-            actions={(payment) => (
+            actions={payment => (
               <div className="flex gap-2 justify-end items-center">
                 <Button
                   variant="outline"
@@ -97,12 +98,11 @@ function RouteComponent() {
                   size="sm"
                   icon={<TrashIcon />}
                   loading={
-                    deleteRentalPaymentVariables?.id === payment.id &&
-                    isDeletingRentalPayment
+                    deleteRentalPaymentVariables?.id === payment.id
+                    && isDeletingRentalPayment
                   }
                   onClick={() =>
-                    deleteRentalPayment({ rental_code: code, id: payment.id })
-                  }
+                    deleteRentalPayment({ rental_code: code, id: payment.id })}
                 />
               </div>
             )}
@@ -124,16 +124,16 @@ function AddPaymentDialog({ rental_code }: { rental_code: string }) {
 
   const [open, setOpen] = useState(false);
 
-  const { mutate: createRentalPayment, isPending: isCreatingRentalPayment } =
-    useRentalPaymentCreate({
+  const { mutate: createRentalPayment, isPending: isCreatingRentalPayment }
+    = useRentalPaymentCreate({
       onSuccess: () => {
-        toast.success("Payment created");
-        queryClient.invalidateQueries({ queryKey: ["rental-payments"] });
+        toast.success('Payment created');
+        queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
         setOpen(false);
       },
       onError: (error) => {
         console.error(error);
-        toast.error("Failed to create payment");
+        toast.error('Failed to create payment');
       },
     });
 
@@ -169,16 +169,16 @@ function EditPaymentDialog({
 }) {
   const queryClient = useQueryClient();
 
-  const { mutate: updateRentalPayment, isPending: isUpdatingRentalPayment } =
-    useRentalPaymentUpdate({
+  const { mutate: updateRentalPayment, isPending: isUpdatingRentalPayment }
+    = useRentalPaymentUpdate({
       onSuccess: () => {
-        toast.success("Payment updated");
-        queryClient.invalidateQueries({ queryKey: ["rental-payments"] });
+        toast.success('Payment updated');
+        queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
         setEditPayment(null);
       },
       onError: (error) => {
         console.error(error);
-        toast.error("Failed to update payment");
+        toast.error('Failed to update payment');
       },
     });
 
@@ -203,7 +203,7 @@ function EditPaymentDialog({
           submit={(data) => {
             updateRentalPayment({
               rental_code,
-              id: payment?.id!,
+              id: payment!.id,
               data,
             });
           }}
@@ -225,15 +225,18 @@ function PaymentSummary({
   return (
     <div className="grid grid-cols-3 gap-8">
       <div>
-        <p className="text-sm">Required:</p>{" "}
+        <p className="text-sm">Required:</p>
+        {' '}
         <p className="font-semibold">{fmt_currency(payment_total)}</p>
       </div>
       <div>
-        <p className="text-sm">Total Paid:</p>{" "}
+        <p className="text-sm">Total Paid:</p>
+        {' '}
         <p className="font-semibold">{fmt_currency(payment_paid)}</p>
       </div>
       <div>
-        <p className="text-sm">Total Due:</p>{" "}
+        <p className="text-sm">Total Due:</p>
+        {' '}
         <p className="font-semibold">{fmt_currency(payment_due)}</p>
       </div>
     </div>
@@ -252,15 +255,18 @@ function DepositSummary({
   return (
     <div className="grid grid-cols-3 gap-8">
       <div>
-        <p className="text-sm">Deposit Total:</p>{" "}
+        <p className="text-sm">Deposit Total:</p>
+        {' '}
         <p className="font-semibold">{fmt_currency(deposit_total)}</p>
       </div>
       <div>
-        <p className="text-sm">Refunded:</p>{" "}
+        <p className="text-sm">Refunded:</p>
+        {' '}
         <p className="font-semibold">{fmt_currency(deposit_refunded)}</p>
       </div>
       <div>
-        <p className="text-sm">Due:</p>{" "}
+        <p className="text-sm">Due:</p>
+        {' '}
         <p className="font-semibold">{fmt_currency(deposit_due)}</p>
       </div>
     </div>

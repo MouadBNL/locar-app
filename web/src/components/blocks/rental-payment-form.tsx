@@ -1,25 +1,26 @@
+import type { RentalPaymentData } from '@/features/rental-payments';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import {
+
   RentalPaymentSchema,
-  type RentalPaymentData,
-} from "@/features/rental-payments";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { AppFormField, Form } from "../ui/form";
+} from '@/features/rental-payments';
+import { fmt_date, get_date } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { DateTimeInput } from '../ui/datetime-input';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
+import { NumberInput } from '../ui/number-input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { NumberInput } from "../ui/number-input";
-import { DateTimeInput } from "../ui/datetime-input";
-import { fmt_date, get_date } from "@/lib/utils";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+} from '../ui/select';
+import { Textarea } from '../ui/textarea';
 
-export const RentalPaymentForm = ({
+export function RentalPaymentForm({
   initialValues,
   submit,
   loading,
@@ -27,20 +28,19 @@ export const RentalPaymentForm = ({
   initialValues?: Partial<RentalPaymentData>;
   submit: (data: RentalPaymentData) => void;
   loading?: boolean;
-}) => {
+}) {
   const form = useForm({
     resolver: zodResolver(RentalPaymentSchema),
     defaultValues: {
-      method: "cash",
-      type: "normal",
+      method: 'cash',
+      type: 'normal',
       amount: 0,
-      date: fmt_date(get_date(), { format: "datetime" }),
+      date: fmt_date(get_date(), { format: 'datetime' }),
       ...initialValues,
     },
   });
 
   const onSubmit = (data: RentalPaymentData) => {
-    console.log(data);
     submit?.(data);
   };
 
@@ -88,7 +88,7 @@ export const RentalPaymentForm = ({
           control={form.control}
           name="amount"
           label="Amount"
-          render={({ field }) => <NumberInput {...field} />}
+          render={({ field }) => <NumberInput value={field.value} onChange={field.onChange} placeholder="Amount" />}
         />
         <AppFormField
           control={form.control}
@@ -100,14 +100,14 @@ export const RentalPaymentForm = ({
           control={form.control}
           name="reference"
           label="Reference"
-          render={({ field }) => <Input {...field} value={field.value ?? ""} />}
+          render={({ field }) => <Input {...field} value={field.value ?? ''} />}
         />
         <AppFormField
           control={form.control}
           name="notes"
           label="Notes"
           render={({ field }) => (
-            <Textarea {...field} value={field.value ?? ""} />
+            <Textarea {...field} value={field.value ?? ''} />
           )}
         />
         <Button type="submit" loading={loading}>
@@ -116,4 +116,4 @@ export const RentalPaymentForm = ({
       </form>
     </Form>
   );
-};
+}

@@ -1,4 +1,6 @@
-import { CalendarIcon } from "lucide-react";
+import type { CalendarDate } from '@internationalized/date';
+import { parseDate } from '@internationalized/date';
+import { CalendarIcon } from 'lucide-react';
 import {
   Button,
   DatePicker,
@@ -6,40 +8,41 @@ import {
   Group,
   I18nProvider,
   Popover,
-} from "react-aria-components";
-import { CalendarDate, parseDate } from "@internationalized/date";
+} from 'react-aria-components';
 
-import { Calendar } from "@/components/ui/calendar-rac";
-import { DateInput as DateInputContent } from "@/components/ui/datefield-rac";
-import { fmt_date } from "@/lib/utils";
+import { Calendar } from '@/components/ui/calendar-rac';
+import { DateInput as DateInputContent } from '@/components/ui/datefield-rac';
+import { fmt_date } from '@/lib/utils';
 
-type DateInputProps =
+type DateInputProps
+  = | {
+    type: 'string';
+    value?: string;
+    onChange?: (value: string) => void;
+  }
   | {
-      type: "string";
-      value?: string;
-      onChange?: (value: string) => void;
-    }
-  | {
-      type: "date";
-      value?: Date;
-      onChange?: (value: Date) => void;
-    };
+    type: 'date';
+    value?: Date;
+    onChange?: (value: Date) => void;
+  };
 
 export function DateInput({ value, onChange, type }: DateInputProps) {
   const onDateChange = (value: CalendarDate | null) => {
-    if (type === "string") {
+    if (type === 'string') {
       const fmt = value
-        ? fmt_date(value.toDate("UTC"), { format: "date" })
+        ? fmt_date(value.toDate('UTC'), { format: 'date' })
         : undefined;
-      onChange?.(fmt ?? "");
-    } else {
-      onChange?.(value?.toDate("UTC") ?? new Date());
+      onChange?.(fmt ?? '');
+    }
+    else {
+      onChange?.(value?.toDate('UTC') ?? new Date());
     }
   };
 
   const normalizedValue = (v: string | undefined) => {
-    if (!v) return undefined;
-    const val = v.split("T")[0];
+    if (!v)
+      return undefined;
+    const val = v.split('T')[0];
     return parseDate(val);
   };
   return (
@@ -49,11 +52,11 @@ export function DateInput({ value, onChange, type }: DateInputProps) {
         className="*:not-first:mt-2"
         hourCycle={24}
         value={normalizedValue(
-          type === "string" ? value : value?.toISOString()
+          type === 'string' ? value : value?.toISOString(),
         )}
         granularity="day"
         hideTimeZone
-        onChange={(value) => onDateChange(value)}
+        onChange={value => onDateChange(value)}
       >
         <div className="flex">
           <Group className="w-full">

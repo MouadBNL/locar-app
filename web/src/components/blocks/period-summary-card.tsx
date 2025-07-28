@@ -1,4 +1,4 @@
-import { CarIcon } from "lucide-react";
+import { CarIcon } from 'lucide-react';
 
 interface PeriodSummaryCardProps {
   pickupDate: string;
@@ -6,7 +6,7 @@ interface PeriodSummaryCardProps {
   rentalDays: number;
 }
 
-export const PeriodSummaryCard = (props: PeriodSummaryCardProps) => {
+export function PeriodSummaryCard(props: PeriodSummaryCardProps) {
   const pickupDate = new Date(props.pickupDate);
   const dropoffDate = new Date(props.dropoffDate);
 
@@ -23,7 +23,9 @@ export const PeriodSummaryCard = (props: PeriodSummaryCardProps) => {
       </div>
       <div className="flex flex-col items-center justify-center">
         <span className="block text-sm mb-2 text-muted-foreground">
-          {props.rentalDays} days
+          {props.rentalDays}
+          {' '}
+          days
         </span>
         <div className="flex items-center">
           <div className="h-3 w-3 rounded-full bg-muted-foreground" />
@@ -44,4 +46,4 @@ export const PeriodSummaryCard = (props: PeriodSummaryCardProps) => {
       </div>
     </div>
   );
-};
+}

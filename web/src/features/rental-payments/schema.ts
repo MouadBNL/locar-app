@@ -1,17 +1,17 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const RentalPaymentMethodSchema = z.enum([
-  "cash",
-  "card",
-  "bank_transfer",
-  "cheque",
-  "other",
+  'cash',
+  'card',
+  'bank_transfer',
+  'cheque',
+  'other',
 ]);
 export const RentalPaymentTypeSchema = z.enum([
-  "normal",
-  "deposit",
-  "refund",
-  "other",
+  'normal',
+  'deposit',
+  'refund',
+  'other',
 ]);
 
 export const RentalPaymentSchema = z.object({

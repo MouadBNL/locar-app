@@ -1,11 +1,11 @@
-import { VehicleStatusBadge } from "@/components/blocks/vehicle-status-badge";
-import { Button } from "@/components/ui/button";
-import { TabsNavigation } from "@/components/ui/tabs-navigation";
-import { Heading3 } from "@/components/ui/typography";
-import { vehicleShowFn } from "@/features/vehicles";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
+import { VehicleStatusBadge } from '@/components/blocks/vehicle-status-badge';
+import { Button } from '@/components/ui/button';
+import { TabsNavigation } from '@/components/ui/tabs-navigation';
+import { Heading3 } from '@/components/ui/typography';
+import { vehicleShowFn } from '@/features/vehicles';
 
-export const Route = createFileRoute("/app/vehicles/$id")({
+export const Route = createFileRoute('/app/vehicles/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const vehicle = (await vehicleShowFn(params.id)).data;
@@ -23,7 +23,11 @@ function RouteComponent() {
         <div className="flex items-start gap-8">
           <div>
             <Heading3>
-              {vehicle?.make} {vehicle?.model} {vehicle?.year}
+              {vehicle?.make}
+              {' '}
+              {vehicle?.model}
+              {' '}
+              {vehicle?.year}
             </Heading3>
             <p>{vehicle?.license_plate}</p>
           </div>
@@ -40,9 +44,9 @@ function RouteComponent() {
       <TabsNavigation
         basePath={`/app/vehicles/${id}`}
         tabs={[
-          { label: "Summary", path: "" },
-          { label: "Expenses", path: "expenses" },
-          { label: "Maintenance", path: "maintenance" },
+          { label: 'Summary', path: '' },
+          { label: 'Expenses', path: 'expenses' },
+          { label: 'Maintenance', path: 'maintenance' },
         ]}
       />
     </div>

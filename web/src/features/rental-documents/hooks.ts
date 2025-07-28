@@ -1,20 +1,20 @@
-import { makeMutationHook, makeQueryHook } from "@/lib/query-generator";
+import { makeMutationHook, makeQueryHook } from '@/lib/query-generator';
 import {
   rentalDocumentCreateFn,
   rentalDocumentDeleteFn,
   rentalDocumentIndexFn,
   rentalDocumentShowFn,
   rentalDocumentUpdateFn,
-} from "./api";
+} from './api';
 
 export const useRentalDocumentIndex = makeQueryHook(
-  ["rental-documents"],
-  rentalDocumentIndexFn
+  ['rental-documents'],
+  rentalDocumentIndexFn,
 );
 
 export const useRentalDocumentShow = makeQueryHook(
-  ["rental-documents", "show"],
-  rentalDocumentShowFn
+  ['rental-documents', 'show'],
+  rentalDocumentShowFn,
 );
 
 export const useRentalDocumentCreate = makeMutationHook(rentalDocumentCreateFn);

@@ -1,14 +1,14 @@
-import { VehicleTable } from "@/components/blocks/vehicle-table";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
-import { useVehicleDelete, useVehicleIndex } from "@/features/vehicles";
-import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { toast } from "sonner";
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
+import { VehicleTable } from '@/components/blocks/vehicle-table';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import { useVehicleDelete, useVehicleIndex } from '@/features/vehicles';
 
-export const Route = createFileRoute("/app/vehicles/")({
+export const Route = createFileRoute('/app/vehicles/')({
   component: RouteComponent,
 });
 
@@ -19,11 +19,11 @@ function RouteComponent() {
 
   const { mutate: deleteVehicle, isPending: isDeleting } = useVehicleDelete({
     onSuccess: () => {
-      toast.success("Vehicle deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["vehicles"] });
+      toast.success('Vehicle deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['vehicles'] });
     },
     onError: () => {
-      toast.error("Failed to delete vehicle");
+      toast.error('Failed to delete vehicle');
     },
   });
 
@@ -44,7 +44,7 @@ function RouteComponent() {
         <VehicleTable
           data={data?.data || []}
           loading={isFetching}
-          actions={(vehicle) => (
+          actions={vehicle => (
             <>
               <Button variant="outline" size="sm" asChild>
                 <Link

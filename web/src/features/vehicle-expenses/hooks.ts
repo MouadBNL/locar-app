@@ -1,20 +1,20 @@
-import { makeMutationHook, makeQueryHook } from "@/lib/query-generator";
+import { makeMutationHook, makeQueryHook } from '@/lib/query-generator';
 import {
   vehicleExpenseCreateFn,
   vehicleExpenseDeleteFn,
   vehicleExpenseIndexFn,
   vehicleExpenseShowFn,
   vehicleExpenseUpdateFn,
-} from "./api";
+} from './api';
 
 export const useVehicleExpenseIndex = makeQueryHook(
-  ["vehicle-expenses"],
-  vehicleExpenseIndexFn
+  ['vehicle-expenses'],
+  vehicleExpenseIndexFn,
 );
 
 export const useVehicleExpenseShow = makeQueryHook(
-  ["vehicle-expenses", "show"],
-  vehicleExpenseShowFn
+  ['vehicle-expenses', 'show'],
+  vehicleExpenseShowFn,
 );
 
 export const useVehicleExpenseCreate = makeMutationHook(vehicleExpenseCreateFn);

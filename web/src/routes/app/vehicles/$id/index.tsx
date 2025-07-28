@@ -1,21 +1,22 @@
-import VehicleForm from "@/components/blocks/vehicle-form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
-import {
-  useVehicleUpdate,
-  vehicleShowFn,
-  type VehicleData,
-} from "@/features/vehicles";
+import type { VehicleData } from '@/features/vehicles';
 import {
   createFileRoute,
   Link,
   useNavigate,
   useRouter,
-} from "@tanstack/react-router";
-import { toast } from "sonner";
+} from '@tanstack/react-router';
+import { toast } from 'sonner';
+import VehicleForm from '@/components/blocks/vehicle-form';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import {
+  useVehicleUpdate,
 
-export const Route = createFileRoute("/app/vehicles/$id/")({
+  vehicleShowFn,
+} from '@/features/vehicles';
+
+export const Route = createFileRoute('/app/vehicles/$id/')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const vehicle = (await vehicleShowFn(params.id)).data;
@@ -32,12 +33,12 @@ function RouteComponent() {
 
   const { mutate: updateVehicle, isPending } = useVehicleUpdate({
     onSuccess: () => {
-      toast.success("Vehicle updated successfully");
+      toast.success('Vehicle updated successfully');
       router.invalidate();
-      navigate({ to: "/app/vehicles" });
+      navigate({ to: '/app/vehicles' });
     },
     onError: () => {
-      toast.error("Failed to update vehicle");
+      toast.error('Failed to update vehicle');
     },
   });
 

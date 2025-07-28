@@ -1,42 +1,44 @@
-import { RentalChargesSummary } from "@/components/blocks/rental-charges-summary";
-import { Button } from "@/components/ui/button";
+import type { RentalRateData, RentalTimeframeData, RentalVehichleData, RenterData } from '@/features/rentals';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import z from 'zod';
+import { RentalChargesSummary } from '@/components/blocks/rental-charges-summary';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardAction,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { DateInput } from "@/components/ui/dateinput";
-import { DateTimeInput } from "@/components/ui/datetime-input";
-import { AppFormField, Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { NumberInput } from "@/components/ui/number-input";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/card';
+import { DateInput } from '@/components/ui/dateinput';
+import { DateTimeInput } from '@/components/ui/datetime-input';
+import { AppFormField, Form } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { NumberInput } from '@/components/ui/number-input';
+import { Textarea } from '@/components/ui/textarea';
 import {
-  rentalShowFn,
-  RentalTimeframeSchema,
-  RentalVehichleSchema,
-  RenterSchema,
+
   RentalRateSchema,
-  type RentalRateData,
-  type RentalTimeframeData,
-  type RentalVehichleData,
-  type RenterData,
-  useRentalVehicleUpdate,
-  useRentalTimeframeUpdate,
+  rentalShowFn,
+
+  RentalTimeframeSchema,
+
+  RentalVehichleSchema,
+
+  RenterSchema,
+  useRentalNotesUpdate,
   useRentalRateUpdate,
   useRentalRenterUpdate,
-  useRentalNotesUpdate,
-} from "@/features/rentals";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import z from "zod";
+  useRentalTimeframeUpdate,
+  useRentalVehicleUpdate,
+} from '@/features/rentals';
+import { parse_availability_error } from '@/lib/utils';
 
-export const Route = createFileRoute("/app/rentals/$id/")({
+export const Route = createFileRoute('/app/rentals/$id/')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const rental = await rentalShowFn({ number: params.id });
@@ -51,7 +53,7 @@ function RouteComponent() {
 
   function handleUpdate() {
     router.invalidate({
-      filter: (match) => match.id === id,
+      filter: match => match.id === id,
     });
   }
 
@@ -117,11 +119,11 @@ function RentalVehicleFormSection({
 
   const { mutate: updateVehicle, isPending } = useRentalVehicleUpdate({
     onSuccess: () => {
-      toast.success("Vehicle updated");
+      toast.success('Vehicle updated');
       onUpdate();
     },
     onError: () => {
-      toast.error("Failed to update vehicle");
+      toast.error('Failed to update vehicle');
     },
   });
 
@@ -237,11 +239,17 @@ function RentalPeriodFormSection({
 
   const { mutate: updatePeriod, isPending } = useRentalTimeframeUpdate({
     onSuccess: () => {
-      toast.success("Period updated");
+      toast.success('Period updated');
       onUpdate();
     },
-    onError: () => {
-      toast.error("Failed to update period");
+    onError: (error) => {
+      const msg = parse_availability_error(error);
+      if (msg) {
+        toast.error(msg);
+      }
+      else {
+        toast.error('Failed to update period');
+      }
     },
   });
 
@@ -271,7 +279,7 @@ function RentalPeriodFormSection({
                   <DateTimeInput
                     {...field}
                     value={field.value ?? undefined}
-                    onChange={(value) => field.onChange(value)}
+                    onChange={value => field.onChange(value)}
                     type="string"
                   />
                 )}
@@ -285,7 +293,7 @@ function RentalPeriodFormSection({
                   <DateTimeInput
                     {...field}
                     value={field.value ?? undefined}
-                    onChange={(value) => field.onChange(value)}
+                    onChange={value => field.onChange(value)}
                     type="string"
                   />
                 )}
@@ -326,22 +334,23 @@ function RentalRateFormSection({
 
   const { mutate: updateRate, isPending } = useRentalRateUpdate({
     onSuccess: () => {
-      toast.success("Rate updated");
+      toast.success('Rate updated');
       onUpdate();
     },
     onError: () => {
-      toast.error("Failed to update rate");
+      toast.error('Failed to update rate');
     },
   });
 
   const departure_date = period?.departure_date;
   const return_date = period?.return_date;
-  const daily_rate = form.watch("day_rate");
-  const extra_rate = form.watch("extra_rate");
-  const extra_quantity = form.watch("extra_quantity");
+  const daily_rate = form.watch('day_rate');
+  const extra_rate = form.watch('extra_rate');
+  const extra_quantity = form.watch('extra_quantity');
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
-    if (!a || !b) return 0;
+    if (!a || !b)
+      return 0;
     const dateA = new Date(a);
     const dateB = new Date(b);
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -349,12 +358,12 @@ function RentalRateFormSection({
     const utc1 = Date.UTC(
       dateA.getFullYear(),
       dateA.getMonth(),
-      dateA.getDate()
+      dateA.getDate(),
     );
     const utc2 = Date.UTC(
       dateB.getFullYear(),
       dateB.getMonth(),
-      dateB.getDate()
+      dateB.getDate(),
     );
 
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
@@ -362,15 +371,22 @@ function RentalRateFormSection({
 
   useEffect(() => {
     const extra_total_price = (extra_rate ?? 0) * (extra_quantity ?? 0);
-    form.setValue("extra_total", extra_total_price);
-    form.setValue("total", extra_total_price);
+    form.setValue('extra_total', extra_total_price);
+    form.setValue('total', extra_total_price);
     const number_of_days = dateDiffInDays(departure_date, return_date);
     const day_total_price = number_of_days * (daily_rate ?? 0);
-    form.setValue("day_quantity", number_of_days);
-    form.setValue("day_total", day_total_price);
+    form.setValue('day_quantity', number_of_days);
+    form.setValue('day_total', day_total_price);
     const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0);
-    form.setValue("total", total_price);
-  }, [extra_rate, extra_quantity, daily_rate, departure_date, return_date]);
+    form.setValue('total', total_price);
+  }, [
+    extra_rate,
+    extra_quantity,
+    daily_rate,
+    departure_date,
+    return_date,
+    form,
+  ]);
 
   const onSubmit = form.handleSubmit((data) => {
     updateRate({ id: code, data });
@@ -495,11 +511,11 @@ function RentalRenterFormSection({
 
   const { mutate: updateRenter, isPending } = useRentalRenterUpdate({
     onSuccess: () => {
-      toast.success("Renter updated");
+      toast.success('Renter updated');
       onUpdate();
     },
     onError: () => {
-      toast.error("Failed to update renter");
+      toast.error('Failed to update renter');
     },
   });
   const onSubmit = form.handleSubmit((data) => {
@@ -684,17 +700,17 @@ function RentalNotesFormSection({
   const form = useForm<{ notes: string }>({
     resolver: zodResolver(z.object({ notes: z.string() })),
     defaultValues: {
-      notes: notes ?? "",
+      notes: notes ?? '',
     },
   });
 
   const { mutate: updateNotes, isPending } = useRentalNotesUpdate({
     onSuccess: () => {
-      toast.success("Notes updated");
+      toast.success('Notes updated');
       onUpdate();
     },
     onError: () => {
-      toast.error("Failed to update notes");
+      toast.error('Failed to update notes');
     },
   });
 

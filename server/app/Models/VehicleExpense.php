@@ -23,18 +23,17 @@ class VehicleExpense extends Model
         'notes',
     ];
 
-
     public function vehicle(): BelongsTo
     {
         return $this->belongsTo(RentalVehicle::class);
     }
 
-    public function maintenance(): HasOne|null
+    public function maintenance(): ?HasOne
     {
         return $this->hasOne(VehicleMaintenance::class, 'id', 'vehicle_maintenance_id');
     }
 
-    public function receipt(): HasOne|null
+    public function receipt(): ?HasOne
     {
         return $this->hasOne(Document::class, 'id', 'receipt_document_id');
     }

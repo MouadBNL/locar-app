@@ -1,17 +1,17 @@
-import z from "zod";
+import type { DocumentResource } from '../documents';
 import type {
-  RentalSchema,
+  RentalChargesSummarySchema,
   RentalRateSchema,
+  RentalReturnSchema,
+  RentalSchema,
+  RentalStartSchema,
   RentalTimeframeSchema,
   RentalVehichleSchema,
   RenterSchema,
-  RentalStartSchema,
-  RentalReturnSchema,
-  RentalChargesSummarySchema,
-} from "./schema";
-import type { DocumentResource } from "../documents";
+} from './schema';
+import z from 'zod';
 
-export type RentalSummaryData = {
+export interface RentalSummaryData {
   id: string;
   rental_number: string;
   status: RentalStatus;
@@ -34,7 +34,7 @@ export type RentalSummaryData = {
   };
   created_at: string;
   updated_at: string;
-};
+}
 
 export type RentalTimeframeData = z.infer<typeof RentalTimeframeSchema>;
 export type RenterData = z.infer<typeof RenterSchema>;
@@ -45,7 +45,7 @@ export type RentalData = z.infer<typeof RentalSchema> & {
   agreement_document: DocumentResource | null;
 };
 
-export type RentalShowResponse = {
+export interface RentalShowResponse {
   id: string;
   rental_number: string;
   status: RentalStatus;
@@ -68,21 +68,21 @@ export type RentalShowResponse = {
     year: number;
     license_plate: string;
     color: string;
-    transmission: "AT" | "MT";
+    transmission: 'AT' | 'MT';
     seats: number;
     doors: number;
-    fuel_type: "Petrol" | "Diesel" | "Electric" | "Hybrid";
+    fuel_type: 'Petrol' | 'Diesel' | 'Electric' | 'Hybrid';
     mileage: number;
   };
   created_at: string;
   updated_at: string;
-};
+}
 
 export const RentalStatusSchema = z.enum([
-  "draft",
-  "started",
-  "finished",
-  "cancelled",
+  'draft',
+  'started',
+  'finished',
+  'cancelled',
 ]);
 export type RentalStatus = z.infer<typeof RentalStatusSchema>;
 

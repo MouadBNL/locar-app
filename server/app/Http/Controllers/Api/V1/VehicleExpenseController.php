@@ -16,6 +16,7 @@ class VehicleExpenseController extends ApiController
             $query->whereIn('id', explode(',', request()->ids));
         }
         $expenses = $query->get();
+
         return $this->success(VehicleExpenseResource::collection($expenses));
     }
 
@@ -24,12 +25,14 @@ class VehicleExpenseController extends ApiController
         if ($expense->vehicle_id !== $vehicle->id) {
             return $this->error('Expense not found', 404);
         }
+
         return $this->success(new VehicleExpenseResource($expense));
     }
 
     public function store(Vehicle $vehicle, VehicleExpenseCreateRequest $request)
     {
         $expense = $vehicle->expenses()->create($request->validated());
+
         return $this->success(new VehicleExpenseResource($expense));
     }
 
@@ -39,6 +42,7 @@ class VehicleExpenseController extends ApiController
             return $this->error('Expense not found', 404);
         }
         $expense->update($request->validated());
+
         return $this->success(new VehicleExpenseResource($expense));
     }
 
@@ -48,6 +52,7 @@ class VehicleExpenseController extends ApiController
             return $this->error('Expense not found', 404);
         }
         $expense->delete();
+
         return $this->success(null, 'Expense deleted successfully');
     }
 }

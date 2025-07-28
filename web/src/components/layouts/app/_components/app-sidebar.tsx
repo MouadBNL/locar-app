@@ -1,4 +1,13 @@
-import * as React from "react";
+import { Link } from '@tanstack/react-router';
+import {
+  CalendarClockIcon,
+  GaugeIcon,
+  ReceiptTextIcon,
+  ShapesIcon,
+  UsersIcon,
+  WarehouseIcon,
+} from 'lucide-react';
+import * as React from 'react';
 import {
   Sidebar,
   SidebarContent,
@@ -9,17 +18,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import {
-  CalendarClockIcon,
-  GaugeIcon,
-  ReceiptTextIcon,
-  ShapesIcon,
-  UsersIcon,
-  WarehouseIcon,
-} from "lucide-react";
-import { NavUser } from "./nav-user";
-import { Link } from "@tanstack/react-router";
+} from '@/components/ui/sidebar';
+import { NavUser } from './nav-user';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (

@@ -1,56 +1,57 @@
-import { http, type ApiResponse } from "@/lib/http";
 import type {
   RentalPaymentData,
   RentalPaymentIndexResponse,
   RentalPaymentResource,
-} from "./types";
+} from './types';
+import type { ApiResponse } from '@/lib/http';
+import { http } from '@/lib/http';
 
-export const rentalPaymentIndexFn = async (ctx: { rental_code: string }) => {
+export async function rentalPaymentIndexFn(ctx: { rental_code: string }) {
   const res = await http.get<ApiResponse<RentalPaymentIndexResponse>>(
-    `/rentals/${ctx.rental_code}/payments`
+    `/rentals/${ctx.rental_code}/payments`,
   );
   return res.data;
-};
+}
 
-export const rentalPaymentShowFn = async (ctx: {
+export async function rentalPaymentShowFn(ctx: {
   rental_code: string;
   id: string;
-}) => {
+}) {
   const res = await http.get<ApiResponse<RentalPaymentResource>>(
-    `/rentals/${ctx.rental_code}/payments/${ctx.id}`
+    `/rentals/${ctx.rental_code}/payments/${ctx.id}`,
   );
   return res.data;
-};
+}
 
-export const rentalPaymentCreateFn = async (ctx: {
+export async function rentalPaymentCreateFn(ctx: {
   rental_code: string;
   data: RentalPaymentData;
-}) => {
+}) {
   const res = await http.post<ApiResponse<RentalPaymentResource>>(
     `/rentals/${ctx.rental_code}/payments`,
-    ctx.data
+    ctx.data,
   );
   return res.data;
-};
+}
 
-export const rentalPaymentUpdateFn = async (ctx: {
+export async function rentalPaymentUpdateFn(ctx: {
   rental_code: string;
   id: string;
   data: RentalPaymentData;
-}) => {
+}) {
   const res = await http.put<ApiResponse<RentalPaymentResource>>(
     `/rentals/${ctx.rental_code}/payments/${ctx.id}`,
-    ctx.data
+    ctx.data,
   );
   return res.data;
-};
+}
 
-export const rentalPaymentDeleteFn = async (ctx: {
+export async function rentalPaymentDeleteFn(ctx: {
   rental_code: string;
   id: string;
-}) => {
+}) {
   const res = await http.delete<ApiResponse<void>>(
-    `/rentals/${ctx.rental_code}/payments/${ctx.id}`
+    `/rentals/${ctx.rental_code}/payments/${ctx.id}`,
   );
   return res.data;
-};
+}

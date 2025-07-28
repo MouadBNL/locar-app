@@ -50,7 +50,10 @@ class Vehicle extends Model
                 if ($this->maintenances()
                     ->where('cancelled_at', null)
                     ->where('started_at', '<=', now()->toISOString())
-                    ->where('finished_at', '>=', now()->toISOString())
+                    ->where(function ($query) {
+                        $query->where('finished_at', '>=', now()->toISOString())
+                            ->orWhereNull('finished_at');
+                    })
                     ->exists()
                 ) {
                     return VehicleStatus::MAINTENANCE;
@@ -62,6 +65,18 @@ class Vehicle extends Model
                     ->exists()
                 ) {
                     return VehicleStatus::BOOKED;
+                }
+
+                $rental = $this->whereHas('rentalVehicles', function ($query) {
+                    $query->whereHas('rental', function ($query) {
+                        $query->whereHas('timeframe', function ($query) {
+                            $query->where('departure_date', '<=', now()->toISOString())
+                                ->where('return_date', '>=', now()->toISOString());
+                        });
+                    });
+                })->first();
+                if ($rental) {
+                    return VehicleStatus::RENTED;
                 }
 
                 return VehicleStatus::AVAILABLE;
@@ -79,8 +94,16 @@ class Vehicle extends Model
         return $this->hasMany(VehicleMaintenance::class);
     }
 
+    /**
+     * @return HasMany<Reservation, $this>
+     */
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function rentalVehicles(): HasMany
+    {
+        return $this->hasMany(RentalVehicle::class);
     }
 }

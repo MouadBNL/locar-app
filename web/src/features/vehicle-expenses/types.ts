@@ -1,12 +1,12 @@
-import type { z } from "zod";
-import type { vehicleExpenseSchema, vehicleExpenseTypeSchema } from "./schema";
-import type { DocumentResource } from "../documents";
+import type { z } from 'zod';
+import type { DocumentResource } from '../documents';
+import type { vehicleExpenseSchema, vehicleExpenseTypeSchema } from './schema';
 
 export type VehicleExpenseType = z.infer<typeof vehicleExpenseTypeSchema>;
 
 export type VehicleExpenseRequest = z.infer<typeof vehicleExpenseSchema>;
 
-export type VehicleExpenseResource = {
+export interface VehicleExpenseResource {
   id: string;
   type: VehicleExpenseType;
   amount: number;
@@ -18,4 +18,4 @@ export type VehicleExpenseResource = {
   notes: string;
   created_at: string;
   updated_at: string;
-};
+}

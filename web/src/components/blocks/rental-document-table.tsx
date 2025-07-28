@@ -1,7 +1,8 @@
+import type { RentalDocumentResource } from '@/features/rental-documents';
 import {
+
   rentalDocumentTypeMap,
-  type RentalDocumentResource,
-} from "@/features/rental-documents";
+} from '@/features/rental-documents';
 import {
   Table,
   TableBody,
@@ -9,16 +10,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
+} from '../ui/table';
 
-export type RentalDocumentTableProps = {
+export interface RentalDocumentTableProps {
   rentalDocuments: RentalDocumentResource[];
   actions?: (rentalDocument: RentalDocumentResource) => React.ReactNode;
-};
-export const RentalDocumentTable = ({
+}
+export function RentalDocumentTable({
   rentalDocuments,
   actions,
-}: RentalDocumentTableProps) => {
+}: RentalDocumentTableProps) {
   return (
     <div>
       <Table>
@@ -32,12 +33,12 @@ export const RentalDocumentTable = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rentalDocuments.map((rentalDocument) => (
+          {rentalDocuments.map(rentalDocument => (
             <TableRow key={rentalDocument.id}>
               <TableCell>{rentalDocument.title}</TableCell>
               <TableCell>{rentalDocument.document.filename}</TableCell>
               <TableCell>
-                {rentalDocumentTypeMap[rentalDocument.type] ?? "Unknown"}
+                {rentalDocumentTypeMap[rentalDocument.type] ?? 'Unknown'}
               </TableCell>
               <TableCell>{rentalDocument.description}</TableCell>
               <TableCell>{actions?.(rentalDocument)}</TableCell>
@@ -47,4 +48,4 @@ export const RentalDocumentTable = ({
       </Table>
     </div>
   );
-};
+}

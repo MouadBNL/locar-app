@@ -1,24 +1,24 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AppFormField, Form } from "../ui/form";
-import { VehicleSelect } from "./vehicle-select";
-import { DateInput } from "../ui/dateinput";
-import { Button } from "../ui/button";
-import { NumberInput } from "../ui/number-input";
-import { Textarea } from "../ui/textarea";
-import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-import { CustomerSelect } from "./customer-select";
+import type { ReservationData } from '@/features/reservations';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   ReservationSchema,
-  type ReservationData,
-} from "@/features/reservations";
-import { fmt_date, get_date } from "@/lib/utils";
+} from '@/features/reservations';
+import { fmt_date, get_date } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { DateInput } from '../ui/dateinput';
+import { AppFormField, Form } from '../ui/form';
+import { NumberInput } from '../ui/number-input';
+import { Textarea } from '../ui/textarea';
+import { CustomerSelect } from './customer-select';
+import { VehicleSelect } from './vehicle-select';
 
-export type ReservationFormProps = {
+export interface ReservationFormProps {
   initialValues?: Partial<ReservationData>;
   loading?: boolean;
   submit?: (data: ReservationData) => void;
-};
+}
 export default function ReservationForm({
   initialValues,
   loading,
@@ -27,23 +27,43 @@ export default function ReservationForm({
   const form = useForm({
     resolver: zodResolver(ReservationSchema),
     defaultValues: {
-      customer_id: "",
-      vehicle_id: "",
-      check_in_date: fmt_date(get_date(), { format: "date" }),
-      check_out_date: fmt_date(get_date({ day: 1 }), { format: "date" }),
+      customer_id: '',
+      vehicle_id: '',
+      check_in_date: fmt_date(get_date(), { format: 'date' }),
+      check_out_date: fmt_date(get_date({ day: 1 }), { format: 'date' }),
       total_price: 0,
       daily_rate: 300,
       total_days: 1,
       ...initialValues,
     },
   });
+  // const queryClient = useQueryClient();
+  // const [open, setOpen] = useState(false);
 
-  const checkin_date = form.watch("check_in_date");
-  const checkout_date = form.watch("check_out_date");
-  const daily_rate = form.watch("daily_rate");
+  // const { mutateAsync: createCustomer } = useCustomerCreate({
+  //   onSuccess: async (response) => {
+  //     console.log("Customer created successfully", response);
+  //     // Invalidate cached customer list to refresh the Select
+  //     await queryClient.invalidateQueries({ queryKey: ["customers"] });
+
+  //       const customerId = response.data.id;
+  //       if (customerId) {
+  //         form.setValue("customer_id", customerId);
+  //       }
+
+  //       console.log("FORM DATA ID set in form:", form.getValues());
+  //       setOpen(false);
+
+  //   },
+  // });
+
+  const checkin_date = form.watch('check_in_date');
+  const checkout_date = form.watch('check_out_date');
+  const daily_rate = form.watch('daily_rate');
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
-    if (!a || !b) return 0;
+    if (!a || !b)
+      return 0;
     const dateA = new Date(a);
     const dateB = new Date(b);
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -51,12 +71,12 @@ export default function ReservationForm({
     const utc1 = Date.UTC(
       dateA.getFullYear(),
       dateA.getMonth(),
-      dateA.getDate()
+      dateA.getDate(),
     );
     const utc2 = Date.UTC(
       dateB.getFullYear(),
       dateB.getMonth(),
-      dateB.getDate()
+      dateB.getDate(),
     );
 
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
@@ -65,8 +85,8 @@ export default function ReservationForm({
   useEffect(() => {
     const number_of_days = dateDiffInDays(checkin_date, checkout_date);
     const total_price = number_of_days * (daily_rate ?? 0);
-    form.setValue("total_days", number_of_days);
-    form.setValue("total_price", total_price);
+    form.setValue('total_days', number_of_days);
+    form.setValue('total_price', total_price);
   }, [checkin_date, checkout_date, daily_rate, form]);
 
   const onSubmit = (data: ReservationData) => {
@@ -76,6 +96,9 @@ export default function ReservationForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+        {/* <pre>{JSON.stringify(form.getValues(), null, 2)}</pre> */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <AppFormField
             control={form.control}
@@ -101,6 +124,46 @@ export default function ReservationForm({
             )}
           />
 
+          {/* <div className="flex justify-center items-center gap-2">
+            <div className="flex-1">
+              <AppFormField
+                control={form.control}
+                name="customer_id"
+                label="Customer"
+                render={({ field }) => (
+                  <CustomerSelect
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  />
+                )}
+              />
+            </div>
+
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <Plus />
+                </Button>
+              </DialogTrigger>
+                <DialogPortal>
+              <DialogContent>
+
+                <DialogHeader>
+                  <DialogTitle>Add Customer</DialogTitle>
+                  <DialogDescription>
+                    Add new customer
+                  </DialogDescription>
+                </DialogHeader>
+
+              <CustomerForm
+                submit={async (data) => createCustomer({ data })}
+              />
+
+              </DialogContent>
+                </DialogPortal>
+            </Dialog>
+          </div> */}
+
           <AppFormField
             control={form.control}
             name="check_in_date"
@@ -110,7 +173,7 @@ export default function ReservationForm({
                 {...field}
                 type="string"
                 value={field.value ?? undefined}
-                onChange={(value) => field.onChange(value)}
+                onChange={value => field.onChange(value)}
               />
             )}
           />
@@ -124,7 +187,7 @@ export default function ReservationForm({
                 {...field}
                 type="string"
                 value={field.value ?? undefined}
-                onChange={(value) => field.onChange(value)}
+                onChange={value => field.onChange(value)}
               />
             )}
           />
@@ -136,7 +199,7 @@ export default function ReservationForm({
             name="daily_rate"
             label="Daily Rate"
             render={({ field }) => (
-              <NumberInput {...field} value={field.value ?? undefined} />
+              <NumberInput value={field.value} onChange={field.onChange} />
             )}
           />
 
@@ -145,7 +208,7 @@ export default function ReservationForm({
             name="total_days"
             label="Total Days"
             render={({ field }) => (
-              <NumberInput value={field.value ?? undefined} disabled />
+              <NumberInput value={field.value} onChange={field.onChange} disabled />
             )}
           />
 
@@ -155,8 +218,8 @@ export default function ReservationForm({
             label="Total Price"
             render={({ field }) => (
               <NumberInput
-                {...field}
-                value={field.value ?? undefined}
+                value={field.value}
+                onChange={field.onChange}
                 disabled
               />
             )}

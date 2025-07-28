@@ -34,7 +34,7 @@ class VehicleMaintenance extends Model
         return $this->belongsTo(Vehicle::class);
     }
 
-    public function receipt(): HasOne|null
+    public function receipt(): ?HasOne
     {
         return $this->hasOne(Document::class, 'id', 'receipt_document_id');
     }
