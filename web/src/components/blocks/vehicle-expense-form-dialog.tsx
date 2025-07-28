@@ -1,4 +1,5 @@
 import type { VehicleExpenseRequest } from '@/features/vehicle-expenses';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -25,13 +26,14 @@ export function VehicleExpenseFormDialog({
   submit,
   initialValues,
 }: VehicleExpenseFormDialogProps) {
+  const { t } = useTranslation(['expenses', 'common']);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children ?? <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent>
-        <DialogTitle>Add Expense</DialogTitle>
+        <DialogTitle>{t('expenses:add_expense')}</DialogTitle>
         <DialogDescription>
-          Add a new expense for the vehicle.
+          {t('expenses:add_expense_description')}
         </DialogDescription>
         <VehicleExpenseForm
           loading={loading}

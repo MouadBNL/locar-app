@@ -5,6 +5,8 @@ import en_common from './locales/en/common.json';
 import en_customer from './locales/en/customer.json';
 import en_document from './locales/en/document.json';
 import en_exceptions from './locales/en/exceptions.json';
+import en_expenses from './locales/en/expenses.json';
+import en_maintenance from './locales/en/maintenance.json';
 import en_payment from './locales/en/payment.json';
 import en_rental from './locales/en/rental.json';
 import en_reservation from './locales/en/reservation.json';
@@ -14,6 +16,8 @@ import fr_common from './locales/fr/common.json';
 import fr_customer from './locales/fr/customer.json';
 import fr_document from './locales/fr/document.json';
 import fr_exceptions from './locales/fr/exceptions.json';
+import fr_expenses from './locales/fr/expenses.json';
+import fr_maintenance from './locales/fr/maintenance.json';
 import fr_payment from './locales/fr/payment.json';
 import fr_rental from './locales/fr/rental.json';
 import fr_reservation from './locales/fr/reservation.json';
@@ -34,6 +38,8 @@ const resources = {
     payment: en_payment,
     document: en_document,
     auth: en_auth,
+    maintenance: en_maintenance,
+    expenses: en_expenses,
   },
   fr: {
     translation: {},
@@ -46,6 +52,8 @@ const resources = {
     payment: fr_payment,
     document: fr_document,
     auth: fr_auth,
+    maintenance: fr_maintenance,
+    expenses: fr_expenses,
   },
 };
 i18n
@@ -55,7 +63,7 @@ i18n
     returnNull: false,
     resources,
     defaultNS: 'common',
-    ns: ['common', 'vehicle', 'customer', 'rental', 'exceptions', 'payment', 'document'],
+    ns: ['common', 'vehicle', 'customer', 'rental', 'exceptions', 'payment', 'document', 'auth', 'maintenance', 'expenses'],
     fallbackLng: 'en',
     lng: localStorage.getItem('lang') ?? 'en', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage

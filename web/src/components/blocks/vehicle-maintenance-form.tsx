@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
   useVehicleExpenseCreate,
   useVehicleExpenseDelete,
@@ -39,6 +40,7 @@ export function VehicleMaintenanceForm({
   initialValues,
   submit,
 }: VehicleMaintenanceFormProps) {
+  const { t } = useTranslation(['maintenance', 'common']);
   const queryClient = useQueryClient();
 
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -108,14 +110,14 @@ export function VehicleMaintenanceForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Tabs defaultValue="details">
             <TabsList>
-              <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="expenses">Expenses</TabsTrigger>
+              <TabsTrigger value="details">{t('maintenance:details')}</TabsTrigger>
+              <TabsTrigger value="expenses">{t('maintenance:expenses')}</TabsTrigger>
             </TabsList>
             <TabsContent value="details">
               <ScrollArea className="h-[70vh]">
                 <AppFormField
                   control={form.control}
-                  label="Started At"
+                  label={t('maintenance:attributes.started_at')}
                   name="started_at"
                   render={({ field }) => (
                     <DateTimeInput {...field} type="string" />
@@ -123,7 +125,7 @@ export function VehicleMaintenanceForm({
                 />
                 <AppFormField
                   control={form.control}
-                  label="Finished At"
+                  label={t('maintenance:attributes.finished_at')}
                   name="finished_at"
                   render={({ field }) => (
                     <DateTimeInput {...field} type="string" />
@@ -131,7 +133,7 @@ export function VehicleMaintenanceForm({
                 />
                 <AppFormField
                   control={form.control}
-                  label="Title"
+                  label={t('maintenance:attributes.title')}
                   name="title"
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? ''} />
@@ -139,7 +141,7 @@ export function VehicleMaintenanceForm({
                 />
                 <AppFormField
                   control={form.control}
-                  label="Reference"
+                  label={t('maintenance:attributes.reference')}
                   name="reference"
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? ''} />
@@ -147,7 +149,7 @@ export function VehicleMaintenanceForm({
                 />
                 <AppFormField
                   control={form.control}
-                  label="Notes"
+                  label={t('maintenance:attributes.notes')}
                   name="notes"
                   render={({ field }) => (
                     <Textarea {...field} value={field.value ?? ''} />
@@ -155,7 +157,7 @@ export function VehicleMaintenanceForm({
                 />
                 <AppFormField
                   control={form.control}
-                  label="Receipt Document"
+                  label={t('maintenance:attributes.receipt')}
                   name="receipt_document_id"
                   render={({ field }) => <DocumentUpload {...field} />}
                 />
@@ -189,7 +191,7 @@ export function VehicleMaintenanceForm({
           </Tabs>
 
           <Button type="submit" loading={loading}>
-            Submit
+            {t('common:submit')}
           </Button>
         </form>
       </Form>

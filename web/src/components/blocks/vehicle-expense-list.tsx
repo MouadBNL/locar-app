@@ -1,9 +1,8 @@
 import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
   useVehicleExpenseIndex,
-
-  VehicleExpenseTypeEnum,
 } from '@/features/vehicle-expenses';
 import { fmt_currency } from '@/lib/utils';
 import { Button } from '../ui/button';
@@ -24,6 +23,7 @@ export function VehicleExpenseList({
   onEditExpense,
   onDeleteExpense,
 }: VehicleExpenseListProps) {
+  const { t } = useTranslation(['expenses', 'common']);
   const { data: expenses, isLoading } = useVehicleExpenseIndex({
     vehicleId,
     ids: value,
@@ -34,7 +34,7 @@ export function VehicleExpenseList({
       <div className="flex gap-2 justify-between items-center">
         <div>
           <p className="text-base font-bold">
-            Total:
+            {t('expenses:total')}
             {' '}
             {fmt_currency(
               expenses?.data?.reduce(
@@ -46,13 +46,13 @@ export function VehicleExpenseList({
           <p className="text-sm text-muted-foreground">
             {expenses?.data?.length}
             {' '}
-            expenses
+            {t('expenses:label_plural')}
           </p>
         </div>
 
         <Button variant="outline" onClick={onAddExpense}>
           <PlusIcon />
-          Add Expense
+          {t('expenses:add_expense')}
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-2 mt-6">
@@ -66,7 +66,9 @@ export function VehicleExpenseList({
               <div className="text-sm font-medium">
                 {expense.title}
                 {' '}
-                {VehicleExpenseTypeEnum[expense.type] ?? 'Other'}
+                {t(`expenses:type_enum.${expense.type}`, {
+                  defaultValue: t('expenses:type_enum.other'),
+                })}
               </div>
               <div className="text-sm text-muted-foreground">
                 {fmt_currency(expense.amount)}

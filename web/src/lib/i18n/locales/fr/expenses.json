@@ -1,0 +1,41 @@
+{
+  "label_singular": "Dépense",
+  "label_plural": "Dépenses",
+  "search_placeholder": "Rechercher une dépense...",
+  "manage_expenses": "Gérer les dépenses",
+  "add_expense": "Ajouter une dépense",
+  "add_expense_description": "Ajouter une nouvelle dépense au système",
+  "no_expenses_found": "Aucune dépense trouvée",
+  "total": "Total",
+  "type_enum": {
+    "fuel": "Essence",
+    "maintenance": "Maintenance",
+    "repair": "Réparation",
+    "insurance": "Assurance",
+    "registration": "Immatriculation",
+    "other": "Autre"
+  },
+  "attributes": {
+    "type": "Type",
+    "amount": "Montant",
+    "date": "Date",
+    "title": "Titre",
+    "reference": "Référence",
+    "receipt": "Reçu",
+    "notes": "Notes"
+  },
+  "action": {
+    "delete": {
+      "success": "Dépense supprimée",
+      "error": "Échec de la suppression de la dépense"
+    },
+    "create": {
+      "success": "Dépense créée",
+      "error": "Échec de la création de la dépense"
+    },
+    "update": {
+      "success": "Dépense mise à jour",
+      "error": "Échec de la mise à jour de la dépense"
+    }
+  }
+}

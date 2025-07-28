@@ -1,4 +1,5 @@
 import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
+import { useTranslation } from 'react-i18next';
 import {
   Table,
   TableBody,
@@ -7,10 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-
-  VehicleExpenseTypeEnum,
-} from '@/features/vehicle-expenses';
 import { fmt_currency } from '@/lib/utils';
 import { DateCard } from './date-card';
 
@@ -25,18 +22,19 @@ export function VehicleExpenseTable({
   loading,
   actions,
 }: VehicleExpenseTableProps) {
+  const { t } = useTranslation(['expenses', 'common']);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Type</TableHead>
-          <TableHead>Amount</TableHead>
-          <TableHead>Date</TableHead>
-          <TableHead>Title</TableHead>
-          <TableHead>Reference</TableHead>
-          <TableHead>Receipt</TableHead>
-          <TableHead>Notes</TableHead>
-          {actions && <TableHead>Actions</TableHead>}
+          <TableHead>{t('expenses:attributes.type')}</TableHead>
+          <TableHead>{t('expenses:attributes.amount')}</TableHead>
+          <TableHead>{t('expenses:attributes.date')}</TableHead>
+          <TableHead>{t('expenses:attributes.title')}</TableHead>
+          <TableHead>{t('expenses:attributes.reference')}</TableHead>
+          <TableHead>{t('expenses:attributes.receipt')}</TableHead>
+          <TableHead>{t('expenses:attributes.notes')}</TableHead>
+          {actions && <TableHead>{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -51,7 +49,7 @@ export function VehicleExpenseTable({
         {data && data.length === 0 && (
           <TableRow>
             <TableCell colSpan={5} className="text-center">
-              No vehicle expenses found
+              {t('expenses:no_expenses_found')}
             </TableCell>
           </TableRow>
         )}
@@ -60,7 +58,9 @@ export function VehicleExpenseTable({
           && data.map(vehicleExpense => (
             <TableRow key={vehicleExpense.id}>
               <TableCell>
-                {VehicleExpenseTypeEnum[vehicleExpense.type] ?? 'Other'}
+                {t(`expenses:type_enum.${vehicleExpense.type}`, {
+                  defaultValue: t('expenses:type_enum.other'),
+                })}
               </TableCell>
               <TableCell>{fmt_currency(vehicleExpense.amount)}</TableCell>
               <TableCell>
