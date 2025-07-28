@@ -35,11 +35,14 @@ export default function CustomerForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit(onSubmit)(e);
-      }} className="space-y-8">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit(onSubmit)(e);
+        }}
+        className="space-y-8"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           <AppFormField
             control={form.control}
