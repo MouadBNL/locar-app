@@ -2,6 +2,7 @@ import type { DocumentResource } from '@/features/documents';
 import type { RentalDocumentData } from '@/features/rental-documents';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
   rentalDocumentSchema,
   rentalDocumentTypeMap,
@@ -19,7 +20,6 @@ import {
 } from '../ui/select';
 import { Textarea } from '../ui/textarea';
 import { DocumentUpload } from './document-upload';
-import { useTranslation } from 'react-i18next';
 
 export interface RentalDocumentFormProps {
   initialValues?: Partial<RentalDocumentData>;

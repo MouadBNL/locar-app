@@ -12,13 +12,13 @@ import {
   VideoIcon,
   XIcon,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
 
   formatBytes,
   useFileUpload,
 } from '@/hooks/use-file-upload';
 import { Button } from '../ui/button';
-import { useTranslation } from 'react-i18next';
 
 export function FileUpload(props: FileUploadOptions) {
   const maxSizeMB = props.maxSize ? props.maxSize / 1024 / 1024 : 0;
@@ -131,7 +131,9 @@ export function FileUpload(props: FileUploadOptions) {
                   {' '}
                   {t('common:files')}
                   {' '}
-                  ∙ {t('common:up_to')}
+                  ∙
+                  {' '}
+                  {t('common:up_to')}
                   {' '}
                   {maxSizeMB}
                   MB

@@ -1,11 +1,11 @@
 import type { SignInRequest } from '@/features/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { SignInSchema } from '@/features/auth';
 import { Button } from '../ui/button';
 import { AppFormField, Form } from '../ui/form';
 import { Input } from '../ui/input';
-import { useTranslation } from 'react-i18next';
 
 export interface SigninFormProps {
   submit?: (data: SignInRequest) => void;
@@ -49,7 +49,7 @@ export function SigninForm({ submit, loading }: SigninFormProps) {
         </div>
         <div className="flex justify-end flex-col gap-4 mt-4">
           <Button type="submit" className="w-full" loading={loading}>
-              {t('auth:login.login')}
+            {t('auth:login.login')}
           </Button>
         </div>
       </form>

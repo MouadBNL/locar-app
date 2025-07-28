@@ -1,4 +1,5 @@
 import type { RentalDocumentResource } from '@/features/rental-documents';
+import { useTranslation } from 'react-i18next';
 import {
 
   rentalDocumentTypeMap,
@@ -11,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/table';
-import { useTranslation } from 'react-i18next';
 
 export interface RentalDocumentTableProps {
   rentalDocuments: RentalDocumentResource[];

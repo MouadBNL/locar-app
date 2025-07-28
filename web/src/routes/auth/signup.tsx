@@ -1,10 +1,10 @@
 import type { SignUpRequest } from '@/features/auth';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { SignupForm } from '@/components/blocks/signup-form';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSignUp } from '@/features/auth';
-import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/auth/signup')({
   component: RouteComponent,

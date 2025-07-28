@@ -2,11 +2,11 @@ import type { SignUpRequest } from '@/features/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { SignUpSchema } from '@/features/auth';
 import { Button } from '../ui/button';
 import { AppFormField, Form } from '../ui/form';
 import { Input } from '../ui/input';
-import { useTranslation } from 'react-i18next';
 
 export interface SignupFormProps {
   submit?: (data: SignUpRequest) => void;

@@ -1,5 +1,6 @@
 import type { DocumentResource } from '@/features/documents';
 import type { FileMetadata, FileWithPreview } from '@/hooks/use-file-upload';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
 
@@ -7,7 +8,6 @@ import {
   useDocumentShow,
 } from '@/features/documents';
 import { SingleFileUpload } from './single-file-upload';
-import { useTranslation } from 'react-i18next';
 
 interface DocumentUploadProps {
   for?: string;

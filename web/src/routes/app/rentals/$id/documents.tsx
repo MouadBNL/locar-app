@@ -4,6 +4,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { EyeIcon, TrashIcon, UploadCloudIcon } from 'lucide-react';
 import { useState } from 'react';
 import { DialogTrigger } from 'react-aria-components';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { RentalDocumentForm } from '@/components/blocks/rental-document-form';
 import { RentalDocumentTable } from '@/components/blocks/rental-document-table';
@@ -29,7 +30,6 @@ import {
   useRentalDocumentIndex,
   useRentalDocumentUpdate,
 } from '@/features/rental-documents';
-import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/app/rentals/$id/documents')({
   component: RouteComponent,

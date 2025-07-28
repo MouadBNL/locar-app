@@ -1,9 +1,9 @@
 import type { RentalChargesSummaryData } from '@/features/rentals';
 import { BanknoteIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn, fmt_currency } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Separator } from '../ui/separator';
-import { useTranslation } from 'react-i18next';
 
 export function RentalChargesSummary(props: {
   charges?: RentalChargesSummaryData;

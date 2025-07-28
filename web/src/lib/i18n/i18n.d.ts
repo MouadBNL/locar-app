@@ -1,4 +1,5 @@
 /* eslint-disable ts/consistent-type-imports */
+import auth from './locales/en/auth.json';
 import common from './locales/en/common.json';
 import customer from './locales/en/customer.json';
 import document from './locales/en/document.json';
@@ -7,7 +8,6 @@ import payment from './locales/en/payment.json';
 import rental from './locales/en/rental.json';
 import reservation from './locales/en/reservation.json';
 import vehicle from './locales/en/vehicle.json';
-import auth from './locales/en/auth.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {

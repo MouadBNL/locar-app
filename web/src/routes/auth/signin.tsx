@@ -1,11 +1,11 @@
 import type { SignInRequest } from '@/features/auth';
 import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { SigninForm } from '@/components/blocks/signin-form';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSingIn } from '@/features/auth';
-import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/auth/signin')({
   component: RouteComponent,

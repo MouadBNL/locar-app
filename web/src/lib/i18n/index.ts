@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import en_auth from './locales/en/auth.json';
 import en_common from './locales/en/common.json';
 import en_customer from './locales/en/customer.json';
 import en_document from './locales/en/document.json';
@@ -8,7 +9,7 @@ import en_payment from './locales/en/payment.json';
 import en_rental from './locales/en/rental.json';
 import en_reservation from './locales/en/reservation.json';
 import en_vehicle from './locales/en/vehicle.json';
-import en_auth from './locales/en/auth.json';
+import fr_auth from './locales/fr/auth.json';
 import fr_common from './locales/fr/common.json';
 import fr_customer from './locales/fr/customer.json';
 import fr_document from './locales/fr/document.json';
@@ -17,7 +18,6 @@ import fr_payment from './locales/fr/payment.json';
 import fr_rental from './locales/fr/rental.json';
 import fr_reservation from './locales/fr/reservation.json';
 import fr_vehicle from './locales/fr/vehicle.json';
-import fr_auth from './locales/fr/auth.json';
 
 // the translations
 // (tip move them in a JSON file and import them,
