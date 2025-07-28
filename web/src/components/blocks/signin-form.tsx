@@ -1,21 +1,22 @@
-import { AppFormField, Form } from "../ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { SignInSchema, type SignInRequest } from "@/features/auth";
+import type { SignInRequest } from '@/features/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { SignInSchema } from '@/features/auth';
+import { Button } from '../ui/button';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
 
-export type SigninFormProps = {
+export interface SigninFormProps {
   submit?: (data: SignInRequest) => void;
   loading?: boolean;
-};
+}
 
 export function SigninForm({ submit, loading }: SigninFormProps) {
   const form = useForm({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 

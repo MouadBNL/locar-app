@@ -1,17 +1,17 @@
-import { ReservationTable } from "@/components/blocks/reservation-table";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
+import { ReservationTable } from '@/components/blocks/reservation-table';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
 import {
   useReservationDelete,
   useReservationIndex,
-} from "@/features/reservations";
-import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { toast } from "sonner";
+} from '@/features/reservations';
 
-export const Route = createFileRoute("/app/reservations/")({
+export const Route = createFileRoute('/app/reservations/')({
   component: RouteComponent,
 });
 
@@ -20,14 +20,14 @@ function RouteComponent() {
 
   const { data, isFetching } = useReservationIndex();
 
-  const { mutate: deleteReservation, isPending: isDeleting } =
-    useReservationDelete({
+  const { mutate: deleteReservation, isPending: isDeleting }
+    = useReservationDelete({
       onSuccess: () => {
-        toast.success("Reservation deleted successfully");
-        queryClient.invalidateQueries({ queryKey: ["reservations"] });
+        toast.success('Reservation deleted successfully');
+        queryClient.invalidateQueries({ queryKey: ['reservations'] });
       },
       onError: () => {
-        toast.error("Failed to delete reservation");
+        toast.error('Failed to delete reservation');
       },
     });
 
@@ -48,7 +48,7 @@ function RouteComponent() {
         <ReservationTable
           data={data?.data || []}
           loading={isFetching}
-          actions={(reservation) => (
+          actions={reservation => (
             <>
               <Button variant="outline" size="sm" asChild>
                 <Link

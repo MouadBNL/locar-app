@@ -1,11 +1,12 @@
+import type { CustomerData } from '@/features/customers';
+import { useCustomerIndex } from '@/features/customers';
 import {
   Select,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectItem,
-} from "../ui/select";
-import { useCustomerIndex, type CustomerData } from "@/features/customers";
+} from '../ui/select';
 
 export type CustomerSelectProps = React.ComponentProps<typeof Select> & {
   onCustomerSelected?: (customer: CustomerData) => void;
@@ -16,7 +17,7 @@ export function CustomerSelect(props: CustomerSelectProps) {
 
   const onValueChange = (value: string) => {
     props.onValueChange?.(value);
-    const customer = data?.data.find((c) => c.id === value);
+    const customer = data?.data.find(c => c.id === value);
     if (customer) {
       props.onCustomerSelected?.(customer);
     }
@@ -28,9 +29,11 @@ export function CustomerSelect(props: CustomerSelectProps) {
         <SelectValue placeholder="Customer" />
       </SelectTrigger>
       <SelectContent>
-        {data?.data?.map((customer) => (
+        {data?.data?.map(customer => (
           <SelectItem key={customer.id} value={customer.id!}>
-            {customer.first_name} {customer.last_name}
+            {customer.first_name}
+            {' '}
+            {customer.last_name}
           </SelectItem>
         ))}
       </SelectContent>

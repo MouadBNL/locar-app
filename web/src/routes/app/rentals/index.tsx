@@ -1,14 +1,14 @@
-import { RentalTable } from "@/components/blocks/rental-table";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
-import { useRentalDelete, useRentalIndex } from "@/features/rentals/hooks";
-import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { EyeIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { toast } from "sonner";
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { EyeIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
+import { RentalTable } from '@/components/blocks/rental-table';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import { useRentalDelete, useRentalIndex } from '@/features/rentals/hooks';
 
-export const Route = createFileRoute("/app/rentals/")({
+export const Route = createFileRoute('/app/rentals/')({
   component: RouteComponent,
 });
 
@@ -19,11 +19,11 @@ function RouteComponent() {
 
   const { mutate: deleteRental, isPending: isDeleting } = useRentalDelete({
     onSuccess: () => {
-      toast.success("Rental deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["rentals"] });
+      toast.success('Rental deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['rentals'] });
     },
     onError: () => {
-      toast.error("Failed to delete rental");
+      toast.error('Failed to delete rental');
     },
   });
 
@@ -44,7 +44,7 @@ function RouteComponent() {
         <RentalTable
           data={data?.data ?? []}
           loading={isFetching}
-          actions={(rental) => (
+          actions={rental => (
             <>
               <Button variant="outline" size="sm" asChild>
                 <Link

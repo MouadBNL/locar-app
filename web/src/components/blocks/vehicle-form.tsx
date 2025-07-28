@@ -1,49 +1,49 @@
-import { useForm } from "react-hook-form";
-import { AppFormField, Form } from "../ui/form";
-import { Input } from "../ui/input";
-import { VehicleSchema, type VehicleData } from "@/features/vehicles";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
+import type { VehicleData } from '@/features/vehicles';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { VehicleSchema } from '@/features/vehicles';
+import { Button } from '../ui/button';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
+import { NumberInput } from '../ui/number-input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { NumberInput } from "../ui/number-input";
+} from '../ui/select';
 
-export type VehicleFormProps = {
+export interface VehicleFormProps {
   initialValues?: Partial<VehicleData>;
   loading?: boolean;
   submit?: (data: VehicleData) => void;
-};
+}
 export default function VehicleForm({
   initialValues,
   loading,
   submit,
 }: VehicleFormProps) {
   const form = useForm({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: zodResolver(VehicleSchema),
     defaultValues: {
-      make: "",
-      model: "",
-      color: "",
-      photo_url: "",
-      license_plate: "",
+      make: '',
+      model: '',
+      color: '',
+      photo_url: '',
+      license_plate: '',
       mileage: 0,
       number_of_seats: 1,
       number_of_doors: 1,
       year: 2025,
-      transmission: "AT",
-      fuel_type: "gasoline",
+      transmission: 'AT',
+      fuel_type: 'gasoline',
       ...initialValues,
     },
   });
 
   const onSubmit = (data: VehicleData) => {
-    console.log("Data: ", { data });
     submit?.(data);
   };
 
@@ -74,7 +74,7 @@ export default function VehicleForm({
             name="year"
             label="Year"
             render={({ field }) => (
-              <NumberInput placeholder="Vehicle year" {...field} />
+              <NumberInput placeholder="Vehicle year" value={field.value} onChange={field.onChange} />
             )}
           />
 
@@ -125,7 +125,7 @@ export default function VehicleForm({
             name="number_of_seats"
             label="Number of Seats"
             render={({ field }) => (
-              <NumberInput placeholder="Number of seats" {...field} />
+              <NumberInput placeholder="Number of seats" value={field.value} onChange={field.onChange} />
             )}
           />
 
@@ -134,7 +134,7 @@ export default function VehicleForm({
             name="number_of_doors"
             label="Number of Doors"
             render={({ field }) => (
-              <NumberInput placeholder="Number of doors" {...field} />
+              <NumberInput placeholder="Number of doors" value={field.value} onChange={field.onChange} />
             )}
           />
 
@@ -156,7 +156,7 @@ export default function VehicleForm({
             name="mileage"
             label="Mileage"
             render={({ field }) => (
-              <NumberInput placeholder="Vehicle mileage" {...field} />
+              <NumberInput placeholder="Vehicle mileage" value={field.value} onChange={field.onChange} />
             )}
           />
 
@@ -169,7 +169,7 @@ export default function VehicleForm({
                 placeholder="Vehicle color"
                 className="w-full"
                 {...field}
-                value={field.value ?? ""}
+                value={field.value ?? ''}
               />
             )}
           />
@@ -183,7 +183,7 @@ export default function VehicleForm({
                 type="text"
                 placeholder="Vehicle photo URL"
                 {...field}
-                value={field.value ?? ""}
+                value={field.value ?? ''}
                 className="w-full"
               />
             )}

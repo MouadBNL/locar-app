@@ -1,18 +1,19 @@
+import type { DocumentResource } from '@/features/documents';
+import type { FileMetadata, FileWithPreview } from '@/hooks/use-file-upload';
+import { toast } from 'sonner';
 import {
+
   useDocumentCreate,
   useDocumentShow,
-  type DocumentResource,
-} from "@/features/documents";
-import { SingleFileUpload } from "./single-file-upload";
-import { toast } from "sonner";
-import type { FileMetadata, FileWithPreview } from "@/hooks/use-file-upload";
+} from '@/features/documents';
+import { SingleFileUpload } from './single-file-upload';
 
-type DocumentUploadProps = {
+interface DocumentUploadProps {
   for?: string;
   value?: string | null;
   onChange?: (value: string | null) => void;
   onDocumentSelected?: (document: DocumentResource) => void;
-};
+}
 
 export function DocumentUpload(props: DocumentUploadProps) {
   const {
@@ -25,24 +26,24 @@ export function DocumentUpload(props: DocumentUploadProps) {
     retry: false,
   });
 
-  const { mutate: createDocument, isPending: isCreateDocumentPending } =
-    useDocumentCreate({
+  const { mutate: createDocument, isPending: isCreateDocumentPending }
+    = useDocumentCreate({
       onSuccess: (data) => {
-        toast.success("Document uploaded successfully");
+        toast.success('Document uploaded successfully');
         props.onChange?.(data.data.id);
         props.onDocumentSelected?.(data.data);
       },
       onError: (error) => {
-        console.error("Failed to upload document: ", error);
-        toast.error("Failed to upload document");
+        console.error('Failed to upload document: ', error);
+        toast.error('Failed to upload document');
       },
     });
 
   const isPending = isDocumentLoading || isCreateDocumentPending || isFetching;
 
   const onFileAdded = (files: FileWithPreview[]) => {
-    console.log("Files: ", { files });
-    if (files.length === 0) return;
+    if (files.length === 0)
+      return;
     const file = files[0].file;
     if (file instanceof File) {
       createDocument({
@@ -67,7 +68,6 @@ export function DocumentUpload(props: DocumentUploadProps) {
   };
 
   const onFilesChange = (files: FileWithPreview[]) => {
-    console.log("Files [onFilesChange]: ", { files });
     if (files.length === 0) {
       props.onChange?.(null);
     }
@@ -76,7 +76,7 @@ export function DocumentUpload(props: DocumentUploadProps) {
   return (
     <div>
       <SingleFileUpload
-        key={isFetching ? "loading" : "not-loading"}
+        key={isFetching ? 'loading' : 'not-loading'}
         initialFiles={getData(document?.data)}
         onFilesAdded={onFileAdded}
         onFilesChange={onFilesChange}

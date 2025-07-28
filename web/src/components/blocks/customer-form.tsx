@@ -1,16 +1,17 @@
-import { useForm } from "react-hook-form";
-import { AppFormField, Form } from "../ui/form";
-import { Input } from "../ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
-import { DateInput } from "../ui/dateinput";
-import { CustomerSchema, type CustomerData } from "@/features/customers";
+import type { CustomerData } from '@/features/customers';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { CustomerSchema } from '@/features/customers';
+import { Button } from '../ui/button';
+import { DateInput } from '../ui/dateinput';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
 
-export type CustomerFormProps = {
+export interface CustomerFormProps {
   initialValues?: Partial<CustomerData>;
   loading?: boolean;
   submit?: (data: CustomerData) => void;
-};
+}
 export default function CustomerForm({
   initialValues,
   loading,
@@ -19,11 +20,11 @@ export default function CustomerForm({
   const form = useForm({
     resolver: zodResolver(CustomerSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone: "",
-      address: "",
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      address: '',
       ...initialValues,
     },
   });
@@ -63,7 +64,7 @@ export default function CustomerForm({
                 type="email"
                 placeholder="Email"
                 {...field}
-                value={field.value ?? ""}
+                value={field.value ?? ''}
               />
             )}
           />
@@ -77,7 +78,7 @@ export default function CustomerForm({
                 type="text"
                 placeholder="Phone"
                 {...field}
-                value={field.value ?? ""}
+                value={field.value ?? ''}
               />
             )}
           />
@@ -91,7 +92,7 @@ export default function CustomerForm({
                 type="text"
                 placeholder="Address"
                 {...field}
-                value={field.value ?? ""}
+                value={field.value ?? ''}
               />
             )}
           />
@@ -105,7 +106,7 @@ export default function CustomerForm({
                 type="text"
                 placeholder="License number"
                 {...field}
-                value={field.value ?? ""}
+                value={field.value ?? ''}
               />
             )}
           />
@@ -118,7 +119,7 @@ export default function CustomerForm({
               <DateInput
                 {...field}
                 value={field.value ?? undefined}
-                onChange={(value) => field.onChange(value)}
+                onChange={value => field.onChange(value)}
                 type="string"
               />
             )}

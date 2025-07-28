@@ -1,3 +1,4 @@
+import type { CustomerResource } from '@/features/customers';
 import {
   Table,
   TableBody,
@@ -5,15 +6,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import type { CustomerResource } from "@/features/customers";
-import { CustomerStatusBadge } from "./customer-status-badge";
+} from '@/components/ui/table';
+import { CustomerStatusBadge } from './customer-status-badge';
 
-export type CustomerTableProps = {
+export interface CustomerTableProps {
   data: CustomerResource[];
   loading?: boolean;
   actions?: (customer: CustomerResource) => React.ReactNode;
-};
+}
 
 export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
   return (
@@ -29,8 +29,8 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {loading &&
-          [1, 2, 3].map((i) => (
+        {loading
+          && [1, 2, 3].map(i => (
             <TableRow key={i}>
               <TableCell colSpan={5} className="text-center">
                 <div className="w-full animate-pulse bg-muted h-8 rounded-md"></div>
@@ -44,9 +44,9 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
             </TableCell>
           </TableRow>
         )}
-        {data &&
-          data.length > 0 &&
-          data.map((customer) => (
+        {data
+          && data.length > 0
+          && data.map(customer => (
             <TableRow key={customer.id}>
               <TableCell>{customer.first_name}</TableCell>
               <TableCell>{customer.last_name}</TableCell>

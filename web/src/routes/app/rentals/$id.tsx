@@ -1,8 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Heading3 } from "@/components/ui/typography";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import type { RentalData } from '@/features/rentals';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
 import {
   CircleArrowOutDownLeft,
   DownloadIcon,
@@ -12,20 +9,18 @@ import {
   LayoutPanelLeft,
   PlayIcon,
   ReceiptTextIcon,
-} from "lucide-react";
+} from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { CustomerSummaryCard } from '@/components/blocks/customer-summary-card';
 
-import { useState } from "react";
-import { VehicleSummaryCard } from "@/components/blocks/vehicle-summary-card";
-import { CustomerSummaryCard } from "@/components/blocks/customer-summary-card";
-import { PeriodSummaryCard } from "@/components/blocks/period-summary-card";
-import {
-  rentalShowFn,
-  useRentalStart,
-  type RentalData,
-  useRentalReturn,
-  useRentalAgreementGenerate,
-} from "@/features/rentals";
-import { RentalStatusBadge } from "@/components/blocks/rental-status-badge";
+import { PeriodSummaryCard } from '@/components/blocks/period-summary-card';
+import { RentalReturnForm } from '@/components/blocks/rental-return-form';
+import { RentalStartForm } from '@/components/blocks/rental-start-form';
+import { RentalStatusBadge } from '@/components/blocks/rental-status-badge';
+import { VehicleSummaryCard } from '@/components/blocks/vehicle-summary-card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -33,13 +28,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { RentalStartForm } from "@/components/blocks/rental-start-form";
-import { toast } from "sonner";
-import { RentalReturnForm } from "@/components/blocks/rental-return-form";
-import { TabsNavigation } from "@/components/ui/tabs-navigation";
+} from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+import { TabsNavigation } from '@/components/ui/tabs-navigation';
+import { Heading3 } from '@/components/ui/typography';
+import {
 
-export const Route = createFileRoute("/app/rentals/$id")({
+  rentalShowFn,
+  useRentalAgreementGenerate,
+  useRentalReturn,
+  useRentalStart,
+} from '@/features/rentals';
+
+export const Route = createFileRoute('/app/rentals/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const data = await rentalShowFn({ number: params.id });
@@ -51,8 +52,6 @@ function RouteComponent() {
   const { id: code } = Route.useParams();
   const { rental } = Route.useLoaderData();
 
-  console.log({ rental });
-
   if (!rental) {
     return <div>Rental not found</div>;
   }
@@ -61,19 +60,22 @@ function RouteComponent() {
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-8">
-          <Heading3>Rental #{code}</Heading3>
-          <RentalStatusBadge status={rental.status ?? "draft"} />
+          <Heading3>
+            Rental #
+            {code}
+          </Heading3>
+          <RentalStatusBadge status={rental.status ?? 'draft'} />
         </div>
 
         <div className="flex space-x-2">
-          {rental.status === "draft" && (
+          {rental.status === 'draft' && (
             <>
               <RentalAgreementAction code={code} rental={rental} />
               <RentalStartAction code={code} rental={rental} />
             </>
           )}
 
-          {rental.status === "started" && (
+          {rental.status === 'started' && (
             <>
               <Button variant="outline">
                 <EyeIcon className="w-4 h-4" />
@@ -90,35 +92,35 @@ function RouteComponent() {
           <div className="flex space-x-4 h-26 items-center">
             <div className="w-full">
               <CustomerSummaryCard
-                id={rental.renter.customer_id ?? ""}
-                firstName={rental.renter?.full_name?.split(" ")[0] ?? ""}
-                lastName={rental.renter?.full_name?.split(" ")[1] ?? ""}
-                id_number={rental.renter.identifier ?? ""}
-                license={rental.renter.driver_license_number ?? ""}
-                phone={rental.renter.phone ?? ""}
-                address={rental.renter.address_primary ?? ""}
+                id={rental.renter.customer_id ?? ''}
+                firstName={rental.renter?.full_name?.split(' ')[0] ?? ''}
+                lastName={rental.renter?.full_name?.split(' ')[1] ?? ''}
+                id_number={rental.renter.identifier ?? ''}
+                license={rental.renter.driver_license_number ?? ''}
+                phone={rental.renter.phone ?? ''}
+                address={rental.renter.address_primary ?? ''}
               />
             </div>
             <Separator orientation="vertical" />
             <div className="w-full">
               <PeriodSummaryCard
-                pickupDate={rental.timeframe.departure_date ?? ""}
-                dropoffDate={rental.timeframe.return_date ?? ""}
+                pickupDate={rental.timeframe.departure_date ?? ''}
+                dropoffDate={rental.timeframe.return_date ?? ''}
                 rentalDays={rental.timeframe.total_days ?? 0}
               />
             </div>
             <Separator orientation="vertical" />
             <div className="w-full">
               <VehicleSummaryCard
-                id={rental.vehicle.vehicle_id ?? ""}
-                make={rental.vehicle.make ?? ""}
-                model={rental.vehicle.model ?? ""}
+                id={rental.vehicle.vehicle_id ?? ''}
+                make={rental.vehicle.make ?? ''}
+                model={rental.vehicle.model ?? ''}
                 year={rental.vehicle.year ?? 0}
-                plate={rental.vehicle.license_plate ?? ""}
+                plate={rental.vehicle.license_plate ?? ''}
                 doors={rental.vehicle.doors ?? 0}
-                transmission={rental.vehicle.transmission ?? "unknown"}
-                fuel={rental.vehicle.fuel_type ?? ""}
-                color={rental.vehicle.color ?? ""}
+                transmission={rental.vehicle.transmission ?? 'unknown'}
+                fuel={rental.vehicle.fuel_type ?? ''}
+                color={rental.vehicle.color ?? ''}
                 seats={rental.vehicle.seats ?? 0}
                 mileage={rental.vehicle.mileage ?? 0}
               />
@@ -141,7 +143,7 @@ function RouteComponent() {
                 Summary
               </>
             ),
-            path: "",
+            path: '',
           },
           {
             label: (
@@ -154,7 +156,7 @@ function RouteComponent() {
                 Documents
               </>
             ),
-            path: "documents",
+            path: 'documents',
           },
           {
             label: (
@@ -167,7 +169,7 @@ function RouteComponent() {
                 Payments
               </>
             ),
-            path: "payments",
+            path: 'payments',
           },
         ]}
       />
@@ -187,14 +189,14 @@ function RentalStartAction({
 
   const { mutate: startRental, isPending: isStartingRental } = useRentalStart({
     onSuccess: () => {
-      toast.success("Rental started successfully");
+      toast.success('Rental started successfully');
       router.invalidate({
-        filter: (match) => match.id === code,
+        filter: match => match.id === code,
       });
       setOpen(false);
     },
     onError: () => {
-      toast.error("Failed to start rental");
+      toast.error('Failed to start rental');
     },
   });
 
@@ -215,7 +217,7 @@ function RentalStartAction({
         </DialogHeader>
         <div>
           <RentalStartForm
-            submit={(data) => startRental({ id: code, data })}
+            submit={data => startRental({ id: code, data })}
             initialValues={{ mileage: rental.vehicle.mileage }}
             loading={isStartingRental}
           />
@@ -235,17 +237,17 @@ function RentalReturnAction({
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const { mutate: returnRental, isPending: isReturningRental } =
-    useRentalReturn({
+  const { mutate: returnRental, isPending: isReturningRental }
+    = useRentalReturn({
       onSuccess: () => {
-        toast.success("Rental returned successfully");
+        toast.success('Rental returned successfully');
         router.invalidate({
-          filter: (match) => match.id === code,
+          filter: match => match.id === code,
         });
         setOpen(false);
       },
       onError: () => {
-        toast.error("Failed to return rental");
+        toast.error('Failed to return rental');
       },
     });
 
@@ -266,7 +268,7 @@ function RentalReturnAction({
         </DialogHeader>
         <div>
           <RentalReturnForm
-            submit={(data) => returnRental({ id: code, data })}
+            submit={data => returnRental({ id: code, data })}
             initialValues={{ mileage: rental.vehicle.mileage }}
             loading={isReturningRental}
           />
@@ -284,20 +286,19 @@ function RentalAgreementAction({
   rental: RentalData;
 }) {
   const router = useRouter();
-  const { mutate: generateAgreement, isPending: isGeneratingAgreement } =
-    useRentalAgreementGenerate({
+  const { mutate: generateAgreement, isPending: isGeneratingAgreement }
+    = useRentalAgreementGenerate({
       onSuccess: (data) => {
-        console.log({ data });
-        toast.success("Agreement generated successfully");
+        toast.success('Agreement generated successfully');
         if (data.data.url) {
-          window.open(data.data.url, "_blank");
+          window.open(data.data.url, '_blank');
         }
         router.invalidate({
-          filter: (match) => match.id === code,
+          filter: match => match.id === code,
         });
       },
       onError: () => {
-        toast.error("Failed to generate agreement");
+        toast.error('Failed to generate agreement');
       },
     });
 

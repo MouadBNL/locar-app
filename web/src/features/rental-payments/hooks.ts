@@ -1,20 +1,20 @@
-import { makeMutationHook, makeQueryHook } from "@/lib/query-generator";
+import { makeMutationHook, makeQueryHook } from '@/lib/query-generator';
 import {
   rentalPaymentCreateFn,
+  rentalPaymentDeleteFn,
   rentalPaymentIndexFn,
   rentalPaymentShowFn,
   rentalPaymentUpdateFn,
-  rentalPaymentDeleteFn,
-} from "./api";
+} from './api';
 
 export const useRentalPaymentIndex = makeQueryHook(
-  ["rental-payments"],
-  rentalPaymentIndexFn
+  ['rental-payments'],
+  rentalPaymentIndexFn,
 );
 
 export const useRentalPaymentShow = makeQueryHook(
-  ["rental-payments", "show"],
-  rentalPaymentShowFn
+  ['rental-payments', 'show'],
+  rentalPaymentShowFn,
 );
 
 export const useRentalPaymentCreate = makeMutationHook(rentalPaymentCreateFn);

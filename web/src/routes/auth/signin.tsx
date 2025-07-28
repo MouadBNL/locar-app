@@ -1,11 +1,12 @@
-import { SigninForm } from "@/components/blocks/signin-form";
-import { Card, CardContent } from "@/components/ui/card";
-import { useSingIn, type SignInRequest } from "@/features/auth";
-import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
+import type { SignInRequest } from '@/features/auth';
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import { SigninForm } from '@/components/blocks/signin-form';
+import { Card, CardContent } from '@/components/ui/card';
+import { useSingIn } from '@/features/auth';
 
-export const Route = createFileRoute("/auth/signin")({
+export const Route = createFileRoute('/auth/signin')({
   component: RouteComponent,
 });
 
@@ -14,16 +15,15 @@ function RouteComponent() {
   const queryClient = useQueryClient();
 
   const { mutate: signin, isPending } = useSingIn({
-    onSuccess(data, variables, context) {
-      console.log({ data, variables, context })
-      toast.success("You have been sign in successfully");
-      queryClient.invalidateQueries({ queryKey: ["session"] });
-      navigate({ to: "/app" });
+    onSuccess() {
+      toast.success('You have been sign in successfully');
+      queryClient.invalidateQueries({ queryKey: ['session'] });
+      navigate({ to: '/app' });
     },
     onError(err) {
       console.error(err);
-      toast.error("Signin failed");
-    }
+      toast.error('Signin failed');
+    },
   });
 
   const onSignIn = (data: SignInRequest) => {
@@ -45,7 +45,8 @@ function RouteComponent() {
                 </div>
                 <SigninForm submit={onSignIn} loading={isPending} />
                 <div className="text-center text-sm">
-                  Don&apos;t have an account?{" "}
+                  Don&apos;t have an account?
+                  {' '}
                   <Link
                     to="/auth/signup"
                     className="underline underline-offset-4"
@@ -65,8 +66,13 @@ function RouteComponent() {
           </CardContent>
         </Card>
         <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-          By clicking continue, you agree to our{" "}
-          <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+          By clicking continue, you agree to our
+          {' '}
+          <a href="#">Terms of Service</a>
+          {' '}
+          and
+          <a href="#">Privacy Policy</a>
+          .
         </div>
       </div>
     </main>

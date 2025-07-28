@@ -1,36 +1,37 @@
-import { type ApiResponse, http } from "@/lib/http";
-import type { VehicleData, VehicleResource } from "./type";
+import type { VehicleData, VehicleResource } from './type';
+import type { ApiResponse } from '@/lib/http';
+import { http } from '@/lib/http';
 
-export const vehicleIndexFn = async () => {
+export async function vehicleIndexFn() {
   return http
-    .get<ApiResponse<VehicleResource[]>>("vehicles")
-    .then((res) => res.data);
-};
+    .get<ApiResponse<VehicleResource[]>>('vehicles')
+    .then(res => res.data);
+}
 
-export const vehicleCreateFn = async (request: VehicleData) => {
+export async function vehicleCreateFn(request: VehicleData) {
   return http
-    .post<ApiResponse<VehicleResource>>("vehicles", request)
-    .then((res) => res.data);
-};
+    .post<ApiResponse<VehicleResource>>('vehicles', request)
+    .then(res => res.data);
+}
 
-export const vehicleShowFn = async (id: string) => {
+export async function vehicleShowFn(id: string) {
   return http
     .get<ApiResponse<VehicleResource>>(`vehicles/${id}`)
-    .then((res) => res.data);
-};
+    .then(res => res.data);
+}
 
-export const vehicleUpdateFn = async ({
+export async function vehicleUpdateFn({
   id,
   data,
 }: {
   id: string;
   data: VehicleData;
-}) => {
+}) {
   return http
     .put<ApiResponse<VehicleResource>>(`vehicles/${id}`, data)
-    .then((res) => res.data);
-};
+    .then(res => res.data);
+}
 
-export const vehicleDeleteFn = async (id: string) => {
+export async function vehicleDeleteFn(id: string) {
   return http.delete(`vehicles/${id}`);
-};
+}

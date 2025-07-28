@@ -1,21 +1,21 @@
-import type { VehicleExpenseRequest } from "@/features/vehicle-expenses";
+import type { VehicleExpenseRequest } from '@/features/vehicle-expenses';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { VehicleExpenseForm } from "./vehicle-expense-form";
+} from '../ui/dialog';
+import { VehicleExpenseForm } from './vehicle-expense-form';
 
-export type VehicleExpenseFormDialogProps = {
+export interface VehicleExpenseFormDialogProps {
   children?: React.ReactNode;
   open: boolean;
   setOpen: (open: boolean) => void;
   loading?: boolean;
   submit?: (data: VehicleExpenseRequest) => void;
   initialValues?: Partial<VehicleExpenseRequest>;
-};
+}
 
 export function VehicleExpenseFormDialog({
   children,

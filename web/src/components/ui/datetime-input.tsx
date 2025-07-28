@@ -1,4 +1,5 @@
-import { CalendarIcon } from "lucide-react";
+import { CalendarDateTime } from '@internationalized/date';
+import { CalendarIcon } from 'lucide-react';
 import {
   Button,
   DatePicker,
@@ -6,49 +7,51 @@ import {
   Group,
   I18nProvider,
   Popover,
-} from "react-aria-components";
-import { CalendarDateTime } from "@internationalized/date";
+} from 'react-aria-components';
 
-import { Calendar } from "@/components/ui/calendar-rac";
-import { DateInput as DateInputContent } from "@/components/ui/datefield-rac";
-import { fmt_date } from "@/lib/utils";
+import { Calendar } from '@/components/ui/calendar-rac';
+import { DateInput as DateInputContent } from '@/components/ui/datefield-rac';
+import { fmt_date } from '@/lib/utils';
 
-type DateInputProps =
+type DateInputProps
+  = | {
+    type: 'string';
+    value?: string | null;
+    onChange?: (value: string) => void;
+  }
   | {
-      type: "string";
-      value?: string | null;
-      onChange?: (value: string) => void;
-    }
-  | {
-      type: "date";
-      value?: Date | null;
-      onChange?: (value: Date) => void;
-    };
+    type: 'date';
+    value?: Date | null;
+    onChange?: (value: Date) => void;
+  };
 
 export function DateTimeInput({ value, onChange, type }: DateInputProps) {
   const onDateChange = (value: CalendarDateTime | null) => {
     value?.set({ second: 0, millisecond: 0 });
-    console.log("[onDateChange] value:", {
-      h: value?.hour,
-      m: value?.minute,
-      s: value?.second,
-      ms: value?.millisecond,
-      str: value?.toString(),
-      date: new Date(value ? value.toString() : "").toISOString(),
-    });
-    const date = new Date(value ? value.toString() : "");
-    if (type === "string") {
-      onChange?.(fmt_date(date, { format: "datetime" }));
-    } else {
+    // console.log('[onDateChange] value:', {
+    //   h: value?.hour,
+    //   m: value?.minute,
+    //   s: value?.second,
+    //   ms: value?.millisecond,
+    //   str: value?.toString(),
+    //   date: new Date(value ? value.toString() : '').toISOString(),
+    // });
+    const date = new Date(value ? value.toString() : '');
+    if (type === 'string') {
+      onChange?.(fmt_date(date, { format: 'datetime' }));
+    }
+    else {
       onChange?.(date);
     }
   };
 
   const normalizedValue = (v: string | null | undefined) => {
     // Fallback for ISO strings
-    if (!v) return undefined;
+    if (!v)
+      return undefined;
     const d = new Date(v);
-    if (isNaN(d.getTime())) return undefined;
+    if (Number.isNaN(d.getTime()))
+      return undefined;
 
     // Create a CalendarDateTime directly from the Date object
     return new CalendarDateTime(
@@ -56,7 +59,7 @@ export function DateTimeInput({ value, onChange, type }: DateInputProps) {
       d.getMonth() + 1, // getMonth() returns 0-11
       d.getDate(),
       d.getHours(),
-      d.getMinutes()
+      d.getMinutes(),
     );
     // console.log("[normalizedValue] value:", v);
     // if (!v) return undefined;
@@ -73,11 +76,11 @@ export function DateTimeInput({ value, onChange, type }: DateInputProps) {
         className="*:not-first:mt-2"
         hourCycle={24}
         value={normalizedValue(
-          type === "string" ? value : value?.toISOString()
+          type === 'string' ? value : value?.toISOString(),
         )}
         granularity="minute"
         hideTimeZone
-        onChange={(value) => onDateChange(value)}
+        onChange={value => onDateChange(value)}
       >
         <div className="flex">
           <Group className="w-full">

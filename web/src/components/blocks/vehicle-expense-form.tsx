@@ -1,47 +1,48 @@
+import type { VehicleExpenseRequest } from '@/features/vehicle-expenses';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import {
+
   vehicleExpenseSchema,
   VehicleExpenseTypeEnum,
-  type VehicleExpenseRequest,
-} from "@/features/vehicle-expenses";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { AppFormField, Form } from "../ui/form";
+} from '@/features/vehicle-expenses';
+import { fmt_date, get_date } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { DateTimeInput } from '../ui/datetime-input';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
+import { NumberInput } from '../ui/number-input';
 import {
   Select,
-  SelectItem,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { NumberInput } from "../ui/number-input";
-import { DateTimeInput } from "../ui/datetime-input";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import { DocumentUpload } from "./document-upload";
-import { fmt_date, get_date } from "@/lib/utils";
+} from '../ui/select';
+import { Textarea } from '../ui/textarea';
+import { DocumentUpload } from './document-upload';
 
-export type VehicleExpenseFormProps = {
+export interface VehicleExpenseFormProps {
   initialValues?: Partial<VehicleExpenseRequest>;
   loading?: boolean;
   submit?: (data: VehicleExpenseRequest) => void;
-};
+}
 
-export const VehicleExpenseForm = ({
+export function VehicleExpenseForm({
   initialValues,
   loading,
   submit,
-}: VehicleExpenseFormProps) => {
+}: VehicleExpenseFormProps) {
   const form = useForm({
     resolver: zodResolver(vehicleExpenseSchema),
     defaultValues: {
-      type: "maintenance",
+      type: 'maintenance',
       amount: 0,
       date: fmt_date(get_date()),
-      title: "",
-      reference: "",
-      receipt_document_id: "",
-      notes: "",
+      title: '',
+      reference: '',
+      receipt_document_id: '',
+      notes: '',
       ...initialValues,
     },
   });
@@ -88,7 +89,7 @@ export const VehicleExpenseForm = ({
           control={form.control}
           name="title"
           render={({ field }) => (
-            <Input {...field} placeholder="Title" value={field.value ?? ""} />
+            <Input {...field} placeholder="Title" value={field.value ?? ''} />
           )}
         />
 
@@ -99,7 +100,7 @@ export const VehicleExpenseForm = ({
             <Input
               {...field}
               placeholder="Reference"
-              value={field.value ?? ""}
+              value={field.value ?? ''}
             />
           )}
         />
@@ -117,7 +118,7 @@ export const VehicleExpenseForm = ({
             <Textarea
               {...field}
               placeholder="Notes"
-              value={field.value ?? ""}
+              value={field.value ?? ''}
             />
           )}
         />
@@ -128,4 +129,4 @@ export const VehicleExpenseForm = ({
       </form>
     </Form>
   );
-};
+}

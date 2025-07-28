@@ -1,6 +1,7 @@
-import { isAxiosError } from "axios";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import type { ClassValue } from 'clsx';
+import { isAxiosError } from 'axios';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -9,13 +10,13 @@ export function cn(...inputs: ClassValue[]) {
 export function generate_rental_code() {
   const d = new Date();
   return (
-    "RE" +
-    d.getFullYear().toString().slice(-2) +
-    (d.getMonth() + 1).toString().padStart(2, "0") + // Month is 0-indexed
-    d.getDate().toString().padStart(2, "0") +
-    d.getHours().toString().padStart(2, "0") +
-    d.getMinutes().toString().padStart(2, "0") +
-    d.getSeconds().toString().padStart(2, "0")
+    `RE${
+      d.getFullYear().toString().slice(-2)
+    }${(d.getMonth() + 1).toString().padStart(2, '0') // Month is 0-indexed
+    }${d.getDate().toString().padStart(2, '0')
+    }${d.getHours().toString().padStart(2, '0')
+    }${d.getMinutes().toString().padStart(2, '0')
+    }${d.getSeconds().toString().padStart(2, '0')}`
   );
 }
 
@@ -27,14 +28,15 @@ export function get_date(opt?: { day?: number }) {
   return d;
 }
 
-export function fmt_date(date: Date, opt?: { format: "date" | "datetime" }) {
+export function fmt_date(date: Date, opt?: { format: 'date' | 'datetime' }) {
   const str = date.toISOString();
   const match = str.match(
-    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{3}))?Z?$/
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{3}))?Z?$/,
   );
-  if (!match) return str;
+  if (!match)
+    return str;
   const [, year, month, day, hours, minutes, seconds] = match;
-  if (opt?.format === "date") {
+  if (opt?.format === 'date') {
     return `${year}-${month}-${day}T00:00:00Z`;
   }
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
@@ -42,60 +44,60 @@ export function fmt_date(date: Date, opt?: { format: "date" | "datetime" }) {
 
 export function fmt_currency(amount: number) {
   return (
-    new Intl.NumberFormat("en-US", {
-      style: "decimal",
+    `${new Intl.NumberFormat('en-US', {
+      style: 'decimal',
       maximumFractionDigits: 2,
       minimumFractionDigits: 2,
       useGrouping: true,
       // currency: "MAD",
       // unit: "DH",
       // currencySign: "accounting",
-    }).format(amount) + " DH"
+    }).format(amount)} DH`
   );
 }
 
 export function str_to_titlecase(str: string) {
   return str
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 export function parse_availability_error(error: unknown) {
   if (isAxiosError(error) && error.status === 409) {
     const data = error.response?.data as {
-      message: `${"vehicle" | "customer"}.unavailable.${
-        | "rental"
-        | "reservation"}`;
+      message: `${'vehicle' | 'customer'}.unavailable.${
+      | 'rental'
+      | 'reservation'}`;
       cause: {
         availability: false;
         start_date: string;
         end_date: string;
       };
     };
-    const [entity, , type] = data.message.split(".") as [
-      "vehicle" | "customer",
-      "unavailable",
-      "rental" | "reservation" | "maintenance"
+    const [entity, , type] = data.message.split('.') as [
+      'vehicle' | 'customer',
+      'unavailable',
+      'rental' | 'reservation' | 'maintenance',
     ];
 
-    let cause = "not available";
-    if (type === "maintenance") {
-      cause = "under maintenance";
+    let cause = 'not available';
+    if (type === 'maintenance') {
+      cause = 'under maintenance';
     }
-    if (type === "reservation") {
-      cause = "already booked";
+    if (type === 'reservation') {
+      cause = 'already booked';
     }
-    if (type === "rental") {
-      cause = "already rented";
+    if (type === 'rental') {
+      cause = 'already rented';
     }
 
     return `${str_to_titlecase(entity)} is ${cause} between ${
-      fmt_date(new Date(data.cause.start_date), { format: "date" }).split(
-        "T"
+      fmt_date(new Date(data.cause.start_date), { format: 'date' }).split(
+        'T',
       )[0]
     } and ${
-      fmt_date(new Date(data.cause.end_date), { format: "date" }).split("T")[0]
+      fmt_date(new Date(data.cause.end_date), { format: 'date' }).split('T')[0]
     }`;
   }
 }

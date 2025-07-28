@@ -1,10 +1,11 @@
-import { SignupForm } from "@/components/blocks/signup-form";
-import { Card, CardContent } from "@/components/ui/card";
-import { useSignUp, type SignUpRequest } from "@/features/auth";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
+import type { SignUpRequest } from '@/features/auth';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import { SignupForm } from '@/components/blocks/signup-form';
+import { Card, CardContent } from '@/components/ui/card';
+import { useSignUp } from '@/features/auth';
 
-export const Route = createFileRoute("/auth/signup")({
+export const Route = createFileRoute('/auth/signup')({
   component: RouteComponent,
 });
 
@@ -12,11 +13,11 @@ function RouteComponent() {
   const navigate = useNavigate();
   const { mutate, isPending } = useSignUp({
     onSuccess: () => {
-      toast.success("Signup successful");
-      navigate({ to: "/app" });
+      toast.success('Signup successful');
+      navigate({ to: '/app' });
     },
     onError: () => {
-      toast.error("Signup failed");
+      toast.error('Signup failed');
     },
   });
 

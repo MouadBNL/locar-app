@@ -1,7 +1,7 @@
-import { Heading3 } from "@/components/ui/typography";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
+import { Heading3 } from '@/components/ui/typography';
 
-export const Route = createFileRoute("/app/")({
+export const Route = createFileRoute('/app/')({
   component: RouteComponent,
 });
 

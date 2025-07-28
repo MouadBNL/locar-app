@@ -1,4 +1,4 @@
-export const CarDoorIcon = ({ className }: { className?: string }) => {
+export function CarDoorIcon({ className }: { className?: string }) {
   return (
     <svg
       fill="currentColor"
@@ -11,20 +11,22 @@ export const CarDoorIcon = ({ className }: { className?: string }) => {
         id="SVGRepo_tracerCarrier"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></g>
+      >
+      </g>
       <g id="SVGRepo_iconCarrier">
         <path
           id="primary"
           d="M12.29,3.29,20,11v4.13a1,1,0,0,1-.86,1l-2.06.3A6.11,6.11,0,0,0,12,21H5a1,1,0,0,1-1-1V4A1,1,0,0,1,5,3h6.59A1,1,0,0,1,12.29,3.29ZM20,11H4m4,4h2"
           style={{
-            fill: "none",
-            stroke: "currentColor",
-            strokeLinecap: "round",
-            strokeLinejoin: "round",
-            strokeWidth: "2",
+            fill: 'none',
+            stroke: 'currentColor',
+            strokeLinecap: 'round',
+            strokeLinejoin: 'round',
+            strokeWidth: '2',
           }}
-        ></path>
+        >
+        </path>
       </g>
     </svg>
   );
-};
+}

@@ -1,13 +1,13 @@
-import type { z } from "zod";
-import type { ReservationSchema } from "./schema";
-import type { CustomerSummaryResource } from "../customers";
-import type { VehicleSummaryResource } from "../vehicles";
+import type { z } from 'zod';
+import type { CustomerSummaryResource } from '../customers';
+import type { VehicleSummaryResource } from '../vehicles';
+import type { ReservationSchema } from './schema';
 
 export type ReservationData = z.infer<typeof ReservationSchema> & {
   id?: string;
 };
 
-export type ReservationResource = {
+export interface ReservationResource {
   id: string;
   customer_id: string;
   vehicle_id: string;
@@ -21,4 +21,4 @@ export type ReservationResource = {
   notes: string | null;
   created_at: string;
   updated_at: string;
-};
+}

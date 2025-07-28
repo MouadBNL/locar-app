@@ -1,4 +1,5 @@
-import type { VehicleMaintenanceResource } from "@/features/vehicle-maintenances";
+import type { VehicleMaintenanceResource } from '@/features/vehicle-maintenances';
+import { fmt_currency } from '@/lib/utils';
 import {
   Table,
   TableBody,
@@ -6,21 +7,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
-import { DateCard } from "./date-card";
-import { fmt_currency } from "@/lib/utils";
+} from '../ui/table';
+import { DateCard } from './date-card';
 
-export type VehicleMaintenanceTableProps = {
+export interface VehicleMaintenanceTableProps {
   data: VehicleMaintenanceResource[];
   loading?: boolean;
   actions?: (vehicleMaintenance: VehicleMaintenanceResource) => React.ReactNode;
-};
+}
 
-export const VehicleMaintenanceTable = ({
+export function VehicleMaintenanceTable({
   data,
   loading,
   actions,
-}: VehicleMaintenanceTableProps) => {
+}: VehicleMaintenanceTableProps) {
   return (
     <Table>
       <TableHeader>
@@ -35,8 +35,8 @@ export const VehicleMaintenanceTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {loading &&
-          [1, 2, 3].map((i) => (
+        {loading
+          && [1, 2, 3].map(i => (
             <TableRow key={i}>
               <TableCell colSpan={5} className="text-center">
                 <div className="w-full animate-pulse bg-muted h-8 rounded-md"></div>
@@ -50,9 +50,9 @@ export const VehicleMaintenanceTable = ({
             </TableCell>
           </TableRow>
         )}
-        {data &&
-          data.length > 0 &&
-          data.map((vehicleMaintenance) => (
+        {data
+          && data.length > 0
+          && data.map(vehicleMaintenance => (
             <TableRow key={vehicleMaintenance.id}>
               <TableCell>
                 <DateCard date={vehicleMaintenance.started_at} />
@@ -71,7 +71,9 @@ export const VehicleMaintenanceTable = ({
                     {fmt_currency(vehicleMaintenance.expenses_sum ?? 0)}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {vehicleMaintenance.expenses_count} expenses
+                    {vehicleMaintenance.expenses_count}
+                    {' '}
+                    expenses
                   </p>
                 </div>
               </TableCell>
@@ -85,4 +87,4 @@ export const VehicleMaintenanceTable = ({
       </TableBody>
     </Table>
   );
-};
+}

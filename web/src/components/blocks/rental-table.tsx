@@ -1,3 +1,4 @@
+import type { RentalSummaryData } from '@/features/rentals';
 import {
   Table,
   TableBody,
@@ -5,19 +6,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import type { RentalSummaryData } from "@/features/rentals";
-import { DateCard } from "./date-card";
-import { CustomerTableCard } from "./customer-table-card";
-import { VehicleTableCard } from "./vehicle-table-card";
-import { RentalStatusBadge } from "./rental-status-badge";
-import { fmt_currency } from "@/lib/utils";
+} from '@/components/ui/table';
+import { fmt_currency } from '@/lib/utils';
+import { CustomerTableCard } from './customer-table-card';
+import { DateCard } from './date-card';
+import { RentalStatusBadge } from './rental-status-badge';
+import { VehicleTableCard } from './vehicle-table-card';
 
-export type RentalTableProps = {
+export interface RentalTableProps {
   data: RentalSummaryData[];
   loading?: boolean;
   actions?: (rental: RentalSummaryData) => React.ReactNode;
-};
+}
 
 export function RentalTable({ data, loading, actions }: RentalTableProps) {
   return (
@@ -35,8 +35,8 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {loading &&
-          [1, 2, 3].map((i) => (
+        {loading
+          && [1, 2, 3].map(i => (
             <TableRow key={i}>
               <TableCell colSpan={6} className="text-center">
                 <div className="w-full animate-pulse bg-muted h-8 rounded-md"></div>
@@ -50,9 +50,9 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
             </TableCell>
           </TableRow>
         )}
-        {data &&
-          data.length > 0 &&
-          data.map((rental) => (
+        {data
+          && data.length > 0
+          && data.map(rental => (
             <TableRow key={rental.id}>
               <TableCell>{rental.rental_number}</TableCell>
               <TableCell>
@@ -80,7 +80,7 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
               </TableCell>
               <TableCell>{fmt_currency(rental.total_price)}</TableCell>
               <TableCell>
-                <RentalStatusBadge status={rental.status ?? "draft"} />
+                <RentalStatusBadge status={rental.status ?? 'draft'} />
               </TableCell>
               {actions && (
                 <TableCell className="flex gap-2">{actions(rental)}</TableCell>

@@ -1,18 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable ts/no-explicit-any */
+import type { UseMutationOptions, UseMutationResult, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import {
   useMutation,
+
   useQuery,
-  type UseMutationOptions,
-  type UseMutationResult,
-  type UseQueryOptions,
-  type UseQueryResult,
-} from "@tanstack/react-query";
+
+} from '@tanstack/react-query';
 
 /**
  * Utility to obtain the variable type (handles “no args” nicely).
  */
-type FirstArg<F extends (...args: any) => any> =
-  Parameters<F>[0] extends undefined ? void : Parameters<F>[0];
+type FirstArg<F extends (...args: any) => any>
+  = Parameters<F>[0] extends undefined ? void : Parameters<F>[0];
 
 /**
  * Build a typed `useMutation` hook from an arbitrary async function.
@@ -26,7 +25,7 @@ type FirstArg<F extends (...args: any) => any> =
 export function makeMutationHook<
   Fn extends (...args: any) => Promise<any>,
   TError = unknown,
-  TContext = unknown
+  TContext = unknown,
 >(mutationFn: Fn) {
   type TVariables = FirstArg<Fn>;
   type TData = Awaited<ReturnType<Fn>>;
@@ -34,8 +33,8 @@ export function makeMutationHook<
   return (
     opts: Omit<
       UseMutationOptions<TData, TError, TVariables, TContext>,
-      "mutationFn"
-    > = {}
+      'mutationFn'
+    > = {},
   ): UseMutationResult<TData, TError, TVariables, TContext> =>
     useMutation<TData, TError, TVariables, TContext>({
       mutationFn: mutationFn as (vars: TVariables) => Promise<TData>,
@@ -55,7 +54,7 @@ export function makeMutationHook<
 export function makeQueryHook<
   Fn extends (...args: any) => Promise<any>,
   TError = unknown,
-  const Prefix extends readonly unknown[] = readonly unknown[]
+  const Prefix extends readonly unknown[] = readonly unknown[],
 >(prefix: Prefix, fetcher: Fn) {
   type TVariables = FirstArg<Fn>;
   type TData = Awaited<ReturnType<Fn>>;
@@ -67,8 +66,8 @@ export function makeQueryHook<
     variables: TVariables,
     opts: Omit<
       UseQueryOptions<TData, TError, TData, TKey>,
-      "queryKey" | "queryFn"
-    > = {}
+      'queryKey' | 'queryFn'
+    > = {},
   ): UseQueryResult<TData, TError> => {
     // console.log("queryKey", [...prefix, variables]);
     return useQuery<TData, TError, TData, TKey>({

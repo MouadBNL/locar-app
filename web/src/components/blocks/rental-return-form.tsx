@@ -1,11 +1,12 @@
-import { RentalReturnSchema, type RentalReturnData } from "@/features/rentals";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { AppFormField, Form } from "../ui/form";
-import { DateTimeInput } from "../ui/datetime-input";
-import { fmt_date, get_date } from "@/lib/utils";
-import { NumberInput } from "../ui/number-input";
-import { Button } from "../ui/button";
+import type { RentalReturnData } from '@/features/rentals';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { RentalReturnSchema } from '@/features/rentals';
+import { fmt_date, get_date } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { DateTimeInput } from '../ui/datetime-input';
+import { AppFormField, Form } from '../ui/form';
+import { NumberInput } from '../ui/number-input';
 
 export function RentalReturnForm({
   initialValues,
@@ -19,7 +20,7 @@ export function RentalReturnForm({
   const form = useForm({
     resolver: zodResolver(RentalReturnSchema),
     defaultValues: {
-      actual_return_date: fmt_date(get_date(), { format: "datetime" }),
+      actual_return_date: fmt_date(get_date(), { format: 'datetime' }),
       mileage: 0,
       ...initialValues,
     },

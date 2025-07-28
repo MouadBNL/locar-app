@@ -1,13 +1,13 @@
-import ReservationForm from "@/components/blocks/reservation-form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
-import { useReservationCreate } from "@/features/reservations";
-import { parse_availability_error } from "@/lib/utils";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import ReservationForm from '@/components/blocks/reservation-form';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import { useReservationCreate } from '@/features/reservations';
+import { parse_availability_error } from '@/lib/utils';
 
-export const Route = createFileRoute("/app/reservations/create")({
+export const Route = createFileRoute('/app/reservations/create')({
   component: RouteComponent,
 });
 
@@ -15,15 +15,16 @@ function RouteComponent() {
   const navigate = useNavigate();
   const { mutate: createReservation, isPending } = useReservationCreate({
     onSuccess: () => {
-      toast.success("Reservation created successfully");
-      navigate({ to: "/app/reservations" });
+      toast.success('Reservation created successfully');
+      navigate({ to: '/app/reservations' });
     },
     onError: (error) => {
       const msg = parse_availability_error(error);
       if (msg) {
         toast.error(msg);
-      } else {
-        toast.error("Failed to create reservation");
+      }
+      else {
+        toast.error('Failed to create reservation');
       }
     },
   });
@@ -41,7 +42,7 @@ function RouteComponent() {
       <Card>
         <CardContent>
           <ReservationForm
-            submit={(data) => createReservation({ data })}
+            submit={data => createReservation({ data })}
             loading={isPending}
           />
         </CardContent>

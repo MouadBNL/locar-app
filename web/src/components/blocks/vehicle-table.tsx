@@ -1,3 +1,4 @@
+import type { VehicleResource } from '@/features/vehicles';
 import {
   Table,
   TableBody,
@@ -5,15 +6,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { type VehicleResource } from "@/features/vehicles";
-import { VehicleStatusBadge } from "./vehicle-status-badge";
+} from '@/components/ui/table';
+import { VehicleStatusBadge } from './vehicle-status-badge';
 
-export type VehicleTableProps = {
+export interface VehicleTableProps {
   data: VehicleResource[];
   loading?: boolean;
   actions?: (vehicle: VehicleResource) => React.ReactNode;
-};
+}
 
 export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
   return (
@@ -28,8 +28,8 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {loading &&
-          [1, 2, 3].map((i) => (
+        {loading
+          && [1, 2, 3].map(i => (
             <TableRow key={i}>
               <TableCell colSpan={5} className="text-center">
                 <div className="w-full animate-pulse bg-muted h-8 rounded-md"></div>
@@ -43,9 +43,9 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
             </TableCell>
           </TableRow>
         )}
-        {data &&
-          data.length > 0 &&
-          data.map((vehicle) => (
+        {data
+          && data.length > 0
+          && data.map(vehicle => (
             <TableRow key={vehicle.id}>
               <TableCell>{vehicle.license_plate}</TableCell>
               <TableCell>{vehicle.model}</TableCell>

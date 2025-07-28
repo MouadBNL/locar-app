@@ -1,35 +1,36 @@
-import { RentalDocumentForm } from "@/components/blocks/rental-document-form";
-import { RentalDocumentTable } from "@/components/blocks/rental-document-table";
-import { Button } from "@/components/ui/button";
+import type { RentalDocumentResource } from '@/features/rental-documents';
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { EyeIcon, TrashIcon, UploadCloudIcon } from 'lucide-react';
+import { useState } from 'react';
+import { DialogTrigger } from 'react-aria-components';
+import { toast } from 'sonner';
+import { RentalDocumentForm } from '@/components/blocks/rental-document-form';
+import { RentalDocumentTable } from '@/components/blocks/rental-document-table';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardAction,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
+
   useRentalDocumentCreate,
   useRentalDocumentDelete,
   useRentalDocumentIndex,
   useRentalDocumentUpdate,
-  type RentalDocumentResource,
-} from "@/features/rental-documents";
-import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { EyeIcon, TrashIcon, UploadCloudIcon } from "lucide-react";
-import { useState } from "react";
-import { DialogTrigger } from "react-aria-components";
-import { toast } from "sonner";
+} from '@/features/rental-documents';
 
-export const Route = createFileRoute("/app/rentals/$id/documents")({
+export const Route = createFileRoute('/app/rentals/$id/documents')({
   component: RouteComponent,
 });
 
@@ -41,44 +42,44 @@ function RouteComponent() {
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [selectedRentalDocument, setSelectedRentalDocument] =
-    useState<RentalDocumentResource | null>(null);
+  const [selectedRentalDocument, setSelectedRentalDocument]
+    = useState<RentalDocumentResource | null>(null);
 
-  const { mutate: createRentalDocument, isPending: isCreatingRentalDocument } =
-    useRentalDocumentCreate({
+  const { mutate: createRentalDocument, isPending: isCreatingRentalDocument }
+    = useRentalDocumentCreate({
       onSuccess: () => {
         setOpen(false);
-        queryClient.invalidateQueries({ queryKey: ["rental-documents"] });
-        toast.success("Rental document created");
+        queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
+        toast.success('Rental document created');
         router.invalidate({
-          filter: (match) => match.id === id,
+          filter: match => match.id === id,
         });
       },
       onError: (error) => {
         console.error(error);
-        toast.error("Failed to create rental document");
+        toast.error('Failed to create rental document');
       },
     });
 
-  const { mutate: updateRentalDocument, isPending: isUpdatingRentalDocument } =
-    useRentalDocumentUpdate({
+  const { mutate: updateRentalDocument, isPending: isUpdatingRentalDocument }
+    = useRentalDocumentUpdate({
       onSuccess: () => {
         setOpenEdit(false);
-        queryClient.invalidateQueries({ queryKey: ["rental-documents"] });
-        toast.success("Rental document updated");
+        queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
+        toast.success('Rental document updated');
         router.invalidate({
-          filter: (match) => match.id === id,
+          filter: match => match.id === id,
         });
       },
     });
 
-  const { mutate: deleteRentalDocument, isPending: isDeletingRentalDocument } =
-    useRentalDocumentDelete({
+  const { mutate: deleteRentalDocument, isPending: isDeletingRentalDocument }
+    = useRentalDocumentDelete({
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["rental-documents"] });
-        toast.success("Rental document deleted");
+        queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
+        toast.success('Rental document deleted');
         router.invalidate({
-          filter: (match) => match.id === id,
+          filter: match => match.id === id,
         });
       },
     });
@@ -112,7 +113,7 @@ function RouteComponent() {
                   submit={(data) => {
                     createRentalDocument({
                       rental_code: id,
-                      data: data,
+                      data,
                     });
                   }}
                 />
@@ -123,7 +124,7 @@ function RouteComponent() {
         <CardContent>
           <RentalDocumentTable
             rentalDocuments={rentalDocuments?.data ?? []}
-            actions={(rentalDocument) => (
+            actions={rentalDocument => (
               <div className="flex gap-2">
                 <Button
                   variant="outline"
@@ -143,8 +144,7 @@ function RouteComponent() {
                     deleteRentalDocument({
                       rental_code: id,
                       id: rentalDocument.id,
-                    })
-                  }
+                    })}
                   loading={isDeletingRentalDocument}
                 >
                   <TrashIcon />
@@ -171,7 +171,7 @@ function RouteComponent() {
               updateRentalDocument({
                 rental_code: id,
                 id: selectedRentalDocument!.id,
-                data: data,
+                data,
               });
             }}
           />

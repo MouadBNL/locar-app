@@ -1,28 +1,28 @@
-import type { z } from "zod";
-import type { CustomerSchema } from "./schema";
+import type { z } from 'zod';
+import type { CustomerSchema } from './schema';
 
 export type CustomerData = z.infer<typeof CustomerSchema> & {
   id?: string;
 };
 
-export type CustomerStatus =
+export type CustomerStatus
+  = | {
+    status: 'booked';
+    entity_type: 'reservation';
+    entity_id: string;
+  }
   | {
-      status: "booked";
-      entity_type: "reservation";
-      entity_id: string;
-    }
+    status: 'renting';
+    entity_type: 'rental';
+    entity_id: string;
+  }
   | {
-      status: "renting";
-      entity_type: "rental";
-      entity_id: string;
-    }
-  | {
-      status: "active";
-      entity_type: null;
-      entity_id: null;
-    };
+    status: 'active';
+    entity_type: null;
+    entity_id: null;
+  };
 
-export type CustomerResource = {
+export interface CustomerResource {
   id: string;
   first_name: string;
   last_name: string;
@@ -36,11 +36,11 @@ export type CustomerResource = {
   birth_date: string;
   created_at: string;
   updated_at: string;
-};
+}
 
-export type CustomerSummaryResource = {
+export interface CustomerSummaryResource {
   id: string;
   full_name: string;
   phone: string;
   identifier: string;
-};
+}

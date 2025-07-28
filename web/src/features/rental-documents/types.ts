@@ -1,10 +1,10 @@
-import type z from "zod";
-import { rentalDocumentSchema, rentalDocumentTypeSchema } from "./schema";
-import type { DocumentResource } from "../documents";
+import type z from 'zod';
+import type { DocumentResource } from '../documents';
+import type { rentalDocumentSchema, rentalDocumentTypeSchema } from './schema';
 
 export type RentalDocumentData = z.infer<typeof rentalDocumentSchema>;
 
-export type RentalDocumentResource = {
+export interface RentalDocumentResource {
   id: string;
   title: string;
   type: (typeof rentalDocumentTypeSchema)[number];
@@ -14,4 +14,4 @@ export type RentalDocumentResource = {
   document: DocumentResource;
   created_at: string;
   updated_at: string;
-};
+}

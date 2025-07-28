@@ -1,52 +1,53 @@
-import { http, type ApiResponse } from "@/lib/http";
-import type { VehicleExpenseRequest, VehicleExpenseResource } from "./types";
+import type { VehicleExpenseRequest, VehicleExpenseResource } from './types';
+import type { ApiResponse } from '@/lib/http';
+import { http } from '@/lib/http';
 
-export const vehicleExpenseIndexFn = async ({
+export async function vehicleExpenseIndexFn({
   vehicleId,
   ids,
 }: {
   vehicleId: string;
   ids?: string[];
-}) => {
+}) {
   const res = await http.get<ApiResponse<VehicleExpenseResource[]>>(
     `/vehicles/${vehicleId}/expenses`,
     {
       params: {
-        ids: ids?.join(",") ?? undefined,
+        ids: ids?.join(',') ?? undefined,
       },
-    }
+    },
   );
   return res.data;
-};
+}
 
-export const vehicleExpenseShowFn = async ({
+export async function vehicleExpenseShowFn({
   vehicleId,
   expenseId,
 }: {
   vehicleId: string;
   expenseId: string;
-}) => {
+}) {
   const res = await http.get<ApiResponse<VehicleExpenseResource>>(
-    `/vehicles/${vehicleId}/expenses/${expenseId}`
+    `/vehicles/${vehicleId}/expenses/${expenseId}`,
   );
   return res.data;
-};
+}
 
-export const vehicleExpenseCreateFn = async ({
+export async function vehicleExpenseCreateFn({
   vehicleId,
   data,
 }: {
   vehicleId: string;
   data: VehicleExpenseRequest;
-}) => {
+}) {
   const res = await http.post<ApiResponse<VehicleExpenseResource>>(
     `/vehicles/${vehicleId}/expenses`,
-    data
+    data,
   );
   return res.data;
-};
+}
 
-export const vehicleExpenseUpdateFn = async ({
+export async function vehicleExpenseUpdateFn({
   vehicleId,
   expenseId,
   data,
@@ -54,20 +55,20 @@ export const vehicleExpenseUpdateFn = async ({
   vehicleId: string;
   expenseId: string;
   data: VehicleExpenseRequest;
-}) => {
+}) {
   const res = await http.put<ApiResponse<VehicleExpenseResource>>(
     `/vehicles/${vehicleId}/expenses/${expenseId}`,
-    data
+    data,
   );
   return res.data;
-};
+}
 
-export const vehicleExpenseDeleteFn = async ({
+export async function vehicleExpenseDeleteFn({
   vehicleId,
   expenseId,
 }: {
   vehicleId: string;
   expenseId: string;
-}) => {
+}) {
   await http.delete(`/vehicles/${vehicleId}/expenses/${expenseId}`);
-};
+}

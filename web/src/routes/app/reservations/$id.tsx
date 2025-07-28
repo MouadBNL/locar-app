@@ -1,21 +1,21 @@
-import ReservationForm from "@/components/blocks/reservation-form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heading3 } from "@/components/ui/typography";
-import {
-  reservationShowFn,
-  useReservationUpdate,
-} from "@/features/reservations";
-import { parse_availability_error } from "@/lib/utils";
 import {
   createFileRoute,
   Link,
   useNavigate,
   useRouter,
-} from "@tanstack/react-router";
-import { toast } from "sonner";
+} from '@tanstack/react-router';
+import { toast } from 'sonner';
+import ReservationForm from '@/components/blocks/reservation-form';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heading3 } from '@/components/ui/typography';
+import {
+  reservationShowFn,
+  useReservationUpdate,
+} from '@/features/reservations';
+import { parse_availability_error } from '@/lib/utils';
 
-export const Route = createFileRoute("/app/reservations/$id")({
+export const Route = createFileRoute('/app/reservations/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const reservation = await reservationShowFn({ id: params.id });
@@ -32,16 +32,17 @@ function RouteComponent() {
 
   const { mutate: updateReservation, isPending } = useReservationUpdate({
     onSuccess: () => {
-      toast.success("Reservation updated successfully");
+      toast.success('Reservation updated successfully');
       router.invalidate();
-      navigate({ to: "/app/reservations" });
+      navigate({ to: '/app/reservations' });
     },
     onError: (error) => {
       const msg = parse_availability_error(error);
       if (msg) {
         toast.error(msg);
-      } else {
-        toast.error("Failed to update reservation");
+      }
+      else {
+        toast.error('Failed to update reservation');
       }
     },
   });
@@ -59,7 +60,7 @@ function RouteComponent() {
       <Card>
         <CardContent>
           <ReservationForm
-            submit={(data) => updateReservation({ id, data })}
+            submit={data => updateReservation({ id, data })}
             loading={isPending}
             initialValues={reservation ?? undefined}
           />

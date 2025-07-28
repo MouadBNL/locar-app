@@ -1,47 +1,49 @@
-import {
-  vehicleMaintenanceSchema,
-  type VehicleMaintenanceRequest,
-} from "@/features/vehicle-maintenances";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { AppFormField, Form } from "../ui/form";
-import { DateTimeInput } from "../ui/datetime-input";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { DocumentUpload } from "./document-upload";
-import { Button } from "../ui/button";
-import { fmt_date, get_date } from "@/lib/utils";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { ScrollArea } from "../ui/scroll-area";
-import { VehicleExpenseList } from "./vehicle-expense-list";
-import { VehicleExpenseFormDialog } from "./vehicle-expense-form-dialog";
+import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
+import type { VehicleMaintenanceRequest } from '@/features/vehicle-maintenances';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   useVehicleExpenseCreate,
   useVehicleExpenseDelete,
   useVehicleExpenseUpdate,
-  type VehicleExpenseResource,
-} from "@/features/vehicle-expenses";
-import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 
-export type VehicleMaintenanceFormProps = {
+} from '@/features/vehicle-expenses';
+import {
+
+  vehicleMaintenanceSchema,
+} from '@/features/vehicle-maintenances';
+import { fmt_date, get_date } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { DateTimeInput } from '../ui/datetime-input';
+import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
+import { ScrollArea } from '../ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { Textarea } from '../ui/textarea';
+import { DocumentUpload } from './document-upload';
+import { VehicleExpenseFormDialog } from './vehicle-expense-form-dialog';
+import { VehicleExpenseList } from './vehicle-expense-list';
+
+export interface VehicleMaintenanceFormProps {
   vehicleId: string;
   loading?: boolean;
   initialValues?: Partial<VehicleMaintenanceRequest>;
   submit?: (data: VehicleMaintenanceRequest) => void;
-};
+}
 
-export const VehicleMaintenanceForm = ({
+export function VehicleMaintenanceForm({
   vehicleId,
   loading,
   initialValues,
   submit,
-}: VehicleMaintenanceFormProps) => {
+}: VehicleMaintenanceFormProps) {
   const queryClient = useQueryClient();
 
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [editExpense, setEditExpense] = useState<VehicleExpenseResource | null>(
-    null
+    null,
   );
 
   const form = useForm({
@@ -54,29 +56,29 @@ export const VehicleMaintenanceForm = ({
     },
   });
 
-  const { mutate: createExpense, isPending: isCreatingExpense } =
-    useVehicleExpenseCreate({
+  const { mutate: createExpense, isPending: isCreatingExpense }
+    = useVehicleExpenseCreate({
       onSuccess: (data) => {
         setOpenCreateDialog(false);
-        const expenses = form.getValues("expenses") ?? [];
+        const expenses = form.getValues('expenses') ?? [];
         form.setValue(
-          "expenses",
-          Array.from(new Set([...expenses, data.data.id]))
+          'expenses',
+          Array.from(new Set([...expenses, data.data.id])),
         );
       },
     });
 
-  const { mutate: updateExpense, isPending: isUpdatingExpense } =
-    useVehicleExpenseUpdate({
+  const { mutate: updateExpense, isPending: isUpdatingExpense }
+    = useVehicleExpenseUpdate({
       onSuccess: (data) => {
-        const expenses = form.getValues("expenses") ?? [];
+        const expenses = form.getValues('expenses') ?? [];
         form.setValue(
-          "expenses",
-          Array.from(new Set([...expenses, data.data.id]))
+          'expenses',
+          Array.from(new Set([...expenses, data.data.id])),
         );
         queryClient.invalidateQueries({
           queryKey: [
-            "vehicle-expenses",
+            'vehicle-expenses',
             {
               vehicleId,
               ids: Array.from(new Set([...expenses, data.data.id])),
@@ -89,16 +91,15 @@ export const VehicleMaintenanceForm = ({
 
   const { mutate: deleteExpense } = useVehicleExpenseDelete({
     onSuccess: (_, variables) => {
-      const expenses = form.getValues("expenses") ?? [];
+      const expenses = form.getValues('expenses') ?? [];
       form.setValue(
-        "expenses",
-        expenses.filter((id) => id !== variables.expenseId)
+        'expenses',
+        expenses.filter(id => id !== variables.expenseId),
       );
     },
   });
 
   const onSubmit = (data: VehicleMaintenanceRequest) => {
-    console.log(data);
     submit?.(data);
   };
   return (
@@ -133,7 +134,7 @@ export const VehicleMaintenanceForm = ({
                   label="Title"
                   name="title"
                   render={({ field }) => (
-                    <Input {...field} value={field.value ?? ""} />
+                    <Input {...field} value={field.value ?? ''} />
                   )}
                 />
                 <AppFormField
@@ -141,7 +142,7 @@ export const VehicleMaintenanceForm = ({
                   label="Reference"
                   name="reference"
                   render={({ field }) => (
-                    <Input {...field} value={field.value ?? ""} />
+                    <Input {...field} value={field.value ?? ''} />
                   )}
                 />
                 <AppFormField
@@ -149,7 +150,7 @@ export const VehicleMaintenanceForm = ({
                   label="Notes"
                   name="notes"
                   render={({ field }) => (
-                    <Textarea {...field} value={field.value ?? ""} />
+                    <Textarea {...field} value={field.value ?? ''} />
                   )}
                 />
                 <AppFormField
@@ -168,7 +169,7 @@ export const VehicleMaintenanceForm = ({
                   render={({ field }) => (
                     <VehicleExpenseList
                       onAddExpense={() => setOpenCreateDialog(true)}
-                      onEditExpense={(expense) => setEditExpense(expense)}
+                      onEditExpense={expense => setEditExpense(expense)}
                       onDeleteExpense={(expense) => {
                         deleteExpense({
                           vehicleId,
@@ -205,7 +206,8 @@ export const VehicleMaintenanceForm = ({
       <VehicleExpenseFormDialog
         open={!!editExpense}
         setOpen={(v) => {
-          if (!v) setEditExpense(null);
+          if (!v)
+            setEditExpense(null);
         }}
         initialValues={{ ...editExpense }}
         loading={isUpdatingExpense}
@@ -219,4 +221,4 @@ export const VehicleMaintenanceForm = ({
       />
     </div>
   );
-};
+}

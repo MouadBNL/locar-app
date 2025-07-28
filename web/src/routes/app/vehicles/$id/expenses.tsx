@@ -1,27 +1,28 @@
-import { VehicleExpenseFormDialog } from "@/components/blocks/vehicle-expense-form-dialog";
-import { VehicleExpenseTable } from "@/components/blocks/vehicle-expense-table";
-import { Button } from "@/components/ui/button";
+import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { VehicleExpenseFormDialog } from '@/components/blocks/vehicle-expense-form-dialog';
+import { VehicleExpenseTable } from '@/components/blocks/vehicle-expense-table';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardAction,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   useVehicleExpenseCreate,
   useVehicleExpenseDelete,
   useVehicleExpenseIndex,
   useVehicleExpenseUpdate,
-  type VehicleExpenseResource,
-} from "@/features/vehicle-expenses";
-import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
 
-export const Route = createFileRoute("/app/vehicles/$id/expenses")({
+} from '@/features/vehicle-expenses';
+
+export const Route = createFileRoute('/app/vehicles/$id/expenses')({
   component: RouteComponent,
 });
 
@@ -30,27 +31,27 @@ function RouteComponent() {
   const queryClient = useQueryClient();
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [editExpense, setEditExpense] = useState<VehicleExpenseResource | null>(
-    null
+    null,
   );
 
   const { data: vehicleExpenses, isLoading } = useVehicleExpenseIndex({
     vehicleId: id,
   });
 
-  const { mutate: deleteVehicleExpense, isPending: isDeletingVehicleExpense } =
-    useVehicleExpenseDelete({
+  const { mutate: deleteVehicleExpense, isPending: isDeletingVehicleExpense }
+    = useVehicleExpenseDelete({
       onSuccess: () => {
-        toast.success("Expense deleted");
-        queryClient.invalidateQueries({ queryKey: ["vehicle-expenses"] });
+        toast.success('Expense deleted');
+        queryClient.invalidateQueries({ queryKey: ['vehicle-expenses'] });
       },
       onError: (error) => {
         console.error(error);
-        toast.error("Failed to delete expense");
+        toast.error('Failed to delete expense');
       },
     });
 
   const handleExpensesChange = () => {
-    queryClient.invalidateQueries({ queryKey: ["vehicle-expenses"] });
+    queryClient.invalidateQueries({ queryKey: ['vehicle-expenses'] });
   };
 
   return (
@@ -63,7 +64,7 @@ function RouteComponent() {
             onChange={handleExpensesChange}
             open={openCreateDialog}
             setOpen={setOpenCreateDialog}
-            trigger={
+            trigger={(
               <Button
                 variant="outline"
                 onClick={() => setOpenCreateDialog(true)}
@@ -71,7 +72,7 @@ function RouteComponent() {
                 <PlusIcon />
                 Add Expense
               </Button>
-            }
+            )}
           />
         </CardAction>
       </CardHeader>
@@ -80,7 +81,7 @@ function RouteComponent() {
         <VehicleExpenseTable
           data={vehicleExpenses?.data ?? []}
           loading={isLoading || isDeletingVehicleExpense}
-          actions={(expense) => (
+          actions={expense => (
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
@@ -96,8 +97,7 @@ function RouteComponent() {
                   deleteVehicleExpense({
                     vehicleId: id,
                     expenseId: expense.id,
-                  })
-                }
+                  })}
               >
                 <TrashIcon />
               </Button>
@@ -129,16 +129,16 @@ function AddExpenseDialog({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
-  const { mutate: createVehicleExpense, isPending: isCreatingVehicleExpense } =
-    useVehicleExpenseCreate({
+  const { mutate: createVehicleExpense, isPending: isCreatingVehicleExpense }
+    = useVehicleExpenseCreate({
       onSuccess: (data) => {
-        toast.success("Expense created");
+        toast.success('Expense created');
         setOpen?.(false);
         onChange?.(data.data);
       },
       onError: (error) => {
         console.error(error);
-        toast.error("Failed to create expense");
+        toast.error('Failed to create expense');
       },
     });
 
@@ -181,16 +181,16 @@ function EditExpenseDialog({
   setEditExpense: (expense: VehicleExpenseResource | null) => void;
   onChange?: (expense: VehicleExpenseResource) => void;
 }) {
-  const { mutate: updateVehicleExpense, isPending: isUpdatingVehicleExpense } =
-    useVehicleExpenseUpdate({
+  const { mutate: updateVehicleExpense, isPending: isUpdatingVehicleExpense }
+    = useVehicleExpenseUpdate({
       onSuccess: (data) => {
-        toast.success("Expense updated");
+        toast.success('Expense updated');
         setEditExpense(null);
         onChange?.(data.data);
       },
       onError: (error) => {
         console.error(error);
-        toast.error("Failed to update expense");
+        toast.error('Failed to update expense');
       },
     });
 

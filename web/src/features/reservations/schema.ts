@@ -1,4 +1,4 @@
-import z from "zod";
+import z from 'zod';
 
 export const ReservationSchema = z.object({
   customer_id: z.string().uuid(),
