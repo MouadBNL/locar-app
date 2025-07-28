@@ -279,7 +279,7 @@ function RentalPeriodFormSection({
               <AppFormField
                 control={form.control}
                 name="departure_date"
-                label="Departure Date"
+                label={t('rental:period.attributes.departure_date')}
                 render={({ field }) => (
                   <DateTimeInput
                     {...field}
@@ -293,7 +293,7 @@ function RentalPeriodFormSection({
               <AppFormField
                 control={form.control}
                 name="return_date"
-                label="Return Date"
+                label={t('rental:period.attributes.return_date')}
                 render={({ field }) => (
                   <DateTimeInput
                     {...field}
