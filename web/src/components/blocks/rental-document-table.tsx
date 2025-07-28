@@ -1,4 +1,5 @@
 import type { RentalDocumentResource } from '@/features/rental-documents';
+import { useTranslation } from 'react-i18next';
 import {
 
   rentalDocumentTypeMap,
@@ -20,16 +21,17 @@ export function RentalDocumentTable({
   rentalDocuments,
   actions,
 }: RentalDocumentTableProps) {
+  const { t } = useTranslation(['document', 'common']);
   return (
     <div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>Filename</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>{t('document:attributes.title')}</TableHead>
+            <TableHead>{t('document:attributes.filename')}</TableHead>
+            <TableHead>{t('document:attributes.type')}</TableHead>
+            <TableHead>{t('document:attributes.description')}</TableHead>
+            <TableHead>{t('common:actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

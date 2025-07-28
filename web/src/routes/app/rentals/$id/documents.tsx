@@ -4,6 +4,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { EyeIcon, TrashIcon, UploadCloudIcon } from 'lucide-react';
 import { useState } from 'react';
 import { DialogTrigger } from 'react-aria-components';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { RentalDocumentForm } from '@/components/blocks/rental-document-form';
 import { RentalDocumentTable } from '@/components/blocks/rental-document-table';
@@ -39,7 +40,7 @@ function RouteComponent() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: rentalDocuments } = useRentalDocumentIndex(id);
-
+  const { t } = useTranslation(['document', 'rental', 'common']);
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedRentalDocument, setSelectedRentalDocument]
@@ -50,14 +51,14 @@ function RouteComponent() {
       onSuccess: () => {
         setOpen(false);
         queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
-        toast.success('Rental document created');
+        toast.success(t('rental:document.created'));
         router.invalidate({
           filter: match => match.id === id,
         });
       },
       onError: (error) => {
         console.error(error);
-        toast.error('Failed to create rental document');
+        toast.error(t('rental:document.error'));
       },
     });
 
@@ -66,7 +67,7 @@ function RouteComponent() {
       onSuccess: () => {
         setOpenEdit(false);
         queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
-        toast.success('Rental document updated');
+        toast.success(t('rental:document.updated'));
         router.invalidate({
           filter: match => match.id === id,
         });
@@ -77,7 +78,7 @@ function RouteComponent() {
     = useRentalDocumentDelete({
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
-        toast.success('Rental document deleted');
+        toast.success(t('rental:document.deleted'));
         router.invalidate({
           filter: match => match.id === id,
         });
@@ -88,7 +89,7 @@ function RouteComponent() {
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Documents</CardTitle>
+          <CardTitle>{t('document:label_plural')}</CardTitle>
           <CardAction>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger>
@@ -98,14 +99,14 @@ function RouteComponent() {
                   onClick={() => setOpen(true)}
                 >
                   <UploadCloudIcon />
-                  Add Document
+                  {t('document:add_document')}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Add Document</DialogTitle>
+                  <DialogTitle>{t('document:add_document')}</DialogTitle>
                   <DialogDescription>
-                    Add a new document to the rental
+                    {t('document:add_document_description')}
                   </DialogDescription>
                 </DialogHeader>
                 <RentalDocumentForm
@@ -135,7 +136,7 @@ function RouteComponent() {
                   }}
                 >
                   <EyeIcon />
-                  View
+                  {t('common:view')}
                 </Button>
                 <Button
                   variant="outline"
@@ -159,9 +160,9 @@ function RouteComponent() {
       <Dialog open={openEdit} onOpenChange={setOpenEdit}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>View Document</DialogTitle>
+            <DialogTitle>{t('document:view.heading')}</DialogTitle>
             <DialogDescription>
-              View the details of the document
+              {t('document:view.description')}
             </DialogDescription>
           </DialogHeader>
           <RentalDocumentForm

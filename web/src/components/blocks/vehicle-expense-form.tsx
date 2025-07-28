@@ -1,6 +1,7 @@
 import type { VehicleExpenseRequest } from '@/features/vehicle-expenses';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
 
   vehicleExpenseSchema,
@@ -33,6 +34,7 @@ export function VehicleExpenseForm({
   loading,
   submit,
 }: VehicleExpenseFormProps) {
+  const { t } = useTranslation(['expenses', 'common']);
   const form = useForm({
     resolver: zodResolver(vehicleExpenseSchema),
     defaultValues: {
@@ -60,7 +62,7 @@ export function VehicleExpenseForm({
           render={({ field }) => (
             <Select onValueChange={field.onChange} value={field.value}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a type" />
+                <SelectValue placeholder={t('expenses:attributes.type')} />
               </SelectTrigger>
               <SelectContent>
                 {Object.entries(VehicleExpenseTypeEnum).map(([key, value]) => (
@@ -76,7 +78,7 @@ export function VehicleExpenseForm({
         <AppFormField
           control={form.control}
           name="amount"
-          render={({ field }) => <NumberInput {...field} />}
+          render={({ field }) => <NumberInput value={field.value ?? undefined} onChange={field.onChange} />}
         />
 
         <AppFormField
@@ -89,7 +91,7 @@ export function VehicleExpenseForm({
           control={form.control}
           name="title"
           render={({ field }) => (
-            <Input {...field} placeholder="Title" value={field.value ?? ''} />
+            <Input {...field} placeholder={t('expenses:attributes.title')} value={field.value ?? ''} />
           )}
         />
 
@@ -99,7 +101,7 @@ export function VehicleExpenseForm({
           render={({ field }) => (
             <Input
               {...field}
-              placeholder="Reference"
+              placeholder={t('expenses:attributes.reference')}
               value={field.value ?? ''}
             />
           )}
@@ -107,24 +109,26 @@ export function VehicleExpenseForm({
 
         <AppFormField
           control={form.control}
+          label={t('expenses:attributes.receipt')}
           name="receipt_document_id"
           render={({ field }) => <DocumentUpload {...field} />}
         />
 
         <AppFormField
           control={form.control}
+          label={t('expenses:attributes.notes')}
           name="notes"
           render={({ field }) => (
             <Textarea
               {...field}
-              placeholder="Notes"
+              placeholder={t('expenses:attributes.notes')}
               value={field.value ?? ''}
             />
           )}
         />
 
         <Button type="submit" loading={loading}>
-          Submit
+          {t('common:submit')}
         </Button>
       </form>
     </Form>

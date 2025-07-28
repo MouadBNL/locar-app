@@ -1,4 +1,5 @@
 import type { VehicleMaintenanceResource } from '@/features/vehicle-maintenances';
+import { useTranslation } from 'react-i18next';
 import { fmt_currency } from '@/lib/utils';
 import {
   Table,
@@ -21,17 +22,18 @@ export function VehicleMaintenanceTable({
   loading,
   actions,
 }: VehicleMaintenanceTableProps) {
+  const { t } = useTranslation(['maintenance', 'common']);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Started At</TableHead>
-          <TableHead>Finished At</TableHead>
-          <TableHead>Title</TableHead>
-          <TableHead>Reference</TableHead>
-          <TableHead>Notes</TableHead>
-          <TableHead>Expenses</TableHead>
-          {actions && <TableHead>Actions</TableHead>}
+          <TableHead>{t('maintenance:attributes.started_at')}</TableHead>
+          <TableHead>{t('maintenance:attributes.finished_at')}</TableHead>
+          <TableHead>{t('maintenance:attributes.title')}</TableHead>
+          <TableHead>{t('maintenance:attributes.reference')}</TableHead>
+          <TableHead>{t('maintenance:attributes.notes')}</TableHead>
+          <TableHead>{t('maintenance:attributes.expenses')}</TableHead>
+          {actions && <TableHead>{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -46,7 +48,7 @@ export function VehicleMaintenanceTable({
         {data && data.length === 0 && (
           <TableRow>
             <TableCell colSpan={5} className="text-center">
-              No vehicle maintenances found
+              {t('maintenance:no_maintenances_found')}
             </TableCell>
           </TableRow>
         )}
@@ -73,7 +75,7 @@ export function VehicleMaintenanceTable({
                   <p className="text-xs text-muted-foreground">
                     {vehicleMaintenance.expenses_count}
                     {' '}
-                    expenses
+                    {t('maintenance:expenses')}
                   </p>
                 </div>
               </TableCell>

@@ -1,4 +1,5 @@
 import type { VehicleResource } from '@/features/vehicles';
+import { useTranslation } from 'react-i18next';
 import {
   Table,
   TableBody,
@@ -16,15 +17,16 @@ export interface VehicleTableProps {
 }
 
 export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
+  const { t } = useTranslation(['vehicle', 'common']);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Plate</TableHead>
-          <TableHead>Model</TableHead>
-          <TableHead>Year</TableHead>
-          <TableHead>Status</TableHead>
-          {actions && <TableHead>Actions</TableHead>}
+          <TableHead>{t('vehicle:attributes.plate')}</TableHead>
+          <TableHead>{t('vehicle:attributes.model')}</TableHead>
+          <TableHead>{t('vehicle:attributes.year')}</TableHead>
+          <TableHead>{t('vehicle:attributes.status')}</TableHead>
+          {actions && <TableHead>{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -39,7 +41,7 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
         {data && data.length === 0 && (
           <TableRow>
             <TableCell colSpan={5} className="text-center">
-              No vehicles found
+              {t('vehicle:no_vehicles_found')}
             </TableCell>
           </TableRow>
         )}

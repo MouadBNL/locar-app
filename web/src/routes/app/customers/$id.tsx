@@ -4,6 +4,7 @@ import {
   useNavigate,
   useRouter,
 } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import CustomerForm from '@/components/blocks/customer-form';
 import { CustomerStatusBadge } from '@/components/blocks/customer-status-badge';
@@ -24,7 +25,7 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const router = useRouter();
-
+  const { t } = useTranslation(['customer', 'common']);
   const { customer } = Route.useLoaderData();
 
   const { mutate: updateCustomer, isPending } = useCustomerUpdate({
@@ -43,7 +44,8 @@ function RouteComponent() {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-4">
           <Heading3>
-            Customer:
+            {t('customer:label_singular')}
+            :
             {' '}
             {customer?.first_name}
             {' '}
@@ -53,7 +55,7 @@ function RouteComponent() {
         </div>
 
         <Button asChild variant="destructive">
-          <Link to="/app/customers">Cancel</Link>
+          <Link to="/app/customers">{t('common:cancel')}</Link>
         </Button>
       </div>
 

@@ -1,0 +1,40 @@
+{
+  "label_singular": "Véhicule",
+  "label_plural": "Véhicules",
+  "manage_vehicles": "Gestion des véhicules",
+  "add_vehicle": "Ajouter un Véhicule",
+  "no_vehicles_found": "Aucun véhicule trouvé",
+  "create_vehicle": "Créer un Véhicule",
+  "edit_vehicle": "Modifier le véhicule",
+  "attributes": {
+    "make": "Marque",
+    "model": "Modèle",
+    "year": "Année",
+    "color": "Couleur",
+    "plate": "Matricule",
+    "price": "Prix",
+    "status": "Statut",
+    "transmission": "Transmission",
+    "fuel_type": "Type de carburant",
+    "seats": "Nombre de places",
+    "doors": "Nombre de portes",
+    "mileage": "Kilométrage",
+    "photo_url": "URL de la photo"
+  },
+  "status_enum": {
+    "available": "Disponible",
+    "booked": "Réservé",
+    "rented": "Loué",
+    "maintenance": "En maintenance"
+  },
+  "transmission_enum": {
+    "AT": "Automatique",
+    "MT": "Manuelle"
+  },
+  "fuel_type_enum": {
+    "gasoline": "Essence",
+    "diesel": "Diesel",
+    "electric": "Électrique",
+    "hybrid": "Hybride"
+  }
+}

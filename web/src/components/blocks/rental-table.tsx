@@ -1,4 +1,5 @@
 import type { RentalSummaryData } from '@/features/rentals';
+import { useTranslation } from 'react-i18next';
 import {
   Table,
   TableBody,
@@ -20,18 +21,19 @@ export interface RentalTableProps {
 }
 
 export function RentalTable({ data, loading, actions }: RentalTableProps) {
+  const { t } = useTranslation(['rental', 'common']);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Code</TableHead>
-          <TableHead>Customer</TableHead>
-          <TableHead>Vehicle</TableHead>
-          <TableHead>Pickup Date</TableHead>
-          <TableHead>Return Date</TableHead>
-          <TableHead>Total Price</TableHead>
-          <TableHead>Status</TableHead>
-          {actions && <TableHead>Actions</TableHead>}
+          <TableHead>{t('rental:attributes.code')}</TableHead>
+          <TableHead>{t('rental:attributes.customer')}</TableHead>
+          <TableHead>{t('rental:attributes.vehicle')}</TableHead>
+          <TableHead>{t('rental:attributes.pickup_date')}</TableHead>
+          <TableHead>{t('rental:attributes.dropoff_date')}</TableHead>
+          <TableHead>{t('rental:attributes.total_price')}</TableHead>
+          <TableHead>{t('rental:attributes.status')}</TableHead>
+          {actions && <TableHead>{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -46,7 +48,7 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
         {data && data.length === 0 && (
           <TableRow>
             <TableCell colSpan={6} className="text-center">
-              No rentals found
+              {t('rental:not_found')}
             </TableCell>
           </TableRow>
         )}

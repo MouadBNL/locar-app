@@ -1,6 +1,7 @@
 import type { CustomerData } from '@/features/customers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { CustomerSchema } from '@/features/customers';
 import { Button } from '../ui/button';
 import { DateInput } from '../ui/dateinput';
@@ -17,6 +18,7 @@ export default function CustomerForm({
   loading,
   submit,
 }: CustomerFormProps) {
+  const { t } = useTranslation(['customer', 'common']);
   const form = useForm({
     resolver: zodResolver(CustomerSchema),
     defaultValues: {
@@ -47,29 +49,29 @@ export default function CustomerForm({
           <AppFormField
             control={form.control}
             name="first_name"
-            label="First Name"
+            label={t('customer:attributes.first_name')}
             render={({ field }) => (
-              <Input type="text" placeholder="First name" {...field} />
+              <Input type="text" placeholder={t('customer:attributes.first_name')} {...field} />
             )}
           />
 
           <AppFormField
             control={form.control}
             name="last_name"
-            label="Last Name"
+            label={t('customer:attributes.last_name')}
             render={({ field }) => (
-              <Input type="text" placeholder="Last name" {...field} />
+              <Input type="text" placeholder={t('customer:attributes.last_name')} {...field} />
             )}
           />
 
           <AppFormField
             control={form.control}
             name="email"
-            label="Email"
+            label={t('customer:attributes.email')}
             render={({ field }) => (
               <Input
                 type="email"
-                placeholder="Email"
+                placeholder={t('customer:attributes.email')}
                 {...field}
                 value={field.value ?? ''}
               />
@@ -79,11 +81,11 @@ export default function CustomerForm({
           <AppFormField
             control={form.control}
             name="phone"
-            label="Phone"
+            label={t('customer:attributes.phone')}
             render={({ field }) => (
               <Input
                 type="text"
-                placeholder="Phone"
+                placeholder={t('customer:attributes.phone')}
                 {...field}
                 value={field.value ?? ''}
               />
@@ -93,11 +95,11 @@ export default function CustomerForm({
           <AppFormField
             control={form.control}
             name="address"
-            label="Address"
+            label={t('customer:attributes.address')}
             render={({ field }) => (
               <Input
                 type="text"
-                placeholder="Address"
+                placeholder={t('customer:attributes.address')}
                 {...field}
                 value={field.value ?? ''}
               />
@@ -107,11 +109,11 @@ export default function CustomerForm({
           <AppFormField
             control={form.control}
             name="driver_license_number"
-            label="License Number"
+            label={t('customer:attributes.driver_license_number')}
             render={({ field }) => (
               <Input
                 type="text"
-                placeholder="License number"
+                placeholder={t('customer:attributes.driver_license_number')}
                 {...field}
                 value={field.value ?? ''}
               />
@@ -121,7 +123,7 @@ export default function CustomerForm({
           <AppFormField
             control={form.control}
             name="birth_date"
-            label="Birth Date"
+            label={t('customer:attributes.birth_date')}
             render={({ field }) => (
               <DateInput
                 {...field}
@@ -134,7 +136,7 @@ export default function CustomerForm({
         </div>
 
         <Button type="submit" loading={loading}>
-          Submit
+          {t('common:submit')}
         </Button>
       </form>
     </Form>

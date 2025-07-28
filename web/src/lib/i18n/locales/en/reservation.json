@@ -1,0 +1,36 @@
+{
+  "label_singular": "Reservation",
+  "label_plural": "Reservations",
+  "search_placeholder": "Search reservation...",
+  "manage_reservations": "Manage Reservations",
+  "add_reservation": "Add Reservation",
+  "add_reservation_description": "Add a new reservation to the system",
+  "click_to_view_reservation": "Click to view reservation",
+  "click_to_view_rental": "Click to view rental",
+  "no_reservations_found": "No reservations found",
+  "edit_reservation": "Edit Reservation",
+  "action": {
+    "create": {
+      "success": "Reservation created successfully",
+      "error": "Failed to create reservation"
+    },
+    "delete": {
+      "success": "Reservation deleted successfully",
+      "error": "Failed to delete reservation"
+    },
+    "update": {
+      "success": "Reservation updated successfully",
+      "error": "Failed to update reservation"
+    }
+  },
+  "attributes": {
+    "vehicle": "Vehicle",
+    "customer": "Customer",
+    "check_in_date": "Check-in Date",
+    "check_out_date": "Check-out Date",
+    "daily_rate": "Daily Rate",
+    "total_days": "Total Days",
+    "total_price": "Total",
+    "notes": "Notes"
+  }
+}

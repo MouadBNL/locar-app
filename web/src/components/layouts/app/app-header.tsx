@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,10 +9,12 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { LanguageSelector } from './_components/language-selector';
 
 export function AppHeader() {
+  const { t } = useTranslation();
   return (
-    <header className="flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-b">
+    <header className="flex h-12 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-b">
       <div className="flex items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1" />
         <Separator
@@ -22,16 +25,20 @@ export function AppHeader() {
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
               <BreadcrumbLink href="#">
-                Building Your Application
+                {t('dashboard')}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+              <BreadcrumbPage>{t('vehicles')}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </div>
+
+      <p className="mr-8">
+        <LanguageSelector />
+      </p>
     </header>
   );
 }

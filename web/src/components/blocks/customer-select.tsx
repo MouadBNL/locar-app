@@ -3,6 +3,7 @@ import type { ApiResponse } from '@/lib/http';
 import { useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useCustomerCreate, useCustomerIndex } from '@/features/customers';
 import { Button } from '../ui/button';
 import {
@@ -28,6 +29,7 @@ export type CustomerSelectProps = React.ComponentProps<typeof Select> & {
 };
 
 export function CustomerSelect(props: CustomerSelectProps) {
+  const { t } = useTranslation(['customer', 'common']);
   const [open, setOpen] = useState(false);
   const [newCustomerId, setNewCustomerId] = useState<string | null>(null);
 
@@ -94,7 +96,7 @@ export function CustomerSelect(props: CustomerSelectProps) {
                   const selected = data?.data?.find(c => c.id === props.value);
                   return selected
                     ? `${selected.first_name} ${selected.last_name}`
-                    : 'Customer';
+                    : t('customer:label_singular');
                 })()}
           </div>
         </SelectTrigger>
@@ -103,7 +105,7 @@ export function CustomerSelect(props: CustomerSelectProps) {
           <div className="px-2 py-1 mb-2">
             <Input
               type="text"
-              placeholder="Search customer..."
+              placeholder={t('customer:search_placeholder')}
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="w-full"
@@ -145,9 +147,9 @@ export function CustomerSelect(props: CustomerSelectProps) {
 
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add Customer</DialogTitle>
+              <DialogTitle>{t('customer:add_customer')}</DialogTitle>
               <DialogDescription>
-                Add new customer
+                {t('customer:add_customer_description')}
               </DialogDescription>
             </DialogHeader>
 

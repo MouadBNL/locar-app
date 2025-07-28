@@ -1,9 +1,11 @@
 import type { RentalStatus } from '@/features/rentals';
 import { CheckIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { str_to_titlecase } from '@/lib/utils';
 import { Badge } from '../ui/badge';
 
 export function RentalStatusBadge({ status }: { status: RentalStatus }) {
+  const { t } = useTranslation(['rental', 'common']);
   const color
     = status === 'draft'
       ? 'bg-accent-foreground'
@@ -25,7 +27,9 @@ export function RentalStatusBadge({ status }: { status: RentalStatus }) {
             >
             </span>
           )}
-      {str_to_titlecase(status)}
+      {t(`rental:status_enum.${status}`, {
+        defaultValue: str_to_titlecase(status),
+      })}
     </Badge>
   );
 }

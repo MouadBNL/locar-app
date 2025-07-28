@@ -1,0 +1,36 @@
+{
+  "label_singular": "Client",
+  "label_plural": "Clients",
+  "search_placeholder": "Rechercher un client...",
+  "manage_customers": "Gestion des clients",
+  "add_customer": "Ajouter un client",
+  "add_customer_description": "Ajouter un nouveau client au système",
+  "click_to_view_reservation": "Cliquer pour voir la réservation",
+  "click_to_view_rental": "Cliquer pour voir le véhicule",
+  "no_customers_found": "Aucun client trouvé",
+  "attributes": {
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "driver_license_number": "Permis",
+    "birth_date": "Date de naissance",
+    "id_number": "CIN",
+    "status": "Statut",
+    "passport_number": "Numéro de passeport",
+    "passport_country": "Pays de passeport",
+    "passport_issuing_date": "Date de délivrance du passeport",
+    "passport_expiration_date": "Date d'expiration du passeport",
+    "driver_license_issuing_city": "Ville de délivrance du permis",
+    "driver_license_issuing_date": "Date de délivrance du permis",
+    "driver_license_expiration_date": "Date d'expiration du permis",
+    "id_card_scan_document": "Scan du CIN",
+    "driver_license_scan_document": "Scan du permis"
+  },
+  "status_enum": {
+    "booked": "Réservé",
+    "renting": "En location",
+    "active": "Actif"
+  }
+}

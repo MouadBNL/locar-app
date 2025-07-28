@@ -15,6 +15,7 @@ import {
   VideoIcon,
   XIcon,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
 
   formatBytes,
@@ -30,7 +31,7 @@ type SingleFileUploadProps = FileUploadOptions & {
 
 export function SingleFileUpload(props: SingleFileUploadProps) {
   const maxSizeMB = props.maxSize ? props.maxSize / 1024 / 1024 : 0;
-
+  const { t } = useTranslation(['common']);
   const disabled = props.disabled || props.loading || false;
 
   const [
@@ -89,7 +90,7 @@ export function SingleFileUpload(props: SingleFileUploadProps) {
                             </div>
                             <div className="flex min-w-0 flex-col gap-0.5 border-t p-3">
                               <p className="truncate text-[13px] font-medium">
-                                File Corrupted or Not Found
+                                {t('common:file_corrupted_or_not_found')}
                               </p>
                             </div>
                           </div>
@@ -122,13 +123,13 @@ export function SingleFileUpload(props: SingleFileUploadProps) {
                                     <ImageUpIcon className="size-4 opacity-60" />
                                   </div>
                                   <p className="mb-1.5 text-sm font-medium">
-                                    Drop your image here or click to browse
+                                    {t('common:drop_your_image_here_or_click_to_browse')}
                                   </p>
                                   <p className="text-muted-foreground text-xs">
-                                    Max size:
-                                    {' '}
-                                    {maxSizeMB}
-                                    MB
+                                    {t('common:max_files_and_file_size', {
+                                      file_cnt: 1,
+                                      file_size: maxSizeMB,
+                                    })}
                                   </p>
                                 </div>
                               )}
@@ -265,6 +266,7 @@ function getFileIcon(file: { file: File | { type: string; name: string } }) {
 }
 
 function PreviewButton({ url }: { url: string }) {
+  const { t } = useTranslation(['common']);
   return (
     <a
       href={url}
@@ -273,7 +275,7 @@ function PreviewButton({ url }: { url: string }) {
       aria-label="Open in new tab"
     >
       <ExternalLinkIcon className="size-4" aria-hidden="true" />
-      <span className="text-xs">Open</span>
+      <span className="text-xs">{t('common:open')}</span>
     </a>
   );
 }

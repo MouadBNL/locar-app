@@ -1,4 +1,5 @@
 import type { ReservationResource } from '@/features/reservations';
+import { useTranslation } from 'react-i18next';
 import {
   Table,
   TableBody,
@@ -22,16 +23,17 @@ export function ReservationTable({
   loading,
   actions,
 }: ReservationTableProps) {
+  const { t } = useTranslation(['reservation', 'common']);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Customer</TableHead>
-          <TableHead>Vehicle</TableHead>
-          <TableHead>Checkin Date</TableHead>
-          <TableHead>Checkout Date</TableHead>
-          <TableHead>Total Price</TableHead>
-          {actions && <TableHead>Actions</TableHead>}
+          <TableHead>{t('reservation:attributes.customer')}</TableHead>
+          <TableHead>{t('reservation:attributes.vehicle')}</TableHead>
+          <TableHead>{t('reservation:attributes.check_in_date')}</TableHead>
+          <TableHead>{t('reservation:attributes.check_out_date')}</TableHead>
+          <TableHead>{t('reservation:attributes.total_price')}</TableHead>
+          {actions && <TableHead>{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -46,7 +48,7 @@ export function ReservationTable({
         {data && data.length === 0 && (
           <TableRow>
             <TableCell colSpan={5} className="text-center">
-              No reservations found
+              {t('reservation:no_reservations_found')}
             </TableCell>
           </TableRow>
         )}
@@ -82,12 +84,12 @@ export function ReservationTable({
                   <span className="text-sm font-medium">
                     {reservation.total_price}
                     {' '}
-                    Dh
+                    {t('common:dh')}
                   </span>
                   <span className="text-sm text-muted-foreground">
                     {reservation.total_days}
                     {' '}
-                    days
+                    {t('common:days')}
                   </span>
                 </div>
               </TableCell>

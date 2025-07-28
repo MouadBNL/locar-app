@@ -1,0 +1,57 @@
+{
+  "label_plural": "Paiements",
+  "manage_payments": "Gérer les paiements",
+  "add_payment": "Ajouter un paiement",
+  "no_payments_found": "Aucun paiement trouvé",
+  "create_payment": "Créer un paiement",
+  "add_payment_description": "Ajouter un nouveau paiement pour la location.",
+  "edit_payment": "Modifier le paiement",
+  "edit_payment_description": "Modifier le paiement pour la location.",
+  "payment_description": "Liste des paiements pour la location.",
+  "attributes": {
+    "amount": "Montant",
+    "method": "Méthode de paiement",
+    "type": "Type de paiement",
+    "date": "Date de paiement",
+    "reference": "Référence",
+    "notes": "Notes"
+  },
+  "action": {
+    "delete": {
+      "success": "Paiement supprimé avec succès",
+      "error": "Erreur lors de la suppression du paiement"
+    },
+    "create": {
+      "success": "Paiement créé avec succès",
+      "error": "Erreur lors de la création du paiement"
+    },
+    "update": {
+      "success": "Paiement mis à jour avec succès",
+      "error": "Erreur lors de la mise à jour du paiement"
+    }
+  },
+  "method_enum": {
+    "cash": "Espèces",
+    "card": "Carte",
+    "bank_transfer": "Virement bancaire",
+    "cheque": "Chèque",
+    "other": "Autre"
+  },
+  "type_enum": {
+    "normal": "Normal",
+    "deposit": "Dépôt",
+    "refund": "Remboursement",
+    "other": "Autre"
+  },
+  "extra": {
+    "required": "Requis",
+    "total_paid": "Total Payé",
+    "total_due": "Total Dû",
+    "deposit_total": "Total du dépôt",
+    "deposit_refunded": "Remboursé",
+    "deposit_due": "Reste à rembourser",
+    "insurance_rate": "Taux d'assurance",
+    "insurance_quantity": "Quantité d'assurance",
+    "insurance_total": "Total d'assurance"
+  }
+}
