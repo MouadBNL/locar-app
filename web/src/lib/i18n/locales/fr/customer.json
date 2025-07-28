@@ -1,0 +1,27 @@
+{
+  "label_singular": "Client",
+  "label_plural": "Clients",
+  "search_placeholder": "Rechercher un client...",
+  "manage_customers": "Gestion des clients",
+  "add_customer": "Ajouter un client",
+  "add_customer_description": "Ajouter un nouveau client au système",
+  "click_to_view_reservation": "Cliquer pour voir la réservation",
+  "click_to_view_rental": "Cliquer pour voir le véhicule",
+  "no_customers_found": "Aucun client trouvé",
+  "attributes": {
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "driver_license_number": "Permis",
+    "birth_date": "Date de naissance",
+    "id_number": "CIN",
+    "status": "Statut"
+  },
+  "status_enum": {
+    "booked": "Réservé",
+    "renting": "En location",
+    "active": "Actif"
+  }
+}

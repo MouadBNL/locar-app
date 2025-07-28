@@ -1,4 +1,5 @@
 import type { CustomerResource } from '@/features/customers';
+import { useTranslation } from 'react-i18next';
 import {
   Table,
   TableBody,
@@ -16,16 +17,17 @@ export interface CustomerTableProps {
 }
 
 export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
+  const { t } = useTranslation(['customer', 'common']);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>First Name</TableHead>
-          <TableHead>Last Name</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>Phone</TableHead>
-          <TableHead>Status</TableHead>
-          {actions && <TableHead>Actions</TableHead>}
+          <TableHead>{t('customer:attributes.first_name')}</TableHead>
+          <TableHead>{t('customer:attributes.last_name')}</TableHead>
+          <TableHead>{t('customer:attributes.email')}</TableHead>
+          <TableHead>{t('customer:attributes.phone')}</TableHead>
+          <TableHead>{t('customer:attributes.status')}</TableHead>
+          {actions && <TableHead>{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -40,7 +42,7 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
         {data && data.length === 0 && (
           <TableRow>
             <TableCell colSpan={5} className="text-center">
-              No customers found
+              {t('customer:no_customers_found')}
             </TableCell>
           </TableRow>
         )}

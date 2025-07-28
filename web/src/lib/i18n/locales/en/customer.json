@@ -1,0 +1,27 @@
+{
+  "label_singular": "Customer",
+  "label_plural": "Customers",
+  "search_placeholder": "Search customer...",
+  "manage_customers": "Manage Customers",
+  "add_customer": "Add Customer",
+  "add_customer_description": "Add a new customer to the system",
+  "click_to_view_reservation": "Click to view reservation",
+  "click_to_view_rental": "Click to view rental",
+  "no_customers_found": "No customers found",
+  "attributes": {
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "driver_license_number": "Driver License Number",
+    "birth_date": "Birth Date",
+    "id_number": "ID Number",
+    "status": "Status"
+  },
+  "status_enum": {
+    "booked": "Booked",
+    "renting": "Renting",
+    "active": "Active"
+  }
+}

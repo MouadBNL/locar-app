@@ -1,8 +1,10 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en_common from './locales/en/common.json';
+import en_customer from './locales/en/customer.json';
 import en_vehicle from './locales/en/vehicle.json';
 import fr_common from './locales/fr/common.json';
+import fr_customer from './locales/fr/customer.json';
 import fr_vehicle from './locales/fr/vehicle.json';
 
 // the translations
@@ -13,11 +15,13 @@ const resources = {
     translation: {},
     common: en_common,
     vehicle: en_vehicle,
+    customer: en_customer,
   },
   fr: {
     translation: {},
     common: fr_common,
     vehicle: fr_vehicle,
+    customer: fr_customer,
   },
 };
 i18n
@@ -27,7 +31,7 @@ i18n
     returnNull: false,
     resources,
     defaultNS: 'common',
-    ns: ['common', 'vehicle'],
+    ns: ['common', 'vehicle', 'customer'],
     fallbackLng: 'en',
     lng: 'fr', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
