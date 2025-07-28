@@ -5,6 +5,7 @@ import {
   useNavigate,
   useRouter,
 } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import VehicleForm from '@/components/blocks/vehicle-form';
 import { Button } from '@/components/ui/button';
@@ -25,6 +26,7 @@ export const Route = createFileRoute('/app/vehicles/$id/')({
 });
 
 function RouteComponent() {
+  const { t } = useTranslation(['common', 'vehicle']);
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const router = useRouter();
@@ -45,10 +47,10 @@ function RouteComponent() {
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-        <Heading3>Edit Vehicle</Heading3>
+        <Heading3>{t('vehicle:edit_vehicle')}</Heading3>
 
         <Button asChild variant="destructive">
-          <Link to="/app/vehicles">Cancel</Link>
+          <Link to="/app/vehicles">{t('common:cancel')}</Link>
         </Button>
       </div>
 

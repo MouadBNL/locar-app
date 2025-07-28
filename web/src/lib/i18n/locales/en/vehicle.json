@@ -5,6 +5,7 @@
   "add_vehicle": "Add Vehicle",
   "no_vehicles_found": "No vehicles found",
   "create_vehicle": "Create Vehicle",
+  "edit_vehicle": "Edit Vehicle",
   "attributes": {
     "make": "Make",
     "model": "Model",

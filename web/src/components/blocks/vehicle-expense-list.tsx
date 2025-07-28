@@ -56,7 +56,7 @@ export function VehicleExpenseList({
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-2 mt-6">
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <div>{t('common:loading')}</div>}
         {expenses?.data?.map(expense => (
           <div
             key={expense.id}

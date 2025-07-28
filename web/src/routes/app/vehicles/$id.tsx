@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { VehicleStatusBadge } from '@/components/blocks/vehicle-status-badge';
 import { Button } from '@/components/ui/button';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
@@ -16,7 +17,7 @@ export const Route = createFileRoute('/app/vehicles/$id')({
 function RouteComponent() {
   const { id } = Route.useParams();
   const { vehicle } = Route.useLoaderData();
-
+  const { t } = useTranslation(['vehicle', 'common', 'expenses', 'maintenance']);
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-start mb-8">
@@ -37,16 +38,16 @@ function RouteComponent() {
         </div>
 
         <div>
-          <Button variant="outline">Quick Actions</Button>
+          <Button variant="outline">{t('common:quick_actions')}</Button>
         </div>
       </div>
 
       <TabsNavigation
         basePath={`/app/vehicles/${id}`}
         tabs={[
-          { label: 'Summary', path: '' },
-          { label: 'Expenses', path: 'expenses' },
-          { label: 'Maintenance', path: 'maintenance' },
+          { label: t('common:summary'), path: '' },
+          { label: t('expenses:label_plural'), path: 'expenses' },
+          { label: t('maintenance:label_plural'), path: 'maintenance' },
         ]}
       />
     </div>

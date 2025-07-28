@@ -125,18 +125,10 @@ export function FileUpload(props: FileUploadOptions) {
                   {t('common:drop_files_here')}
                 </p>
                 <p className="text-muted-foreground text-xs">
-                  {t('common:max')}
-                  {' '}
-                  {props.maxFiles}
-                  {' '}
-                  {t('common:files')}
-                  {' '}
-                  ∙
-                  {' '}
-                  {t('common:up_to')}
-                  {' '}
-                  {maxSizeMB}
-                  MB
+                  {t('common:max_files_and_file_size', {
+                    file_cnt: props.maxFiles,
+                    file_size: maxSizeMB,
+                  })}
                 </p>
                 <Button variant="outline" className="mt-4" onClick={openFileDialog}>
                   <UploadIcon className="-ms-1 opacity-60" aria-hidden="true" />
