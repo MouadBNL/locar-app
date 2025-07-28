@@ -25,7 +25,7 @@ export default function VehicleForm({
   loading,
   submit,
 }: VehicleFormProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['vehicle', 'common']);
   const form = useForm({
     mode: 'onChange',
     resolver: zodResolver(VehicleSchema),
@@ -193,7 +193,7 @@ export default function VehicleForm({
         </div>
 
         <Button type="submit" loading={loading}>
-          {t('submit')}
+          {t('common:submit')}
         </Button>
       </form>
     </Form>

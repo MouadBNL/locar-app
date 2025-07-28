@@ -15,7 +15,7 @@ export const Route = createFileRoute('/app/vehicles/')({
 
 function RouteComponent() {
   const queryClient = useQueryClient();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['vehicle', 'common']);
   const { data, isFetching } = useVehicleIndex();
 
   const { mutate: deleteVehicle, isPending: isDeleting } = useVehicleDelete({

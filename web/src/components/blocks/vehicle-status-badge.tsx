@@ -4,7 +4,7 @@ import { str_to_titlecase } from '@/lib/utils';
 import { Badge } from '../ui/badge';
 
 export function VehicleStatusBadge({ status }: { status: VehicleStatusType }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['vehicle', 'common']);
   const color
     = status === 'booked' || status === 'rented'
       ? 'bg-yellow-500'

@@ -17,7 +17,7 @@ export interface VehicleTableProps {
 }
 
 export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['vehicle', 'common']);
   return (
     <Table>
       <TableHeader>
@@ -26,7 +26,7 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
           <TableHead>{t('vehicle:attributes.model')}</TableHead>
           <TableHead>{t('vehicle:attributes.year')}</TableHead>
           <TableHead>{t('vehicle:attributes.status')}</TableHead>
-          {actions && <TableHead>{t('actions')}</TableHead>}
+          {actions && <TableHead>{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>

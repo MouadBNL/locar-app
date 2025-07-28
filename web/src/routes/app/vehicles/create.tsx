@@ -12,7 +12,7 @@ export const Route = createFileRoute('/app/vehicles/create')({
 });
 
 function RouteComponent() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['vehicle', 'common']);
   const navigate = useNavigate();
   const { mutate: createVehicle, isPending } = useVehicleCreate({
     onSuccess: () => {
@@ -30,7 +30,7 @@ function RouteComponent() {
         <Heading3>{t('vehicle:add_vehicle')}</Heading3>
 
         <Button asChild variant="destructive">
-          <Link to="/app/vehicles">{t('cancel')}</Link>
+          <Link to="/app/vehicles">{t('common:cancel')}</Link>
         </Button>
       </div>
 
