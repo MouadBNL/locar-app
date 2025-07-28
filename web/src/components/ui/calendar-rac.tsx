@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { ComponentProps } from "react"
-import { getLocalTimeZone, today } from "@internationalized/date"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { ComponentProps } from "react";
+import { getLocalTimeZone, today } from "@internationalized/date";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import {
   Button,
   CalendarCell as CalendarCellRac,
@@ -14,17 +14,17 @@ import {
   composeRenderProps,
   Heading as HeadingRac,
   RangeCalendar as RangeCalendarRac,
-} from "react-aria-components"
+} from "react-aria-components";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface BaseCalendarProps {
-  className?: string
+  className?: string;
 }
 
-type CalendarProps = ComponentProps<typeof CalendarRac> & BaseCalendarProps
+type CalendarProps = ComponentProps<typeof CalendarRac> & BaseCalendarProps;
 type RangeCalendarProps = ComponentProps<typeof RangeCalendarRac> &
-  BaseCalendarProps
+  BaseCalendarProps;
 
 function CalendarHeader() {
   return (
@@ -43,11 +43,11 @@ function CalendarHeader() {
         <ChevronRightIcon size={16} />
       </Button>
     </header>
-  )
+  );
 }
 
 function CalendarGridComponent({ isRange = false }: { isRange?: boolean }) {
-  const now = today(getLocalTimeZone())
+  const now = today(getLocalTimeZone());
 
   return (
     <CalendarGridRac>
@@ -80,7 +80,7 @@ function CalendarGridComponent({ isRange = false }: { isRange?: boolean }) {
         )}
       </CalendarGridBodyRac>
     </CalendarGridRac>
-  )
+  );
 }
 
 function Calendar({ className, ...props }: CalendarProps) {
@@ -88,13 +88,13 @@ function Calendar({ className, ...props }: CalendarProps) {
     <CalendarRac
       {...props}
       className={composeRenderProps(className, (className) =>
-        cn("w-fit", className)
+        cn("w-fit pointer-events-auto", className)
       )}
     >
       <CalendarHeader />
       <CalendarGridComponent />
     </CalendarRac>
-  )
+  );
 }
 
 function RangeCalendar({ className, ...props }: RangeCalendarProps) {
@@ -102,13 +102,13 @@ function RangeCalendar({ className, ...props }: RangeCalendarProps) {
     <RangeCalendarRac
       {...props}
       className={composeRenderProps(className, (className) =>
-        cn("w-fit", className)
+        cn("w-fit pointer-events-auto", className)
       )}
     >
       <CalendarHeader />
       <CalendarGridComponent isRange />
     </RangeCalendarRac>
-  )
+  );
 }
 
-export { Calendar, RangeCalendar }
+export { Calendar, RangeCalendar };
