@@ -11,5 +11,8 @@
   "notifications": "Notifications",
   "logOut": "Déconnexion",
   "allRightsReserved": "Tous droits réservés",
-  "randomLink": "Lien aléatoire"
+  "randomLink": "Lien aléatoire",
+  "actions": "Actions",
+  "cancel": "Annuler",
+  "submit": "Enregistrer"
 }

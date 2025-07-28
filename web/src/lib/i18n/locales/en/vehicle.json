@@ -1,0 +1,39 @@
+{
+  "label_singular": "Vehicle",
+  "label_plural": "Vehicles",
+  "manage_vehicles": "Manage Vehicles",
+  "add_vehicle": "Add Vehicle",
+  "no_vehicles_found": "No vehicles found",
+  "create_vehicle": "Create Vehicle",
+  "attributes": {
+    "make": "Make",
+    "model": "Model",
+    "year": "Year",
+    "color": "Color",
+    "plate": "Plate",
+    "price": "Price",
+    "status": "Status",
+    "transmission": "Transmission",
+    "fuel_type": "Fuel Type",
+    "seats": "Number of Seats",
+    "doors": "Number of Doors",
+    "mileage": "Mileage",
+    "photo_url": "Photo URL"
+  },
+  "status_enum": {
+    "available": "Available",
+    "booked": "Booked",
+    "rented": "Rented",
+    "maintenance": "Maintenance"
+  },
+  "transmission_enum": {
+    "AT": "Automatic",
+    "MT": "Manual"
+  },
+  "fuel_type_enum": {
+    "gasoline": "Gasoline",
+    "diesel": "Diesel",
+    "electric": "Electric",
+    "hybrid": "Hybrid"
+  }
+}

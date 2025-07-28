@@ -1,8 +1,10 @@
 import type { VehicleStatusType } from '@/features/vehicles';
+import { useTranslation } from 'react-i18next';
 import { str_to_titlecase } from '@/lib/utils';
 import { Badge } from '../ui/badge';
 
 export function VehicleStatusBadge({ status }: { status: VehicleStatusType }) {
+  const { t } = useTranslation();
   const color
     = status === 'booked' || status === 'rented'
       ? 'bg-yellow-500'
@@ -11,6 +13,7 @@ export function VehicleStatusBadge({ status }: { status: VehicleStatusType }) {
         : status === 'maintenance'
           ? 'bg-red-500'
           : 'bg-accent-foreground';
+
   return (
     <Badge variant="outline" className="gap-2 text-sm">
       <span
@@ -18,7 +21,9 @@ export function VehicleStatusBadge({ status }: { status: VehicleStatusType }) {
         aria-hidden="true"
       >
       </span>
-      {str_to_titlecase(status)}
+      {t(`vehicle:status_enum.${status}`, {
+        defaultValue: str_to_titlecase(status),
+      })}
     </Badge>
   );
 }

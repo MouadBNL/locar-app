@@ -11,5 +11,8 @@
   "notifications": "Notifications",
   "logOut": "Log Out",
   "allRightsReserved": "All rights reserved",
-  "randomLink": "Random Link"
+  "randomLink": "Random Link",
+  "actions": "Actions",
+  "cancel": "Cancel",
+  "submit": "Submit"
 }

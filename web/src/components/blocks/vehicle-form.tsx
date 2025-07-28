@@ -1,6 +1,7 @@
 import type { VehicleData } from '@/features/vehicles';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { VehicleSchema } from '@/features/vehicles';
 import { Button } from '../ui/button';
 import { AppFormField, Form } from '../ui/form';
@@ -24,6 +25,7 @@ export default function VehicleForm({
   loading,
   submit,
 }: VehicleFormProps) {
+  const { t } = useTranslation();
   const form = useForm({
     mode: 'onChange',
     resolver: zodResolver(VehicleSchema),
@@ -54,45 +56,45 @@ export default function VehicleForm({
           <AppFormField
             control={form.control}
             name="make"
-            label="Make"
+            label={t('vehicle:attributes.make')}
             render={({ field }) => (
-              <Input type="text" placeholder="Vehicle make" {...field} />
+              <Input type="text" placeholder={t('vehicle:attributes.make')} {...field} />
             )}
           />
 
           <AppFormField
             control={form.control}
             name="model"
-            label="Model"
+            label={t('vehicle:attributes.model')}
             render={({ field }) => (
-              <Input type="text" placeholder="Vehicle model" {...field} />
+              <Input type="text" placeholder={t('vehicle:attributes.model')} {...field} />
             )}
           />
 
           <AppFormField
             control={form.control}
             name="year"
-            label="Year"
+            label={t('vehicle:attributes.year')}
             render={({ field }) => (
-              <NumberInput placeholder="Vehicle year" value={field.value} onChange={field.onChange} />
+              <NumberInput placeholder={t('vehicle:attributes.year')} value={field.value} onChange={field.onChange} />
             )}
           />
 
           <AppFormField
             control={form.control}
             name="transmission"
-            label="Transmission"
+            label={t('vehicle:attributes.transmission')}
             render={({ field }) => (
               <Select
                 onValueChange={field.onChange}
                 value={field.value ?? undefined}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Vehicle transmission" />
+                  <SelectValue placeholder={t('vehicle:attributes.transmission')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="AT">Automatic</SelectItem>
-                  <SelectItem value="MT">Manual</SelectItem>
+                  <SelectItem value="AT">{t('vehicle:transmission_enum.AT')}</SelectItem>
+                  <SelectItem value="MT">{t('vehicle:transmission_enum.MT')}</SelectItem>
                 </SelectContent>
               </Select>
             )}
@@ -101,20 +103,20 @@ export default function VehicleForm({
           <AppFormField
             control={form.control}
             name="fuel_type"
-            label="Fuel Type"
+            label={t('vehicle:attributes.fuel_type')}
             render={({ field }) => (
               <Select
                 onValueChange={field.onChange}
                 value={field.value ?? undefined}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Vehicle fuel type" />
+                  <SelectValue placeholder={t('vehicle:attributes.fuel_type')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="gasoline">Gasoline</SelectItem>
-                  <SelectItem value="diesel">Diesel</SelectItem>
-                  <SelectItem value="electric">Electric</SelectItem>
-                  <SelectItem value="hybrid">Hybrid</SelectItem>
+                  <SelectItem value="gasoline">{t('vehicle:fuel_type_enum.gasoline')}</SelectItem>
+                  <SelectItem value="diesel">{t('vehicle:fuel_type_enum.diesel')}</SelectItem>
+                  <SelectItem value="electric">{t('vehicle:fuel_type_enum.electric')}</SelectItem>
+                  <SelectItem value="hybrid">{t('vehicle:fuel_type_enum.hybrid')}</SelectItem>
                 </SelectContent>
               </Select>
             )}
@@ -123,29 +125,29 @@ export default function VehicleForm({
           <AppFormField
             control={form.control}
             name="number_of_seats"
-            label="Number of Seats"
+            label={t('vehicle:attributes.seats')}
             render={({ field }) => (
-              <NumberInput placeholder="Number of seats" value={field.value} onChange={field.onChange} />
+              <NumberInput placeholder={t('vehicle:attributes.seats')} value={field.value} onChange={field.onChange} />
             )}
           />
 
           <AppFormField
             control={form.control}
             name="number_of_doors"
-            label="Number of Doors"
+            label={t('vehicle:attributes.doors')}
             render={({ field }) => (
-              <NumberInput placeholder="Number of doors" value={field.value} onChange={field.onChange} />
+              <NumberInput placeholder={t('vehicle:attributes.doors')} value={field.value} onChange={field.onChange} />
             )}
           />
 
           <AppFormField
             control={form.control}
             name="license_plate"
-            label="License Plate"
+            label={t('vehicle:attributes.plate')}
             render={({ field }) => (
               <Input
                 type="text"
-                placeholder="License plate number"
+                placeholder={t('vehicle:attributes.plate')}
                 {...field}
               />
             )}
@@ -154,19 +156,19 @@ export default function VehicleForm({
           <AppFormField
             control={form.control}
             name="mileage"
-            label="Mileage"
+            label={t('vehicle:attributes.mileage')}
             render={({ field }) => (
-              <NumberInput placeholder="Vehicle mileage" value={field.value} onChange={field.onChange} />
+              <NumberInput placeholder={t('vehicle:attributes.mileage')} value={field.value} onChange={field.onChange} />
             )}
           />
 
           <AppFormField
             control={form.control}
             name="color"
-            label="Color"
+            label={t('vehicle:attributes.color')}
             render={({ field }) => (
               <Input
-                placeholder="Vehicle color"
+                placeholder={t('vehicle:attributes.color')}
                 className="w-full"
                 {...field}
                 value={field.value ?? ''}
@@ -177,11 +179,11 @@ export default function VehicleForm({
           <AppFormField
             control={form.control}
             name="photo_url"
-            label="Photo URL"
+            label={t('vehicle:attributes.photo_url')}
             render={({ field }) => (
               <Input
                 type="text"
-                placeholder="Vehicle photo URL"
+                placeholder={t('vehicle:attributes.photo_url')}
                 {...field}
                 value={field.value ?? ''}
                 className="w-full"
@@ -191,7 +193,7 @@ export default function VehicleForm({
         </div>
 
         <Button type="submit" loading={loading}>
-          Submit
+          {t('submit')}
         </Button>
       </form>
     </Form>
