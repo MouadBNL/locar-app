@@ -21,6 +21,7 @@ i18n
   .init({
     debug: true,
     resources,
+    defaultNS: 'common',
     fallbackLng: 'en',
     lng: 'fr', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage

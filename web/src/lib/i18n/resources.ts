@@ -1,0 +1,19 @@
+interface Resources {
+  "common": {
+    "welcome_message": "Welcome to my application",
+    "app_name": "Locar",
+    "dashboard": "Dashboard",
+    "vehicles": "Vehicles",
+    "customers": "Customers",
+    "reservations": "Reservations",
+    "rentals": "Rentals",
+    "account": "Account",
+    "billing": "Billing",
+    "notifications": "Notifications",
+    "logOut": "Log Out",
+    "allRightsReserved": "All rights reserved",
+    "randomLink": "Random Link"
+  }
+}
+
+export default Resources;

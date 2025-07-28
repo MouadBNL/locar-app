@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "tscheck": "tsc",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "i18n:generate": "i18next-resources-for-ts interface -i ./src/lib/i18n/locales/en -i -o ./src/lib/i18n/resources.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -33,6 +34,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "i18next": "^25.3.2",
+    "i18next-resources-for-ts": "^1.6.0",
     "lucide-react": "^0.524.0",
     "next-themes": "^0.4.6",
     "radix-ui": "^1.4.2",

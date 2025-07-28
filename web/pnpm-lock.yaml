@@ -68,6 +68,9 @@ importers:
       i18next:
         specifier: ^25.3.2
         version: 25.3.2(typescript@5.8.3)
+      i18next-resources-for-ts:
+        specifier: ^1.6.0
+        version: 1.6.0
       lucide-react:
         specifier: ^0.524.0
         version: 0.524.0(react@19.1.0)
@@ -3213,6 +3216,10 @@ packages:
 
   html-parse-stringify@3.0.1:
     resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+
+  i18next-resources-for-ts@1.6.0:
+    resolution: {integrity: sha512-iDBax3MO5ajNS3lDC1aSsdWgwGyUYxHX1LCd6XsnHrb2cpLOwJTDsSDucyVGy/zHMQHYu3tsjkTZzdZIwQ8Y5A==}
+    hasBin: true
 
   i18next@25.3.2:
     resolution: {integrity: sha512-JSnbZDxRVbphc5jiptxr3o2zocy5dEqpVm9qCGdJwRNO+9saUJS0/u4LnM/13C23fUEWxAylPqKU/NpMV/IjqA==}
@@ -7990,6 +7997,11 @@ snapshots:
   html-parse-stringify@3.0.1:
     dependencies:
       void-elements: 3.1.0
+
+  i18next-resources-for-ts@1.6.0:
+    dependencies:
+      '@babel/runtime': 7.28.2
+      yaml: 2.8.0
 
   i18next@25.3.2(typescript@5.8.3):
     dependencies:

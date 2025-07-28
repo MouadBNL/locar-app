@@ -9,7 +9,7 @@ function RouteComponent() {
   const { t } = useTranslation();
   return (
     <div className="p-2">
-      <h3>{t('common.welcome_message')}</h3>
+      <h3>{t('welcome_message')}</h3>
     </div>
   );
 }

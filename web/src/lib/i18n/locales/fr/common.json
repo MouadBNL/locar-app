@@ -1,3 +1,15 @@
 {
-  "welcome_message": "Bienvenue à mon application"
+  "welcome_message": "Bienvenue à mon application",
+  "app_name": "Locar",
+  "dashboard": "Tableau de bord",
+  "vehicles": "Véhicules",
+  "customers": "Clients",
+  "reservations": "Réservations",
+  "rentals": "Locations",
+  "account": "Compte",
+  "billing": "Facturation",
+  "notifications": "Notifications",
+  "logOut": "Déconnexion",
+  "allRightsReserved": "Tous droits réservés",
+  "randomLink": "Lien aléatoire"
 }
