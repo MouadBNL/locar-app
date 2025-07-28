@@ -1,4 +1,5 @@
 import { CircleGaugeIcon, PaintBucketIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { CarDoorIcon } from '../icons/car-door-icon';
 import { CarEngineIcon } from '../icons/car-engine-icon';
 import { CarSeatIcon } from '../icons/car-seat-icon';
@@ -20,6 +21,7 @@ interface VehicleSummaryCardProps {
 }
 
 export function VehicleSummaryCard(props: VehicleSummaryCardProps) {
+  const { t } = useTranslation(['vehicle', 'common']);
   const fallback
     = props.make.toUpperCase().charAt(0) + props.model.toUpperCase().charAt(0);
 
@@ -49,23 +51,35 @@ export function VehicleSummaryCard(props: VehicleSummaryCardProps) {
             <span className="text-muted-foreground">
               {props.doors}
               {' '}
-              doors
+              {t('common:doors')}
             </span>
           </div>
           <div className="flex gap-2 items-center">
             <CarTransmissionIcon className="size-4" />
             {' '}
-            <span className="text-muted-foreground">{props.transmission}</span>
+            <span className="text-muted-foreground">
+              {t(`vehicle:transmission_enum.${props.transmission}`, {
+                defaultValue: props.transmission,
+              })}
+            </span>
           </div>
           <div className="flex gap-2 items-center">
             <CarEngineIcon className="size-4" />
             {' '}
-            <span className="text-muted-foreground">{props.fuel}</span>
+            <span className="text-muted-foreground">
+              {t(`vehicle:fuel_type_enum.${props.fuel}`, {
+                defaultValue: props.fuel,
+              })}
+            </span>
           </div>
           <div className="flex gap-2 items-center">
             <PaintBucketIcon className="size-4" />
             {' '}
-            <span className="text-muted-foreground">{props.color}</span>
+            <span className="text-muted-foreground">
+              {t(`vehicle:color_enum.${props.color}`, {
+                defaultValue: props.color,
+              })}
+            </span>
           </div>
           <div className="flex gap-2 items-center">
             <CarSeatIcon className="size-4" />
@@ -73,7 +87,7 @@ export function VehicleSummaryCard(props: VehicleSummaryCardProps) {
             <span className="text-muted-foreground">
               {props.seats}
               {' '}
-              seats
+              {t('common:seats')}
             </span>
           </div>
           <div className="flex gap-2 items-center">
@@ -82,7 +96,7 @@ export function VehicleSummaryCard(props: VehicleSummaryCardProps) {
             <span className="text-muted-foreground">
               {props.mileage}
               {' '}
-              km
+              {t('common:km')}
             </span>
           </div>
         </div>

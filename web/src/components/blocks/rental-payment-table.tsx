@@ -1,5 +1,6 @@
 import type { RentalPaymentResource } from '@/features/rental-payments';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { fmt_currency, str_to_titlecase } from '@/lib/utils';
 import {
   Table,
@@ -20,17 +21,18 @@ export function RentalPaymentTable({
   actions?: (payment: RentalPaymentResource) => React.ReactNode;
   loading?: boolean;
 }) {
+  const { t } = useTranslation(['payment', 'common']);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Payment Method</TableHead>
-          <TableHead>Payment Type</TableHead>
-          <TableHead>Amount</TableHead>
-          <TableHead>Payment Date</TableHead>
-          <TableHead>Reference</TableHead>
-          <TableHead>Note</TableHead>
-          <TableHead>Actions</TableHead>
+          <TableHead>{t('payment:attributes.method')}</TableHead>
+          <TableHead>{t('payment:attributes.type')}</TableHead>
+          <TableHead>{t('payment:attributes.amount')}</TableHead>
+          <TableHead>{t('payment:attributes.date')}</TableHead>
+          <TableHead>{t('payment:attributes.reference')}</TableHead>
+          <TableHead>{t('payment:attributes.notes')}</TableHead>
+          <TableHead>{t('common:actions')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -49,8 +51,16 @@ export function RentalPaymentTable({
               <>
                 {payments.map(payment => (
                   <TableRow key={payment.id}>
-                    <TableCell>{str_to_titlecase(payment.method)}</TableCell>
-                    <TableCell>{str_to_titlecase(payment.type)}</TableCell>
+                    <TableCell>
+                      {t(`payment:method_enum.${payment.method}`, {
+                        defaultValue: str_to_titlecase(payment.method),
+                      })}
+                    </TableCell>
+                    <TableCell>
+                      {t(`payment:type_enum.${payment.type}`, {
+                        defaultValue: str_to_titlecase(payment.type),
+                      })}
+                    </TableCell>
                     <TableCell>{fmt_currency(payment.amount)}</TableCell>
                     <TableCell>
                       <DateCard date={payment.date} />

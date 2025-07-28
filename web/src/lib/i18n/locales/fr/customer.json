@@ -17,7 +17,16 @@
     "driver_license_number": "Permis",
     "birth_date": "Date de naissance",
     "id_number": "CIN",
-    "status": "Statut"
+    "status": "Statut",
+    "passport_number": "Numéro de passeport",
+    "passport_country": "Pays de passeport",
+    "passport_issuing_date": "Date de délivrance du passeport",
+    "passport_expiration_date": "Date d'expiration du passeport",
+    "driver_license_issuing_city": "Ville de délivrance du permis",
+    "driver_license_issuing_date": "Date de délivrance du permis",
+    "driver_license_expiration_date": "Date d'expiration du permis",
+    "id_card_scan_document": "Scan du CIN",
+    "driver_license_scan_document": "Scan du permis"
   },
   "status_enum": {
     "booked": "Réservé",

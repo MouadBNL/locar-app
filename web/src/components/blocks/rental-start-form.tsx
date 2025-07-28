@@ -1,6 +1,7 @@
 import type { RentalStartData } from '@/features/rentals';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { RentalStartSchema } from '@/features/rentals';
 import { fmt_date, get_date } from '@/lib/utils';
 import { Button } from '../ui/button';
@@ -17,6 +18,7 @@ export function RentalStartForm({
   loading?: boolean;
   submit: (data: RentalStartData) => void;
 }) {
+  const { t } = useTranslation(['rental', 'common']);
   const form = useForm({
     resolver: zodResolver(RentalStartSchema),
     defaultValues: {
@@ -36,21 +38,21 @@ export function RentalStartForm({
         <AppFormField
           control={form.control}
           name="actual_departure_date"
-          label="Actual Departure Date"
+          label={t('rental:start_form.attributes.actual_departure_date')}
           render={({ field }) => <DateTimeInput type="string" {...field} />}
         />
 
         <AppFormField
           control={form.control}
           name="mileage"
-          label="Mileage"
+          label={t('common:mileage')}
           render={({ field }) => (
-            <NumberInput {...field} value={field.value ?? undefined} />
+            <NumberInput value={field.value ?? undefined} onChange={field.onChange} />
           )}
         />
 
         <Button type="submit" loading={loading}>
-          Start Rental
+          {t('common:submit')}
         </Button>
       </form>
     </Form>

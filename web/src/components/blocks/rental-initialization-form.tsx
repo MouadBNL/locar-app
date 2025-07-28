@@ -5,6 +5,7 @@ import type { VehicleData } from '@/features/vehicles';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { RentalSchema } from '@/features/rentals';
 import { fmt_date, generate_rental_code, get_date } from '@/lib/utils';
 import { Button } from '../ui/button';
@@ -28,6 +29,7 @@ export default function RentalInitializationForm({
   loading,
   submit,
 }: RentalFormProps) {
+  const { t } = useTranslation(['rental', 'common']);
   const form = useForm<RentalData>({
     resolver: zodResolver(RentalSchema) as unknown as Resolver<RentalData>,
     defaultValues: {
@@ -95,7 +97,7 @@ export default function RentalInitializationForm({
         <RentalNotesForm form={form} />
 
         <Button type="submit" loading={loading}>
-          Submit
+          {t('common:submit')}
         </Button>
       </form>
 
@@ -106,12 +108,13 @@ export default function RentalInitializationForm({
 }
 
 function RentalCodeForm({ form }: { form: UseFormReturn<RentalData> }) {
+  const { t } = useTranslation(['rental', 'common']);
   return (
     <div>
       <AppFormField
         control={form.control}
         name="rental_number"
-        label="Rental Number"
+        label={t('rental:attributes.code')}
         render={({ field }) => (
           <Input {...field} value={field.value ?? undefined} />
         )}
@@ -121,17 +124,18 @@ function RentalCodeForm({ form }: { form: UseFormReturn<RentalData> }) {
 }
 
 function RentalPeriodForm({ form }: { form: UseFormReturn<RentalData> }) {
+  const { t } = useTranslation(['rental', 'common']);
   return (
     <div>
       <FormSectionSeparator
-        heading="Period"
-        subheading="Select the period of the rental"
+        heading={t('rental:period.heading')}
+        subheading={t('rental:period.subheading')}
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <AppFormField
           control={form.control}
           name="timeframe.departure_date"
-          label="Departure Date"
+          label={t('rental:period.attributes.departure_date')}
           render={({ field }) => (
             <DateTimeInput
               {...field}
@@ -145,7 +149,7 @@ function RentalPeriodForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="timeframe.return_date"
-          label="Return Date"
+          label={t('rental:period.attributes.return_date')}
           render={({ field }) => (
             <DateTimeInput
               {...field}
@@ -161,6 +165,7 @@ function RentalPeriodForm({ form }: { form: UseFormReturn<RentalData> }) {
 }
 
 function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
+  const { t } = useTranslation(['rental', 'common', 'customer']);
   const onCustomerSelected = (customer: CustomerData) => {
     if (!customer)
       return;
@@ -181,13 +186,13 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
   return (
     <div>
       <FormSectionSeparator
-        heading="Customer"
-        subheading="Select the customer for the rental"
+        heading={t('rental:customer.heading')}
+        subheading={t('rental:customer.subheading')}
       />
       <AppFormField
         control={form.control}
         name="renter.customer_id"
-        label="Customer"
+        label={t('customer:label_singular')}
         render={({ field }) => (
           <CustomerSelect
             onValueChange={field.onChange}
@@ -200,7 +205,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.full_name"
-          label="Full Name"
+          label={t('rental:customer.attributes.full_name')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -208,7 +213,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.phone"
-          label="Phone"
+          label={t('customer:attributes.phone')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -216,7 +221,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.address_primary"
-          label="Address 1"
+          label={t('customer:attributes.address')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -224,7 +229,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.address_secondary"
-          label="Address 2"
+          label={t('customer:attributes.address')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -232,7 +237,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.id_card_number"
-          label="ID Number"
+          label={t('customer:attributes.id_number')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -240,7 +245,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.birth_date"
-          label="Birth Date"
+          label={t('customer:attributes.birth_date')}
           render={({ field }) => (
             <DateInput
               {...field}
@@ -252,7 +257,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.driver_license_number"
-          label="DriverLicense Number"
+          label={t('customer:attributes.driver_license_number')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -261,7 +266,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.driver_license_issuing_city"
-          label="DriverLicense Issuing City"
+          label={t('customer:attributes.driver_license_issuing_city')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -269,7 +274,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.driver_license_issuing_date"
-          label="DriverLicense Issuing Date"
+          label={t('customer:attributes.driver_license_issuing_date')}
           render={({ field }) => (
             <DateInput
               {...field}
@@ -282,7 +287,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.driver_license_expiration_date"
-          label="DriverLicense Expiration Date"
+          label={t('customer:attributes.driver_license_expiration_date')}
           render={({ field }) => (
             <DateInput
               {...field}
@@ -294,7 +299,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.passport_number"
-          label="Passport Number"
+          label={t('customer:attributes.passport_number')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -303,7 +308,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.passport_country"
-          label="Passport Country"
+          label={t('customer:attributes.passport_country')}
           render={({ field }) => (
             <Input {...field} value={field.value ?? undefined} />
           )}
@@ -312,7 +317,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.passport_issuing_date"
-          label="Passport Issuing Date"
+          label={t('customer:attributes.passport_issuing_date')}
           render={({ field }) => (
             <DateInput
               {...field}
@@ -325,7 +330,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.passport_expiration_date"
-          label="Passport Expiration Date"
+          label={t('customer:attributes.passport_expiration_date')}
           render={({ field }) => (
             <DateInput
               {...field}
@@ -338,7 +343,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.id_card_scan_document"
-          label="ID Card Scan Document"
+          label={t('customer:attributes.id_card_scan_document')}
           render={({ field }) => (
             <DocumentUpload {...field} value={field.value ?? undefined} />
           )}
@@ -347,7 +352,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="renter.driver_license_scan_document"
-          label="Driver License Scan Document"
+          label={t('customer:attributes.driver_license_scan_document')}
           render={({ field }) => (
             <DocumentUpload {...field} value={field.value ?? undefined} />
           )}
@@ -358,6 +363,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
 }
 
 function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
+  const { t } = useTranslation(['rental', 'common', 'vehicle']);
   const onVehicleSelected = (vehicle: VehicleData) => {
     form.setValue('vehicle.make', vehicle.make);
     form.setValue('vehicle.model', vehicle.model);
@@ -369,14 +375,14 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
     <div>
       <div className="flex justify-between items-center">
         <FormSectionSeparator
-          heading="Vehicle"
-          subheading="Enter information about the vehicle"
+          heading={t('rental:vehicle.heading')}
+          subheading={t('rental:vehicle.subheading')}
         />
         <div className="w-48">
           <AppFormField
             control={form.control}
             name="vehicle.vehicle_id"
-            label="Vehicle"
+            label={t('vehicle:label_singular')}
             render={({ field }) => (
               <VehicleSelect
                 onValueChange={field.onChange}
@@ -392,7 +398,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="vehicle.make"
-          label="Make"
+          label={t('vehicle:attributes.make')}
           render={({ field }) => (
             <Input
               {...field}
@@ -404,7 +410,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="vehicle.model"
-          label="Model"
+          label={t('vehicle:attributes.model')}
           render={({ field }) => (
             <Input
               {...field}
@@ -416,7 +422,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="vehicle.year"
-          label="Year"
+          label={t('vehicle:attributes.year')}
           render={({ field }) => (
             <NumberInput placeholder="2020" value={field.value} onChange={field.onChange} />
           )}
@@ -424,7 +430,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="vehicle.license_plate"
-          label="License Plate"
+          label={t('vehicle:attributes.plate')}
           render={({ field }) => (
             <Input
               {...field}
@@ -439,6 +445,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
 }
 
 function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
+  const { t } = useTranslation(['rental', 'common']);
   const departure_date = form.watch('timeframe.departure_date');
   const return_date = form.watch('timeframe.return_date');
   const daily_rate = form.watch('rate.day_rate');
@@ -488,36 +495,14 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
   return (
     <div>
       <FormSectionSeparator
-        heading="Rate & pricing"
-        subheading="Select the rate for the rental"
+        heading={t('rental:rate.heading')}
+        subheading={t('rental:rate.subheading')}
       />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* <AppFormField
-          control={form.control}
-          name="rate.unit"
-          label="Unit"
-          render={({ field }) => (
-            <Select
-              onValueChange={field.onChange}
-              value={field.value ?? undefined}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a unit" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="daily">Daily</SelectItem>
-                <SelectItem value="weekly">Weekly</SelectItem>
-                <SelectItem value="monthly">Monthly</SelectItem>
-                <SelectItem value="km">KM</SelectItem>
-                <SelectItem value="yearly">Yearly</SelectItem>
-              </SelectContent>
-            </Select>
-          )}
-        /> */}
         <AppFormField
           control={form.control}
           name="rate.day_rate"
-          label="Day Rate"
+          label={t('rental:rate.attributes.day_rate')}
           render={({ field }) => (
             <NumberInput value={field.value} onChange={field.onChange} />
           )}
@@ -526,7 +511,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="rate.day_quantity"
-          label="Day Quantity"
+          label={t('rental:rate.attributes.day_quantity')}
           render={({ field }) => (
             <NumberInput value={field.value} onChange={field.onChange} disabled />
           )}
@@ -535,7 +520,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="rate.day_total"
-          label="Day Total"
+          label={t('rental:rate.attributes.day_total')}
           render={({ field }) => (
             <NumberInput value={field.value} onChange={field.onChange} disabled />
           )}
@@ -544,7 +529,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="rate.extra_rate"
-          label="Extra Rate"
+          label={t('rental:rate.attributes.extra_rate')}
           render={({ field }) => (
             <NumberInput value={field.value} onChange={field.onChange} />
           )}
@@ -553,7 +538,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="rate.extra_quantity"
-          label="Extra Quantity"
+          label={t('rental:rate.attributes.extra_quantity')}
           render={({ field }) => (
             <NumberInput value={field.value} onChange={field.onChange} />
           )}
@@ -562,7 +547,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
         <AppFormField
           control={form.control}
           name="rate.extra_total"
-          label="Extra Total"
+          label={t('rental:rate.attributes.extra_total')}
           render={({ field }) => (
             <NumberInput value={field.value} onChange={field.onChange} />
           )}
@@ -572,7 +557,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
           <AppFormField
             control={form.control}
             name="rate.total"
-            label="Total"
+            label={t('rental:rate.attributes.total')}
             render={({ field }) => (
               <NumberInput value={field.value} onChange={field.onChange} disabled />
             )}
@@ -584,11 +569,12 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
 }
 
 function RentalNotesForm({ form }: { form: UseFormReturn<RentalData> }) {
+  const { t } = useTranslation(['rental', 'common']);
   return (
     <div className="space-y-4">
       <FormSectionSeparator
-        heading="Notes"
-        subheading="Add any additional notes for the rental"
+        heading={t('rental:notes.heading')}
+        subheading={t('rental:notes.subheading')}
       />
       <AppFormField
         control={form.control}

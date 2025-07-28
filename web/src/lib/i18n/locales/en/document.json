@@ -1,0 +1,25 @@
+{
+  "label_singular": "Document",
+  "label_plural": "Documents",
+  "search_placeholder": "Search document...",
+  "manage_documents": "Manage Documents",
+  "add_document": "Add Document",
+  "add_document_description": "Add a new document to the system",
+  "no_documents_found": "No documents found",
+  "view": {
+    "heading": "View Document",
+    "description": "View the details of the document"
+  },
+  "attributes": {
+    "title": "Title",
+    "filename": "Filename",
+    "type": "Type",
+    "description": "Description"
+  },
+  "action": {
+    "create": {
+      "success": "Document uploaded successfully",
+      "error": "Failed to upload document"
+    }
+  }
+}

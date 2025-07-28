@@ -1,0 +1,57 @@
+{
+  "label_plural": "Payments",
+  "manage_payments": "Manage Payments",
+  "add_payment": "Add Payment",
+  "no_payments_found": "No payments found",
+  "create_payment": "Create Payment",
+  "add_payment_description": "Add a new payment for the rental.",
+  "edit_payment": "Edit Payment",
+  "edit_payment_description": "Edit the payment for the rental.",
+  "payment_description": "List of payments for the rental.",
+  "attributes": {
+    "amount": "Amount",
+    "method": "Payment Method",
+    "type": "Payment Type",
+    "date": "Payment Date",
+    "reference": "Reference",
+    "notes": "Notes"
+  },
+  "action": {
+    "delete": {
+      "success": "Payment deleted successfully",
+      "error": "Failed to delete payment"
+    },
+    "create": {
+      "success": "Payment created successfully",
+      "error": "Failed to create payment"
+    },
+    "update": {
+      "success": "Payment updated successfully",
+      "error": "Failed to update payment"
+    }
+  },
+  "method_enum": {
+    "cash": "Cash",
+    "card": "Card",
+    "bank_transfer": "Bank Transfer",
+    "cheque": "Cheque",
+    "other": "Other"
+  },
+  "type_enum": {
+    "normal": "Normal",
+    "deposit": "Deposit",
+    "refund": "Refund",
+    "other": "Other"
+  },
+  "extra": {
+    "required": "Required",
+    "total_paid": "Total Paid",
+    "total_due": "Total Due",
+    "deposit_total": "Deposit Total",
+    "deposit_refunded": "Refunded",
+    "deposit_due": "Remaining to refund",
+    "insurance_rate": "Insurance Rate",
+    "insurance_quantity": "Insurance Quantity",
+    "insurance_total": "Insurance Total"
+  }
+}

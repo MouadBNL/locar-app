@@ -18,10 +18,11 @@ import {
   useFileUpload,
 } from '@/hooks/use-file-upload';
 import { Button } from '../ui/button';
+import { useTranslation } from 'react-i18next';
 
 export function FileUpload(props: FileUploadOptions) {
   const maxSizeMB = props.maxSize ? props.maxSize / 1024 / 1024 : 0;
-
+  const { t } = useTranslation(['common']);
   const [
     { files, isDragging, errors },
     {
@@ -60,7 +61,9 @@ export function FileUpload(props: FileUploadOptions) {
               <div className="flex w-full flex-col gap-3">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="truncate text-sm font-medium">
-                    Files (
+                    {t('common:files')}
+                    {' '}
+                    (
                     {files.length}
                     )
                   </h3>
@@ -70,14 +73,14 @@ export function FileUpload(props: FileUploadOptions) {
                         className="-ms-0.5 size-3.5 opacity-60"
                         aria-hidden="true"
                       />
-                      Add files
+                      {t('common:add_files')}
                     </Button>
                     <Button variant="outline" size="sm" onClick={clearFiles}>
                       <Trash2Icon
                         className="-ms-0.5 size-3.5 opacity-60"
                         aria-hidden="true"
                       />
-                      Remove all
+                      {t('common:remove_all')}
                     </Button>
                   </div>
                 </div>
@@ -118,20 +121,24 @@ export function FileUpload(props: FileUploadOptions) {
                 >
                   <ImageIcon className="size-4 opacity-60" />
                 </div>
-                <p className="mb-1.5 text-sm font-medium">Drop your files here</p>
+                <p className="mb-1.5 text-sm font-medium">
+                  {t('common:drop_files_here')}
+                </p>
                 <p className="text-muted-foreground text-xs">
-                  Max
+                  {t('common:max')}
                   {' '}
                   {props.maxFiles}
                   {' '}
-                  files ∙ Up to
+                  {t('common:files')}
+                  {' '}
+                  ∙ {t('common:up_to')}
                   {' '}
                   {maxSizeMB}
                   MB
                 </p>
                 <Button variant="outline" className="mt-4" onClick={openFileDialog}>
                   <UploadIcon className="-ms-1 opacity-60" aria-hidden="true" />
-                  Select images
+                  {t('common:select_files')}
                 </Button>
               </div>
             )}

@@ -3,7 +3,6 @@ import type { RentalDocumentData } from '@/features/rental-documents';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
-
   rentalDocumentSchema,
   rentalDocumentTypeMap,
   rentalDocumentTypeSchema,
@@ -20,6 +19,7 @@ import {
 } from '../ui/select';
 import { Textarea } from '../ui/textarea';
 import { DocumentUpload } from './document-upload';
+import { useTranslation } from 'react-i18next';
 
 export interface RentalDocumentFormProps {
   initialValues?: Partial<RentalDocumentData>;
@@ -31,6 +31,7 @@ export function RentalDocumentForm({
   submit,
   loading,
 }: RentalDocumentFormProps) {
+  const { t } = useTranslation(['document', 'common']);
   const form = useForm({
     resolver: zodResolver(rentalDocumentSchema),
     defaultValues: {
@@ -57,11 +58,11 @@ export function RentalDocumentForm({
           <AppFormField
             control={form.control}
             name="type"
-            label="Type"
+            label={t('document:attributes.type')}
             render={({ field }) => (
               <Select onValueChange={field.onChange} value={field.value}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a type" />
+                  <SelectValue placeholder={t('document:attributes.type')} />
                 </SelectTrigger>
                 <SelectContent>
                   {rentalDocumentTypeSchema.map(type => (
@@ -76,7 +77,7 @@ export function RentalDocumentForm({
           <AppFormField
             control={form.control}
             name="document_id"
-            label="Document"
+            label={t('document:label_singular')}
             render={({ field }) => (
               <DocumentUpload
                 {...field}
@@ -87,22 +88,22 @@ export function RentalDocumentForm({
           <AppFormField
             control={form.control}
             name="title"
-            label="Title"
-            render={({ field }) => <Input placeholder="Title" {...field} />}
+            label={t('document:attributes.title')}
+            render={({ field }) => <Input placeholder={t('document:attributes.title')} {...field} />}
           />
           <AppFormField
             control={form.control}
             name="description"
-            label="Description"
+            label={t('document:attributes.description')}
             render={({ field }) => (
-              <Textarea rows={3} placeholder="Description" {...field} />
+              <Textarea rows={3} placeholder={t('document:attributes.description')} {...field} />
             )}
           />
         </div>
 
         <div className="flex justify-end">
           <Button type="submit" loading={loading}>
-            {loading ? 'Saving...' : 'Save'}
+            {loading ? t('common:saving') : t('common:save')}
           </Button>
         </div>
       </form>

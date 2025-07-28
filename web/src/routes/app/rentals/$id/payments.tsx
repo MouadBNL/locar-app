@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { RentalPaymentForm } from '@/components/blocks/rental-payment-form';
 import { RentalPaymentTable } from '@/components/blocks/rental-payment-table';
@@ -38,6 +39,7 @@ export const Route = createFileRoute('/app/rentals/$id/payments')({
 function RouteComponent() {
   const { id: code } = Route.useParams();
   const queryClient = useQueryClient();
+  const { t } = useTranslation(['payment', 'common']);
   const [editPayment, setEditPayment] = useState<RentalPaymentResource | null>(
     null,
   );
@@ -51,8 +53,11 @@ function RouteComponent() {
     variables: deleteRentalPaymentVariables,
   } = useRentalPaymentDelete({
     onSuccess: () => {
-      toast.success('Payment deleted');
+      toast.success(t('payment:action.delete.success'));
       queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
+    },
+    onError: () => {
+      toast.error(t('payment:action.delete.error'));
     },
   });
 
@@ -60,8 +65,8 @@ function RouteComponent() {
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Payments</CardTitle>
-          <CardDescription>List of payments for the rental.</CardDescription>
+          <CardTitle>{t('payment:label_plural')}</CardTitle>
+          <CardDescription>{t('payment:payment_description')}</CardDescription>
           <CardAction>
             <AddPaymentDialog rental_code={code} />
           </CardAction>
@@ -121,19 +126,19 @@ function RouteComponent() {
 
 function AddPaymentDialog({ rental_code }: { rental_code: string }) {
   const queryClient = useQueryClient();
-
+  const { t } = useTranslation(['payment', 'common']);
   const [open, setOpen] = useState(false);
 
   const { mutate: createRentalPayment, isPending: isCreatingRentalPayment }
     = useRentalPaymentCreate({
       onSuccess: () => {
-        toast.success('Payment created');
+        toast.success(t('payment:action.create.success'));
         queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
         setOpen(false);
       },
       onError: (error) => {
         console.error(error);
-        toast.error('Failed to create payment');
+        toast.error(t('payment:action.create.error'));
       },
     });
 
@@ -141,12 +146,12 @@ function AddPaymentDialog({ rental_code }: { rental_code: string }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" icon={<PlusIcon />}>
-          Add Payment
+          {t('payment:add_payment')}
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Add Payment</DialogTitle>
-        <DialogDescription>Add a new payment for the rental.</DialogDescription>
+        <DialogTitle>{t('payment:add_payment')}</DialogTitle>
+        <DialogDescription>{t('payment:add_payment_description')}</DialogDescription>
         <RentalPaymentForm
           loading={isCreatingRentalPayment}
           submit={(data) => {
@@ -168,25 +173,26 @@ function EditPaymentDialog({
   setEditPayment: (payment: RentalPaymentResource | null) => void;
 }) {
   const queryClient = useQueryClient();
+  const { t } = useTranslation(['payment', 'common']);
 
   const { mutate: updateRentalPayment, isPending: isUpdatingRentalPayment }
     = useRentalPaymentUpdate({
       onSuccess: () => {
-        toast.success('Payment updated');
+        toast.success(t('payment:action.update.success'));
         queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
         setEditPayment(null);
       },
       onError: (error) => {
         console.error(error);
-        toast.error('Failed to update payment');
+        toast.error(t('payment:action.update.error'));
       },
     });
 
   return (
     <Dialog open={!!payment} onOpenChange={() => setEditPayment(null)}>
       <DialogContent>
-        <DialogTitle>Edit Payment</DialogTitle>
-        <DialogDescription>Edit the payment for the rental.</DialogDescription>
+        <DialogTitle>{t('payment:edit_payment')}</DialogTitle>
+        <DialogDescription>{t('payment:edit_payment_description')}</DialogDescription>
         <RentalPaymentForm
           initialValues={
             payment
@@ -222,20 +228,22 @@ function PaymentSummary({
   payment_paid: number;
   payment_due: number;
 }) {
+  const { t } = useTranslation(['payment', 'common']);
+
   return (
     <div className="grid grid-cols-3 gap-8">
       <div>
-        <p className="text-sm">Required:</p>
+        <p className="text-sm">{t('payment:extra.required')}</p>
         {' '}
         <p className="font-semibold">{fmt_currency(payment_total)}</p>
       </div>
       <div>
-        <p className="text-sm">Total Paid:</p>
+        <p className="text-sm">{t('payment:extra.total_paid')}</p>
         {' '}
         <p className="font-semibold">{fmt_currency(payment_paid)}</p>
       </div>
       <div>
-        <p className="text-sm">Total Due:</p>
+        <p className="text-sm">{t('payment:extra.total_due')}</p>
         {' '}
         <p className="font-semibold">{fmt_currency(payment_due)}</p>
       </div>
@@ -252,20 +260,21 @@ function DepositSummary({
   deposit_refunded: number;
   deposit_due: number;
 }) {
+  const { t } = useTranslation(['payment', 'common']);
   return (
     <div className="grid grid-cols-3 gap-8">
       <div>
-        <p className="text-sm">Deposit Total:</p>
+        <p className="text-sm">{t('payment:extra.deposit_total')}</p>
         {' '}
         <p className="font-semibold">{fmt_currency(deposit_total)}</p>
       </div>
       <div>
-        <p className="text-sm">Refunded:</p>
+        <p className="text-sm">{t('payment:extra.deposit_refunded')}</p>
         {' '}
         <p className="font-semibold">{fmt_currency(deposit_refunded)}</p>
       </div>
       <div>
-        <p className="text-sm">Due:</p>
+        <p className="text-sm">{t('payment:extra.deposit_due')}</p>
         {' '}
         <p className="font-semibold">{fmt_currency(deposit_due)}</p>
       </div>

@@ -1,6 +1,7 @@
 import type { RentalPaymentData } from '@/features/rental-payments';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
 
   RentalPaymentSchema,
@@ -29,6 +30,7 @@ export function RentalPaymentForm({
   submit: (data: RentalPaymentData) => void;
   loading?: boolean;
 }) {
+  const { t } = useTranslation(['payment', 'common']);
   const form = useForm({
     resolver: zodResolver(RentalPaymentSchema),
     defaultValues: {
@@ -50,18 +52,18 @@ export function RentalPaymentForm({
         <AppFormField
           control={form.control}
           name="method"
-          label="Payment Method"
+          label={t('payment:attributes.method')}
           render={({ field }) => (
             <Select onValueChange={field.onChange} value={field.value}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a payment method" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="cash">Cash</SelectItem>
-                <SelectItem value="card">Card</SelectItem>
-                <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                <SelectItem value="cheque">Cheque</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="cash">{t('payment:method_enum.cash')}</SelectItem>
+                <SelectItem value="card">{t('payment:method_enum.card')}</SelectItem>
+                <SelectItem value="bank_transfer">{t('payment:method_enum.bank_transfer')}</SelectItem>
+                <SelectItem value="cheque">{t('payment:method_enum.cheque')}</SelectItem>
+                <SelectItem value="other">{t('payment:method_enum.other')}</SelectItem>
               </SelectContent>
             </Select>
           )}
@@ -69,17 +71,17 @@ export function RentalPaymentForm({
         <AppFormField
           control={form.control}
           name="type"
-          label="Payment Type"
+          label={t('payment:attributes.type')}
           render={({ field }) => (
             <Select onValueChange={field.onChange} value={field.value}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a payment type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="normal">Normal</SelectItem>
-                <SelectItem value="deposit">Deposit</SelectItem>
-                <SelectItem value="refund">Refund</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="normal">{t('payment:type_enum.normal')}</SelectItem>
+                <SelectItem value="deposit">{t('payment:type_enum.deposit')}</SelectItem>
+                <SelectItem value="refund">{t('payment:type_enum.refund')}</SelectItem>
+                <SelectItem value="other">{t('payment:type_enum.other')}</SelectItem>
               </SelectContent>
             </Select>
           )}
@@ -87,31 +89,31 @@ export function RentalPaymentForm({
         <AppFormField
           control={form.control}
           name="amount"
-          label="Amount"
+          label={t('payment:attributes.amount')}
           render={({ field }) => <NumberInput value={field.value} onChange={field.onChange} placeholder="Amount" />}
         />
         <AppFormField
           control={form.control}
           name="date"
-          label="Payment Date"
+          label={t('payment:attributes.date')}
           render={({ field }) => <DateTimeInput type="string" {...field} />}
         />
         <AppFormField
           control={form.control}
           name="reference"
-          label="Reference"
+          label={t('payment:attributes.reference')}
           render={({ field }) => <Input {...field} value={field.value ?? ''} />}
         />
         <AppFormField
           control={form.control}
           name="notes"
-          label="Notes"
+          label={t('payment:attributes.notes')}
           render={({ field }) => (
             <Textarea {...field} value={field.value ?? ''} />
           )}
         />
         <Button type="submit" loading={loading}>
-          Submit
+          {t('common:submit')}
         </Button>
       </form>
     </Form>

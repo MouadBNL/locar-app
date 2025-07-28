@@ -15,6 +15,21 @@
   "actions": "Actions",
   "cancel": "Cancel",
   "submit": "Submit",
+  "view": "View",
+  "update": "Update",
+  "saving": "Saving...",
+  "save": "Save",
   "dh": "Dh",
-  "days": "days"
+  "days": "days",
+  "km": "km",
+  "doors": "doors",
+  "seats": "seats",
+  "mileage": "Mileage",
+  "files": "Files",
+  "add_files": "Add files",
+  "remove_all": "Remove all",
+  "max": "Max",
+  "up_to": "Up to",
+  "select_files": "Select files",
+  "drop_files_here": "Drop your files here"
 }

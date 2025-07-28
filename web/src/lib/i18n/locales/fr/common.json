@@ -15,6 +15,21 @@
   "actions": "Actions",
   "cancel": "Annuler",
   "submit": "Enregistrer",
+  "view": "Voir",
+  "update": "Mettre à jour",
+  "saving": "Enregistrement...",
+  "save": "Enregistrer",
   "dh": "Dh",
-  "days": "jours"
+  "days": "jours",
+  "km": "km",
+  "doors": "portes",
+  "seats": "places",
+  "mileage": "Kilométrage",
+  "files": "Fichiers",
+  "add_files": "Ajouter des fichiers",
+  "remove_all": "Supprimer tous les fichiers",
+  "max": "Max",
+  "up_to": "Jusqu'à",
+  "select_files": "Sélectionner des fichiers",
+  "drop_files_here": "Déposez vos fichiers ici"
 }

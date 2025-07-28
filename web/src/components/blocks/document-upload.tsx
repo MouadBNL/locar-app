@@ -7,6 +7,7 @@ import {
   useDocumentShow,
 } from '@/features/documents';
 import { SingleFileUpload } from './single-file-upload';
+import { useTranslation } from 'react-i18next';
 
 interface DocumentUploadProps {
   for?: string;
@@ -16,6 +17,7 @@ interface DocumentUploadProps {
 }
 
 export function DocumentUpload(props: DocumentUploadProps) {
+  const { t } = useTranslation(['document', 'common']);
   const {
     data: document,
     error: documentError,
@@ -29,13 +31,13 @@ export function DocumentUpload(props: DocumentUploadProps) {
   const { mutate: createDocument, isPending: isCreateDocumentPending }
     = useDocumentCreate({
       onSuccess: (data) => {
-        toast.success('Document uploaded successfully');
+        toast.success(t('document:action.create.success'));
         props.onChange?.(data.data.id);
         props.onDocumentSelected?.(data.data);
       },
       onError: (error) => {
-        console.error('Failed to upload document: ', error);
-        toast.error('Failed to upload document');
+        console.error(t('document:action.create.error'), error);
+        toast.error(t('document:action.create.error'));
       },
     });
 

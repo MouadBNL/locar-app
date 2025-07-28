@@ -1,4 +1,5 @@
 import { CarIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface PeriodSummaryCardProps {
   pickupDate: string;
@@ -7,13 +8,14 @@ interface PeriodSummaryCardProps {
 }
 
 export function PeriodSummaryCard(props: PeriodSummaryCardProps) {
+  const { t } = useTranslation(['rental', 'common']);
   const pickupDate = new Date(props.pickupDate);
   const dropoffDate = new Date(props.dropoffDate);
 
   return (
     <div className="flex h-full w-full items-center justify-between">
       <div className="flex flex-col items-start justify-center">
-        <span className="text-xs text-muted-foreground">Pickup date</span>
+        <span className="text-xs text-muted-foreground">{t('rental:attributes.pickup_date')}</span>
         <span className="text-lg font-bold">
           {pickupDate.toLocaleDateString()}
         </span>
@@ -25,7 +27,7 @@ export function PeriodSummaryCard(props: PeriodSummaryCardProps) {
         <span className="block text-sm mb-2 text-muted-foreground">
           {props.rentalDays}
           {' '}
-          days
+          {t('common:days')}
         </span>
         <div className="flex items-center">
           <div className="h-3 w-3 rounded-full bg-muted-foreground" />
@@ -36,7 +38,9 @@ export function PeriodSummaryCard(props: PeriodSummaryCardProps) {
         </div>
       </div>
       <div className="flex flex-col items-end justify-center">
-        <span className="text-xs text-muted-foreground">Dropoff date</span>
+        <span className="text-xs text-muted-foreground">
+          {t('rental:attributes.dropoff_date')}
+        </span>
         <span className="text-lg font-bold">
           {dropoffDate.toLocaleDateString()}
         </span>
