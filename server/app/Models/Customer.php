@@ -84,8 +84,8 @@ class Customer extends Model
         return $this->hasOne(Renter::class, 'customer_id', 'id')
             ->whereHas('rental', function ($query) {
                 $query->whereHas('timeframe', function ($query) {
-                    $query->where('departure_date', '<=', now()->toISOString())
-                        ->where('return_date', '>=', now()->toISOString());
+                    $query->where('departure_date', '<=', now()->toDateTimeString())
+                        ->where('return_date', '>=', now()->toDateTimeString());
                 });
             });
     }
@@ -93,8 +93,8 @@ class Customer extends Model
     public function activeReservation(): HasOne
     {
         return $this->hasOne(Reservation::class, 'customer_id', 'id')
-            ->where('check_in_date', '<=', now()->toISOString())
-            ->where('check_out_date', '>=', now()->toISOString());
+            ->where('check_in_date', '<=', now()->toDateTimeString())
+            ->where('check_out_date', '>=', now()->toDateTimeString());
     }
 
     public function renters(): HasMany

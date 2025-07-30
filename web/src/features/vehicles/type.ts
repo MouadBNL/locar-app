@@ -1,6 +1,9 @@
 import type z from 'zod';
 import type { VehicleSchema } from '.';
+import type { RentalSummaryData } from '../rentals';
+import type { ReservationResource } from '../reservations';
 import type { VehicleStatus } from '../vehicle-expenses';
+import type { VehicleMaintenanceResource } from '../vehicle-maintenances';
 
 export type VehicleData = z.infer<typeof VehicleSchema>;
 
@@ -20,6 +23,10 @@ export interface VehicleResource {
   status: VehicleStatusType;
   created_at: string;
   updated_at: string;
+
+  active_rental?: RentalSummaryData | null;
+  active_reservation?: ReservationResource | null;
+  active_maintenance?: VehicleMaintenanceResource | null;
 }
 
 export interface VehicleSummaryResource {

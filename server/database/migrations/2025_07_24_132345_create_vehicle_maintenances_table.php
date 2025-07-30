@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('vehicle_maintenances', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('vehicle_id')->references('id')->on('vehicles');
-            $table->date('started_at')->nullable();
-            $table->date('finished_at')->nullable();
-            $table->date('cancelled_at')->nullable();
+            $table->dateTime('started_at')->nullable();
+            $table->dateTime('finished_at')->nullable();
+            $table->dateTime('cancelled_at')->nullable();
             $table->string('title')->nullable();
             $table->string('reference')->nullable();
             $table->string('notes')->nullable();
