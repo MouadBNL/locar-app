@@ -1,4 +1,5 @@
 import type { z } from 'zod';
+import type { RentalSummaryData } from '../rentals';
 import type { CustomerSchema } from './schema';
 
 export type CustomerData = z.infer<typeof CustomerSchema> & {
@@ -36,6 +37,8 @@ export interface CustomerResource {
   birth_date: string;
   created_at: string;
   updated_at: string;
+
+  active_rental?: RentalSummaryData | null;
 }
 
 export interface CustomerSummaryResource {

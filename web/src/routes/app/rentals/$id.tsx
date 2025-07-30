@@ -127,6 +127,7 @@ function RouteComponent() {
                 color={rental.vehicle.color ?? ''}
                 seats={rental.vehicle.seats ?? 0}
                 mileage={rental.vehicle.mileage ?? 0}
+                attributes={true}
               />
             </div>
           </div>

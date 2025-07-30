@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 
 /**
@@ -49,16 +50,12 @@ class Customer extends Model
     {
         return Attribute::make(
             get: function () {
-                $hasRental = $this->renters
-                    ->where('rental.timeframe.departure_date', '<=', now()->toISOString())
-                    ->where('rental.timeframe.return_date', '>=', now()->toISOString())
-                    ->first();
-
-                if ($hasRental) {
+                $activeRenter = $this->activeRenter;
+                if ($activeRenter) {
                     return [
                         'status' => CustomerStatus::RENTING,
                         'entity_type' => 'rental',
-                        'entity_id' => $hasRental->rental->rental_number,
+                        'entity_id' => $this->activeRenter->rental->rental_number,
                     ];
                 }
 
@@ -80,6 +77,20 @@ class Customer extends Model
                 ];
             }
         );
+    }
+
+    /**
+     * @return HasOne<Renter, $this>
+     */
+    public function activeRenter(): HasOne
+    {
+        return $this->hasOne(Renter::class, 'customer_id', 'id')
+            ->whereHas('rental', function ($query) {
+                $query->whereHas('timeframe', function ($query) {
+                    $query->where('departure_date', '<=', now()->toISOString())
+                        ->where('return_date', '>=', now()->toISOString());
+                });
+            });
     }
 
     public function renters(): HasMany
