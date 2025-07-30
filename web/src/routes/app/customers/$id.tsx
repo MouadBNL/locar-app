@@ -1,10 +1,6 @@
-import {
-  createFileRoute,
-  Link,
-} from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { CustomerStatusBadge } from '@/components/blocks/customer-status-badge';
-import { Button } from '@/components/ui/button';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
 import { customerShowFn } from '@/features/customers';
