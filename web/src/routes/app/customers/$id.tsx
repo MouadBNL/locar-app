@@ -1,17 +1,13 @@
 import {
   createFileRoute,
   Link,
-  useNavigate,
-  useRouter,
 } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
-import CustomerForm from '@/components/blocks/customer-form';
 import { CustomerStatusBadge } from '@/components/blocks/customer-status-badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
-import { customerShowFn, useCustomerUpdate } from '@/features/customers';
+import { customerShowFn } from '@/features/customers';
 
 export const Route = createFileRoute('/app/customers/$id')({
   component: RouteComponent,
@@ -23,21 +19,8 @@ export const Route = createFileRoute('/app/customers/$id')({
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const navigate = useNavigate();
-  const router = useRouter();
-  const { t } = useTranslation(['customer', 'common']);
+  const { t } = useTranslation(['customer', 'rental', 'reservation', 'common']);
   const { customer } = Route.useLoaderData();
-
-  const { mutate: updateCustomer, isPending } = useCustomerUpdate({
-    onSuccess: () => {
-      toast.success('Customer updated successfully');
-      router.invalidate();
-      navigate({ to: '/app/customers' });
-    },
-    onError: () => {
-      toast.error('Failed to update customer');
-    },
-  });
 
   return (
     <div className="pt-8 px-4 lg:px-12">
@@ -59,15 +42,16 @@ function RouteComponent() {
         </Button>
       </div>
 
-      <Card>
-        <CardContent>
-          <CustomerForm
-            submit={data => updateCustomer({ id, data })}
-            loading={isPending}
-            initialValues={customer ?? undefined}
-          />
-        </CardContent>
-      </Card>
+      <div>
+        <TabsNavigation
+          basePath={`/app/customers/${id}`}
+          tabs={[
+            { label: t('common:summary'), path: '' },
+            { label: t('rental:label_plural'), path: 'rentals' },
+            { label: t('reservation:label_plural'), path: 'reservations' },
+          ]}
+        />
+      </div>
     </div>
   );
 }
