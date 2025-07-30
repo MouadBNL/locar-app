@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useRouterState } from '@tanstack/react-router';
 import { PencilIcon } from 'lucide-react';
 import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
@@ -7,6 +7,14 @@ import { useRentalIndex } from '@/features/rentals';
 
 export const Route = createFileRoute('/app/vehicles/$id/rentals')({
   component: RouteComponent,
+  beforeLoad(ctx) {
+    return {
+      meta: {
+        title: 'Vehicle Rentals',
+        breadcrumb: true,
+      },
+    };
+  },
 });
 
 function RouteComponent() {
@@ -22,7 +30,6 @@ function RouteComponent() {
     <div>
       <Card>
         <CardContent>
-
           <RentalTable
             data={data?.data || []}
             loading={isLoading}

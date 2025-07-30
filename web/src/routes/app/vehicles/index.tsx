@@ -11,6 +11,14 @@ import { useVehicleDelete, useVehicleIndex } from '@/features/vehicles';
 
 export const Route = createFileRoute('/app/vehicles/')({
   component: RouteComponent,
+  beforeLoad() {
+    return {
+      meta: {
+        title: 'Vehicles',
+        breadcrumb: true,
+      },
+    };
+  },
 });
 
 function RouteComponent() {

@@ -4,6 +4,14 @@ import { Heading3 } from '@/components/ui/typography';
 
 export const Route = createFileRoute('/app/')({
   component: RouteComponent,
+  beforeLoad() {
+    return {
+      meta: {
+        title: 'Dashboard',
+        breadcrumb: true,
+      },
+    };
+  },
 });
 
 function RouteComponent() {

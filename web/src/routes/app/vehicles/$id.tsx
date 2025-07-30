@@ -8,8 +8,12 @@ import { vehicleShowFn } from '@/features/vehicles';
 
 export const Route = createFileRoute('/app/vehicles/$id')({
   component: RouteComponent,
-  loader: async ({ params }) => {
+  loader: async ({ params, context }) => {
     const vehicle = (await vehicleShowFn(params.id)).data;
+    context.meta = {
+      title: `${vehicle.make} ${vehicle.model} ${vehicle.year}`,
+      breadcrumb: true,
+    };
     return { vehicle };
   },
 });
