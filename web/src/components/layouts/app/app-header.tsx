@@ -36,9 +36,9 @@ export function AppHeader() {
         </Breadcrumb>
       </div>
 
-      <p className="mr-8">
+      <div className="mr-8">
         <LanguageSelector />
-      </p>
+      </div>
     </header>
   );
 }
