@@ -19,6 +19,12 @@ class RentalController extends ApiController
             });
         }
 
+        if ($request->has('customer_id')) {
+            $query->whereHas('renter', function ($query) use ($request) {
+                $query->where('customer_id', $request->customer_id);
+            });
+        }
+
         $rentals = $query->get();
 
         return $this->success(RentalSummaryResource::collection($rentals));

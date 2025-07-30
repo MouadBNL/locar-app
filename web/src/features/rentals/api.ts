@@ -14,6 +14,7 @@ import { http } from '@/lib/http';
 
 export interface RentalFilters {
   vehicle_id?: string;
+  customer_id?: string;
 }
 
 export async function rentalIndexFn(req?: { params?: RentalFilters }) {
