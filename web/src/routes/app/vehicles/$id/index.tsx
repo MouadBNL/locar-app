@@ -133,35 +133,6 @@ function RouteComponent() {
         </Card>
       )}
 
-      {vehicle?.active_maintenance && (
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>
-              {t('maintenance:active_maintenance')}
-              <Link to="/app/vehicles/$id/maintenance" params={{ id: vehicle.id }}>
-                <p className="text-sm text-muted-foreground inline-block ml-2 hover:underline">
-                  {vehicle.active_maintenance.title}
-                </p>
-              </Link>
-            </CardTitle>
-            <CardAction>
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/app/vehicles/$id/maintenance" params={{ id: vehicle.id }}>
-                  <EyeIcon />
-                </Link>
-              </Button>
-            </CardAction>
-          </CardHeader>
-          <CardContent>
-            <PeriodSummaryCard
-              pickupDate={vehicle.active_maintenance.started_at}
-              dropoffDate={vehicle.active_maintenance.finished_at ?? ''}
-              rentalDays={0}
-            />
-          </CardContent>
-        </Card>
-      )}
-
       <Card>
         <CardHeader>
           <CardTitle>
