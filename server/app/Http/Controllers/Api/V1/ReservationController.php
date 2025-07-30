@@ -12,6 +12,7 @@ use App\Models\Reservation;
 use App\Models\Vehicle;
 use App\Services\AvailabilityCheckService;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ReservationController extends ApiController
 {
@@ -19,9 +20,15 @@ class ReservationController extends ApiController
         private AvailabilityCheckService $availabilityCheckService
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $reservations = Reservation::all();
+        $query = Reservation::with(['vehicle', 'customer']);
+
+        if ($request->has('vehicle_id')) {
+            $query->where('vehicle_id', $request->vehicle_id);
+        }
+
+        $reservations = $query->get();
 
         return $this->success(ReservationResource::collection($reservations));
     }
