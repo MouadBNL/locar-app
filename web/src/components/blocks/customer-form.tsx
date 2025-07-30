@@ -66,6 +66,21 @@ export default function CustomerForm({
 
           <AppFormField
             control={form.control}
+            name="id_card_number"
+            label={t('customer:attributes.id_card_number')}
+            render={({ field }) => (
+              <Input
+                type="text"
+                placeholder={t('customer:attributes.id_card_number')}
+                {...field}
+                value={field.value ?? ''}
+              />
+            )}
+          />
+
+
+          <AppFormField
+            control={form.control}
             name="email"
             label={t('customer:attributes.email')}
             render={({ field }) => (

@@ -11,6 +11,7 @@
   "attributes": {
     "first_name": "First Name",
     "last_name": "Last Name",
+    "id_card_number": "ID Card Number",
     "email": "Email",
     "phone": "Phone",
     "address": "Address",

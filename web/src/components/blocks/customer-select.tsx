@@ -78,6 +78,8 @@ export function CustomerSelect(props: CustomerSelectProps) {
     return (
       customer.first_name.toLowerCase().includes(searchLower)
       || customer.last_name.toLowerCase().includes(searchLower)
+      || (customer.id_card_number ?? '').toLowerCase().includes(searchLower)
+
     );
   }) ?? [];
 
@@ -122,7 +124,7 @@ export function CustomerSelect(props: CustomerSelectProps) {
               {' '}
               {customer.last_name}
               {' '}
-              <i className="opacity-15">
+              <i className="opacity-20">
                 {customer.id_card_number}
                 {' '}
                 |
