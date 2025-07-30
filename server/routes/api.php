@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\V1\RentalAgreementGenerateController;
+use App\Http\Controllers\Api\V1\RentalController;
 use App\Http\Controllers\Api\V1\RentalDetailsUpdateController;
 use App\Http\Controllers\Api\V1\RentalDocumentController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\Api\V1\ReservationController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
 use App\Http\Controllers\Api\V1\VehicleMaintenanceController;
-use App\Http\Controllers\Api\V1\RentalController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/auth')->group(function () {

@@ -90,6 +90,9 @@ class Customer extends Model
             });
     }
 
+    /**
+     * @return HasOne<Reservation, $this>
+     */
     public function activeReservation(): HasOne
     {
         return $this->hasOne(Reservation::class, 'customer_id', 'id')
