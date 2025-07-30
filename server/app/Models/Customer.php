@@ -59,16 +59,13 @@ class Customer extends Model
                     ];
                 }
 
-                $hasBooking = $this->reservations()
-                    ->where('check_in_date', '<=', now()->toISOString())
-                    ->where('check_out_date', '>=', now()->toISOString())
-                    ->first();
+                $activeReservation = $this->activeReservation;
 
-                if ($hasBooking) {
+                if ($activeReservation) {
                     return [
                         'status' => CustomerStatus::BOOKED,
                         'entity_type' => 'reservation',
-                        'entity_id' => $hasBooking->id,
+                        'entity_id' => $activeReservation->id,
                     ];
                 }
 
@@ -91,6 +88,13 @@ class Customer extends Model
                         ->where('return_date', '>=', now()->toISOString());
                 });
             });
+    }
+
+    public function activeReservation(): HasOne
+    {
+        return $this->hasOne(Reservation::class, 'customer_id', 'id')
+            ->where('check_in_date', '<=', now()->toISOString())
+            ->where('check_out_date', '>=', now()->toISOString());
     }
 
     public function renters(): HasMany

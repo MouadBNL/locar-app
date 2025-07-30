@@ -31,6 +31,7 @@ class CustomerResource extends JsonResource
             'passport_number' => $this->passport_number,
             'birth_date' => $this->birth_date,
             'active_rental' => $this->activeRenter ? new RentalSummaryResource($this->activeRenter->rental) : null,
+            'active_reservation' => $this->activeReservation ? new ReservationResource($this->activeReservation) : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

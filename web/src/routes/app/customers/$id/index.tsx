@@ -21,7 +21,7 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const router = useRouter();
-  const { t } = useTranslation(['customer', 'common', 'rental']);
+  const { t } = useTranslation(['customer', 'common', 'rental', 'reservation']);
   const { customer } = Route.useLoaderData();
 
   const { mutate: updateCustomer, isPending } = useCustomerUpdate({
@@ -74,7 +74,50 @@ function RouteComponent() {
                   pickupDate={customer.active_rental.departure_date}
                   dropoffDate={customer.active_rental.return_date}
                   rentalDays={customer.active_rental.duration ?? 1}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
+      {customer?.active_reservation && (
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>
+              {t('reservation:active_reservation')}
+              <Link to="/app/reservations/$id" params={{ id: customer.active_reservation.id }}>
+                <p className="text-sm text-muted-foreground inline-block ml-2 hover:underline">
+                  #
+                  {customer.active_reservation.id}
+                </p>
+              </Link>
+            </CardTitle>
+            <CardAction>
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/app/reservations/$id" params={{ id: customer.active_reservation.id }}>
+                  <EyeIcon />
+                </Link>
+              </Button>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap items-center">
+              <div className="w-full lg:w-1/3">
+                <VehicleSummaryCard
+                  id={customer.active_reservation.vehicle.id}
+                  make={customer.active_reservation.vehicle.make}
+                  model={customer.active_reservation.vehicle.model}
+                  year={customer.active_reservation.vehicle.year}
+                  plate={customer.active_reservation.vehicle.license_plate}
+                  attributes={false}
+                />
+              </div>
+              <div className="w-full lg:w-2/3">
+                <PeriodSummaryCard
+                  pickupDate={customer.active_reservation.check_in_date}
+                  dropoffDate={customer.active_reservation.check_out_date}
+                  rentalDays={customer.active_reservation.total_days ?? 1}
                 />
               </div>
             </div>
