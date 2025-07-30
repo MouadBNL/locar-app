@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\V1\ReservationController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
 use App\Http\Controllers\Api\V1\VehicleMaintenanceController;
-use App\Http\Controllers\RentalController;
+use App\Http\Controllers\Api\V1\RentalController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/auth')->group(function () {

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Data\RentalData;
-use App\Http\Controllers\Api\V1\ApiController;
 use App\Http\Resources\RentalSummaryResource;
 use App\Models\Rental;
 
