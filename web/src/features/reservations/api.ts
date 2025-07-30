@@ -4,6 +4,7 @@ import { http } from '@/lib/http';
 
 export interface ReservationFilters {
   vehicle_id?: string;
+  customer_id?: string;
 }
 
 export async function reservationIndexFn(req?: { params?: ReservationFilters }) {

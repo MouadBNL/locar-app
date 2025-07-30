@@ -37,9 +37,6 @@ function RouteComponent() {
           <CustomerStatusBadge status={customer?.status} />
         </div>
 
-        <Button asChild variant="destructive">
-          <Link to="/app/customers">{t('common:cancel')}</Link>
-        </Button>
       </div>
 
       <div>

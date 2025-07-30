@@ -28,6 +28,10 @@ class ReservationController extends ApiController
             $query->where('vehicle_id', $request->vehicle_id);
         }
 
+        if ($request->has('customer_id')) {
+            $query->where('customer_id', $request->customer_id);
+        }
+
         $reservations = $query->get();
 
         return $this->success(ReservationResource::collection($reservations));
