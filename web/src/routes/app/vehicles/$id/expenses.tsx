@@ -1,8 +1,8 @@
 import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { VehicleExpenseFormDialog } from '@/components/blocks/vehicle-expense-form-dialog';
 import { VehicleExpenseTable } from '@/components/blocks/vehicle-expense-table';
@@ -19,16 +19,25 @@ import {
   useVehicleExpenseDelete,
   useVehicleExpenseIndex,
   useVehicleExpenseUpdate,
-
 } from '@/features/vehicle-expenses';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/vehicles/$id/expenses')({
   component: RouteComponent,
+  loader: async ({ params }) => {
+    await useVehicleExpenseIndex.prefetch({ vehicleId: params.id });
+
+    return {
+      meta: {
+        breadcrumb: breadcrumb('expenses:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {
+  const { t } = useTranslation(['expenses', 'common']);
   const { id } = Route.useParams();
-  const queryClient = useQueryClient();
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [editExpense, setEditExpense] = useState<VehicleExpenseResource | null>(
     null,
@@ -41,24 +50,26 @@ function RouteComponent() {
   const { mutate: deleteVehicleExpense, isPending: isDeletingVehicleExpense }
     = useVehicleExpenseDelete({
       onSuccess: () => {
-        toast.success('Expense deleted');
-        queryClient.invalidateQueries({ queryKey: ['vehicle-expenses'] });
+        toast.success(t('expenses:action.delete.success'));
+        useVehicleExpenseIndex.invalidate();
       },
       onError: (error) => {
         console.error(error);
-        toast.error('Failed to delete expense');
+        toast.error(t('expenses:action.delete.error'));
       },
     });
 
   const handleExpensesChange = () => {
-    queryClient.invalidateQueries({ queryKey: ['vehicle-expenses'] });
+    useVehicleExpenseIndex.invalidate({ vehicleId: id });
   };
 
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
-        <CardTitle>Vehicle Expenses</CardTitle>
-        <CardAction>
+        <CardTitle>
+          {t('expenses:label_plural')}
+        </CardTitle>
+        <CardAction className="flex items-center gap-2">
           <AddExpenseDialog
             vehicleId={id}
             onChange={handleExpensesChange}
@@ -70,7 +81,7 @@ function RouteComponent() {
                 onClick={() => setOpenCreateDialog(true)}
               >
                 <PlusIcon />
-                Add Expense
+                {t('expenses:add_expense')}
               </Button>
             )}
           />
@@ -129,16 +140,17 @@ function AddExpenseDialog({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const { t } = useTranslation(['expenses', 'common']);
   const { mutate: createVehicleExpense, isPending: isCreatingVehicleExpense }
     = useVehicleExpenseCreate({
       onSuccess: (data) => {
-        toast.success('Expense created');
+        toast.success(t('expenses:action.create.success'));
         setOpen?.(false);
         onChange?.(data.data);
       },
       onError: (error) => {
         console.error(error);
-        toast.error('Failed to create expense');
+        toast.error(t('expenses:action.create.error'));
       },
     });
 
@@ -181,19 +193,22 @@ function EditExpenseDialog({
   setEditExpense: (expense: VehicleExpenseResource | null) => void;
   onChange?: (expense: VehicleExpenseResource) => void;
 }) {
+  const { t } = useTranslation(['expenses', 'common']);
   const { mutate: updateVehicleExpense, isPending: isUpdatingVehicleExpense }
     = useVehicleExpenseUpdate({
       onSuccess: (data) => {
-        toast.success('Expense updated');
+        toast.success(t('expenses:action.update.success'));
         setEditExpense(null);
         onChange?.(data.data);
       },
       onError: (error) => {
         console.error(error);
-        toast.error('Failed to update expense');
+        toast.error(t('expenses:action.update.error'));
       },
     });
 
+  if (!expense)
+    return null;
   return (
     <VehicleExpenseFormDialog
       open={!!expense}

@@ -1,0 +1,41 @@
+{
+  "label_singular": "Expense",
+  "label_plural": "Expenses",
+  "search_placeholder": "Search expense...",
+  "manage_expenses": "Manage Expenses",
+  "add_expense": "Add Expense",
+  "add_expense_description": "Add a new expense to the system",
+  "no_expenses_found": "No expenses found",
+  "total": "Total",
+  "type_enum": {
+    "fuel": "Fuel",
+    "maintenance": "Maintenance",
+    "repair": "Repair",
+    "insurance": "Insurance",
+    "registration": "Registration",
+    "other": "Other"
+  },
+  "attributes": {
+    "type": "Type",
+    "amount": "Amount",
+    "date": "Date",
+    "title": "Title",
+    "reference": "Reference",
+    "receipt": "Receipt",
+    "notes": "Notes"
+  },
+  "action": {
+    "delete": {
+      "success": "Expense deleted",
+      "error": "Failed to delete expense"
+    },
+    "create": {
+      "success": "Expense created",
+      "error": "Failed to create expense"
+    },
+    "update": {
+      "success": "Expense updated",
+      "error": "Failed to update expense"
+    }
+  }
+}

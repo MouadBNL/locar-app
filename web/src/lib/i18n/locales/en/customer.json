@@ -1,0 +1,36 @@
+{
+  "label_singular": "Customer",
+  "label_plural": "Customers",
+  "search_placeholder": "Search customer...",
+  "manage_customers": "Manage Customers",
+  "add_customer": "Add Customer",
+  "add_customer_description": "Add a new customer to the system",
+  "click_to_view_reservation": "Click to view reservation",
+  "click_to_view_rental": "Click to view rental",
+  "no_customers_found": "No customers found",
+  "attributes": {
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "driver_license_number": "Driver License Number",
+    "birth_date": "Birth Date",
+    "id_number": "ID Number",
+    "status": "Status",
+    "passport_number": "Passport Number",
+    "passport_country": "Passport Country",
+    "passport_issuing_date": "Passport Issuing Date",
+    "passport_expiration_date": "Passport Expiration Date",
+    "driver_license_issuing_city": "Driver License Issuing City",
+    "driver_license_issuing_date": "Driver License Issuing Date",
+    "driver_license_expiration_date": "Driver License Expiration Date",
+    "id_card_scan_document": "ID Card Scan Document",
+    "driver_license_scan_document": "Driver License Scan Document"
+  },
+  "status_enum": {
+    "booked": "Booked",
+    "renting": "Renting",
+    "active": "Active"
+  }
+}

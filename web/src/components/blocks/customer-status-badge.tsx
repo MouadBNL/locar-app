@@ -1,10 +1,16 @@
 import type { CustomerStatus } from '@/features/customers';
 import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { str_to_titlecase } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
-export function CustomerStatusBadge({ status }: { status: CustomerStatus }) {
+export function CustomerStatusBadge({ status }: { status?: CustomerStatus }) {
+  const { t } = useTranslation(['customer', 'common']);
+
+  if (!status)
+    return null;
+
   if (status.status === 'booked') {
     return (
       <Tooltip>
@@ -16,12 +22,14 @@ export function CustomerStatusBadge({ status }: { status: CustomerStatus }) {
                 aria-hidden="true"
               >
               </span>
-              {str_to_titlecase(status.status)}
+              {t(`customer:status_enum.${status.status}`, {
+                defaultValue: str_to_titlecase(status.status),
+              })}
             </Badge>
           </Link>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Click to view reservation</p>
+          <p>{t('customer:click_to_view_reservation')}</p>
         </TooltipContent>
       </Tooltip>
     );
@@ -38,12 +46,14 @@ export function CustomerStatusBadge({ status }: { status: CustomerStatus }) {
                 aria-hidden="true"
               >
               </span>
-              {str_to_titlecase(status.status)}
+              {t(`customer:status_enum.${status.status}`, {
+                defaultValue: str_to_titlecase(status.status),
+              })}
             </Badge>
           </Link>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Click to view rental</p>
+          <p>{t('customer:click_to_view_rental')}</p>
         </TooltipContent>
       </Tooltip>
     );
@@ -56,7 +66,9 @@ export function CustomerStatusBadge({ status }: { status: CustomerStatus }) {
         aria-hidden="true"
       >
       </span>
-      {str_to_titlecase(status.status)}
+      {t(`customer:status_enum.${status.status}`, {
+        defaultValue: str_to_titlecase(status.status),
+      })}
     </Badge>
   );
 }

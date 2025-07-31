@@ -1,0 +1,133 @@
+{
+  "label_singular": "Location",
+  "label_plural": "Locations",
+  "create_rental": "Créer une location",
+  "manage_rentals": "Gestion des locations",
+  "add_rental": "Ajouter une location",
+  "not_found": "Location non trouvée",
+  "view_agreement": "Voir le contrat",
+  "summary": "Récapitulatif",
+  "documents": "Documents",
+  "payments": "Paiements",
+  "start_rental": "Démarrer la location",
+  "start_rental_description": "Démarrez la location en fournissant la date de départ et le kilométrage réel.",
+  "return_rental": "Retourner la location",
+  "return_rental_description": "Retournez la location en fournissant la date de retour et le kilométrage réel.",
+  "generate_agreement": "Générer le contrat",
+  "active_rental": "Location active",
+  "action": {
+    "create": {
+      "success": "Location créée avec succès",
+      "error": "Erreur lors de la création de la location"
+    },
+    "delete": {
+      "success": "Location supprimée avec succès",
+      "error": "Erreur lors de la suppression de la location"
+    },
+    "start": {
+      "success": "Location démarrée avec succès",
+      "error": "Erreur lors du démarrage de la location"
+    },
+    "return": {
+      "success": "Location retournée avec succès",
+      "error": "Erreur lors du retour de la location"
+    },
+    "generate_agreement": {
+      "success": "Contrat généré avec succès",
+      "error": "Erreur lors de la génération du contrat"
+    }
+  },
+  "attributes": {
+    "code": "Numéro de location",
+    "customer": "Client",
+    "vehicle": "Véhicule",
+    "pickup_date": "Date de départ",
+    "dropoff_date": "Date de retour",
+    "actual_return_date": "Date de retour réelle",
+    "total_price": "Prix total",
+    "status": "Statut"
+  },
+  "start_form": {
+    "attributes": {
+      "actual_departure_date": "Date de départ réelle"
+    }
+  },
+  "return_form": {
+    "attributes": {
+      "actual_return_date": "Date de retour réelle"
+    }
+  },
+  "status_enum": {
+    "draft": "Brouillon",
+    "started": "Démarré",
+    "finished": "Terminé"
+  },
+  "period": {
+    "heading": "Période",
+    "subheading": "Sélectionnez la période de la location",
+    "updated": "Période mise à jour",
+    "error": "Erreur lors de la mise à jour de la période",
+    "attributes": {
+      "departure_date": "Date de départ",
+      "return_date": "Date de retour"
+    }
+  },
+  "customer": {
+    "heading": "Client",
+    "subheading": "Sélectionnez le client pour la location",
+    "updated": "Client mis à jour",
+    "error": "Erreur lors de la mise à jour du client",
+    "attributes": {
+      "full_name": "Nom complet"
+    }
+  },
+  "vehicle": {
+    "heading": "Véhicule",
+    "subheading": "Sélectionnez le véhicule pour la location",
+    "updated": "Véhicule mis à jour",
+    "error": "Erreur lors de la mise à jour du véhicule"
+  },
+  "rate": {
+    "heading": "Tarifs & Prix",
+    "subheading": "Sélectionnez le tarif pour la location",
+    "updated": "Tarif mis à jour",
+    "error": "Erreur lors de la mise à jour du tarif",
+    "attributes": {
+      "day_rate": "Tarif journalier",
+      "day_quantity": "Nombre de jours",
+      "day_total": "Total",
+      "extra_rate": "Tarif extra",
+      "extra_quantity": "Nombre d'extras",
+      "extra_total": "Total",
+      "total": "Total"
+    }
+  },
+  "notes": {
+    "heading": "Notes",
+    "subheading": "Ajoutez des notes supplémentaires pour la location",
+    "updated": "Notes mises à jour",
+    "error": "Erreur lors de la mise à jour des notes",
+    "attributes": {
+      "notes": "Notes"
+    }
+  },
+  "document": {
+    "created": "Document créé",
+    "updated": "Document mis à jour",
+    "deleted": "Document supprimé",
+    "error": "Erreur lors de la mise à jour du document"
+  },
+  "charges": {
+    "summary": "Récapitulatif des frais",
+    "no_charges_found": "Aucun frais trouvé",
+    "attributes": {
+      "day_rate": "Tarif journalier",
+      "day_quantity": "Nombre de jours",
+      "day_total": "Total",
+      "extra_rate": "Tarif extra",
+      "extra_quantity": "Nombre d'extras",
+      "extra_total": "Total",
+      "total": "Total"
+    }
+  }
+}

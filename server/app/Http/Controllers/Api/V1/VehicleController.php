@@ -26,6 +26,8 @@ class VehicleController extends ApiController
 
     public function show(Vehicle $vehicle)
     {
+        $vehicle->load('activeRentalVehicle', 'activeReservation', 'activeMaintenance');
+
         return $this->success(new VehicleResource($vehicle));
     }
 

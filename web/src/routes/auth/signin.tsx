@@ -1,10 +1,10 @@
 import type { SignInRequest } from '@/features/auth';
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { SigninForm } from '@/components/blocks/signin-form';
 import { Card, CardContent } from '@/components/ui/card';
-import { useSingIn } from '@/features/auth';
+import { useAuthMe, useSingIn } from '@/features/auth';
 
 export const Route = createFileRoute('/auth/signin')({
   component: RouteComponent,
@@ -12,17 +12,16 @@ export const Route = createFileRoute('/auth/signin')({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
+  const { t } = useTranslation(['auth', 'common']);
   const { mutate: signin, isPending } = useSingIn({
     onSuccess() {
-      toast.success('You have been sign in successfully');
-      queryClient.invalidateQueries({ queryKey: ['session'] });
+      toast.success(t('auth:login.success'));
+      useAuthMe.invalidate();
       navigate({ to: '/app' });
     },
     onError(err) {
       console.error(err);
-      toast.error('Signin failed');
+      toast.error(t('auth:login.error'));
     },
   });
 
@@ -38,20 +37,22 @@ function RouteComponent() {
             <div className="p-6 md:p-8">
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
-                  <h1 className="text-2xl font-bold">Welcome back</h1>
+                  <h1 className="text-2xl font-bold">
+                    {t('auth:login.title')}
+                  </h1>
                   <p className="text-muted-foreground text-balance">
-                    Login to your Acme Inc account
+                    {t('auth:login.description')}
                   </p>
                 </div>
                 <SigninForm submit={onSignIn} loading={isPending} />
                 <div className="text-center text-sm">
-                  Don&apos;t have an account?
+                  {t('auth:login.no_account')}
                   {' '}
                   <Link
                     to="/auth/signup"
                     className="underline underline-offset-4"
                   >
-                    Sign up
+                    {t('auth:sign_up.title')}
                   </Link>
                 </div>
               </div>
@@ -66,12 +67,13 @@ function RouteComponent() {
           </CardContent>
         </Card>
         <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-          By clicking continue, you agree to our
+          {t('auth:login.terms_of_service')}
           {' '}
-          <a href="#">Terms of Service</a>
+          <a href="#">{t('auth:login.terms_of_service_link')}</a>
           {' '}
-          and
-          <a href="#">Privacy Policy</a>
+          {t('auth:login.and')}
+          {' '}
+          <a href="#">{t('auth:login.privacy_policy_link')}</a>
           .
         </div>
       </div>

@@ -1,0 +1,37 @@
+{
+  "label_singular": "Maintenance",
+  "label_plural": "Maintenances",
+  "search_placeholder": "Search maintenance...",
+  "manage_maintenances": "Manage Maintenances",
+  "add_maintenance": "Add Maintenance",
+  "add_maintenance_description": "Add a new maintenance to the system",
+  "edit_maintenance": "Edit Maintenance",
+  "edit_maintenance_description": "Edit the maintenance for the vehicle",
+  "no_maintenances_found": "No maintenances found",
+  "active_maintenance": "Active Maintenance",
+  "details": "Details",
+  "expenses": "Expenses",
+  "attributes": {
+    "started_at": "Started At",
+    "finished_at": "Finished At",
+    "title": "Title",
+    "reference": "Reference",
+    "notes": "Notes",
+    "receipt": "Receipt Document",
+    "expenses": "Expenses"
+  },
+  "action": {
+    "delete": {
+      "success": "Maintenance deleted",
+      "error": "Failed to delete maintenance"
+    },
+    "create": {
+      "success": "Maintenance created",
+      "error": "Failed to create maintenance"
+    },
+    "update": {
+      "success": "Maintenance updated",
+      "error": "Failed to update maintenance"
+    }
+  }
+}

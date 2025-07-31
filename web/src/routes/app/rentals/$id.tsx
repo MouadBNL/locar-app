@@ -1,5 +1,5 @@
 import type { RentalData } from '@/features/rentals';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import {
   CircleArrowOutDownLeft,
   DownloadIcon,
@@ -11,6 +11,7 @@ import {
   ReceiptTextIcon,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { CustomerSummaryCard } from '@/components/blocks/customer-summary-card';
 
@@ -33,27 +34,33 @@ import { Separator } from '@/components/ui/separator';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
 import {
-
-  rentalShowFn,
   useRentalAgreementGenerate,
   useRentalReturn,
+  useRentalShow,
   useRentalStart,
 } from '@/features/rentals';
 
 export const Route = createFileRoute('/app/rentals/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const data = await rentalShowFn({ number: params.id });
-    return { rental: data.data };
+    const rental = await useRentalShow.prefetch({ number: params.id });
+
+    return { rental: rental.data, meta: {
+      breadcrumb: {
+        title: `${rental.data.rental_number}`,
+      },
+    } };
   },
 });
 
 function RouteComponent() {
   const { id: code } = Route.useParams();
-  const { rental } = Route.useLoaderData();
+  const { t } = useTranslation(['rental', 'common']);
+  const { data } = useRentalShow({ number: code });
+  const rental = data?.data;
 
   if (!rental) {
-    return <div>Rental not found</div>;
+    return <div>{t('rental:not_found')}</div>;
   }
 
   return (
@@ -61,7 +68,9 @@ function RouteComponent() {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-8">
           <Heading3>
-            Rental #
+            {t('rental:label_singular')}
+            {' '}
+            #
             {code}
           </Heading3>
           <RentalStatusBadge status={rental.status ?? 'draft'} />
@@ -79,7 +88,7 @@ function RouteComponent() {
             <>
               <Button variant="outline">
                 <EyeIcon className="w-4 h-4" />
-                View Agreement
+                {t('rental:view_agreement')}
               </Button>
               <RentalReturnAction code={code} rental={rental} />
             </>
@@ -123,6 +132,7 @@ function RouteComponent() {
                 color={rental.vehicle.color ?? ''}
                 seats={rental.vehicle.seats ?? 0}
                 mileage={rental.vehicle.mileage ?? 0}
+                attributes={true}
               />
             </div>
           </div>
@@ -140,7 +150,7 @@ function RouteComponent() {
                   size={16}
                   aria-hidden="true"
                 />
-                Summary
+                {t('rental:summary')}
               </>
             ),
             path: '',
@@ -153,7 +163,7 @@ function RouteComponent() {
                   size={16}
                   aria-hidden="true"
                 />
-                Documents
+                {t('rental:documents')}
               </>
             ),
             path: 'documents',
@@ -166,7 +176,7 @@ function RouteComponent() {
                   size={16}
                   aria-hidden="true"
                 />
-                Payments
+                {t('rental:payments')}
               </>
             ),
             path: 'payments',
@@ -184,19 +194,16 @@ function RentalStartAction({
   code: string;
   rental: RentalData;
 }) {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-
+  const { t } = useTranslation(['rental', 'common']);
   const { mutate: startRental, isPending: isStartingRental } = useRentalStart({
     onSuccess: () => {
-      toast.success('Rental started successfully');
-      router.invalidate({
-        filter: match => match.id === code,
-      });
+      toast.success(t('rental:action.start.success'));
+      useRentalShow.invalidate({ number: code });
       setOpen(false);
     },
     onError: () => {
-      toast.error('Failed to start rental');
+      toast.error(t('rental:action.start.error'));
     },
   });
 
@@ -205,14 +212,14 @@ function RentalStartAction({
       <DialogTrigger asChild>
         <Button variant="outline">
           <PlayIcon className="w-4 h-4" />
-          Start Rental
+          {t('rental:start_rental')}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Start Rental</DialogTitle>
+          <DialogTitle>{t('rental:start_rental')}</DialogTitle>
           <DialogDescription>
-            Start the rental by providing the actual departure date and mileage.
+            {t('rental:start_rental_description')}
           </DialogDescription>
         </DialogHeader>
         <div>
@@ -234,20 +241,18 @@ function RentalReturnAction({
   code: string;
   rental: RentalData;
 }) {
-  const router = useRouter();
+  const { t } = useTranslation(['rental', 'common']);
   const [open, setOpen] = useState(false);
 
   const { mutate: returnRental, isPending: isReturningRental }
     = useRentalReturn({
       onSuccess: () => {
-        toast.success('Rental returned successfully');
-        router.invalidate({
-          filter: match => match.id === code,
-        });
+        toast.success(t('rental:action.return.success'));
+        useRentalShow.invalidate({ number: code });
         setOpen(false);
       },
       onError: () => {
-        toast.error('Failed to return rental');
+        toast.error(t('rental:action.return.error'));
       },
     });
 
@@ -256,14 +261,14 @@ function RentalReturnAction({
       <DialogTrigger asChild>
         <Button variant="outline">
           <CircleArrowOutDownLeft className="w-4 h-4" />
-          Return Rental
+          {t('rental:return_rental')}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Return Rental</DialogTitle>
+          <DialogTitle>{t('rental:return_rental')}</DialogTitle>
           <DialogDescription>
-            Return the rental by providing the actual return date and mileage.
+            {t('rental:return_rental_description')}
           </DialogDescription>
         </DialogHeader>
         <div>
@@ -285,20 +290,18 @@ function RentalAgreementAction({
   code: string;
   rental: RentalData;
 }) {
-  const router = useRouter();
+  const { t } = useTranslation(['rental', 'common']);
   const { mutate: generateAgreement, isPending: isGeneratingAgreement }
     = useRentalAgreementGenerate({
       onSuccess: (data) => {
-        toast.success('Agreement generated successfully');
+        toast.success(t('rental:action.generate_agreement.success'));
         if (data.data.url) {
           window.open(data.data.url, '_blank');
         }
-        router.invalidate({
-          filter: match => match.id === code,
-        });
+        useRentalShow.invalidate({ number: code });
       },
       onError: () => {
-        toast.error('Failed to generate agreement');
+        toast.error(t('rental:action.generate_agreement.error'));
       },
     });
 
@@ -307,7 +310,7 @@ function RentalAgreementAction({
       <Button variant="outline" asChild>
         <a href={rental.agreement_document.url} target="_blank">
           <FileTextIcon className="w-4 h-4" />
-          View Agreement
+          {t('rental:view_agreement')}
         </a>
       </Button>
     );
@@ -320,7 +323,7 @@ function RentalAgreementAction({
       loading={isGeneratingAgreement}
     >
       <DownloadIcon className="w-4 h-4" />
-      Generate Agreement
+      {t('rental:generate_agreement')}
     </Button>
   );
 }

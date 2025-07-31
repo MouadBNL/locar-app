@@ -1,0 +1,25 @@
+{
+  "label_singular": "Document",
+  "label_plural": "Documents",
+  "search_placeholder": "Rechercher un document...",
+  "manage_documents": "Gestion des documents",
+  "add_document": "Ajouter un document",
+  "add_document_description": "Ajouter un nouveau document au système",
+  "no_documents_found": "Aucun document trouvé",
+  "view": {
+    "heading": "Voir le document",
+    "description": "Voir les détails du document"
+  },
+  "attributes": {
+    "title": "Titre",
+    "filename": "Nom du fichier",
+    "type": "Type",
+    "description": "Description"
+  },
+  "action": {
+    "create": {
+      "success": "Document téléchargé avec succès",
+      "error": "Erreur lors du téléchargement du document"
+    }
+  }
+}

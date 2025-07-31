@@ -1,0 +1,37 @@
+{
+  "label_singular": "Maintenance",
+  "label_plural": "Maintenances",
+  "search_placeholder": "Rechercher une maintenance...",
+  "manage_maintenances": "Gérer les maintenances",
+  "add_maintenance": "Ajouter une maintenance",
+  "add_maintenance_description": "Ajouter une nouvelle maintenance au système",
+  "edit_maintenance": "Modifier la maintenance",
+  "edit_maintenance_description": "Modifier la maintenance pour le véhicule",
+  "no_maintenances_found": "Aucune maintenance trouvée",
+  "active_maintenance": "Maintenance active",
+  "details": "Détails",
+  "expenses": "Dépenses",
+  "attributes": {
+    "started_at": "Début",
+    "finished_at": "Fin",
+    "title": "Titre",
+    "reference": "Référence",
+    "notes": "Notes",
+    "receipt": "Document de réception",
+    "expenses": "Dépenses"
+  },
+  "action": {
+    "delete": {
+      "success": "Maintenance supprimée",
+      "error": "Échec de la suppression de la maintenance"
+    },
+    "create": {
+      "success": "Maintenance créée",
+      "error": "Échec de la création de la maintenance"
+    },
+    "update": {
+      "success": "Maintenance mise à jour",
+      "error": "Échec de la mise à jour de la maintenance"
+    }
+  }
+}

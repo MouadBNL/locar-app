@@ -1,0 +1,134 @@
+{
+  "label_singular": "Rental",
+  "label_plural": "Rentals",
+  "create_rental": "Create Rental",
+  "manage_rentals": "Manage Rentals",
+  "add_rental": "Add Rental",
+  "not_found": "Rental not found",
+  "view_agreement": "View Agreement",
+  "summary": "Summary",
+  "documents": "Documents",
+  "payments": "Payments",
+  "start_rental": "Start Rental",
+  "start_rental_description": "Start the rental by providing the actual departure date and mileage.",
+  "return_rental": "Return Rental",
+  "return_rental_description": "Return the rental by providing the actual return date and mileage.",
+  "generate_agreement": "Generate Agreement",
+  "active_rental": "Active Rental",
+  "action": {
+    "create": {
+      "success": "Rental created successfully",
+      "error": "Failed to create rental"
+    },
+    "delete": {
+      "success": "Rental deleted successfully",
+      "error": "Failed to delete rental"
+    },
+    "start": {
+      "success": "Rental started successfully",
+      "error": "Failed to start rental"
+    },
+    "return": {
+      "success": "Rental returned successfully",
+      "error": "Failed to return rental"
+    },
+    "generate_agreement": {
+      "success": "Agreement generated successfully",
+      "error": "Failed to generate agreement"
+    }
+  },
+  "attributes": {
+    "code": "Code",
+    "customer": "Customer",
+    "vehicle": "Vehicle",
+    "pickup_date": "Pickup Date",
+    "dropoff_date": "Dropoff Date",
+    "actual_return_date": "Actual Return Date",
+    "total_price": "Total Price",
+    "status": "Status"
+  },
+  "return_form": {
+    "attributes": {
+      "actual_return_date": "Actual Return Date",
+      "mileage": "Mileage"
+    }
+  },
+  "start_form": {
+    "attributes": {
+      "actual_departure_date": "Actual Departure Date"
+    }
+  },
+  "status_enum": {
+    "draft": "Draft",
+    "started": "Started",
+    "finished": "Finished"
+  },
+  "period": {
+    "heading": "Period",
+    "subheading": "Select the period of the rental",
+    "updated": "Period updated",
+    "error": "Failed to update period",
+    "attributes": {
+      "departure_date": "Departure Date",
+      "return_date": "Return Date"
+    }
+  },
+  "customer": {
+    "heading": "Customer",
+    "subheading": "Select the customer for the rental",
+    "updated": "Customer updated",
+    "error": "Failed to update customer",
+    "attributes": {
+      "full_name": "Full Name"
+    }
+  },
+  "vehicle": {
+    "heading": "Vehicle",
+    "subheading": "Select the vehicle for the rental",
+    "updated": "Vehicle updated",
+    "error": "Failed to update vehicle"
+  },
+  "rate": {
+    "heading": "Rate & Pricing",
+    "subheading": "Select the rate for the rental",
+    "updated": "Rate updated",
+    "error": "Failed to update rate",
+    "attributes": {
+      "day_rate": "Day Rate",
+      "day_quantity": "Number of days",
+      "day_total": "Day Total",
+      "extra_rate": "Extra Rate",
+      "extra_quantity": "Extra Quantity",
+      "extra_total": "Extra Total",
+      "total": "Total"
+    }
+  },
+  "notes": {
+    "heading": "Notes",
+    "subheading": "Add any additional notes for the rental",
+    "updated": "Notes updated",
+    "error": "Failed to update notes",
+    "attributes": {
+      "notes": "Notes"
+    }
+  },
+  "document": {
+    "created": "Document created",
+    "updated": "Document updated",
+    "deleted": "Document deleted",
+    "error": "Failed to update document"
+  },
+  "charges": {
+    "summary": "Summary of charges",
+    "no_charges_found": "No charges found",
+    "attributes": {
+      "day_rate": "Day Rate",
+      "day_quantity": "Number of days",
+      "day_total": "Day Total",
+      "extra_rate": "Extra Rate",
+      "extra_quantity": "Extra Quantity",
+      "extra_total": "Extra Total",
+      "total": "Total"
+    }
+  }
+}

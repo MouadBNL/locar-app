@@ -7,6 +7,7 @@ use App\Traits\HasUuidAsPrimary;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 
 /**
@@ -47,41 +48,59 @@ class Vehicle extends Model
     {
         return Attribute::make(
             get: function () {
-                if ($this->maintenances()
-                    ->where('cancelled_at', null)
-                    ->where('started_at', '<=', now()->toISOString())
-                    ->where(function ($query) {
-                        $query->where('finished_at', '>=', now()->toISOString())
-                            ->orWhereNull('finished_at');
-                    })
-                    ->exists()
-                ) {
+                if ($this->activeMaintenance) {
                     return VehicleStatus::MAINTENANCE;
                 }
 
-                if ($this->reservations()
-                    ->where('check_in_date', '<=', now()->toISOString())
-                    ->where('check_out_date', '>=', now()->toISOString())
-                    ->exists()
-                ) {
+                if ($this->activeReservation) {
                     return VehicleStatus::BOOKED;
                 }
 
-                $rental = $this->whereHas('rentalVehicles', function ($query) {
-                    $query->whereHas('rental', function ($query) {
-                        $query->whereHas('timeframe', function ($query) {
-                            $query->where('departure_date', '<=', now()->toISOString())
-                                ->where('return_date', '>=', now()->toISOString());
-                        });
-                    });
-                })->first();
-                if ($rental) {
+                if ($this->activeRentalVehicle) {
                     return VehicleStatus::RENTED;
                 }
 
                 return VehicleStatus::AVAILABLE;
             }
         );
+    }
+
+    /**
+     * @return HasOne<RentalVehicle, $this>
+     */
+    public function activeRentalVehicle(): HasOne
+    {
+        return $this->hasOne(RentalVehicle::class, 'vehicle_id', 'id')
+            ->whereHas('rental', function ($query) {
+                $query->whereHas('timeframe', function ($query) {
+                    $query->where('departure_date', '<=', now()->toDateTimeString())
+                        ->where('return_date', '>=', now()->toDateTimeString());
+                });
+            });
+    }
+
+    /**
+     * @return HasOne<Reservation, $this>
+     */
+    public function activeReservation(): HasOne
+    {
+        return $this->hasOne(Reservation::class, 'vehicle_id', 'id')
+            ->where('check_in_date', '<=', now()->toDateTimeString())
+            ->where('check_out_date', '>=', now()->toDateTimeString());
+    }
+
+    /**
+     * @return HasOne<VehicleMaintenance, $this>
+     */
+    public function activeMaintenance(): HasOne
+    {
+        return $this->hasOne(VehicleMaintenance::class, 'vehicle_id', 'id')
+            ->where('cancelled_at', null)
+            ->where('started_at', '<=', now()->toDateTimeString())
+            ->where(function ($query) {
+                $query->where('finished_at', '>=', now()->toDateTimeString())
+                    ->orWhereNull('finished_at');
+            });
     }
 
     public function expenses(): HasMany

@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { Heading3 } from '@/components/ui/typography';
 
 export const Route = createFileRoute('/app/')({
@@ -6,9 +7,10 @@ export const Route = createFileRoute('/app/')({
 });
 
 function RouteComponent() {
+  const { t } = useTranslation(['common']);
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <Heading3 className="mb-6">Dashboard</Heading3>
+      <Heading3 className="mb-6">{t('common:dashboard')}</Heading3>
       <div className="flex flex-1 flex-col gap-4">
         <div className="grid auto-rows-min gap-4 md:grid-cols-3">
           <div className="bg-muted/50 aspect-video rounded-xl" />

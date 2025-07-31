@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 interface CustomerSummaryCardProps {
@@ -11,6 +12,7 @@ interface CustomerSummaryCardProps {
 }
 
 export function CustomerSummaryCard(props: CustomerSummaryCardProps) {
+  const { t } = useTranslation(['customer', 'common']);
   const fallback
     = props.firstName.toUpperCase().charAt(0)
       + props.lastName.toUpperCase().charAt(0);
@@ -34,17 +36,17 @@ export function CustomerSummaryCard(props: CustomerSummaryCardProps) {
         </div>
         <div className="grid grid-cols-2 text-sm gap-2">
           <div className="flex gap-2 items-center">
-            <span>ID Number:</span>
+            <span>{t('customer:attributes.id_number')}</span>
             {' '}
             <span className="text-muted-foreground">{props.id_number}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <span>License:</span>
+            <span>{t('customer:attributes.driver_license_number')}</span>
             {' '}
             <span className="text-muted-foreground">{props.license}</span>
           </div>
           <div className="flex gap-2 items-center col-span-2">
-            <span>Address:</span>
+            <span>{t('customer:attributes.address')}</span>
             {' '}
             <span className="text-muted-foreground">{props.address}</span>
           </div>

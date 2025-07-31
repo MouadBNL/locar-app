@@ -1,6 +1,6 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { VehicleTable } from '@/components/blocks/vehicle-table';
 import { Button } from '@/components/ui/button';
@@ -10,17 +10,19 @@ import { useVehicleDelete, useVehicleIndex } from '@/features/vehicles';
 
 export const Route = createFileRoute('/app/vehicles/')({
   component: RouteComponent,
+  loader: async () => {
+    await useVehicleIndex.prefetch();
+  },
 });
 
 function RouteComponent() {
-  const queryClient = useQueryClient();
-
-  const { data, isFetching } = useVehicleIndex();
+  const { t } = useTranslation(['vehicle', 'common']);
+  const { data, isLoading } = useVehicleIndex();
 
   const { mutate: deleteVehicle, isPending: isDeleting } = useVehicleDelete({
     onSuccess: () => {
       toast.success('Vehicle deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['vehicles'] });
+      useVehicleIndex.invalidate();
     },
     onError: () => {
       toast.error('Failed to delete vehicle');
@@ -30,12 +32,12 @@ function RouteComponent() {
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
-        <Heading3>Manage Vehicles</Heading3>
+        <Heading3>{t('vehicle:manage_vehicles')}</Heading3>
 
         <Button asChild>
           <Link to="/app/vehicles/create">
             <PlusIcon className="w-4 h-4" />
-            Add Vehicle
+            {t('vehicle:add_vehicle')}
           </Link>
         </Button>
       </div>
@@ -43,7 +45,7 @@ function RouteComponent() {
       <Card className="p-2 mb-4">
         <VehicleTable
           data={data?.data || []}
-          loading={isFetching}
+          loading={isLoading}
           actions={vehicle => (
             <>
               <Button variant="outline" size="sm" asChild>

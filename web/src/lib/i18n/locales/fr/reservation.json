@@ -1,0 +1,45 @@
+{
+  "label_singular": "Réservation",
+  "label_plural": "Réservations",
+  "search_placeholder": "Rechercher une réservation...",
+  "manage_reservations": "Gestion des réservations",
+  "add_reservation": "Ajouter une réservation",
+  "add_reservation_description": "Ajouter une nouvelle réservation au système",
+  "click_to_view_reservation": "Cliquer pour voir la réservation",
+  "click_to_view_rental": "Cliquer pour voir le véhicule",
+  "no_reservations_found": "Aucune réservation trouvée",
+  "edit_reservation": "Modifier la réservation",
+  "active_reservation": "Réservation active",
+  "action": {
+    "create": {
+      "success": "Réservation créée avec succès",
+      "error": "Erreur lors de la création de la réservation"
+    },
+    "delete": {
+      "success": "Réservation supprimée avec succès",
+      "error": "Erreur lors de la suppression de la réservation"
+    },
+    "update": {
+      "success": "Réservation mise à jour avec succès",
+      "error": "Erreur lors de la mise à jour de la réservation"
+    }
+  },
+  "errors": {
+    "vehicle.unavailable.rental": "Le véhicule n'est pas disponible pour la location entre {{start_date}} et {{end_date}}",
+    "vehicle.unavailable.reservation": "Le véhicule n'est pas disponible pour la réservation entre {{start_date}} et {{end_date}}",
+    "vehicle.unavailable.maintenance": "Le véhicule n'est pas disponible pour la maintenance entre {{start_date}} et {{end_date}}",
+    "customer.unavailable.rental": "Le client n'est pas disponible pour la location entre {{start_date}} et {{end_date}}",
+    "customer.unavailable.reservation": "Le client n'est pas disponible pour la réservation entre {{start_date}} et {{end_date}}",
+    "customer.unavailable.maintenance": "Le client n'est pas disponible pour la maintenance entre {{start_date}} et {{end_date}}"
+  },
+  "attributes": {
+    "vehicle": "Véhicule",
+    "customer": "Client",
+    "check_in_date": "Date de début",
+    "check_out_date": "Date de fin",
+    "daily_rate": "Tarif journalier",
+    "total_days": "Total jours",
+    "total_price": "Total",
+    "notes": "Notes"
+  }
+}

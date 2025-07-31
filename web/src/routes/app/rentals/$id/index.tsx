@@ -1,8 +1,9 @@
 import type { RentalRateData, RentalTimeframeData, RentalVehichleData, RenterData } from '@/features/rentals';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import z from 'zod';
 import { RentalChargesSummary } from '@/components/blocks/rental-charges-summary';
@@ -20,19 +21,16 @@ import { AppFormField, Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { NumberInput } from '@/components/ui/number-input';
 import { Textarea } from '@/components/ui/textarea';
+import { useRentalPaymentIndex } from '@/features/rental-payments';
 import {
-
   RentalRateSchema,
-  rentalShowFn,
-
   RentalTimeframeSchema,
-
   RentalVehichleSchema,
-
   RenterSchema,
   useRentalNotesUpdate,
   useRentalRateUpdate,
   useRentalRenterUpdate,
+  useRentalShow,
   useRentalTimeframeUpdate,
   useRentalVehicleUpdate,
 } from '@/features/rentals';
@@ -41,21 +39,23 @@ import { parse_availability_error } from '@/lib/utils';
 export const Route = createFileRoute('/app/rentals/$id/')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const rental = await rentalShowFn({ number: params.id });
+    const rental = await useRentalShow.prefetch({ number: params.id });
+
     return { rental: rental.data };
   },
 });
 
 function RouteComponent() {
-  const { rental } = Route.useLoaderData();
   const { id } = Route.useParams();
-  const router = useRouter();
-
+  const { data } = useRentalShow({ number: id });
+  const rental = data?.data;
   function handleUpdate() {
-    router.invalidate({
-      filter: match => match.id === id,
-    });
+    useRentalShow.invalidate({ number: id });
+    useRentalPaymentIndex.invalidate({ rental_code: id });
   }
+
+  if (!rental)
+    return null;
 
   return (
     <div className="grid grid-cols-3 gap-4">
@@ -110,6 +110,7 @@ function RentalVehicleFormSection({
   onUpdate: () => void;
   code: string;
 }) {
+  const { t } = useTranslation(['rental', 'common', 'vehicle']);
   const form = useForm<RentalVehichleData>({
     resolver: zodResolver(RentalVehichleSchema),
     defaultValues: {
@@ -119,11 +120,11 @@ function RentalVehicleFormSection({
 
   const { mutate: updateVehicle, isPending } = useRentalVehicleUpdate({
     onSuccess: () => {
-      toast.success('Vehicle updated');
+      toast.success(t('rental:vehicle.updated'));
       onUpdate();
     },
     onError: () => {
-      toast.error('Failed to update vehicle');
+      toast.error(t('rental:vehicle.error'));
     },
   });
 
@@ -136,7 +137,7 @@ function RentalVehicleFormSection({
       <Form {...form}>
         <form onSubmit={onSubmit}>
           <CardHeader>
-            <CardTitle>Vehicle</CardTitle>
+            <CardTitle>{t('rental:vehicle.heading')}</CardTitle>
             <CardAction>
               {/* <div className="w-48">
                 <AppFormField
@@ -152,7 +153,7 @@ function RentalVehicleFormSection({
                 />
               </div> */}
               <Button type="submit" size="sm" loading={isPending}>
-                Update
+                {t('common:update')}
               </Button>
             </CardAction>
           </CardHeader>
@@ -161,7 +162,7 @@ function RentalVehicleFormSection({
               <AppFormField
                 control={form.control}
                 name="make"
-                label="Make"
+                label={t('vehicle:attributes.make')}
                 render={({ field }) => (
                   <Input
                     {...field}
@@ -173,7 +174,7 @@ function RentalVehicleFormSection({
               <AppFormField
                 control={form.control}
                 name="model"
-                label="Model"
+                label={t('vehicle:attributes.model')}
                 render={({ field }) => (
                   <Input
                     {...field}
@@ -185,10 +186,10 @@ function RentalVehicleFormSection({
               <AppFormField
                 control={form.control}
                 name="year"
-                label="Year"
+                label={t('vehicle:attributes.year')}
                 render={({ field }) => (
                   <NumberInput
-                    {...field}
+                    onChange={value => field.onChange(value)}
                     value={field.value ?? undefined}
                     placeholder="2020"
                   />
@@ -197,7 +198,7 @@ function RentalVehicleFormSection({
               <AppFormField
                 control={form.control}
                 name="license_plate"
-                label="License Plate"
+                label={t('vehicle:attributes.plate')}
                 render={({ field }) => (
                   <Input
                     {...field}
@@ -230,6 +231,7 @@ function RentalPeriodFormSection({
   onUpdate: () => void;
   code: string;
 }) {
+  const { t } = useTranslation(['rental', 'common', 'exceptions']);
   const form = useForm<RentalTimeframeData>({
     resolver: zodResolver(RentalTimeframeSchema),
     defaultValues: {
@@ -239,16 +241,19 @@ function RentalPeriodFormSection({
 
   const { mutate: updatePeriod, isPending } = useRentalTimeframeUpdate({
     onSuccess: () => {
-      toast.success('Period updated');
+      toast.success(t('rental:period.updated'));
       onUpdate();
     },
     onError: (error) => {
       const msg = parse_availability_error(error);
       if (msg) {
-        toast.error(msg);
+        toast.error(t(`exceptions:availability.${msg.code}`, {
+          start_date: msg.start_date,
+          end_date: msg.end_date,
+        }));
       }
       else {
-        toast.error('Failed to update period');
+        toast.error(t('rental:period.error'));
       }
     },
   });
@@ -262,10 +267,10 @@ function RentalPeriodFormSection({
       <Form {...form}>
         <form onSubmit={onSubmit}>
           <CardHeader>
-            <CardTitle>Rental Period</CardTitle>
+            <CardTitle>{t('rental:period.heading')}</CardTitle>
             <CardAction>
               <Button type="submit" size="sm" loading={isPending}>
-                Update
+                {t('common:update')}
               </Button>
             </CardAction>
           </CardHeader>
@@ -274,7 +279,7 @@ function RentalPeriodFormSection({
               <AppFormField
                 control={form.control}
                 name="departure_date"
-                label="Departure Date"
+                label={t('rental:period.attributes.departure_date')}
                 render={({ field }) => (
                   <DateTimeInput
                     {...field}
@@ -288,7 +293,7 @@ function RentalPeriodFormSection({
               <AppFormField
                 control={form.control}
                 name="return_date"
-                label="Return Date"
+                label={t('rental:period.attributes.return_date')}
                 render={({ field }) => (
                   <DateTimeInput
                     {...field}
@@ -324,6 +329,7 @@ function RentalRateFormSection({
   onUpdate: () => void;
   code: string;
 }) {
+  const { t } = useTranslation(['rental', 'common']);
   const form = useForm<RentalRateData>({
     resolver: zodResolver(RentalRateSchema),
     defaultValues: {
@@ -334,11 +340,11 @@ function RentalRateFormSection({
 
   const { mutate: updateRate, isPending } = useRentalRateUpdate({
     onSuccess: () => {
-      toast.success('Rate updated');
+      toast.success(t('rental:rate.updated'));
       onUpdate();
     },
     onError: () => {
-      toast.error('Failed to update rate');
+      toast.error(t('rental:rate.error'));
     },
   });
 
@@ -397,10 +403,10 @@ function RentalRateFormSection({
       <Form {...form}>
         <form onSubmit={onSubmit}>
           <CardHeader>
-            <CardTitle>Rental Rate</CardTitle>
+            <CardTitle>{t('rental:rate.heading')}</CardTitle>
             <CardAction>
               <Button type="submit" size="sm" loading={isPending}>
-                Update
+                {t('common:update')}
               </Button>
             </CardAction>
           </CardHeader>
@@ -409,28 +415,35 @@ function RentalRateFormSection({
               <AppFormField
                 control={form.control}
                 name="day_rate"
-                label="Day Rate"
+                label={t('rental:rate.attributes.day_rate')}
                 render={({ field }) => (
-                  <NumberInput {...field} value={field.value ?? undefined} />
+                  <NumberInput
+                    value={field.value ?? undefined}
+                    placeholder={t('rental:rate.attributes.day_rate')}
+                    onChange={value => field.onChange(value)}
+                  />
                 )}
               />
 
               <AppFormField
                 control={form.control}
                 name="day_quantity"
-                label="Day Quantity"
+                label={t('rental:rate.attributes.day_quantity')}
                 render={({ field }) => (
-                  <NumberInput value={field.value ?? undefined} disabled />
+                  <NumberInput
+                    value={field.value ?? undefined}
+                    disabled
+                  />
                 )}
               />
 
               <AppFormField
                 control={form.control}
                 name="day_total"
-                label="Day Total"
+                label={t('rental:rate.attributes.day_total')}
                 render={({ field }) => (
                   <NumberInput
-                    {...field}
+                    onChange={value => field.onChange(value)}
                     value={field.value ?? undefined}
                     disabled
                   />
@@ -440,27 +453,39 @@ function RentalRateFormSection({
               <AppFormField
                 control={form.control}
                 name="extra_rate"
-                label="Extra Rate"
+                label={t('rental:rate.attributes.extra_rate')}
                 render={({ field }) => (
-                  <NumberInput {...field} value={field.value ?? undefined} />
+                  <NumberInput
+                    value={field.value ?? undefined}
+                    placeholder={t('rental:rate.attributes.extra_rate')}
+                    onChange={value => field.onChange(value)}
+                  />
                 )}
               />
 
               <AppFormField
                 control={form.control}
                 name="extra_quantity"
-                label="Extra Quantity"
+                label={t('rental:rate.attributes.extra_quantity')}
                 render={({ field }) => (
-                  <NumberInput {...field} value={field.value ?? undefined} />
+                  <NumberInput
+                    value={field.value ?? undefined}
+                    placeholder={t('rental:rate.attributes.extra_quantity')}
+                    onChange={value => field.onChange(value)}
+                  />
                 )}
               />
 
               <AppFormField
                 control={form.control}
                 name="extra_total"
-                label="Extra Total"
+                label={t('rental:rate.attributes.extra_total')}
                 render={({ field }) => (
-                  <NumberInput {...field} value={field.value ?? undefined} />
+                  <NumberInput
+                    value={field.value ?? undefined}
+                    placeholder={t('rental:rate.attributes.extra_total')}
+                    onChange={value => field.onChange(value)}
+                  />
                 )}
               />
 
@@ -468,11 +493,12 @@ function RentalRateFormSection({
                 <AppFormField
                   control={form.control}
                   name="total"
-                  label="Total"
+                  label={t('rental:rate.attributes.total')}
                   render={({ field }) => (
                     <NumberInput
-                      {...field}
                       value={field.value ?? undefined}
+                      placeholder={t('rental:rate.attributes.total')}
+                      onChange={value => field.onChange(value)}
                       disabled
                     />
                   )}
@@ -502,6 +528,7 @@ function RentalRenterFormSection({
   onUpdate: () => void;
   code: string;
 }) {
+  const { t } = useTranslation(['rental', 'common', 'customer']);
   const form = useForm<RenterData>({
     resolver: zodResolver(RenterSchema),
     defaultValues: {
@@ -511,11 +538,11 @@ function RentalRenterFormSection({
 
   const { mutate: updateRenter, isPending } = useRentalRenterUpdate({
     onSuccess: () => {
-      toast.success('Renter updated');
+      toast.success(t('rental:customer.updated'));
       onUpdate();
     },
     onError: () => {
-      toast.error('Failed to update renter');
+      toast.error(t('rental:customer.error'));
     },
   });
   const onSubmit = form.handleSubmit((data) => {
@@ -527,10 +554,10 @@ function RentalRenterFormSection({
       <Form {...form}>
         <form onSubmit={onSubmit}>
           <CardHeader>
-            <CardTitle>Renter</CardTitle>
+            <CardTitle>{t('rental:customer.heading')}</CardTitle>
             <CardAction>
               <Button type="submit" size="sm" loading={isPending}>
-                Update
+                {t('common:update')}
               </Button>
             </CardAction>
           </CardHeader>
@@ -539,7 +566,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="full_name"
-                label="Full Name"
+                label={t('rental:customer.attributes.full_name')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -547,7 +574,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="phone"
-                label="Phone"
+                label={t('customer:attributes.phone')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -555,7 +582,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="address_primary"
-                label="Address 1"
+                label={t('customer:attributes.address')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -563,7 +590,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="address_secondary"
-                label="Address 2"
+                label={t('customer:attributes.address')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -571,7 +598,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="id_card_number"
-                label="ID Number"
+                label={t('customer:attributes.id_number')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -579,7 +606,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="birth_date"
-                label="Birth Date"
+                label={t('customer:attributes.birth_date')}
                 render={({ field }) => (
                   <DateInput
                     {...field}
@@ -591,7 +618,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="driver_license_number"
-                label="DriverLicense Number"
+                label={t('customer:attributes.driver_license_number')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -600,7 +627,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="driver_license_issuing_city"
-                label="DriverLicense Issuing City"
+                label={t('customer:attributes.driver_license_issuing_city')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -608,7 +635,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="driver_license_issuing_date"
-                label="DriverLicense Issuing Date"
+                label={t('customer:attributes.driver_license_issuing_date')}
                 render={({ field }) => (
                   <DateInput
                     {...field}
@@ -621,7 +648,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="driver_license_expiration_date"
-                label="DriverLicense Expiration Date"
+                label={t('customer:attributes.driver_license_expiration_date')}
                 render={({ field }) => (
                   <DateInput
                     {...field}
@@ -633,7 +660,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="passport_number"
-                label="Passport Number"
+                label={t('customer:attributes.passport_number')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -642,7 +669,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="passport_country"
-                label="Passport Country"
+                label={t('customer:attributes.passport_country')}
                 render={({ field }) => (
                   <Input {...field} value={field.value ?? undefined} />
                 )}
@@ -651,7 +678,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="passport_issuing_date"
-                label="Passport Issuing Date"
+                label={t('customer:attributes.passport_issuing_date')}
                 render={({ field }) => (
                   <DateInput
                     {...field}
@@ -664,7 +691,7 @@ function RentalRenterFormSection({
               <AppFormField
                 control={form.control}
                 name="passport_expiration_date"
-                label="Passport Expiration Date"
+                label={t('customer:attributes.passport_expiration_date')}
                 render={({ field }) => (
                   <DateInput
                     {...field}
@@ -697,6 +724,7 @@ function RentalNotesFormSection({
   onUpdate: () => void;
   code: string;
 }) {
+  const { t } = useTranslation(['rental', 'common']);
   const form = useForm<{ notes: string }>({
     resolver: zodResolver(z.object({ notes: z.string() })),
     defaultValues: {
@@ -706,11 +734,11 @@ function RentalNotesFormSection({
 
   const { mutate: updateNotes, isPending } = useRentalNotesUpdate({
     onSuccess: () => {
-      toast.success('Notes updated');
+      toast.success(t('rental:notes.updated'));
       onUpdate();
     },
     onError: () => {
-      toast.error('Failed to update notes');
+      toast.error(t('rental:notes.error'));
     },
   });
 
@@ -723,10 +751,10 @@ function RentalNotesFormSection({
       <Form {...form}>
         <form onSubmit={onSubmit}>
           <CardHeader>
-            <CardTitle>Notes</CardTitle>
+            <CardTitle>{t('rental:notes.heading')}</CardTitle>
             <CardAction>
               <Button type="submit" size="sm" loading={isPending}>
-                Update
+                {t('common:update')}
               </Button>
             </CardAction>
           </CardHeader>
@@ -734,7 +762,7 @@ function RentalNotesFormSection({
             <AppFormField
               control={form.control}
               name="notes"
-              label="Notes"
+              label={t('rental:notes.attributes.notes')}
               render={({ field }) => (
                 <Textarea {...field} value={field.value ?? undefined} />
               )}

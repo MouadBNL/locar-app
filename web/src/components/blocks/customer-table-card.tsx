@@ -1,4 +1,5 @@
 import { PhoneIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
@@ -9,12 +10,13 @@ export interface CustomerTableCardProps {
   phone: string;
 }
 export function CustomerTableCard(props: CustomerTableCardProps) {
+  const { t } = useTranslation(['customer', 'common']);
   return (
     <div className="flex gap-6 w-full justify-start items-center">
       <div>
         <p className="text-sm">{props.fullName}</p>
         <p className="text-muted-foreground text-xs">
-          <span className="font-bold">ID:</span>
+          <span className="font-bold">{t('customer:attributes.id_number')}</span>
           {' '}
           {props.identifier}
         </p>

@@ -1,8 +1,8 @@
 import type { VehicleMaintenanceResource } from '@/features/vehicle-maintenances';
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { PencilIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { VehicleMaintenanceForm } from '@/components/blocks/vehicle-maintenance-form';
 import { VehicleMaintenanceTable } from '@/components/blocks/vehicle-maintenance-table';
@@ -27,16 +27,24 @@ import {
   useVehicleMaintenanceDelete,
   useVehicleMaintenanceIndex,
   useVehicleMaintenanceUpdate,
-
 } from '@/features/vehicle-maintenances';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/vehicles/$id/maintenance')({
   component: RouteComponent,
+  loader: async ({ params }) => {
+    await useVehicleMaintenanceIndex.prefetch({ vehicleId: params.id });
+    return {
+      meta: {
+        breadcrumb: breadcrumb('maintenance:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const queryClient = useQueryClient();
+  const { t } = useTranslation(['maintenance', 'common']);
   const [maintenance, setMaintenance]
     = useState<VehicleMaintenanceResource | null>(null);
 
@@ -50,21 +58,19 @@ function RouteComponent() {
     variables: deleteMaintenanceVariables,
   } = useVehicleMaintenanceDelete({
     onSuccess: () => {
-      toast.success('Maintenance deleted');
-      queryClient.invalidateQueries({
-        queryKey: ['vehicle-maintenances'],
-      });
+      toast.success(t('maintenance:action.delete.success'));
+      useVehicleMaintenanceIndex.invalidate({ vehicleId: id });
     },
     onError: (error) => {
       console.error(error);
-      toast.error('Failed to delete maintenance');
+      toast.error(t('maintenance:action.delete.error'));
     },
   });
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Maintenance</CardTitle>
+        <CardTitle>{t('maintenance:label_singular')}</CardTitle>
         <CardAction>
           <AddMaintenanceDialog />
         </CardAction>
@@ -114,33 +120,31 @@ function RouteComponent() {
 
 function AddMaintenanceDialog() {
   const { id } = Route.useParams();
-  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation(['maintenance', 'common']);
 
   const { mutate: createMaintenance, isPending } = useVehicleMaintenanceCreate({
     onSuccess: () => {
-      toast.success('Maintenance created');
-      queryClient.invalidateQueries({
-        queryKey: ['vehicle-maintenances'],
-      });
+      toast.success(t('maintenance:action.create.success'));
+      useVehicleMaintenanceIndex.invalidate({ vehicleId: id });
       setOpen(false);
     },
     onError: (error) => {
       console.error(error);
-      toast.error('Failed to create maintenance');
+      toast.error(t('maintenance:action.create.error'));
     },
   });
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Maintenance</Button>
+        <Button>{t('maintenance:add_maintenance')}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Maintenance</DialogTitle>
+          <DialogTitle>{t('maintenance:add_maintenance')}</DialogTitle>
           <DialogDescription>
-            Add a new maintenance for the vehicle
+            {t('maintenance:add_maintenance_description')}
           </DialogDescription>
         </DialogHeader>
         <VehicleMaintenanceForm
@@ -163,29 +167,30 @@ export function EditMaintenanceDialog({
   setMaintenance: (maintenance: VehicleMaintenanceResource | null) => void;
 }) {
   const { id } = Route.useParams();
-  const queryClient = useQueryClient();
+  const { t } = useTranslation(['maintenance', 'common']);
 
   const { mutate: updateMaintenance, isPending } = useVehicleMaintenanceUpdate({
     onSuccess: () => {
-      toast.success('Maintenance updated');
-      queryClient.invalidateQueries({
-        queryKey: ['vehicle-maintenances'],
-      });
+      toast.success(t('maintenance:action.update.success'));
+      useVehicleMaintenanceIndex.invalidate({ vehicleId: id });
       setMaintenance(null);
     },
     onError: (error) => {
       console.error(error);
-      toast.error('Failed to update maintenance');
+      toast.error(t('maintenance:action.update.error'));
     },
   });
+
+  if (!maintenance)
+    return null;
 
   return (
     <Dialog open={!!maintenance} onOpenChange={() => setMaintenance(null)}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Maintenance</DialogTitle>
+          <DialogTitle>{t('maintenance:edit_maintenance')}</DialogTitle>
           <DialogDescription>
-            Edit the maintenance for the vehicle
+            {t('maintenance:edit_maintenance_description')}
           </DialogDescription>
         </DialogHeader>
         <VehicleMaintenanceForm

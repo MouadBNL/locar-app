@@ -6,6 +6,7 @@ import {
   LogOutIcon,
   UserIcon,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/components/auth-provider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -29,7 +30,7 @@ export function NavUser() {
   const { user } = useAuth();
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const { mutate: signOut } = useSignout({
     onSuccess: () => {
       navigate({ to: '/auth/signin' });
@@ -86,21 +87,21 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <UserIcon />
-                Account
+                {t('account')}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCardIcon />
-                Billing
+                {t('billing')}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BellIcon />
-                Notifications
+                {t('notifications')}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => signOut()}>
               <LogOutIcon />
-              Log out
+              {t('logOut')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

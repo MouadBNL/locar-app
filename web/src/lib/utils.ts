@@ -63,41 +63,49 @@ export function str_to_titlecase(str: string) {
     .join(' ');
 }
 
+type MessageError = `${'vehicle' | 'customer'}.unavailable.${
+  | 'rental'
+  | 'reservation'
+  | 'maintenance'}`;
 export function parse_availability_error(error: unknown) {
   if (isAxiosError(error) && error.status === 409) {
     const data = error.response?.data as {
-      message: `${'vehicle' | 'customer'}.unavailable.${
-      | 'rental'
-      | 'reservation'}`;
+      message: MessageError;
       cause: {
         availability: false;
         start_date: string;
         end_date: string;
       };
     };
-    const [entity, , type] = data.message.split('.') as [
-      'vehicle' | 'customer',
-      'unavailable',
-      'rental' | 'reservation' | 'maintenance',
-    ];
+    // const [entity, , type] = data.message.split('.') as [
+    //   'vehicle' | 'customer',
+    //   'unavailable',
+    //   'rental' | 'reservation' | 'maintenance',
+    // ];
 
-    let cause = 'not available';
-    if (type === 'maintenance') {
-      cause = 'under maintenance';
-    }
-    if (type === 'reservation') {
-      cause = 'already booked';
-    }
-    if (type === 'rental') {
-      cause = 'already rented';
-    }
+    // let cause = 'not available';
+    // if (type === 'maintenance') {
+    //   cause = 'under maintenance';
+    // }
+    // if (type === 'reservation') {
+    //   cause = 'already booked';
+    // }
+    // if (type === 'rental') {
+    //   cause = 'already rented';
+    // }
 
-    return `${str_to_titlecase(entity)} is ${cause} between ${
-      fmt_date(new Date(data.cause.start_date), { format: 'date' }).split(
-        'T',
-      )[0]
-    } and ${
-      fmt_date(new Date(data.cause.end_date), { format: 'date' }).split('T')[0]
-    }`;
+    return {
+      code: data.message,
+      start_date: fmt_date(new Date(data.cause.start_date), { format: 'date' }).split('T')[0],
+      end_date: fmt_date(new Date(data.cause.end_date), { format: 'date' }).split('T')[0],
+    };
+
+    // return `${str_to_titlecase(entity)} is ${cause} between ${
+    //   fmt_date(new Date(data.cause.start_date), { format: 'date' }).split(
+    //     'T',
+    //   )[0]
+    // } and ${
+    //   fmt_date(new Date(data.cause.end_date), { format: 'date' }).split('T')[0]
+    // }`;
   }
 }

@@ -8,6 +8,7 @@ import {
   WarehouseIcon,
 } from 'lucide-react';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Sidebar,
   SidebarContent,
@@ -22,6 +23,7 @@ import {
 import { NavUser } from './nav-user';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { t } = useTranslation();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -33,7 +35,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <ShapesIcon className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">
+                  {t('app_name')}
+                </span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -44,42 +48,42 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent className="flex flex-col gap-2">
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Dashboard">
+                <SidebarMenuButton asChild>
                   <Link to="/app">
                     <GaugeIcon />
-                    <span>Dashboard</span>
+                    <span>{t('dashboard')}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Vehicles">
+                <SidebarMenuButton asChild>
                   <Link to="/app/vehicles">
                     <WarehouseIcon />
-                    <span>Vehicles</span>
+                    <span>{t('vehicles')}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Customers">
+                <SidebarMenuButton asChild>
                   <Link to="/app/customers">
                     <UsersIcon />
-                    <span>Customers</span>
+                    <span>{t('customers')}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Reservations">
+                <SidebarMenuButton asChild>
                   <Link to="/app/reservations">
                     <CalendarClockIcon />
-                    <span>Reservations</span>
+                    <span>{t('reservations')}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Rentals">
+                <SidebarMenuButton asChild>
                   <Link to="/app/rentals">
                     <ReceiptTextIcon />
-                    <span>Rentals</span>
+                    <span>{t('rentals')}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

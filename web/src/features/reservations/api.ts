@@ -2,9 +2,17 @@ import type { ReservationData, ReservationResource } from './types';
 import type { ApiResponse } from '@/lib/http';
 import { http } from '@/lib/http';
 
-export async function reservationIndexFn() {
+export interface ReservationFilters {
+  vehicle_id?: string;
+  customer_id?: string;
+}
+
+export async function reservationIndexFn(req?: { params?: ReservationFilters }) {
   const res = await http.get<ApiResponse<ReservationResource[]>>(
     `/reservations`,
+    {
+      params: req?.params,
+    },
   );
   return res.data;
 }
