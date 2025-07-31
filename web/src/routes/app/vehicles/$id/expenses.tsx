@@ -22,9 +22,17 @@ import {
   useVehicleExpenseUpdate,
 
 } from '@/features/vehicle-expenses';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/vehicles/$id/expenses')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      meta: {
+        breadcrumb: breadcrumb('expenses:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {

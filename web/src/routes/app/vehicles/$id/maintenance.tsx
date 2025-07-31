@@ -30,9 +30,17 @@ import {
   useVehicleMaintenanceUpdate,
 
 } from '@/features/vehicle-maintenances';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/vehicles/$id/maintenance')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      meta: {
+        breadcrumb: breadcrumb('maintenance:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {

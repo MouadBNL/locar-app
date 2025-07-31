@@ -6,10 +6,18 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import { useRentalCreate } from '@/features/rentals';
+import { breadcrumb } from '@/lib/breadcrumb';
 import { parse_availability_error } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/rentals/initialize')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      meta: {
+        breadcrumb: breadcrumb('rental:create_rental'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {

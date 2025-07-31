@@ -45,7 +45,11 @@ export const Route = createFileRoute('/app/rentals/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const data = await rentalShowFn({ number: params.id });
-    return { rental: data.data };
+    return { rental: data.data, meta: {
+      breadcrumb: {
+        title: `${data.data.rental_number}`,
+      },
+    } };
   },
 });
 

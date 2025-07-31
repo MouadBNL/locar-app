@@ -8,13 +8,16 @@ import { vehicleShowFn } from '@/features/vehicles';
 
 export const Route = createFileRoute('/app/vehicles/$id')({
   component: RouteComponent,
-  loader: async ({ params, context }) => {
+  loader: async ({ params }) => {
     const vehicle = (await vehicleShowFn(params.id)).data;
-    context.meta = {
-      title: `${vehicle.make} ${vehicle.model} ${vehicle.year}`,
-      breadcrumb: true,
+    return {
+      vehicle,
+      meta: {
+        breadcrumb: {
+          title: `${vehicle.make} ${vehicle.model} ${vehicle.year}`,
+        },
+      },
     };
-    return { vehicle };
   },
 });
 
@@ -48,6 +51,7 @@ function RouteComponent() {
 
       <TabsNavigation
         basePath={`/app/vehicles/${id}`}
+
         tabs={[
           { label: t('common:summary'), path: '' },
           { label: t('expenses:label_plural'), path: 'expenses' },

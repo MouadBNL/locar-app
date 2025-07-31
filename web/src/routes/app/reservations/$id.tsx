@@ -20,7 +20,11 @@ export const Route = createFileRoute('/app/reservations/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const reservation = await reservationShowFn({ id: params.id });
-    return { reservation: reservation.data };
+    return { reservation: reservation.data, meta: {
+      breadcrumb: {
+        title: `${reservation.data.customer.full_name}`,
+      },
+    } };
   },
 });
 

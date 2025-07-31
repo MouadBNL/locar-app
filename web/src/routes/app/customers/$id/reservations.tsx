@@ -4,9 +4,17 @@ import { ReservationTable } from '@/components/blocks/reservation-table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useReservationIndex } from '@/features/reservations';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/customers/$id/reservations')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      meta: {
+        breadcrumb: breadcrumb('reservation:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {

@@ -9,7 +9,11 @@ export const Route = createFileRoute('/app/customers/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const customer = await customerShowFn({ id: params.id });
-    return { customer: customer.data };
+    return { customer: customer.data, meta: {
+      breadcrumb: {
+        title: `${customer.data.first_name} ${customer.data.last_name}`,
+      },
+    } };
   },
 });
 

@@ -4,9 +4,17 @@ import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useRentalIndex } from '@/features/rentals';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/customers/$id/rentals')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      meta: {
+        breadcrumb: breadcrumb('rental:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {

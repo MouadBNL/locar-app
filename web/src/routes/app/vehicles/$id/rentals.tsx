@@ -1,17 +1,17 @@
-import { createFileRoute, Link, useRouterState } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { PencilIcon } from 'lucide-react';
 import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useRentalIndex } from '@/features/rentals';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/vehicles/$id/rentals')({
   component: RouteComponent,
-  beforeLoad(ctx) {
+  loader: () => {
     return {
       meta: {
-        title: 'Vehicle Rentals',
-        breadcrumb: true,
+        breadcrumb: breadcrumb('rental:label_plural'),
       },
     };
   },

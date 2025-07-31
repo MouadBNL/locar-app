@@ -1,20 +1,23 @@
-import { Link, useRouterState } from '@tanstack/react-router';
-import React, { useMemo } from 'react';
+import { Link, useMatches } from '@tanstack/react-router';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 export function AppBreadcrumbs() {
   const { t } = useTranslation();
-  const matches = useRouterState({ select: s => s.matches });
-
-  const breadcrumbs = useMemo(() => matches
-    .filter(match => match.context.meta?.breadcrumb)
-    .map(({ pathname, context }) => {
+  const matches = useMatches();
+  const items = matches
+    .filter(match => match.loaderData && 'meta' in match.loaderData && match.loaderData.meta?.breadcrumb)
+    .map(({ pathname, loaderData }) => {
+      // @ts-expect-error Property 'meta' does not exist on type 'LoaderData<{ vehicle: VehicleResource; }>'.
+      const title = loaderData?.meta?.breadcrumb?.title ?? '';
       return {
-        title: context.meta?.title,
+        title,
         path: pathname,
       };
-    }), [matches]);
+    });
+
+  document.title = items.map(e => t(e.title ?? '')).join(' - ');
 
   return (
     <div>
@@ -28,13 +31,13 @@ export function AppBreadcrumbs() {
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {breadcrumbs.map((breadcrumb, index) => (
-            <React.Fragment key={index}>
+          {items.map(breadcrumb => (
+            <React.Fragment key={breadcrumb.path}>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
                   <Link to={breadcrumb.path}>
-                    {breadcrumb.title ?? '####'}
+                    {t(breadcrumb.title) ?? '####'}
                   </Link>
                 </BreadcrumbLink>
                 {/* <BreadcrumbLink href={breadcrumb.path}>
