@@ -45,5 +45,11 @@
   "close": "Close",
   "more": "More",
   "open": "Open",
-  "max_files_and_file_size": "Max {{file_cnt}} files up to {{file_size}}MB."
+  "max_files_and_file_size": "Max {{file_cnt}} files up to {{file_size}}MB.",
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "toggle_theme": "Toggle Theme"
+  }
 }

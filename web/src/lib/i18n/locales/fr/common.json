@@ -45,5 +45,11 @@
   "close": "Fermer",
   "more": "Plus",
   "open": "Ouvrir",
-  "max_files_and_file_size": "Max {{file_cnt}} fichiers jusqu'à {{file_size}}MB."
+  "max_files_and_file_size": "Max {{file_cnt}} fichiers jusqu'à {{file_size}}MB.",
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système",
+    "toggle_theme": "Basculer le thème"
+  }
 }

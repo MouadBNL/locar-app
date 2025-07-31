@@ -2,6 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { AppBreadcrumbs } from './_components/app-breadcrumbs';
 import { LanguageSelector } from './_components/language-selector';
+import { ThemeSelector } from './_components/theme-selector';
 
 export function AppHeader() {
   return (
@@ -15,7 +16,8 @@ export function AppHeader() {
         <AppBreadcrumbs />
       </div>
 
-      <div className="mr-8">
+      <div className="mr-8 flex items-center gap-2">
+        <ThemeSelector />
         <LanguageSelector />
       </div>
     </header>
