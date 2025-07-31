@@ -12,8 +12,15 @@ import type {
 import type { ApiResponse } from '@/lib/http';
 import { http } from '@/lib/http';
 
-export async function rentalIndexFn() {
-  const res = await http.get<ApiResponse<RentalSummaryData[]>>('/rentals');
+export interface RentalFilters {
+  vehicle_id?: string;
+  customer_id?: string;
+}
+
+export async function rentalIndexFn(req?: { params?: RentalFilters }) {
+  const res = await http.get<ApiResponse<RentalSummaryData[]>>('/rentals', {
+    params: req?.params,
+  });
   return res.data;
 }
 

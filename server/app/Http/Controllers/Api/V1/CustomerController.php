@@ -18,6 +18,8 @@ class CustomerController extends ApiController
 
     public function show(Customer $customer)
     {
+        $customer->load('activeRenter', 'activeReservation');
+
         return $this->success(new CustomerResource($customer), 'customer.show.success');
     }
 

@@ -22,7 +22,7 @@ export function TabsNavigation({ tabs, basePath }: TabsNavigationProps) {
   const activeTab = tabs.find((tab) => {
     const target = tab.path === '' ? basePath : `${basePath}/${tab.path}`;
     return currentPath === target;
-  })?.path;
+  })?.path ?? tabs[0].path;
 
   router.subscribe('onResolved', (state) => {
     setCurrentPath(state.toLocation.pathname);

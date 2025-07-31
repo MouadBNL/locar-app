@@ -63,7 +63,7 @@ export function makeQueryHook<
     : readonly [...Prefix, TVariables];
 
   return (
-    variables: TVariables,
+    variables?: TVariables,
     opts: Omit<
       UseQueryOptions<TData, TError, TData, TKey>,
       'queryKey' | 'queryFn'

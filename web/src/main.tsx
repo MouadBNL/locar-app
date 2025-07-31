@@ -17,6 +17,12 @@ const router = createRouter({
     </div>
   ),
   defaultPendingMs: 200,
+  context: {
+    meta: {
+      title: 'Localar',
+      breadcrumb: false,
+    },
+  },
 });
 
 // Register the router instance for type safety

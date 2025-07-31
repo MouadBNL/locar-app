@@ -14,6 +14,7 @@
   "return_rental": "Retourner la location",
   "return_rental_description": "Retournez la location en fournissant la date de retour et le kilométrage réel.",
   "generate_agreement": "Générer le contrat",
+  "active_rental": "Location active",
   "action": {
     "create": {
       "success": "Location créée avec succès",

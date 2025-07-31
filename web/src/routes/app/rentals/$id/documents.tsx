@@ -30,9 +30,17 @@ import {
   useRentalDocumentIndex,
   useRentalDocumentUpdate,
 } from '@/features/rental-documents';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/rentals/$id/documents')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      meta: {
+        breadcrumb: breadcrumb('document:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {

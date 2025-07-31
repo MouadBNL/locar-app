@@ -30,10 +30,18 @@ import {
   useRentalPaymentIndex,
   useRentalPaymentUpdate,
 } from '@/features/rental-payments';
+import { breadcrumb } from '@/lib/breadcrumb';
 import { fmt_currency } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/rentals/$id/payments')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      meta: {
+        breadcrumb: breadcrumb('payment:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {

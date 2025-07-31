@@ -16,7 +16,7 @@ export const Route = createFileRoute('/app/customers/')({
 function RouteComponent() {
   const queryClient = useQueryClient();
   const { t } = useTranslation(['customer', 'common']);
-  const { data, isFetching } = useCustomerIndex();
+  const { data, isLoading } = useCustomerIndex();
 
   const { mutate: deleteCustomer, isPending: isDeleting } = useCustomerDelete({
     onSuccess: () => {
@@ -44,7 +44,7 @@ function RouteComponent() {
       <Card className="p-2 mb-4">
         <CustomerTable
           data={data?.data || []}
-          loading={isFetching}
+          loading={isLoading}
           actions={customer => (
             <>
               <Button variant="outline" size="sm" asChild>
