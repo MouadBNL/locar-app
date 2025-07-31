@@ -1,62 +1,72 @@
 import { Link, useMatches } from '@tanstack/react-router';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 export function AppBreadcrumbs() {
   const { t } = useTranslation();
   const matches = useMatches();
-  const items = matches
-    .filter(match => match.loaderData && 'meta' in match.loaderData && match.loaderData.meta?.breadcrumb)
-    .map(({ pathname, loaderData }) => {
-      // @ts-expect-error Property 'meta' does not exist on type 'LoaderData<{ vehicle: VehicleResource; }>'.
-      const title = loaderData?.meta?.breadcrumb?.title ?? '';
-      return {
-        title,
-        path: pathname,
-      };
-    });
 
-  document.title = items.map(e => t(e.title ?? '')).join(' - ');
+  // Memoize the breadcrumb items calculation
+  const items = useMemo(() => {
+    return matches
+      .filter(match => match.loaderData && 'meta' in match.loaderData && match.loaderData.meta?.breadcrumb)
+      .map(({ pathname, loaderData }) => {
+        // @ts-expect-error Property 'meta' does not exist on type 'LoaderData<{ vehicle: VehicleResource; }>'.
+        const title = loaderData?.meta?.breadcrumb?.title ?? '';
+        return {
+          title,
+          path: pathname,
+        };
+      });
+  }, [matches]);
+
+  // Memoize the document title to avoid unnecessary updates
+  const documentTitle = useMemo(() => {
+    return items.map(e => t(e.title ?? '')).join(' - ');
+  }, [items, t]);
+
+  // Update document title only when it changes
+  React.useEffect(() => {
+    document.title = documentTitle;
+  }, [documentTitle]);
+
+  // Memoize the dashboard translation
+  const dashboardText = useMemo(() => t('dashboard'), [t]);
+
+  // Memoize the breadcrumb item renderer
+  const renderBreadcrumbItem = useCallback((breadcrumb: { title: string; path: string }) => {
+    // eslint-disable-next-line ts/no-explicit-any
+    const translatedTitle = t(breadcrumb.title as any);
+
+    return (
+      <React.Fragment key={breadcrumb.path}>
+        <BreadcrumbSeparator className="hidden md:block" />
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link to={breadcrumb.path}>
+              {translatedTitle}
+            </Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+      </React.Fragment>
+    );
+  }, [t]);
 
   return (
     <div>
-
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem className="hidden md:block">
             <BreadcrumbLink asChild>
               <Link to="/app">
-                {t('dashboard')}
+                {dashboardText}
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {items.map(breadcrumb => (
-            <React.Fragment key={breadcrumb.path}>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link to={breadcrumb.path}>
-                    {t(breadcrumb.title) ?? '####'}
-                  </Link>
-                </BreadcrumbLink>
-                {/* <BreadcrumbLink href={breadcrumb.path}>
-                  {breadcrumb.title ?? '####'}
-                </BreadcrumbLink> */}
-              </BreadcrumbItem>
-            </React.Fragment>
-          ))}
-          {/* <BreadcrumbItem>
-            <BreadcrumbPage>{t('vehicles')}</BreadcrumbPage>
-          </BreadcrumbItem> */}
+          {items.map(renderBreadcrumbItem)}
         </BreadcrumbList>
       </Breadcrumb>
-
-      {/* <div className="fixed z-[100000000000000000] top-4 right-4 bottom-4 shadow-lg bg-accent p-8">
-        <div className="h-full overflow-y-auto">
-          <pre>{JSON.stringify(matches, null, 2)}</pre>
-        </div>
-      </div> */}
     </div>
   );
 }

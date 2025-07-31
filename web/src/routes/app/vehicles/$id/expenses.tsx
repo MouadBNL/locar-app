@@ -206,6 +206,8 @@ function EditExpenseDialog({
       },
     });
 
+  if (!expense)
+    return null;
   return (
     <VehicleExpenseFormDialog
       open={!!expense}

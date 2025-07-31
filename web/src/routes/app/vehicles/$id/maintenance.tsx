@@ -191,6 +191,9 @@ export function EditMaintenanceDialog({
     },
   });
 
+  if (!maintenance)
+    return null;
+
   return (
     <Dialog open={!!maintenance} onOpenChange={() => setMaintenance(null)}>
       <DialogContent>
