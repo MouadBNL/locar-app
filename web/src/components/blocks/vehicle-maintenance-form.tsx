@@ -42,7 +42,6 @@ export function VehicleMaintenanceForm({
   submit,
 }: VehicleMaintenanceFormProps) {
   const { t } = useTranslation(['maintenance', 'common']);
-  const queryClient = useQueryClient();
 
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [editExpense, setEditExpense] = useState<VehicleExpenseResource | null>(
@@ -197,23 +196,24 @@ export function VehicleMaintenanceForm({
           createExpense({ vehicleId, data });
         }}
       />
-
-      <VehicleExpenseFormDialog
-        open={!!editExpense}
-        setOpen={(v) => {
-          if (!v)
-            setEditExpense(null);
-        }}
-        initialValues={{ ...editExpense }}
-        loading={isUpdatingExpense}
-        submit={(data) => {
-          updateExpense({
-            vehicleId,
-            expenseId: editExpense!.id,
-            data,
-          });
-        }}
-      />
+      { editExpense && (
+        <VehicleExpenseFormDialog
+          open={!!editExpense}
+          setOpen={(v) => {
+            if (!v)
+              setEditExpense(null);
+          }}
+          initialValues={{ ...editExpense }}
+          loading={isUpdatingExpense}
+          submit={(data) => {
+            updateExpense({
+              vehicleId,
+              expenseId: editExpense!.id,
+              data,
+            });
+          }}
+        />
+      )}
     </div>
   );
 }
