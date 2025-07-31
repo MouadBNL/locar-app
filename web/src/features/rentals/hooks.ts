@@ -17,7 +17,7 @@ import {
 export const useRentalIndex = makeQueryHook(['rentals'], rentalIndexFn);
 export const useRentalDelete = makeMutationHook(rentalDeleteFn);
 export const useRentalCreate = makeMutationHook(rentalCreateFn);
-export const useRentalShow = makeQueryHook(['rentals'], rentalShowFn);
+export const useRentalShow = makeQueryHook(['rentals', 'show'], rentalShowFn);
 
 export const useRentalVehicleUpdate = makeMutationHook(rentalVehicleUpdateFn);
 export const useRentalRenterUpdate = makeMutationHook(rentalRenterUpdateFn);

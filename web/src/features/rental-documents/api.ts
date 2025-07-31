@@ -2,7 +2,7 @@ import type { RentalDocumentData, RentalDocumentResource } from './types';
 import type { ApiResponse } from '@/lib/http';
 import { http } from '@/lib/http';
 
-export async function rentalDocumentIndexFn(rental_code: string) {
+export async function rentalDocumentIndexFn({ rental_code }: { rental_code: string }) {
   const res = await http.get<ApiResponse<RentalDocumentResource[]>>(
     `/rentals/${rental_code}/documents`,
   );

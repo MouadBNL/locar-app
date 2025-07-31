@@ -14,7 +14,7 @@ export async function vehicleCreateFn(request: VehicleData) {
     .then(res => res.data);
 }
 
-export async function vehicleShowFn(id: string) {
+export async function vehicleShowFn({ id }: { id: string }) {
   return http
     .get<ApiResponse<VehicleResource>>(`vehicles/${id}`)
     .then(res => res.data);

@@ -1,5 +1,4 @@
 import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -20,13 +19,14 @@ import {
   useVehicleExpenseDelete,
   useVehicleExpenseIndex,
   useVehicleExpenseUpdate,
-
 } from '@/features/vehicle-expenses';
 import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/vehicles/$id/expenses')({
   component: RouteComponent,
-  loader: () => {
+  loader: async ({ params }) => {
+    await useVehicleExpenseIndex.prefetch({ vehicleId: params.id });
+
     return {
       meta: {
         breadcrumb: breadcrumb('expenses:label_plural'),
@@ -38,7 +38,6 @@ export const Route = createFileRoute('/app/vehicles/$id/expenses')({
 function RouteComponent() {
   const { t } = useTranslation(['expenses', 'common']);
   const { id } = Route.useParams();
-  const queryClient = useQueryClient();
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [editExpense, setEditExpense] = useState<VehicleExpenseResource | null>(
     null,
@@ -52,7 +51,7 @@ function RouteComponent() {
     = useVehicleExpenseDelete({
       onSuccess: () => {
         toast.success(t('expenses:action.delete.success'));
-        queryClient.invalidateQueries({ queryKey: ['vehicle-expenses'] });
+        useVehicleExpenseIndex.invalidate();
       },
       onError: (error) => {
         console.error(error);
@@ -61,14 +60,16 @@ function RouteComponent() {
     });
 
   const handleExpensesChange = () => {
-    queryClient.invalidateQueries({ queryKey: ['vehicle-expenses'] });
+    useVehicleExpenseIndex.invalidate({ vehicleId: id });
   };
 
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
-        <CardTitle>{t('expenses:label_plural')}</CardTitle>
-        <CardAction>
+        <CardTitle>
+          {t('expenses:label_plural')}
+        </CardTitle>
+        <CardAction className="flex items-center gap-2">
           <AddExpenseDialog
             vehicleId={id}
             onChange={handleExpensesChange}
@@ -206,6 +207,8 @@ function EditExpenseDialog({
       },
     });
 
+  if (!expense)
+    return null;
   return (
     <VehicleExpenseFormDialog
       open={!!expense}

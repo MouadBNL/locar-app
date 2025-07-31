@@ -5,17 +5,17 @@ import * as React from 'react';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@/components/theme-provider';
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 interface RootContext {
-  meta: {
-    title: string;
-    breadcrumb: boolean;
-  };
+  queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<RootContext>()({
   component: RootComponent,
+  context: () => ({
+    queryClient,
+  }),
 });
 
 function RootComponent() {

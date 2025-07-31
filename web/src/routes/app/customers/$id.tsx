@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { CustomerStatusBadge } from '@/components/blocks/customer-status-badge';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
-import { customerShowFn } from '@/features/customers';
+import { useCustomerShow } from '@/features/customers';
 
 export const Route = createFileRoute('/app/customers/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const customer = await customerShowFn({ id: params.id });
+    const customer = await useCustomerShow.prefetch({ id: params.id });
+
     return { customer: customer.data, meta: {
       breadcrumb: {
         title: `${customer.data.first_name} ${customer.data.last_name}`,
@@ -20,7 +21,8 @@ export const Route = createFileRoute('/app/customers/$id')({
 function RouteComponent() {
   const { id } = Route.useParams();
   const { t } = useTranslation(['customer', 'rental', 'reservation', 'common']);
-  const { customer } = Route.useLoaderData();
+  const { data } = useCustomerShow({ id });
+  const customer = data?.data;
 
   return (
     <div className="pt-8 px-4 lg:px-12">

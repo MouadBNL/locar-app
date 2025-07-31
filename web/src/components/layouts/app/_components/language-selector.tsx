@@ -1,4 +1,5 @@
 import { CheckIcon, LanguagesIcon } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -12,16 +13,17 @@ const languages = [
     code: 'fr',
     name: 'French',
   },
-];
+] as const;
 
 export function LanguageSelector() {
   const { i18n } = useTranslation();
 
-  const currentLanguage = languages.find(language => language.code === i18n.language);
+  const [currentLanguage, setCurrentLanguage] = useState(languages.find(language => language.code === i18n.language));
 
   const handleLanguageChange = (language: string) => {
     i18n.changeLanguage(language);
     localStorage.setItem('lang', language);
+    setCurrentLanguage(languages.find(lang => lang.code === language));
   };
 
   return (

@@ -6,6 +6,7 @@ import {
   useQuery,
 
 } from '@tanstack/react-query';
+import { queryClient } from '@/routes/__root';
 
 /**
  * Utility to obtain the variable type (handles “no args” nicely).
@@ -62,7 +63,7 @@ export function makeQueryHook<
     ? readonly [...Prefix]
     : readonly [...Prefix, TVariables];
 
-  return (
+  const useFn = (
     variables?: TVariables,
     opts: Omit<
       UseQueryOptions<TData, TError, TData, TKey>,
@@ -75,7 +76,27 @@ export function makeQueryHook<
         ? [...prefix]
         : [...prefix, variables]) as TKey,
       queryFn: () => fetcher(variables as any),
+      staleTime: 1000 * 30,
       ...opts,
     });
   };
+
+  useFn.invalidate = (variables?: TVariables) => {
+    queryClient.invalidateQueries({
+      queryKey: (variables === undefined
+        ? [...prefix]
+        : [...prefix, variables]) as TKey,
+    });
+  };
+
+  useFn.prefetch = (variables?: TVariables): Promise<TData> => {
+    return queryClient.ensureQueryData({
+      queryKey: (variables === undefined
+        ? [...prefix]
+        : [...prefix, variables]) as TKey,
+      queryFn: () => fetcher(variables as any),
+    });
+  };
+
+  return useFn;
 }

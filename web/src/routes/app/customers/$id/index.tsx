@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate, useRouter } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { EyeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -7,27 +7,26 @@ import { PeriodSummaryCard } from '@/components/blocks/period-summary-card';
 import { VehicleSummaryCard } from '@/components/blocks/vehicle-summary-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { customerShowFn, useCustomerUpdate } from '@/features/customers';
+import { useCustomerShow, useCustomerUpdate } from '@/features/customers';
 
 export const Route = createFileRoute('/app/customers/$id/')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const customer = await customerShowFn({ id: params.id });
-    return { customer: customer.data };
+    await useCustomerShow.prefetch({ id: params.id });
   },
 });
 
 function RouteComponent() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
-  const router = useRouter();
   const { t } = useTranslation(['customer', 'common', 'rental', 'reservation']);
-  const { customer } = Route.useLoaderData();
+  const { data } = useCustomerShow({ id });
+  const customer = data?.data;
 
   const { mutate: updateCustomer, isPending } = useCustomerUpdate({
     onSuccess: () => {
       toast.success('Customer updated successfully');
-      router.invalidate();
+      useCustomerShow.invalidate();
       navigate({ to: '/app/customers' });
     },
     onError: () => {

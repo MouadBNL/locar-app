@@ -5,7 +5,7 @@ import VehicleForm from '@/components/blocks/vehicle-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
-import { useVehicleCreate } from '@/features/vehicles';
+import { useVehicleCreate, useVehicleIndex } from '@/features/vehicles';
 import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/vehicles/create')({
@@ -25,6 +25,7 @@ function RouteComponent() {
   const { mutate: createVehicle, isPending } = useVehicleCreate({
     onSuccess: () => {
       toast.success('Vehicle created successfully');
+      useVehicleIndex.invalidate();
       navigate({ to: '/app/vehicles' });
     },
     onError: () => {

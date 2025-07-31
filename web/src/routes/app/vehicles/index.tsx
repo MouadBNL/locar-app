@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -11,17 +10,19 @@ import { useVehicleDelete, useVehicleIndex } from '@/features/vehicles';
 
 export const Route = createFileRoute('/app/vehicles/')({
   component: RouteComponent,
+  loader: async () => {
+    await useVehicleIndex.prefetch();
+  },
 });
 
 function RouteComponent() {
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['vehicle', 'common']);
-  const { data, isFetching } = useVehicleIndex();
+  const { data, isLoading } = useVehicleIndex();
 
   const { mutate: deleteVehicle, isPending: isDeleting } = useVehicleDelete({
     onSuccess: () => {
       toast.success('Vehicle deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['vehicles'] });
+      useVehicleIndex.invalidate();
     },
     onError: () => {
       toast.error('Failed to delete vehicle');
@@ -44,7 +45,7 @@ function RouteComponent() {
       <Card className="p-2 mb-4">
         <VehicleTable
           data={data?.data || []}
-          loading={isFetching}
+          loading={isLoading}
           actions={vehicle => (
             <>
               <Button variant="outline" size="sm" asChild>

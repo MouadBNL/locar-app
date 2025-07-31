@@ -48,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent className="flex flex-col gap-2">
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Dashboard">
+                <SidebarMenuButton asChild>
                   <Link to="/app">
                     <GaugeIcon />
                     <span>{t('dashboard')}</span>
@@ -56,7 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Vehicles">
+                <SidebarMenuButton asChild>
                   <Link to="/app/vehicles">
                     <WarehouseIcon />
                     <span>{t('vehicles')}</span>
@@ -64,7 +64,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Customers">
+                <SidebarMenuButton asChild>
                   <Link to="/app/customers">
                     <UsersIcon />
                     <span>{t('customers')}</span>
@@ -72,7 +72,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Reservations">
+                <SidebarMenuButton asChild>
                   <Link to="/app/reservations">
                     <CalendarClockIcon />
                     <span>{t('reservations')}</span>
@@ -80,7 +80,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Rentals">
+                <SidebarMenuButton asChild>
                   <Link to="/app/rentals">
                     <ReceiptTextIcon />
                     <span>{t('rentals')}</span>

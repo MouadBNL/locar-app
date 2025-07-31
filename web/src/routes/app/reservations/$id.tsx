@@ -2,7 +2,6 @@ import {
   createFileRoute,
   Link,
   useNavigate,
-  useRouter,
 } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -11,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import {
-  reservationShowFn,
+  useReservationShow,
   useReservationUpdate,
 } from '@/features/reservations';
 import { parse_availability_error } from '@/lib/utils';
@@ -19,7 +18,7 @@ import { parse_availability_error } from '@/lib/utils';
 export const Route = createFileRoute('/app/reservations/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const reservation = await reservationShowFn({ id: params.id });
+    const reservation = await useReservationShow.prefetch({ id: params.id });
     return { reservation: reservation.data, meta: {
       breadcrumb: {
         title: `${reservation.data.customer.full_name}`,
@@ -31,14 +30,14 @@ export const Route = createFileRoute('/app/reservations/$id')({
 function RouteComponent() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
-  const router = useRouter();
   const { t } = useTranslation(['reservation', 'common', 'exceptions']);
-  const { reservation } = Route.useLoaderData();
+  const { data } = useReservationShow({ id });
+  const reservation = data?.data;
 
   const { mutate: updateReservation, isPending } = useReservationUpdate({
     onSuccess: () => {
       toast.success(t('reservation:action.update.success'));
-      router.invalidate();
+      useReservationShow.invalidate({ id });
       navigate({ to: '/app/reservations' });
     },
     onError: (error) => {
