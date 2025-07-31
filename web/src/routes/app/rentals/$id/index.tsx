@@ -1,6 +1,6 @@
 import type { RentalRateData, RentalTimeframeData, RentalVehichleData, RenterData } from '@/features/rentals';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -21,19 +21,16 @@ import { AppFormField, Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { NumberInput } from '@/components/ui/number-input';
 import { Textarea } from '@/components/ui/textarea';
+import { useRentalPaymentIndex } from '@/features/rental-payments';
 import {
-
   RentalRateSchema,
-  rentalShowFn,
-
   RentalTimeframeSchema,
-
   RentalVehichleSchema,
-
   RenterSchema,
   useRentalNotesUpdate,
   useRentalRateUpdate,
   useRentalRenterUpdate,
+  useRentalShow,
   useRentalTimeframeUpdate,
   useRentalVehicleUpdate,
 } from '@/features/rentals';
@@ -42,20 +39,23 @@ import { parse_availability_error } from '@/lib/utils';
 export const Route = createFileRoute('/app/rentals/$id/')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const rental = await rentalShowFn({ number: params.id });
+    const rental = await useRentalShow.prefetch({ number: params.id });
+
     return { rental: rental.data };
   },
 });
 
 function RouteComponent() {
-  const { rental } = Route.useLoaderData();
   const { id } = Route.useParams();
-  const router = useRouter();
+  const { data } = useRentalShow({ number: id });
+  const rental = data?.data;
   function handleUpdate() {
-    router.invalidate({
-      filter: match => match.id === id,
-    });
+    useRentalShow.invalidate({ number: id });
+    useRentalPaymentIndex.invalidate({ rental_code: id });
   }
+
+  if (!rental)
+    return null;
 
   return (
     <div className="grid grid-cols-3 gap-4">

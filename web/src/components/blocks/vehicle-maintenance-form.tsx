@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import {
   useVehicleExpenseCreate,
   useVehicleExpenseDelete,
+  useVehicleExpenseIndex,
   useVehicleExpenseUpdate,
 
 } from '@/features/vehicle-expenses';
@@ -78,15 +79,7 @@ export function VehicleMaintenanceForm({
           'expenses',
           Array.from(new Set([...expenses, data.data.id])),
         );
-        queryClient.invalidateQueries({
-          queryKey: [
-            'vehicle-expenses',
-            {
-              vehicleId,
-              ids: Array.from(new Set([...expenses, data.data.id])),
-            },
-          ],
-        });
+        useVehicleExpenseIndex.invalidate({ vehicleId, ids: Array.from(new Set([...expenses, data.data.id])) });
         setEditExpense(null);
       },
     });

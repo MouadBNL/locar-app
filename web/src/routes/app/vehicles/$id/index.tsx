@@ -3,7 +3,6 @@ import {
   createFileRoute,
   Link,
   useNavigate,
-  useRouter,
 } from '@tanstack/react-router';
 import { EyeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -13,13 +12,13 @@ import { PeriodSummaryCard } from '@/components/blocks/period-summary-card';
 import VehicleForm from '@/components/blocks/vehicle-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useVehicleUpdate, vehicleShowFn } from '@/features/vehicles';
+import { useVehicleShow, useVehicleUpdate } from '@/features/vehicles';
 
 export const Route = createFileRoute('/app/vehicles/$id/')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const vehicle = (await vehicleShowFn(params.id)).data;
-    return { vehicle };
+    const vehicle = await useVehicleShow.prefetch({ id: params.id });
+    return { vehicle: vehicle.data };
   },
 });
 
@@ -27,14 +26,13 @@ function RouteComponent() {
   const { t } = useTranslation(['common', 'vehicle', 'rental', 'reservation', 'maintenance']);
   const { id } = Route.useParams();
   const navigate = useNavigate();
-  const router = useRouter();
 
   const { vehicle } = Route.useLoaderData();
 
   const { mutate: updateVehicle, isPending } = useVehicleUpdate({
     onSuccess: () => {
       toast.success('Vehicle updated successfully');
-      router.invalidate();
+      useVehicleShow.invalidate({ id });
       navigate({ to: '/app/vehicles' });
     },
     onError: () => {

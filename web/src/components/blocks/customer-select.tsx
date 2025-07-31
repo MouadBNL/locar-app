@@ -60,7 +60,7 @@ export function CustomerSelect(props: CustomerSelectProps) {
         setNewCustomerId(customer.id);
       }
       setOpen(false);
-      queryClient.invalidateQueries({ queryKey: ['customers'] });
+      useCustomerIndex.invalidate();
     },
   });
 

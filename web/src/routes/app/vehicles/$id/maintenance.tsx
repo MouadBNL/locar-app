@@ -1,5 +1,4 @@
 import type { VehicleMaintenanceResource } from '@/features/vehicle-maintenances';
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { PencilIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -28,13 +27,13 @@ import {
   useVehicleMaintenanceDelete,
   useVehicleMaintenanceIndex,
   useVehicleMaintenanceUpdate,
-
 } from '@/features/vehicle-maintenances';
 import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/vehicles/$id/maintenance')({
   component: RouteComponent,
-  loader: () => {
+  loader: async ({ params }) => {
+    await useVehicleMaintenanceIndex.prefetch({ vehicleId: params.id });
     return {
       meta: {
         breadcrumb: breadcrumb('maintenance:label_plural'),
@@ -46,7 +45,6 @@ export const Route = createFileRoute('/app/vehicles/$id/maintenance')({
 function RouteComponent() {
   const { id } = Route.useParams();
   const { t } = useTranslation(['maintenance', 'common']);
-  const queryClient = useQueryClient();
   const [maintenance, setMaintenance]
     = useState<VehicleMaintenanceResource | null>(null);
 
@@ -61,9 +59,7 @@ function RouteComponent() {
   } = useVehicleMaintenanceDelete({
     onSuccess: () => {
       toast.success(t('maintenance:action.delete.success'));
-      queryClient.invalidateQueries({
-        queryKey: ['vehicle-maintenances'],
-      });
+      useVehicleMaintenanceIndex.invalidate({ vehicleId: id });
     },
     onError: (error) => {
       console.error(error);
@@ -124,16 +120,13 @@ function RouteComponent() {
 
 function AddMaintenanceDialog() {
   const { id } = Route.useParams();
-  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const { t } = useTranslation(['maintenance', 'common']);
 
   const { mutate: createMaintenance, isPending } = useVehicleMaintenanceCreate({
     onSuccess: () => {
       toast.success(t('maintenance:action.create.success'));
-      queryClient.invalidateQueries({
-        queryKey: ['vehicle-maintenances'],
-      });
+      useVehicleMaintenanceIndex.invalidate({ vehicleId: id });
       setOpen(false);
     },
     onError: (error) => {
@@ -174,15 +167,12 @@ export function EditMaintenanceDialog({
   setMaintenance: (maintenance: VehicleMaintenanceResource | null) => void;
 }) {
   const { id } = Route.useParams();
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['maintenance', 'common']);
 
   const { mutate: updateMaintenance, isPending } = useVehicleMaintenanceUpdate({
     onSuccess: () => {
       toast.success(t('maintenance:action.update.success'));
-      queryClient.invalidateQueries({
-        queryKey: ['vehicle-maintenances'],
-      });
+      useVehicleMaintenanceIndex.invalidate({ vehicleId: id });
       setMaintenance(null);
     },
     onError: (error) => {

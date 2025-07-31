@@ -1,11 +1,10 @@
 import type { SignInRequest } from '@/features/auth';
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { SigninForm } from '@/components/blocks/signin-form';
 import { Card, CardContent } from '@/components/ui/card';
-import { useSingIn } from '@/features/auth';
+import { useAuthMe, useSingIn } from '@/features/auth';
 
 export const Route = createFileRoute('/auth/signin')({
   component: RouteComponent,
@@ -13,12 +12,11 @@ export const Route = createFileRoute('/auth/signin')({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['auth', 'common']);
   const { mutate: signin, isPending } = useSingIn({
     onSuccess() {
       toast.success(t('auth:login.success'));
-      queryClient.invalidateQueries({ queryKey: ['session'] });
+      useAuthMe.invalidate();
       navigate({ to: '/app' });
     },
     onError(err) {

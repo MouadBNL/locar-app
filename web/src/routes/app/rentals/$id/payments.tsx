@@ -1,5 +1,4 @@
 import type { RentalPaymentResource } from '@/features/rental-payments';
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -24,7 +23,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import {
-
   useRentalPaymentCreate,
   useRentalPaymentDelete,
   useRentalPaymentIndex,
@@ -35,7 +33,9 @@ import { fmt_currency } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/rentals/$id/payments')({
   component: RouteComponent,
-  loader: () => {
+  loader: async ({ params }) => {
+    await useRentalPaymentIndex.prefetch({ rental_code: params.id });
+
     return {
       meta: {
         breadcrumb: breadcrumb('payment:label_plural'),
@@ -46,7 +46,6 @@ export const Route = createFileRoute('/app/rentals/$id/payments')({
 
 function RouteComponent() {
   const { id: code } = Route.useParams();
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['payment', 'common']);
   const [editPayment, setEditPayment] = useState<RentalPaymentResource | null>(
     null,
@@ -62,7 +61,7 @@ function RouteComponent() {
   } = useRentalPaymentDelete({
     onSuccess: () => {
       toast.success(t('payment:action.delete.success'));
-      queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
+      useRentalPaymentIndex.invalidate();
     },
     onError: () => {
       toast.error(t('payment:action.delete.error'));
@@ -133,7 +132,6 @@ function RouteComponent() {
 }
 
 function AddPaymentDialog({ rental_code }: { rental_code: string }) {
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['payment', 'common']);
   const [open, setOpen] = useState(false);
 
@@ -141,7 +139,7 @@ function AddPaymentDialog({ rental_code }: { rental_code: string }) {
     = useRentalPaymentCreate({
       onSuccess: () => {
         toast.success(t('payment:action.create.success'));
-        queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
+        useRentalPaymentIndex.invalidate({ rental_code });
         setOpen(false);
       },
       onError: (error) => {
@@ -180,14 +178,13 @@ function EditPaymentDialog({
   payment: RentalPaymentResource | null;
   setEditPayment: (payment: RentalPaymentResource | null) => void;
 }) {
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['payment', 'common']);
 
   const { mutate: updateRentalPayment, isPending: isUpdatingRentalPayment }
     = useRentalPaymentUpdate({
       onSuccess: () => {
         toast.success(t('payment:action.update.success'));
-        queryClient.invalidateQueries({ queryKey: ['rental-payments'] });
+        useRentalPaymentIndex.invalidate({ rental_code });
         setEditPayment(null);
       },
       onError: (error) => {
@@ -195,6 +192,9 @@ function EditPaymentDialog({
         toast.error(t('payment:action.update.error'));
       },
     });
+
+  if (!payment)
+    return null;
 
   return (
     <Dialog open={!!payment} onOpenChange={() => setEditPayment(null)}>

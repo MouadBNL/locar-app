@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { EyeIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -7,14 +6,16 @@ import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
-import { useRentalDelete, useRentalIndex } from '@/features/rentals/hooks';
+import { useRentalDelete, useRentalIndex } from '@/features/rentals';
 
 export const Route = createFileRoute('/app/rentals/')({
   component: RouteComponent,
+  loader: async () => {
+    await useRentalIndex.prefetch();
+  },
 });
 
 function RouteComponent() {
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['rental', 'common']);
 
   const { data, isFetching } = useRentalIndex();
@@ -22,7 +23,7 @@ function RouteComponent() {
   const { mutate: deleteRental, isPending: isDeleting } = useRentalDelete({
     onSuccess: () => {
       toast.success(t('rental:action.delete.success'));
-      queryClient.invalidateQueries({ queryKey: ['rentals'] });
+      useRentalIndex.invalidate();
     },
     onError: () => {
       toast.error(t('rental:action.delete.error'));

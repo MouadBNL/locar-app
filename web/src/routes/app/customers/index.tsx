@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -7,21 +6,26 @@ import { CustomerTable } from '@/components/blocks/customer-table';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
-import { useCustomerDelete, useCustomerIndex } from '@/features/customers';
+import { customerIndexFn, useCustomerDelete, useCustomerIndex } from '@/features/customers';
 
 export const Route = createFileRoute('/app/customers/')({
   component: RouteComponent,
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData({
+      queryKey: ['customers'],
+      queryFn: () => customerIndexFn(),
+    });
+  },
 });
 
 function RouteComponent() {
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['customer', 'common']);
   const { data, isLoading } = useCustomerIndex();
 
   const { mutate: deleteCustomer, isPending: isDeleting } = useCustomerDelete({
     onSuccess: () => {
       toast.success('Customer deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['customers'] });
+      useCustomerIndex.invalidate();
     },
     onError: () => {
       toast.error('Failed to delete customer');

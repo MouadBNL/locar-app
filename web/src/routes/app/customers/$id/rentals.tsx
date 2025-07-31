@@ -8,7 +8,9 @@ import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/customers/$id/rentals')({
   component: RouteComponent,
-  loader: () => {
+  loader: async ({ params }) => {
+    await useRentalIndex.prefetch({ params: { customer_id: params.id } });
+
     return {
       meta: {
         breadcrumb: breadcrumb('rental:label_plural'),
