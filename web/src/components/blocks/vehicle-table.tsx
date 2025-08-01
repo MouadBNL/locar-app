@@ -22,8 +22,8 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>{t('vehicle:attributes.plate')}</TableHead>
           <TableHead>{t('vehicle:attributes.model')}</TableHead>
+          <TableHead>{t('vehicle:attributes.plate')}</TableHead>
           <TableHead>{t('vehicle:attributes.year')}</TableHead>
           <TableHead>{t('vehicle:attributes.status')}</TableHead>
           {actions && <TableHead>{t('common:actions')}</TableHead>}
@@ -49,8 +49,12 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
           && data.length > 0
           && data.map(vehicle => (
             <TableRow key={vehicle.id}>
+              <TableCell>
+                {vehicle.make}
+                {' '}
+                {vehicle.model}
+              </TableCell>
               <TableCell>{vehicle.license_plate}</TableCell>
-              <TableCell>{vehicle.model}</TableCell>
               <TableCell>{vehicle.year}</TableCell>
               <TableCell>
                 <VehicleStatusBadge status={vehicle.status} />

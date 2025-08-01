@@ -24,8 +24,10 @@ class VehicleCreateRequest extends FormRequest
         return [
             'make' => 'required|string|max:255',
             'model' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:2100',
+            'first_service_date' => 'required|date',
+            'last_service_date' => 'nullable|date',
             'license_plate' => 'required|string|max:255',
+            'vin' => 'required|string|max:255',
             'mileage' => 'required|integer|min:0',
             'fuel_type' => 'required|string|in:gasoline,diesel,electric,hybrid',
             'transmission' => 'required|string|in:AT,MT',

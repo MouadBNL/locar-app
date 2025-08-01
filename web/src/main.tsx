@@ -3,6 +3,7 @@ import { Loader2 } from 'lucide-react';
 import { StrictMode } from 'react';
 
 import { createRoot } from 'react-dom/client';
+import { queryClient } from './lib/query-generator';
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 import './index.css';
@@ -18,10 +19,7 @@ const router = createRouter({
   ),
   defaultPendingMs: 200,
   context: {
-    meta: {
-      title: 'Localar',
-      breadcrumb: false,
-    },
+    queryClient,
   },
 });
 

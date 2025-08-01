@@ -1,5 +1,4 @@
 import type { RentalDocumentResource } from '@/features/rental-documents';
-import { LoaderIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import {
 

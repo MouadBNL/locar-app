@@ -4,18 +4,22 @@ namespace App\Models;
 
 use App\Enums\VehicleStatus;
 use App\Traits\HasUuidAsPrimary;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Collection;
 
 /**
  * @property-read string $id
  * @property-read string $make
  * @property-read string $model
- * @property-read int $year
+ * @property-read Carbon $first_service_date
+ * @property-read Carbon $last_service_date
  * @property-read string $license_plate
+ * @property-read string $vin
  * @property-read int $mileage
  * @property-read string $fuel_type
  * @property-read string $transmission
@@ -28,13 +32,19 @@ use Illuminate\Support\Collection;
  */
 class Vehicle extends Model
 {
+    /**
+     * @use HasFactory<\Database\Factories\VehicleFactory>
+     */
+    use HasFactory;
     use HasUuidAsPrimary;
 
     protected $fillable = [
         'make',
         'model',
-        'year',
+        'first_service_date',
+        'last_service_date',
         'license_plate',
+        'vin',
         'mileage',
         'fuel_type',
         'transmission',
@@ -42,6 +52,11 @@ class Vehicle extends Model
         'number_of_doors',
         'color',
         'photo_url',
+    ];
+
+    protected $casts = [
+        'first_service_date' => 'date',
+        'last_service_date' => 'date',
     ];
 
     public function status(): Attribute

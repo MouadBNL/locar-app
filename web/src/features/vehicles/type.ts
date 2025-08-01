@@ -12,7 +12,10 @@ export interface VehicleResource {
   make: string;
   model: string;
   year: number;
+  first_service_date: string;
+  last_service_date: string;
   license_plate: string;
+  vin: string;
   mileage: number;
   fuel_type: z.infer<typeof VehicleSchema.shape.fuel_type>;
   transmission: z.infer<typeof VehicleSchema.shape.transmission>;

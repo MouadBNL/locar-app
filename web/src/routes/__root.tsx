@@ -1,11 +1,11 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import * as React from 'react';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@/components/theme-provider';
-
-export const queryClient = new QueryClient();
+import { queryClient } from '@/lib/query-generator';
 
 interface RootContext {
   queryClient: QueryClient;

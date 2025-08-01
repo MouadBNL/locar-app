@@ -25,6 +25,7 @@
     }
   },
   "attributes": {
+    "reservation_number": "Reservation Number",
     "vehicle": "Vehicle",
     "customer": "Customer",
     "check_in_date": "Check-in Date",
@@ -32,6 +33,7 @@
     "daily_rate": "Daily Rate",
     "total_days": "Total Days",
     "total_price": "Total",
+    "deposit": "Deposit",
     "notes": "Notes"
   }
 }
