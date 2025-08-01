@@ -26,10 +26,15 @@ Route::prefix('/auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('customers', CustomerController::class);
-    Route::apiResource('reservations', ReservationController::class);
     Route::apiResource('vehicles', VehicleController::class);
     Route::apiResource('vehicles/{vehicle}/expenses', VehicleExpenseController::class);
     Route::apiResource('vehicles/{vehicle}/maintenances', VehicleMaintenanceController::class);
+
+    Route::get('reservations', [ReservationController::class, 'index']);
+    Route::get('reservations/{reservation:reservation_number}', [ReservationController::class, 'show']);
+    Route::post('reservations', [ReservationController::class, 'store']);
+    Route::put('reservations/{reservation:reservation_number}', [ReservationController::class, 'update']);
+    Route::delete('reservations/{reservation:reservation_number}', [ReservationController::class, 'destroy']);
 
     /**
      * Rentals

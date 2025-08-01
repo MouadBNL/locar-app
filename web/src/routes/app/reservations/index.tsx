@@ -52,8 +52,8 @@ function RouteComponent() {
               <Button variant="outline" size="sm" asChild>
                 <Link
                   from="/"
-                  to="/app/reservations/$id"
-                  params={{ id: reservation.id! }}
+                  to="/app/reservations/$number"
+                  params={{ number: reservation.reservation_number }}
                 >
                   <PencilIcon className="w-4 h-4" />
                 </Link>
@@ -63,7 +63,7 @@ function RouteComponent() {
                 variant="outline"
                 size="sm"
                 loading={isDeleting}
-                onClick={() => deleteReservation({ id: reservation.id! })}
+                onClick={() => deleteReservation({ number: reservation.reservation_number })}
               >
                 <TrashIcon className="w-4 h-4" />
               </Button>

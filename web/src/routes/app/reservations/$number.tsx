@@ -15,29 +15,29 @@ import {
 } from '@/features/reservations';
 import { parse_availability_error } from '@/lib/utils';
 
-export const Route = createFileRoute('/app/reservations/$id')({
+export const Route = createFileRoute('/app/reservations/$number')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const reservation = await useReservationShow.prefetch({ id: params.id });
+    const reservation = await useReservationShow.prefetch({ number: params.number });
     return { reservation: reservation.data, meta: {
       breadcrumb: {
-        title: `${reservation.data.customer.full_name}`,
+        title: `${reservation.data.reservation_number}`,
       },
     } };
   },
 });
 
 function RouteComponent() {
-  const { id } = Route.useParams();
+  const { number } = Route.useParams();
   const navigate = useNavigate();
   const { t } = useTranslation(['reservation', 'common', 'exceptions']);
-  const { data } = useReservationShow({ id });
+  const { data } = useReservationShow({ number });
   const reservation = data?.data;
 
   const { mutate: updateReservation, isPending } = useReservationUpdate({
     onSuccess: () => {
       toast.success(t('reservation:action.update.success'));
-      useReservationShow.invalidate({ id });
+      useReservationShow.invalidate({ number });
       navigate({ to: '/app/reservations' });
     },
     onError: (error) => {
@@ -67,7 +67,7 @@ function RouteComponent() {
       <Card>
         <CardContent>
           <ReservationForm
-            submit={data => updateReservation({ id, data })}
+            submit={data => updateReservation({ number, data })}
             loading={isPending}
             initialValues={reservation ?? undefined}
           />
