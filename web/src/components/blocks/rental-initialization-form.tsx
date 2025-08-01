@@ -378,7 +378,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
           heading={t('rental:vehicle.heading')}
           subheading={t('rental:vehicle.subheading')}
         />
-        <div className="w-48">
+        <div className="w-64">
           <AppFormField
             control={form.control}
             name="vehicle.vehicle_id"

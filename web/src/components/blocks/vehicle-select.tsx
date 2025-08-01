@@ -30,8 +30,17 @@ export function VehicleSelect(props: VehicleSelectProps) {
       </SelectTrigger>
       <SelectContent>
         {data?.data.map(vehicle => (
-          <SelectItem key={vehicle.id} value={vehicle.id!}>
-            {vehicle.model}
+          <SelectItem key={vehicle.id} value={vehicle.id!} className="w-full">
+            <span className="flex gap-2 justify-end w-full items-center">
+              <span className="block truncate text-left text-ellipsis max-w-[120px]">
+                {vehicle.make}
+                {' '}
+                {vehicle.model}
+              </span>
+              <span className="text-xs text-muted-foreground block shrink-0 text-right text-nowrap truncate">
+                {`${vehicle.license_plate}`}
+              </span>
+            </span>
           </SelectItem>
         ))}
       </SelectContent>
