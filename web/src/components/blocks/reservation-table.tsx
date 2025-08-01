@@ -28,6 +28,7 @@ export function ReservationTable({
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead>{t('reservation:attributes.reservation_number')}</TableHead>
           <TableHead>{t('reservation:attributes.customer')}</TableHead>
           <TableHead>{t('reservation:attributes.vehicle')}</TableHead>
           <TableHead>{t('reservation:attributes.check_in_date')}</TableHead>
@@ -56,6 +57,9 @@ export function ReservationTable({
           && data.length > 0
           && data.map(reservation => (
             <TableRow key={reservation.id}>
+              <TableCell>
+                {reservation.reservation_number}
+              </TableCell>
               <TableCell>
                 <CustomerTableCard
                   id={reservation.customer_id}

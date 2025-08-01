@@ -9,6 +9,7 @@ export type ReservationData = z.infer<typeof ReservationSchema> & {
 
 export interface ReservationResource {
   id: string;
+  reservation_number: string;
   customer_id: string;
   vehicle_id: string;
   customer: CustomerSummaryResource;
@@ -18,6 +19,7 @@ export interface ReservationResource {
   daily_rate: number;
   total_days: number;
   total_price: number;
+  deposit: number;
   notes: string | null;
   created_at: string;
   updated_at: string;
