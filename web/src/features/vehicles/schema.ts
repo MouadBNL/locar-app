@@ -7,11 +7,13 @@ export const VehicleSchema = z
     id: z.string().uuid().nullish(),
     make: z.string().max(255),
     model: z.string().max(255),
-    year: z.number().int().min(1900).max(2100),
+    first_service_date: z.string().datetime(),
+    last_service_date: z.string().datetime(),
     license_plate: z
       .string()
       .max(255)
       .min(1, { message: 'License plate is required' }),
+    vin: z.string().min(1, { message: 'VIN is required' }).max(255),
     mileage: z.number().int().min(0),
     fuel_type: z.enum(['gasoline', 'diesel', 'electric', 'hybrid']),
     transmission: z.enum(['AT', 'MT']),

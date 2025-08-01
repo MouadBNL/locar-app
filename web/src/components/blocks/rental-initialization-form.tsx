@@ -367,7 +367,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
   const onVehicleSelected = (vehicle: VehicleData) => {
     form.setValue('vehicle.make', vehicle.make);
     form.setValue('vehicle.model', vehicle.model);
-    form.setValue('vehicle.year', vehicle.year);
+    form.setValue('vehicle.year', new Date(vehicle.first_service_date).getFullYear() ?? undefined);
     form.setValue('vehicle.license_plate', vehicle.license_plate);
   };
 
