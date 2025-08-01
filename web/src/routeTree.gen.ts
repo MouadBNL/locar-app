@@ -24,6 +24,7 @@ import { Route as AppVehiclesIndexRouteImport } from './routes/app/vehicles/inde
 import { Route as AppReservationsIndexRouteImport } from './routes/app/reservations/index'
 import { Route as AppRentalsIndexRouteImport } from './routes/app/rentals/index'
 import { Route as AppCustomersIndexRouteImport } from './routes/app/customers/index'
+import { Route as AppCalendarIndexRouteImport } from './routes/app/calendar/index'
 import { Route as AppVehiclesCreateRouteImport } from './routes/app/vehicles/create'
 import { Route as AppVehiclesIdRouteImport } from './routes/app/vehicles/$id'
 import { Route as AppReservationsCreateRouteImport } from './routes/app/reservations/create'
@@ -118,6 +119,11 @@ const AppCustomersIndexRoute = AppCustomersIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppCustomersRouteRoute,
+} as any)
+const AppCalendarIndexRoute = AppCalendarIndexRouteImport.update({
+  id: '/calendar/',
+  path: '/calendar/',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppVehiclesCreateRoute = AppVehiclesCreateRouteImport.update({
   id: '/create',
@@ -238,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/app/reservations/create': typeof AppReservationsCreateRoute
   '/app/vehicles/$id': typeof AppVehiclesIdRouteWithChildren
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
+  '/app/calendar': typeof AppCalendarIndexRoute
   '/app/customers/': typeof AppCustomersIndexRoute
   '/app/rentals/': typeof AppRentalsIndexRoute
   '/app/reservations/': typeof AppReservationsIndexRoute
@@ -266,6 +273,7 @@ export interface FileRoutesByTo {
   '/app/reservations/$number': typeof AppReservationsNumberRoute
   '/app/reservations/create': typeof AppReservationsCreateRoute
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
+  '/app/calendar': typeof AppCalendarIndexRoute
   '/app/customers': typeof AppCustomersIndexRoute
   '/app/rentals': typeof AppRentalsIndexRoute
   '/app/reservations': typeof AppReservationsIndexRoute
@@ -303,6 +311,7 @@ export interface FileRoutesById {
   '/app/reservations/create': typeof AppReservationsCreateRoute
   '/app/vehicles/$id': typeof AppVehiclesIdRouteWithChildren
   '/app/vehicles/create': typeof AppVehiclesCreateRoute
+  '/app/calendar/': typeof AppCalendarIndexRoute
   '/app/customers/': typeof AppCustomersIndexRoute
   '/app/rentals/': typeof AppRentalsIndexRoute
   '/app/reservations/': typeof AppReservationsIndexRoute
@@ -341,6 +350,7 @@ export interface FileRouteTypes {
     | '/app/reservations/create'
     | '/app/vehicles/$id'
     | '/app/vehicles/create'
+    | '/app/calendar'
     | '/app/customers/'
     | '/app/rentals/'
     | '/app/reservations/'
@@ -369,6 +379,7 @@ export interface FileRouteTypes {
     | '/app/reservations/$number'
     | '/app/reservations/create'
     | '/app/vehicles/create'
+    | '/app/calendar'
     | '/app/customers'
     | '/app/rentals'
     | '/app/reservations'
@@ -405,6 +416,7 @@ export interface FileRouteTypes {
     | '/app/reservations/create'
     | '/app/vehicles/$id'
     | '/app/vehicles/create'
+    | '/app/calendar/'
     | '/app/customers/'
     | '/app/rentals/'
     | '/app/reservations/'
@@ -537,6 +549,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/customers/'
       preLoaderRoute: typeof AppCustomersIndexRouteImport
       parentRoute: typeof AppCustomersRouteRoute
+    }
+    '/app/calendar/': {
+      id: '/app/calendar/'
+      path: '/calendar'
+      fullPath: '/app/calendar'
+      preLoaderRoute: typeof AppCalendarIndexRouteImport
+      parentRoute: typeof AppRouteRoute
     }
     '/app/vehicles/create': {
       id: '/app/vehicles/create'
@@ -793,6 +812,7 @@ interface AppRouteRouteChildren {
   AppReservationsRouteRoute: typeof AppReservationsRouteRouteWithChildren
   AppVehiclesRouteRoute: typeof AppVehiclesRouteRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
+  AppCalendarIndexRoute: typeof AppCalendarIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
@@ -801,6 +821,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppReservationsRouteRoute: AppReservationsRouteRouteWithChildren,
   AppVehiclesRouteRoute: AppVehiclesRouteRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
+  AppCalendarIndexRoute: AppCalendarIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
