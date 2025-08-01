@@ -27,7 +27,7 @@ class VehicleUpdateRequest extends FormRequest
             'first_service_date' => 'required|date',
             'last_service_date' => 'nullable|date',
             'license_plate' => 'required|string|max:255',
-            'VIN' => 'required|string|max:255',
+            'vin' => 'required|string|max:255',
             'mileage' => 'required|integer|min:0',
             'fuel_type' => 'required|string|in:gasoline,diesel,electric,hybrid',
             'transmission' => 'required|string|in:AT,MT',

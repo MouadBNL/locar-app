@@ -8,7 +8,7 @@ export const VehicleSchema = z
     make: z.string().max(255),
     model: z.string().max(255),
     first_service_date: z.string().datetime(),
-    last_service_date: z.string().datetime(),
+    last_service_date: z.string().datetime().nullish(),
     license_plate: z
       .string()
       .max(255)

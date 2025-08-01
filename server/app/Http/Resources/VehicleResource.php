@@ -26,7 +26,7 @@ class VehicleResource extends JsonResource
             'first_service_date' => $this->first_service_date,
             'last_service_date' => $this->last_service_date,
             'license_plate' => $this->license_plate,
-            'VIN' => $this->VIN,
+            'vin' => $this->vin,
             'mileage' => $this->mileage,
             'fuel_type' => $this->fuel_type,
             'transmission' => $this->transmission,

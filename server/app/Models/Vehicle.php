@@ -18,7 +18,7 @@ use Illuminate\Support\Collection;
  * @property-read Carbon $first_service_date
  * @property-read Carbon $last_service_date
  * @property-read string $license_plate
- * @property-read string $VIN
+ * @property-read string $vin
  * @property-read int $mileage
  * @property-read string $fuel_type
  * @property-read string $transmission
@@ -39,7 +39,7 @@ class Vehicle extends Model
         'first_service_date',
         'last_service_date',
         'license_plate',
-        'VIN',
+        'vin',
         'mileage',
         'fuel_type',
         'transmission',

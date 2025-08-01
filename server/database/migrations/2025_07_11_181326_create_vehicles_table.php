@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('first_service_date');
             $table->date('last_service_date')->nullable();
             $table->string('license_plate'); // should it be unique ?
-            $table->string('VIN');
+            $table->string('vin');
             $table->integer('mileage')->default(0);
             $table->enum('fuel_type', ['gasoline', 'diesel', 'electric', 'hybrid']);
             $table->enum('transmission', ['AT', 'MT']);
