@@ -94,7 +94,7 @@ export function VehicleExpenseForm({
             <Input {...field} placeholder={t('expenses:attributes.title')} value={field.value ?? ''} />
           )}
         />
-
+        {/*
         <AppFormField
           control={form.control}
           name="reference"
@@ -105,7 +105,7 @@ export function VehicleExpenseForm({
               value={field.value ?? ''}
             />
           )}
-        />
+        /> */}
 
         <AppFormField
           control={form.control}

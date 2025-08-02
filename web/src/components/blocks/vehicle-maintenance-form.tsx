@@ -130,14 +130,14 @@ export function VehicleMaintenanceForm({
                     <Input {...field} value={field.value ?? ''} />
                   )}
                 />
-                <AppFormField
+                {/* <AppFormField
                   control={form.control}
                   label={t('maintenance:attributes.reference')}
                   name="reference"
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? ''} />
                   )}
-                />
+                /> */}
                 <AppFormField
                   control={form.control}
                   label={t('maintenance:attributes.notes')}
