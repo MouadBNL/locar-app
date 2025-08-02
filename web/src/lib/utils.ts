@@ -42,15 +42,9 @@ export function get_date(opt?: { day?: number }) {
 }
 
 export function get_date_range(date: Date, days: number) {
-  const ss = {
-    time: date.getTime(),
-    prev: { time: date.getTime() - days * 24 * 60 * 60 * 1000, iso: new Date(date.getTime() - days * 24 * 60 * 60 * 1000).toISOString().split('T')[0] },
-    next: { time: date.getTime() + days * 24 * 60 * 60 * 1000, iso: new Date(date.getTime() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0] },
-  };
-  console.log(ss);
   return {
-    start_date: ss.prev.iso,
-    end_date: ss.next.iso,
+    start_date: new Date(date.getTime() - days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    end_date: new Date(date.getTime() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
   };
 }
 
