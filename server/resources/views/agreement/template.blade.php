@@ -255,18 +255,6 @@
                             <td>{{ $rental->rate->day_total }}</td>
                         </tr>
                         <tr>
-                            <td>Insurance Rate:</td>
-                            <td>{{ $rental->rate->insurance_rate ?? 0}}</td>
-                        </tr>
-                        <tr>
-                            <td>Insurance Quantity:</td>
-                            <td>{{ $rental->rate->insurance_quantity ?? 0}}</td>
-                        </tr>
-                        <tr>
-                            <td>Insurance Total:</td>
-                            <td>{{ $rental->rate->insurance_total ?? 0}}</td>
-                        </tr>
-                        <tr>
                             <td>Extra Rate:</td>
                             <td>{{ $rental->rate->extra_rate ?? 0}}</td>
                         </tr>

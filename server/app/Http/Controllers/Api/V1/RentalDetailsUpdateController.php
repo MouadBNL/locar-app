@@ -93,7 +93,7 @@ class RentalDetailsUpdateController extends ApiController
         $rental->rate->update([
             'day_quantity' => $days,
             'day_total' => $rental->rate->day_rate * $days,
-            'total' => $rental->rate->day_rate * $days + $rental->rate->insurance_total + $rental->rate->extra_total,
+            'total' => $rental->rate->day_rate * $days + $rental->rate->extra_total,
         ]);
 
         return $this->success(null, 'rental.timeframe.updated');
@@ -105,15 +105,6 @@ class RentalDetailsUpdateController extends ApiController
             'day_quantity' => $data->day_quantity,
             'day_rate' => $data->day_rate,
             'day_total' => $data->day_total,
-            'week_quantity' => $data->week_quantity,
-            'week_rate' => $data->week_rate,
-            'week_total' => $data->week_total,
-            'month_quantity' => $data->month_quantity,
-            'month_rate' => $data->month_rate,
-            'month_total' => $data->month_total,
-            'insurance_quantity' => $data->insurance_quantity,
-            'insurance_rate' => $data->insurance_rate,
-            'insurance_total' => $data->insurance_total,
             'extra_quantity' => $data->extra_quantity,
             'extra_rate' => $data->extra_rate,
             'extra_total' => $data->extra_total,

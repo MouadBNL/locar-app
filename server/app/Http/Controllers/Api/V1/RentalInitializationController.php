@@ -96,18 +96,6 @@ class RentalInitializationController extends ApiController
                 'day_rate' => $data->rate->day_rate,
                 'day_total' => $data->rate->day_total,
 
-                'week_quantity' => $data->rate->week_quantity,
-                'week_rate' => $data->rate->week_rate,
-                'week_total' => $data->rate->week_total,
-
-                'month_quantity' => $data->rate->month_quantity,
-                'month_rate' => $data->rate->month_rate,
-                'month_total' => $data->rate->month_total,
-
-                'insurance_quantity' => $data->rate->insurance_quantity,
-                'insurance_rate' => $data->rate->insurance_rate,
-                'insurance_total' => $data->rate->insurance_total,
-
                 'extra_quantity' => $data->rate->extra_quantity,
                 'extra_rate' => $data->rate->extra_rate,
                 'extra_total' => $data->rate->extra_total,
