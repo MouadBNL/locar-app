@@ -26,7 +26,7 @@ class ReservationUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reservation_number' => 'required|string|unique:reservations,reservation_number,' . $this->reservation->id,
+            'reservation_number' => 'required|string|unique:reservations,reservation_number,'.$this->reservation->id,
             'customer_id' => 'required|exists:customers,id',
             'vehicle_id' => 'required|exists:vehicles,id',
             'check_in_date' => 'required|date',

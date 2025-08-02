@@ -7,16 +7,16 @@ use App\Enums\CalendarEventType;
 use App\Http\Resources\CustomerSummaryResource;
 use App\Http\Resources\VehicleSummaryResource;
 use App\Models\Rental;
-use Carbon\Carbon;
 use App\Models\Reservation;
 use App\Models\VehicleMaintenance;
+use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 
 class CalendarService
 {
     public function get(Carbon $start, Carbon $end)
     {
-        $reservations  = $this->getReservationEvents($start, $end);
+        $reservations = $this->getReservationEvents($start, $end);
         $rentalDepartures = $this->getRentalDepartureEvents($start, $end);
         $rentalReturns = $this->getRentalReturnEvents($start, $end);
         $maintenance = collect(); // $this->getMaintenanceEvents($start, $end);
@@ -34,7 +34,7 @@ class CalendarService
         $reservations = Reservation::query()
             ->with('vehicle', 'customer')
             ->where(
-                fn(Builder $query) => $query
+                fn (Builder $query) => $query
                     ->where('check_in_date', '<=', $end->toDateString())
                     ->where('check_in_date', '>=', $start->toDateString())
             )

@@ -6,18 +6,18 @@ use App\Enums\VehicleStatus;
 use App\Traits\HasUuidAsPrimary;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Collection;
 
 /**
  * @property-read string $id
  * @property-read string $make
  * @property-read string $model
- * @property-read Carbon $first_service_date
- * @property-read Carbon $last_service_date
+ * @property-read ?Carbon $first_service_date
+ * @property-read ?Carbon $last_service_date
  * @property-read string $license_plate
  * @property-read string $vin
  * @property-read int $mileage
@@ -36,6 +36,7 @@ class Vehicle extends Model
      * @use HasFactory<\Database\Factories\VehicleFactory>
      */
     use HasFactory;
+
     use HasUuidAsPrimary;
 
     protected $fillable = [

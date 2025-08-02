@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import type { CalendarView } from './types';
 import { createContext, use, useEffect, useState } from 'react';
-import { etiquettes } from '../big-calendar';
 
 interface CalendarContextType {
   // Date management
@@ -49,12 +48,7 @@ export function CalendarProvider({ children, defaultView = 'month', onDateChange
   }, [currentDate, onDateChange]);
 
   // Initialize visibleColors based on the isActive property in etiquettes
-  const [visibleColors, setVisibleColors] = useState<string[]>(() => {
-    // Filter etiquettes to get only those that are active
-    return etiquettes
-      .filter(etiquette => etiquette.isActive)
-      .map(etiquette => etiquette.color);
-  });
+  const [visibleColors, setVisibleColors] = useState<string[]>([]);
 
   // Toggle visibility of a color
   const toggleColorVisibility = (color: string) => {
