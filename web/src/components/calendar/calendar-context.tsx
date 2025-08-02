@@ -1,11 +1,16 @@
 import type { ReactNode } from 'react';
-import { createContext, use, useState } from 'react';
+import type { CalendarView } from './types';
+import { createContext, use, useEffect, useState } from 'react';
 import { etiquettes } from '../big-calendar';
 
 interface CalendarContextType {
   // Date management
   currentDate: Date;
   setCurrentDate: (date: Date) => void;
+
+  // Calendar view
+  view: CalendarView;
+  setView: (view: CalendarView) => void;
 
   // Etiquette visibility management
   visibleColors: string[];
@@ -30,11 +35,18 @@ export function useCalendarContext() {
 
 interface CalendarProviderProps {
   children: ReactNode;
+  defaultView?: CalendarView;
+  onDateChange?: (date: Date) => void;
 }
 
-export function CalendarProvider({ children }: CalendarProviderProps) {
+export function CalendarProvider({ children, defaultView = 'month', onDateChange }: CalendarProviderProps) {
   const defaultDate = new Date();
   const [currentDate, setCurrentDate] = useState<Date>(defaultDate);
+  const [view, setView] = useState<CalendarView>(defaultView);
+
+  useEffect(() => {
+    onDateChange?.(currentDate);
+  }, [currentDate, onDateChange]);
 
   // Initialize visibleColors based on the isActive property in etiquettes
   const [visibleColors, setVisibleColors] = useState<string[]>(() => {
@@ -69,11 +81,12 @@ export function CalendarProvider({ children }: CalendarProviderProps) {
     visibleColors,
     toggleColorVisibility,
     isColorVisible,
+    view,
+    setView,
   };
 
   return (
     <CalendarContext value={value}>
-      <pre>{JSON.stringify(value, null, 2)}</pre>
       {children}
     </CalendarContext>
   );

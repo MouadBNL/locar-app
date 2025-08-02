@@ -43,7 +43,7 @@ export const etiquettes = [
 ];
 
 export function BigCalendar({ events }: { events: CalendarEvent[] }) {
-  const { isColorVisible } = useCalendarContext();
+  const { isColorVisible, view } = useCalendarContext();
 
   // Filter events based on visible colors
   const visibleEvents = useMemo(() => {
@@ -69,7 +69,6 @@ export function BigCalendar({ events }: { events: CalendarEvent[] }) {
   return (
     <EventCalendar
       events={visibleEvents}
-      initialView="month"
     />
   );
 }

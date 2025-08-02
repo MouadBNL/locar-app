@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import type {
   CalendarEvent,
-  CalendarView,
 } from '.';
 import {
   addDays,
@@ -53,7 +52,6 @@ export interface EventCalendarProps {
   onEventUpdate?: (event: CalendarEvent) => void;
   onEventDelete?: (eventId: string) => void;
   className?: string;
-  initialView?: CalendarView;
 }
 
 const defaultEvents: CalendarEvent[] = [];
@@ -63,12 +61,10 @@ export function EventCalendar({
   onEventUpdate,
   onEventDelete,
   className,
-  initialView = 'month',
 }: EventCalendarProps) {
   const { t } = useTranslation(['calendar', 'common']);
   // Use the shared calendar context instead of local state
-  const { currentDate, setCurrentDate } = useCalendarContext();
-  const [view, setView] = useState<CalendarView>(initialView);
+  const { currentDate, setCurrentDate, view, setView } = useCalendarContext();
   const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
     null,
@@ -109,7 +105,7 @@ export function EventCalendar({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isEventDialogOpen]);
+  }, [isEventDialogOpen, setView]);
 
   const handlePrevious = () => {
     if (view === 'month') {

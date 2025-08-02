@@ -10,10 +10,8 @@ class CalendarController extends ApiController
 {
     public function index(Request $request, CalendarService $calendarService)
     {
-        // $start = $request->input('start');
-        // $end = $request->input('end');
-        $start = Carbon::parse('2025-07-01');
-        $end = Carbon::parse('2025-08-31');
+        $start = Carbon::parse($request->input('start_date'));
+        $end = Carbon::parse($request->input('end_date'));
 
         $events = $calendarService->get($start, $end);
 
