@@ -11,6 +11,7 @@
   "attributes": {
     "first_name": "Prénom",
     "last_name": "Nom",
+    "id_card_number": "Numero carte d'identité",
     "email": "Email",
     "phone": "Téléphone",
     "address": "Adresse",

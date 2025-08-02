@@ -24,6 +24,7 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
         <TableRow>
           <TableHead>{t('customer:attributes.first_name')}</TableHead>
           <TableHead>{t('customer:attributes.last_name')}</TableHead>
+          <TableHead>{t('customer:attributes.id_card_number')}</TableHead>
           <TableHead>{t('customer:attributes.email')}</TableHead>
           <TableHead>{t('customer:attributes.phone')}</TableHead>
           <TableHead>{t('customer:attributes.status')}</TableHead>
@@ -52,6 +53,7 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
             <TableRow key={customer.id}>
               <TableCell>{customer.first_name}</TableCell>
               <TableCell>{customer.last_name}</TableCell>
+              <TableCell>{customer.id_card_number}</TableCell>
               <TableCell>{customer.email}</TableCell>
               <TableCell>{customer.phone}</TableCell>
               <TableCell>
