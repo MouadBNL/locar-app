@@ -15,6 +15,7 @@ interface CalendarContextType {
   visibleColors: string[];
   toggleColorVisibility: (color: string) => void;
   isColorVisible: (color: string | undefined) => boolean;
+  calendarOnly?: boolean;
 }
 
 const CalendarContext = createContext<CalendarContextType | undefined>(
@@ -36,9 +37,10 @@ interface CalendarProviderProps {
   children: ReactNode;
   defaultView?: CalendarView;
   onDateChange?: (date: Date) => void;
+  calendarOnly?: boolean;
 }
 
-export function CalendarProvider({ children, defaultView = 'month', onDateChange }: CalendarProviderProps) {
+export function CalendarProvider({ children, defaultView = 'month', onDateChange, calendarOnly = false }: CalendarProviderProps) {
   const defaultDate = new Date();
   const [currentDate, setCurrentDate] = useState<Date>(defaultDate);
   const [view, setView] = useState<CalendarView>(defaultView);
@@ -77,6 +79,7 @@ export function CalendarProvider({ children, defaultView = 'month', onDateChange
     isColorVisible,
     view,
     setView,
+    calendarOnly,
   };
 
   return (

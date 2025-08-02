@@ -10,9 +10,9 @@ export function BigCalendar({ events }: { events: CalendarEvent[] }) {
   const { isColorVisible } = useCalendarContext();
 
   // Filter events based on visible colors
-  const visibleEvents = useMemo(() => {
-    return events.filter(event => isColorVisible(event.color));
-  }, [events, isColorVisible]);
+  // const visibleEvents = useMemo(() => {
+  //   return events.filter(event => isColorVisible(event.color));
+  // }, [events, isColorVisible]);
 
   // const handleEventAdd = (event: CalendarEvent) => {
   //   setEvents([...events, event]);
@@ -32,7 +32,7 @@ export function BigCalendar({ events }: { events: CalendarEvent[] }) {
 
   return (
     <EventCalendar
-      events={visibleEvents}
+      events={events}
     />
   );
 }

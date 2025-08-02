@@ -35,6 +35,7 @@ import {
   addHoursToDate,
   AgendaDaysToShow,
   AgendaView,
+  CalendarDndProvider,
   DayView,
   EventDialog,
   EventGap,
@@ -63,7 +64,7 @@ export function EventCalendar({
 }: EventCalendarProps) {
   const { t } = useTranslation(['calendar', 'common']);
   // Use the shared calendar context instead of local state
-  const { currentDate, setCurrentDate, view, setView, calendarOnly } = useCalendarContext();
+  const { currentDate, setCurrentDate, view, setView } = useCalendarContext();
   const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
     null,
@@ -217,6 +218,16 @@ export function EventCalendar({
     }
   };
 
+  const handleEventUpdate = (updatedEvent: CalendarEvent) => {
+    onEventUpdate?.(updatedEvent);
+
+    // Show toast notification when an event is updated via drag and drop
+    toast(`Event "${updatedEvent.title}" moved`, {
+      description: format(new Date(updatedEvent.start), 'MMM d, yyyy'),
+      position: 'bottom-left',
+    });
+  };
+
   const viewTitle = useMemo(() => {
     if (view === 'month') {
       return format(currentDate, 'MMMM yyyy');
@@ -274,7 +285,7 @@ export function EventCalendar({
         } as React.CSSProperties
       }
     >
-      {!calendarOnly && (
+      <CalendarDndProvider onEventUpdate={handleEventUpdate}>
         <div
           className={cn(
             'flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-5 sm:px-4',
@@ -368,52 +379,52 @@ export function EventCalendar({
             </div>
           </div>
         </div>
-      )}
 
-      <div className="flex flex-1 flex-col">
-        {view === 'month' && (
-          <MonthView
-            currentDate={currentDate}
-            events={events}
-            onEventSelect={handleEventSelect}
-            onEventCreate={handleEventCreate}
-          />
-        )}
-        {view === 'week' && (
-          <WeekView
-            currentDate={currentDate}
-            events={events}
-            onEventSelect={handleEventSelect}
-            onEventCreate={handleEventCreate}
-          />
-        )}
-        {view === 'day' && (
-          <DayView
-            currentDate={currentDate}
-            events={events}
-            onEventSelect={handleEventSelect}
-            onEventCreate={handleEventCreate}
-          />
-        )}
-        {view === 'agenda' && (
-          <AgendaView
-            currentDate={currentDate}
-            events={events}
-            onEventSelect={handleEventSelect}
-          />
-        )}
-      </div>
+        <div className="flex flex-1 flex-col">
+          {view === 'month' && (
+            <MonthView
+              currentDate={currentDate}
+              events={events}
+              onEventSelect={handleEventSelect}
+              onEventCreate={handleEventCreate}
+            />
+          )}
+          {view === 'week' && (
+            <WeekView
+              currentDate={currentDate}
+              events={events}
+              onEventSelect={handleEventSelect}
+              onEventCreate={handleEventCreate}
+            />
+          )}
+          {view === 'day' && (
+            <DayView
+              currentDate={currentDate}
+              events={events}
+              onEventSelect={handleEventSelect}
+              onEventCreate={handleEventCreate}
+            />
+          )}
+          {view === 'agenda' && (
+            <AgendaView
+              currentDate={currentDate}
+              events={events}
+              onEventSelect={handleEventSelect}
+            />
+          )}
+        </div>
 
-      <EventDialog
-        event={selectedEvent}
-        isOpen={isEventDialogOpen}
-        onClose={() => {
-          setIsEventDialogOpen(false);
-          setSelectedEvent(null);
-        }}
-        onSave={handleEventSave}
-        onDelete={handleEventDelete}
-      />
+        <EventDialog
+          event={selectedEvent}
+          isOpen={isEventDialogOpen}
+          onClose={() => {
+            setIsEventDialogOpen(false);
+            setSelectedEvent(null);
+          }}
+          onSave={handleEventSave}
+          onDelete={handleEventDelete}
+        />
+      </CalendarDndProvider>
     </div>
   );
 }
