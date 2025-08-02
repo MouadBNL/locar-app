@@ -70,7 +70,7 @@ class Customer extends Model
                     return [
                         'status' => CustomerStatus::BOOKED,
                         'entity_type' => 'reservation',
-                        'entity_id' => $activeReservation->id,
+                        'entity_id' => $activeReservation->reservation_number,
                     ];
                 }
 
