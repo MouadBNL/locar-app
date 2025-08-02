@@ -65,6 +65,7 @@ function RouteComponent() {
           { label: t('maintenance:label_plural'), path: 'maintenance' },
           { label: t('rental:label_plural'), path: 'rentals' },
           { label: t('reservation:label_plural'), path: 'reservations' },
+          { label: t('vehicle:general'), path: 'general' },
         ]}
       />
     </div>

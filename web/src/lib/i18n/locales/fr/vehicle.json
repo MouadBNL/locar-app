@@ -6,6 +6,7 @@
   "no_vehicles_found": "Aucun véhicule trouvé",
   "create_vehicle": "Créer un Véhicule",
   "edit_vehicle": "Modifier le véhicule",
+  "general": "Général",
   "attributes": {
     "make": "Marque",
     "model": "Modèle",

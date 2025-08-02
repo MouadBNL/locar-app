@@ -1,18 +1,14 @@
-import type { VehicleData } from '@/features/vehicles';
 import {
   createFileRoute,
   Link,
-  useNavigate,
 } from '@tanstack/react-router';
 import { EyeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
 import { CustomerSummaryCard } from '@/components/blocks/customer-summary-card';
 import { PeriodSummaryCard } from '@/components/blocks/period-summary-card';
-import VehicleForm from '@/components/blocks/vehicle-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useVehicleShow, useVehicleUpdate } from '@/features/vehicles';
+import { useVehicleShow } from '@/features/vehicles';
 
 export const Route = createFileRoute('/app/vehicles/$id/')({
   component: RouteComponent,
@@ -24,21 +20,8 @@ export const Route = createFileRoute('/app/vehicles/$id/')({
 
 function RouteComponent() {
   const { t } = useTranslation(['common', 'vehicle', 'rental', 'reservation', 'maintenance']);
-  const { id } = Route.useParams();
-  const navigate = useNavigate();
 
   const { vehicle } = Route.useLoaderData();
-
-  const { mutate: updateVehicle, isPending } = useVehicleUpdate({
-    onSuccess: () => {
-      toast.success('Vehicle updated successfully');
-      useVehicleShow.invalidate({ id });
-      navigate({ to: '/app/vehicles' });
-    },
-    onError: () => {
-      toast.error('Failed to update vehicle');
-    },
-  });
 
   return (
     <div>
@@ -91,16 +74,16 @@ function RouteComponent() {
           <CardHeader>
             <CardTitle>
               {t('reservation:active_reservation')}
-              <Link to="/app/reservations/$id" params={{ id: vehicle.active_reservation.id }}>
+              <Link to="/app/reservations/$number" params={{ number: vehicle.active_reservation.reservation_number }}>
                 <p className="text-sm text-muted-foreground inline-block ml-2 hover:underline">
                   #
-                  {vehicle.active_reservation.id}
+                  {vehicle.active_reservation.reservation_number}
                 </p>
               </Link>
             </CardTitle>
             <CardAction>
               <Button variant="outline" size="sm" asChild>
-                <Link to="/app/reservations/$id" params={{ id: vehicle.active_reservation.id }}>
+                <Link to="/app/reservations/$number" params={{ number: vehicle.active_reservation.reservation_number }}>
                   <EyeIcon />
                 </Link>
               </Button>
@@ -130,21 +113,6 @@ function RouteComponent() {
           </CardContent>
         </Card>
       )}
-
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            {t('vehicle:edit_vehicle')}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <VehicleForm
-            submit={(data: VehicleData) => updateVehicle({ id, data })}
-            loading={isPending}
-            initialValues={vehicle ?? undefined}
-          />
-        </CardContent>
-      </Card>
     </div>
   );
 }
