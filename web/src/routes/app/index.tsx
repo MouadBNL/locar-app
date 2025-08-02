@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BigCalendar } from '@/components/big-calendar';
+import { EventCalendar } from '@/components/calendar';
 import { CalendarProvider } from '@/components/calendar/calendar-context';
 import { Heading3 } from '@/components/ui/typography';
 import { useCalendarIndex } from '@/features/calendar';
@@ -37,7 +37,7 @@ function RouteComponent() {
       </div>
       <div className="w-0 md:w-[200px] lg:w-[300px] xl:w-[500px] h-full border-l">
         <CalendarProvider defaultView="agenda" calendarOnly>
-          <EvenC events={events} />
+          <EventCalendar events={events} />
         </CalendarProvider>
       </div>
     </div>

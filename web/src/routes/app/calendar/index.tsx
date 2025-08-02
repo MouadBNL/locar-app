@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
+import { EventCalendar } from '@/components/calendar';
 import { CalendarProvider } from '@/components/calendar/calendar-context';
 import { useCalendarIndex } from '@/features/calendar';
 import { mapCalendarEvent } from '@/features/calendar/mappers';
 import { get_date_range } from '@/lib/utils';
-import { EventCalendar } from '@/components/calendar';
 
 export const Route = createFileRoute('/app/calendar/')({
   component: RouteComponent,

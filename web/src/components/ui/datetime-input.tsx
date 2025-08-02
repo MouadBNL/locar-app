@@ -18,6 +18,7 @@ type DateInputProps
     type: 'string';
     value?: string | null;
     onChange?: (value: string) => void;
+    disabled?: boolean;
   }
   | {
     type: 'date';
