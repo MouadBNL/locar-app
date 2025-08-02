@@ -73,6 +73,7 @@ export function CalendarProvider({ children }: CalendarProviderProps) {
 
   return (
     <CalendarContext value={value}>
+      <pre>{JSON.stringify(value, null, 2)}</pre>
       {children}
     </CalendarContext>
   );
