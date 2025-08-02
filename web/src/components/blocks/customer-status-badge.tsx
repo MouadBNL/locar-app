@@ -15,7 +15,7 @@ export function CustomerStatusBadge({ status }: { status?: CustomerStatus }) {
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <Link to="/app/reservations/$id" params={{ id: status.entity_id }}>
+          <Link to="/app/reservations/$number" params={{ number: status.entity_id }}>
             <Badge variant="outline" className="gap-2">
               <span
                 className="size-1.5 rounded-full bg-yellow-500"
