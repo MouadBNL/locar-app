@@ -67,7 +67,7 @@ export function makeQueryHook<
     variables?: TVariables,
     opts: Omit<
       UseQueryOptions<TData, TError, TData, TKey>,
-      'queryKey' | 'queryFn'
+'queryKey' | 'queryFn'
     > = {},
   ): UseQueryResult<TData, TError> => {
     // console.log("queryKey", [...prefix, variables]);

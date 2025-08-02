@@ -1,5 +1,6 @@
 /* eslint-disable ts/consistent-type-imports */
 import auth from './locales/en/auth.json';
+import calendar from './locales/en/calendar.json';
 import common from './locales/en/common.json';
 import customer from './locales/en/customer.json';
 import document from './locales/en/document.json';
@@ -14,7 +15,7 @@ import vehicle from './locales/en/vehicle.json';
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common';
-    ns: ['common', 'vehicle', 'customer', 'exceptions', 'rental', 'payment', 'document', 'auth', 'maintenance', 'expenses'];
+    ns: ['common', 'vehicle', 'customer', 'exceptions', 'rental', 'payment', 'document', 'auth', 'maintenance', 'expenses', 'calendar'];
     resources: {
       common: typeof common;
       vehicle: typeof vehicle;
@@ -27,6 +28,7 @@ declare module 'i18next' {
       auth: typeof auth;
       maintenance: typeof maintenance;
       expenses: typeof expenses;
+      calendar: typeof calendar;
     };
   }
 }

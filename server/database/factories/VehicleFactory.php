@@ -26,7 +26,7 @@ class VehicleFactory extends Factory
             'Mercedes-Benz',
             'Audi',
             'Hyundai',
-            'Kia'
+            'Kia',
         ];
 
         $models = [
@@ -39,7 +39,7 @@ class VehicleFactory extends Factory
             'Mercedes-Benz' => ['C-Class', 'E-Class', 'GLC', 'GLE', 'S-Class'],
             'Audi' => ['A3', 'A4', 'Q5', 'Q7', 'A6'],
             'Hyundai' => ['Elantra', 'Sonata', 'Tucson', 'Santa Fe', 'Kona'],
-            'Kia' => ['Forte', 'Optima', 'Sportage', 'Telluride', 'Sorento']
+            'Kia' => ['Forte', 'Optima', 'Sportage', 'Telluride', 'Sorento'],
         ];
 
         $make = fake()->randomElement($makes);

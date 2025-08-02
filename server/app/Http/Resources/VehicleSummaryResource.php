@@ -22,7 +22,7 @@ class VehicleSummaryResource extends JsonResource
             'id' => $this->id,
             'make' => $this->make,
             'model' => $this->model,
-            'year' => $this->first_service_date->year,
+            'year' => $this->first_service_date?->year,
             'license_plate' => $this->license_plate,
         ];
     }

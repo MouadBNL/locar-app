@@ -6,10 +6,10 @@ use App\Enums\CustomerStatus;
 use App\Traits\HasUuidAsPrimary;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Collection;
 
 /**
@@ -33,6 +33,7 @@ class Customer extends Model
      * @use HasFactory<\Database\Factories\CustomerFactory>
      */
     use HasFactory;
+
     use HasUuidAsPrimary;
 
     protected $casts = [
@@ -70,7 +71,7 @@ class Customer extends Model
                     return [
                         'status' => CustomerStatus::BOOKED,
                         'entity_type' => 'reservation',
-                        'entity_id' => $activeReservation->id,
+                        'entity_id' => $activeReservation->reservation_number,
                     ];
                 }
 

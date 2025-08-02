@@ -41,6 +41,13 @@ export function get_date(opt?: { day?: number }) {
   return d;
 }
 
+export function get_date_range(date: Date, days: number) {
+  return {
+    start_date: new Date(date.getTime() - days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    end_date: new Date(date.getTime() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+  };
+}
+
 export function fmt_date(date: Date, opt?: { format: 'date' | 'datetime' }) {
   const str = date.toISOString();
   const match = str.match(
