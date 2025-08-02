@@ -1,17 +1,38 @@
 import { z } from 'zod';
 
 export const VehicleExpenseTypeEnum = {
-  maintenance: 'Maintenance',
-  fuel: 'Fuel',
-  repair: 'Repair',
-  other: 'Other',
+  fuel: 'fuel',
+  car_wash: 'car_wash',
+  tires: 'tires',
+  oil_change: 'oil_change',
+  tax: 'tax', // vignette
+  brakes: 'brakes',
+  diagnostic: 'diagnostic',
+  inspection: 'inspection', // Visite technique
+  electrician: 'electrician',
+  insurance: 'insurance',
+  mechanic: 'mechanic',
+  parking: 'parking',
+  spare_parts: 'spare_parts',
+  other: 'other',
 } as const;
 
 export const vehicleExpenseTypeSchema = z.enum([
-  'maintenance',
   'fuel',
-  'repair',
+  'car_wash',
+  'tires',
+  'oil_change',
+  'tax', // vignette
+  'brakes',
+  'diagnostic',
+  'inspection', // Visite technique
+  'electrician',
+  'insurance',
+  'mechanic',
+  'parking',
+  'spare_parts',
   'other',
+
 ]);
 
 export const vehicleExpenseSchema = z.object({

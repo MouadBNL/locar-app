@@ -8,11 +8,19 @@
   "no_expenses_found": "Aucune dépense trouvée",
   "total": "Total",
   "type_enum": {
-    "fuel": "Essence",
-    "maintenance": "Maintenance",
-    "repair": "Réparation",
+    "fuel": "Carburant",
+    "car_wash": "Lavage de voiture",
+    "tires": "Pneus",
+    "oil_change": "Vidange",
+    "tax": "Vignette",
+    "brakes": "Freins",
+    "diagnostic": "Diagnostic",
+    "inspection": "Visite technique",
+    "electrician": "Electricien",
     "insurance": "Assurance",
-    "registration": "Immatriculation",
+    "mechanic": "Mécanicien",
+    "parking": "Parking",
+    "spare_parts": "Pièces détachées",
     "other": "Autre"
   },
   "attributes": {

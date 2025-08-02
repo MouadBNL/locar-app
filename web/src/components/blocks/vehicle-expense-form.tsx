@@ -38,7 +38,7 @@ export function VehicleExpenseForm({
   const form = useForm({
     resolver: zodResolver(vehicleExpenseSchema),
     defaultValues: {
-      type: 'maintenance',
+      type: 'fuel',
       amount: 0,
       date: fmt_date(get_date()),
       title: '',
@@ -65,9 +65,9 @@ export function VehicleExpenseForm({
                 <SelectValue placeholder={t('expenses:attributes.type')} />
               </SelectTrigger>
               <SelectContent>
-                {Object.entries(VehicleExpenseTypeEnum).map(([key, value]) => (
+                {Object.entries(VehicleExpenseTypeEnum).map(([key]) => (
                   <SelectItem key={key} value={key}>
-                    {value}
+                    {t(`expenses:type_enum.${key as keyof typeof VehicleExpenseTypeEnum}`)}
                   </SelectItem>
                 ))}
               </SelectContent>
