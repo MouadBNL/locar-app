@@ -37,7 +37,7 @@ function RouteComponent() {
       </div>
       <div className="w-0 md:w-[200px] lg:w-[300px] xl:w-[500px] h-full border-l">
         <CalendarProvider defaultView="agenda" calendarOnly>
-          <BigCalendar events={events} />
+          <EvenC events={events} />
         </CalendarProvider>
       </div>
     </div>
