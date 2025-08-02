@@ -58,8 +58,8 @@ class AvailabilityCheckService
         Carbon $endDate,
         ?AvailabilityCheckOptions $options = null,
     ): AvailabilityData {
-        $startDate = $startDate->toISOString();
-        $endDate = $endDate->toISOString();
+        $startDate = $startDate->toDateTimeString();
+        $endDate = $endDate->toDateTimeString();
 
         Log::info('Checking customer availability', [
             'customer_id' => $customer->id,
@@ -131,8 +131,8 @@ class AvailabilityCheckService
         Carbon $endDate,
         ?AvailabilityCheckOptions $options = null,
     ): AvailabilityData {
-        $startDate = $startDate->toISOString();
-        $endDate = $endDate->toISOString();
+        $startDate = $startDate->toDateTimeString();
+        $endDate = $endDate->toDateTimeString();
 
         Log::info('Checking vehicle availability', [
             'vehicle_id' => $vehicle->id,

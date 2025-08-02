@@ -9,6 +9,7 @@
   "click_to_view_rental": "Click to view rental",
   "no_reservations_found": "No reservations found",
   "edit_reservation": "Edit Reservation",
+  "active_reservation": "Active Reservation",
   "action": {
     "create": {
       "success": "Reservation created successfully",
@@ -24,6 +25,7 @@
     }
   },
   "attributes": {
+    "reservation_number": "Reservation Number",
     "vehicle": "Vehicle",
     "customer": "Customer",
     "check_in_date": "Check-in Date",
@@ -31,6 +33,7 @@
     "daily_rate": "Daily Rate",
     "total_days": "Total Days",
     "total_price": "Total",
+    "deposit": "Deposit",
     "notes": "Notes"
   }
 }

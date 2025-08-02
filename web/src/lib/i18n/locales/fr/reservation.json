@@ -9,6 +9,7 @@
   "click_to_view_rental": "Cliquer pour voir le véhicule",
   "no_reservations_found": "Aucune réservation trouvée",
   "edit_reservation": "Modifier la réservation",
+  "active_reservation": "Réservation active",
   "action": {
     "create": {
       "success": "Réservation créée avec succès",
@@ -32,6 +33,7 @@
     "customer.unavailable.maintenance": "Le client n'est pas disponible pour la maintenance entre {{start_date}} et {{end_date}}"
   },
   "attributes": {
+    "reservation_number": "Numéro de réservation",
     "vehicle": "Véhicule",
     "customer": "Client",
     "check_in_date": "Date de début",
@@ -39,6 +41,7 @@
     "daily_rate": "Tarif journalier",
     "total_days": "Total jours",
     "total_price": "Total",
+    "deposit": "Avance",
     "notes": "Notes"
   }
 }

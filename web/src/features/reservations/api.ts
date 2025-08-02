@@ -2,16 +2,24 @@ import type { ReservationData, ReservationResource } from './types';
 import type { ApiResponse } from '@/lib/http';
 import { http } from '@/lib/http';
 
-export async function reservationIndexFn() {
+export interface ReservationFilters {
+  vehicle_id?: string;
+  customer_id?: string;
+}
+
+export async function reservationIndexFn(req?: { params?: ReservationFilters }) {
   const res = await http.get<ApiResponse<ReservationResource[]>>(
     `/reservations`,
+    {
+      params: req?.params,
+    },
   );
   return res.data;
 }
 
-export async function reservationShowFn({ id }: { id: string }) {
+export async function reservationShowFn({ number }: { number: string }) {
   const res = await http.get<ApiResponse<ReservationResource>>(
-    `/reservations/${id}`,
+    `/reservations/${number}`,
   );
   return res.data;
 }
@@ -29,22 +37,22 @@ export async function reservationCreateFn({
 }
 
 export async function reservationUpdateFn({
-  id,
+  number,
   data,
 }: {
-  id: string;
+  number: string;
   data: ReservationData;
 }) {
   const res = await http.put<ApiResponse<ReservationResource>>(
-    `/reservations/${id}`,
+    `/reservations/${number}`,
     data,
   );
   return res.data;
 }
 
-export async function reservationDeleteFn({ id }: { id: string }) {
+export async function reservationDeleteFn({ number }: { number: string }) {
   const res = await http.delete<ApiResponse<ReservationResource>>(
-    `/reservations/${id}`,
+    `/reservations/${number}`,
   );
   return res.data;
 }

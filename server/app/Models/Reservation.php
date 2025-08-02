@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property-read string $id
+ * @property-read string $reservation_number
  * @property-read string $customer_id
  * @property-read string $vehicle_id
  * @property-read Carbon $check_in_date
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read float $daily_rate
  * @property-read int $total_days
  * @property-read float $total_price
+ * @property-read float $deposit
  * @property-read ?string $notes
  * @property-read Carbon $created_at
  * @property-read Carbon $updated_at
@@ -27,6 +29,7 @@ class Reservation extends Model
     use HasUuidAsPrimary;
 
     protected $fillable = [
+        'reservation_number',
         'customer_id',
         'vehicle_id',
         'check_in_date',
@@ -34,6 +37,7 @@ class Reservation extends Model
         'daily_rate',
         'total_days',
         'total_price',
+        'deposit',
         'notes',
     ];
 

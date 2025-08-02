@@ -1,6 +1,5 @@
 import type { RentalDocumentResource } from '@/features/rental-documents';
-import { useQueryClient } from '@tanstack/react-query';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { EyeIcon, TrashIcon, UploadCloudIcon } from 'lucide-react';
 import { useState } from 'react';
 import { DialogTrigger } from 'react-aria-components';
@@ -24,22 +23,30 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import {
-
   useRentalDocumentCreate,
   useRentalDocumentDelete,
   useRentalDocumentIndex,
   useRentalDocumentUpdate,
 } from '@/features/rental-documents';
+import { useRentalShow } from '@/features/rentals';
+import { breadcrumb } from '@/lib/breadcrumb';
 
 export const Route = createFileRoute('/app/rentals/$id/documents')({
   component: RouteComponent,
+  loader: async ({ params }) => {
+    await useRentalDocumentIndex.prefetch({ rental_code: params.id });
+
+    return {
+      meta: {
+        breadcrumb: breadcrumb('document:label_plural'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const router = useRouter();
-  const queryClient = useQueryClient();
-  const { data: rentalDocuments } = useRentalDocumentIndex(id);
+  const { data: rentalDocuments, isLoading } = useRentalDocumentIndex({ rental_code: id });
   const { t } = useTranslation(['document', 'rental', 'common']);
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -50,11 +57,9 @@ function RouteComponent() {
     = useRentalDocumentCreate({
       onSuccess: () => {
         setOpen(false);
-        queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
         toast.success(t('rental:document.created'));
-        router.invalidate({
-          filter: match => match.id === id,
-        });
+        useRentalDocumentIndex.invalidate();
+        useRentalShow.invalidate({ number: id });
       },
       onError: (error) => {
         console.error(error);
@@ -66,22 +71,18 @@ function RouteComponent() {
     = useRentalDocumentUpdate({
       onSuccess: () => {
         setOpenEdit(false);
-        queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
         toast.success(t('rental:document.updated'));
-        router.invalidate({
-          filter: match => match.id === id,
-        });
+        useRentalDocumentIndex.invalidate();
+        useRentalShow.invalidate({ number: id });
       },
     });
 
   const { mutate: deleteRentalDocument, isPending: isDeletingRentalDocument }
     = useRentalDocumentDelete({
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['rental-documents'] });
         toast.success(t('rental:document.deleted'));
-        router.invalidate({
-          filter: match => match.id === id,
-        });
+        useRentalDocumentIndex.invalidate();
+        useRentalShow.invalidate({ number: id });
       },
     });
 
@@ -125,6 +126,7 @@ function RouteComponent() {
         <CardContent>
           <RentalDocumentTable
             rentalDocuments={rentalDocuments?.data ?? []}
+            loading={isLoading}
             actions={rentalDocument => (
               <div className="flex gap-2">
                 <Button
@@ -157,27 +159,29 @@ function RouteComponent() {
       </Card>
 
       {/* Edit Dialog */}
-      <Dialog open={openEdit} onOpenChange={setOpenEdit}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('document:view.heading')}</DialogTitle>
-            <DialogDescription>
-              {t('document:view.description')}
-            </DialogDescription>
-          </DialogHeader>
-          <RentalDocumentForm
-            initialValues={{ ...selectedRentalDocument }}
-            loading={isUpdatingRentalDocument}
-            submit={(data) => {
-              updateRentalDocument({
-                rental_code: id,
-                id: selectedRentalDocument!.id,
-                data,
-              });
-            }}
-          />
-        </DialogContent>
-      </Dialog>
+      {selectedRentalDocument && (
+        <Dialog open={openEdit} onOpenChange={setOpenEdit}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t('document:view.heading')}</DialogTitle>
+              <DialogDescription>
+                {t('document:view.description')}
+              </DialogDescription>
+            </DialogHeader>
+            <RentalDocumentForm
+              initialValues={{ ...selectedRentalDocument }}
+              loading={isUpdatingRentalDocument}
+              submit={(data) => {
+                updateRentalDocument({
+                  rental_code: id,
+                  id: selectedRentalDocument!.id,
+                  data,
+                });
+              }}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }

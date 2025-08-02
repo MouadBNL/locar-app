@@ -5,11 +5,19 @@ import ReservationForm from '@/components/blocks/reservation-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
-import { useReservationCreate } from '@/features/reservations';
+import { useReservationCreate, useReservationIndex } from '@/features/reservations';
+import { breadcrumb } from '@/lib/breadcrumb';
 import { parse_availability_error } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/reservations/create')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      meta: {
+        breadcrumb: breadcrumb('reservation:add_reservation'),
+      },
+    };
+  },
 });
 
 function RouteComponent() {
@@ -18,6 +26,7 @@ function RouteComponent() {
   const { mutate: createReservation, isPending } = useReservationCreate({
     onSuccess: () => {
       toast.success(t('reservation:action.create.success'));
+      useReservationIndex.invalidate();
       navigate({ to: '/app/reservations' });
     },
     onError: (error) => {

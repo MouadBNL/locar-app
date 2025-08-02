@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\V1\RentalAgreementGenerateController;
+use App\Http\Controllers\Api\V1\RentalController;
 use App\Http\Controllers\Api\V1\RentalDetailsUpdateController;
 use App\Http\Controllers\Api\V1\RentalDocumentController;
 use App\Http\Controllers\Api\V1\RentalInitializationController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\Api\V1\ReservationController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
 use App\Http\Controllers\Api\V1\VehicleMaintenanceController;
-use App\Http\Controllers\RentalController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/auth')->group(function () {
@@ -26,10 +26,15 @@ Route::prefix('/auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('customers', CustomerController::class);
-    Route::apiResource('reservations', ReservationController::class);
     Route::apiResource('vehicles', VehicleController::class);
     Route::apiResource('vehicles/{vehicle}/expenses', VehicleExpenseController::class);
     Route::apiResource('vehicles/{vehicle}/maintenances', VehicleMaintenanceController::class);
+
+    Route::get('reservations', [ReservationController::class, 'index']);
+    Route::get('reservations/{reservation:reservation_number}', [ReservationController::class, 'show']);
+    Route::post('reservations', [ReservationController::class, 'store']);
+    Route::put('reservations/{reservation:reservation_number}', [ReservationController::class, 'update']);
+    Route::delete('reservations/{reservation:reservation_number}', [ReservationController::class, 'destroy']);
 
     /**
      * Rentals

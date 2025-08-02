@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('id_card_number')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('profession')->nullable();
-            $table->string('address_primary');
+            $table->string('address_primary')->nullable();
             $table->string('address_secondary')->nullable();
             $table->string('id_card_scan_document')->nullable();
 

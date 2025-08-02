@@ -1,5 +1,5 @@
 import type { RentalData } from '@/features/rentals';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import {
   CircleArrowOutDownLeft,
   DownloadIcon,
@@ -34,25 +34,30 @@ import { Separator } from '@/components/ui/separator';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
 import {
-
-  rentalShowFn,
   useRentalAgreementGenerate,
   useRentalReturn,
+  useRentalShow,
   useRentalStart,
 } from '@/features/rentals';
 
 export const Route = createFileRoute('/app/rentals/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const data = await rentalShowFn({ number: params.id });
-    return { rental: data.data };
+    const rental = await useRentalShow.prefetch({ number: params.id });
+
+    return { rental: rental.data, meta: {
+      breadcrumb: {
+        title: `${rental.data.rental_number}`,
+      },
+    } };
   },
 });
 
 function RouteComponent() {
   const { id: code } = Route.useParams();
-  const { rental } = Route.useLoaderData();
   const { t } = useTranslation(['rental', 'common']);
+  const { data } = useRentalShow({ number: code });
+  const rental = data?.data;
 
   if (!rental) {
     return <div>{t('rental:not_found')}</div>;
@@ -127,6 +132,7 @@ function RouteComponent() {
                 color={rental.vehicle.color ?? ''}
                 seats={rental.vehicle.seats ?? 0}
                 mileage={rental.vehicle.mileage ?? 0}
+                attributes={true}
               />
             </div>
           </div>
@@ -188,15 +194,12 @@ function RentalStartAction({
   code: string;
   rental: RentalData;
 }) {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const { t } = useTranslation(['rental', 'common']);
   const { mutate: startRental, isPending: isStartingRental } = useRentalStart({
     onSuccess: () => {
       toast.success(t('rental:action.start.success'));
-      router.invalidate({
-        filter: match => match.id === code,
-      });
+      useRentalShow.invalidate({ number: code });
       setOpen(false);
     },
     onError: () => {
@@ -238,7 +241,6 @@ function RentalReturnAction({
   code: string;
   rental: RentalData;
 }) {
-  const router = useRouter();
   const { t } = useTranslation(['rental', 'common']);
   const [open, setOpen] = useState(false);
 
@@ -246,9 +248,7 @@ function RentalReturnAction({
     = useRentalReturn({
       onSuccess: () => {
         toast.success(t('rental:action.return.success'));
-        router.invalidate({
-          filter: match => match.id === code,
-        });
+        useRentalShow.invalidate({ number: code });
         setOpen(false);
       },
       onError: () => {
@@ -290,7 +290,6 @@ function RentalAgreementAction({
   code: string;
   rental: RentalData;
 }) {
-  const router = useRouter();
   const { t } = useTranslation(['rental', 'common']);
   const { mutate: generateAgreement, isPending: isGeneratingAgreement }
     = useRentalAgreementGenerate({
@@ -299,9 +298,7 @@ function RentalAgreementAction({
         if (data.data.url) {
           window.open(data.data.url, '_blank');
         }
-        router.invalidate({
-          filter: match => match.id === code,
-        });
+        useRentalShow.invalidate({ number: code });
       },
       onError: () => {
         toast.error(t('rental:action.generate_agreement.error'));

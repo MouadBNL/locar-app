@@ -5,8 +5,11 @@ import { Badge } from '@/components/ui/badge';
 import { str_to_titlecase } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
-export function CustomerStatusBadge({ status }: { status: CustomerStatus }) {
+export function CustomerStatusBadge({ status }: { status?: CustomerStatus }) {
   const { t } = useTranslation(['customer', 'common']);
+
+  if (!status)
+    return null;
 
   if (status.status === 'booked') {
     return (

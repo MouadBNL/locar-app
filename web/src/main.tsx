@@ -3,6 +3,7 @@ import { Loader2 } from 'lucide-react';
 import { StrictMode } from 'react';
 
 import { createRoot } from 'react-dom/client';
+import { queryClient } from './lib/query-generator';
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 import './index.css';
@@ -17,6 +18,9 @@ const router = createRouter({
     </div>
   ),
   defaultPendingMs: 200,
+  context: {
+    queryClient,
+  },
 });
 
 // Register the router instance for type safety

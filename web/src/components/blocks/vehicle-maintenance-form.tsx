@@ -1,13 +1,13 @@
 import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
 import type { VehicleMaintenanceRequest } from '@/features/vehicle-maintenances';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
   useVehicleExpenseCreate,
   useVehicleExpenseDelete,
+  useVehicleExpenseIndex,
   useVehicleExpenseUpdate,
 
 } from '@/features/vehicle-expenses';
@@ -41,7 +41,6 @@ export function VehicleMaintenanceForm({
   submit,
 }: VehicleMaintenanceFormProps) {
   const { t } = useTranslation(['maintenance', 'common']);
-  const queryClient = useQueryClient();
 
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [editExpense, setEditExpense] = useState<VehicleExpenseResource | null>(
@@ -78,15 +77,7 @@ export function VehicleMaintenanceForm({
           'expenses',
           Array.from(new Set([...expenses, data.data.id])),
         );
-        queryClient.invalidateQueries({
-          queryKey: [
-            'vehicle-expenses',
-            {
-              vehicleId,
-              ids: Array.from(new Set([...expenses, data.data.id])),
-            },
-          ],
-        });
+        useVehicleExpenseIndex.invalidate({ vehicleId, ids: Array.from(new Set([...expenses, data.data.id])) });
         setEditExpense(null);
       },
     });
@@ -204,23 +195,24 @@ export function VehicleMaintenanceForm({
           createExpense({ vehicleId, data });
         }}
       />
-
-      <VehicleExpenseFormDialog
-        open={!!editExpense}
-        setOpen={(v) => {
-          if (!v)
-            setEditExpense(null);
-        }}
-        initialValues={{ ...editExpense }}
-        loading={isUpdatingExpense}
-        submit={(data) => {
-          updateExpense({
-            vehicleId,
-            expenseId: editExpense!.id,
-            data,
-          });
-        }}
-      />
+      { editExpense && (
+        <VehicleExpenseFormDialog
+          open={!!editExpense}
+          setOpen={(v) => {
+            if (!v)
+              setEditExpense(null);
+          }}
+          initialValues={{ ...editExpense }}
+          loading={isUpdatingExpense}
+          submit={(data) => {
+            updateExpense({
+              vehicleId,
+              expenseId: editExpense!.id,
+              data,
+            });
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -7,17 +6,16 @@ import { ReservationTable } from '@/components/blocks/reservation-table';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
-import {
-  useReservationDelete,
-  useReservationIndex,
-} from '@/features/reservations';
+import { useReservationDelete, useReservationIndex } from '@/features/reservations';
 
 export const Route = createFileRoute('/app/reservations/')({
   component: RouteComponent,
+  loader: async () => {
+    await useReservationIndex.prefetch();
+  },
 });
 
 function RouteComponent() {
-  const queryClient = useQueryClient();
   const { t } = useTranslation(['reservation', 'common']);
   const { data, isFetching } = useReservationIndex();
 
@@ -25,7 +23,7 @@ function RouteComponent() {
     = useReservationDelete({
       onSuccess: () => {
         toast.success(t('reservation:action.delete.success'));
-        queryClient.invalidateQueries({ queryKey: ['reservations'] });
+        useReservationIndex.invalidate();
       },
       onError: () => {
         toast.error(t('reservation:action.delete.error'));
@@ -54,8 +52,8 @@ function RouteComponent() {
               <Button variant="outline" size="sm" asChild>
                 <Link
                   from="/"
-                  to="/app/reservations/$id"
-                  params={{ id: reservation.id! }}
+                  to="/app/reservations/$number"
+                  params={{ number: reservation.reservation_number }}
                 >
                   <PencilIcon className="w-4 h-4" />
                 </Link>
@@ -65,7 +63,7 @@ function RouteComponent() {
                 variant="outline"
                 size="sm"
                 loading={isDeleting}
-                onClick={() => deleteReservation({ id: reservation.id! })}
+                onClick={() => deleteReservation({ number: reservation.reservation_number })}
               >
                 <TrashIcon className="w-4 h-4" />
               </Button>

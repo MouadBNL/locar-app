@@ -8,6 +8,7 @@
   "edit_maintenance": "Edit Maintenance",
   "edit_maintenance_description": "Edit the maintenance for the vehicle",
   "no_maintenances_found": "No maintenances found",
+  "active_maintenance": "Active Maintenance",
   "details": "Details",
   "expenses": "Expenses",
   "attributes": {

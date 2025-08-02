@@ -4,20 +4,34 @@ import { VehicleStatusBadge } from '@/components/blocks/vehicle-status-badge';
 import { Button } from '@/components/ui/button';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
-import { vehicleShowFn } from '@/features/vehicles';
+import { useVehicleShow } from '@/features/vehicles';
 
 export const Route = createFileRoute('/app/vehicles/$id')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const vehicle = (await vehicleShowFn(params.id)).data;
-    return { vehicle };
+    const data = await useVehicleShow.prefetch({ id: params.id });
+    const vehicle = data.data;
+    return {
+      vehicle: data.data,
+      meta: {
+        breadcrumb: {
+          title: `${vehicle.make} ${vehicle.model} ${vehicle.year}`,
+        },
+      },
+    };
   },
 });
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const { vehicle } = Route.useLoaderData();
-  const { t } = useTranslation(['vehicle', 'common', 'expenses', 'maintenance']);
+  const { data } = useVehicleShow({ id });
+  const vehicle = data?.data;
+  const { t } = useTranslation(['vehicle', 'rental', 'reservation', 'common', 'expenses', 'maintenance']);
+
+  if (!vehicle) {
+    return null;
+  }
+
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-start mb-8">
@@ -44,10 +58,13 @@ function RouteComponent() {
 
       <TabsNavigation
         basePath={`/app/vehicles/${id}`}
+
         tabs={[
           { label: t('common:summary'), path: '' },
           { label: t('expenses:label_plural'), path: 'expenses' },
           { label: t('maintenance:label_plural'), path: 'maintenance' },
+          { label: t('rental:label_plural'), path: 'rentals' },
+          { label: t('reservation:label_plural'), path: 'reservations' },
         ]}
       />
     </div>

@@ -1,17 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Data\RentalData;
-use App\Http\Controllers\Api\V1\ApiController;
 use App\Http\Resources\RentalSummaryResource;
 use App\Models\Rental;
+use Illuminate\Http\Request;
 
 class RentalController extends ApiController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $rentals = Rental::with(['rate', 'timeframe', 'renter', 'vehicle'])->get();
+        $query = Rental::with(['rate', 'timeframe', 'renter', 'vehicle']);
+
+        if ($request->has('vehicle_id')) {
+            $query->whereHas('vehicle', function ($query) use ($request) {
+                $query->where('vehicle_id', $request->vehicle_id);
+            });
+        }
+
+        if ($request->has('customer_id')) {
+            $query->whereHas('renter', function ($query) use ($request) {
+                $query->where('customer_id', $request->customer_id);
+            });
+        }
+
+        $rentals = $query->get();
 
         return $this->success(RentalSummaryResource::collection($rentals));
     }
