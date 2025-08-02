@@ -49,9 +49,6 @@
     "total_due": "Total Dû",
     "deposit_total": "Total du dépôt",
     "deposit_refunded": "Remboursé",
-    "deposit_due": "Reste à rembourser",
-    "insurance_rate": "Taux d'assurance",
-    "insurance_quantity": "Quantité d'assurance",
-    "insurance_total": "Total d'assurance"
+    "deposit_due": "Reste à rembourser"
   }
 }
