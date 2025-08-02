@@ -40,7 +40,7 @@ interface MonthViewProps {
   currentDate: Date;
   events: CalendarEvent[];
   onEventSelect: (event: CalendarEvent) => void;
-  onEventCreate: (startTime: Date) => void;
+  onEventCreate?: (startTime: Date) => void;
 }
 
 export function MonthView({
@@ -149,7 +149,7 @@ export function MonthView({
                     onClick={() => {
                       const startTime = new Date(day);
                       startTime.setHours(DefaultStartHour, 0, 0);
-                      onEventCreate(startTime);
+                      onEventCreate?.(startTime);
                     }}
                   >
                     <div className="group-data-today:bg-primary group-data-today:text-primary-foreground mt-1 inline-flex size-6 items-center justify-center rounded-full text-sm">

@@ -16,6 +16,8 @@
   "etiquette": "Étiquette",
   "noEvents": "Aucun événement",
   "noEventsDescription": "Il n'y a pas d'événements programmés pour cette période.",
+  "details": "Détails",
+  "detailsDescription": "Les détails de cet événement",
   "today": "Aujourd'hui",
   "newEvent": "Nouvel événement",
   "month": "Mois",
