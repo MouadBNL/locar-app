@@ -17,6 +17,7 @@ import {
 } from 'date-fns';
 
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import {
   DraggableEvent,
@@ -50,6 +51,7 @@ export function WeekView({
   onEventSelect,
   onEventCreate,
 }: WeekViewProps) {
+  const { t } = useTranslation('calendar');
   const days = useMemo(() => {
     const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
     const weekEnd = endOfWeek(currentDate, { weekStartsOn: 0 });
@@ -247,7 +249,7 @@ export function WeekView({
           <div className="grid grid-cols-8">
             <div className="border-border/70 relative border-r">
               <span className="text-muted-foreground/70 absolute bottom-0 left-0 h-6 w-16 max-w-full pe-2 text-right text-[10px] sm:pe-4 sm:text-xs">
-                All day
+                {t('calendar:allDay', { defaultValue: 'All day' })}
               </span>
             </div>
             {days.map((day, dayIndex) => {

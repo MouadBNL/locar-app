@@ -57,6 +57,7 @@ const CalendarDndContext = createContext<CalendarDndContextType>({
 });
 
 // Hook to use the context
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCalendarDnd = () => use(CalendarDndContext);
 
 // Props for the provider

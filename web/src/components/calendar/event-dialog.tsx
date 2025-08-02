@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks-extra/no-direct-set-state-in-use-effect */
 import type { CalendarEvent, EventColor } from '.';
 import { format, isBefore } from 'date-fns';
 
 import { CalendarIcon, Trash2Icon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -53,10 +55,13 @@ export function EventDialog({
   onSave,
   onDelete,
 }: EventDialogProps) {
+  const { t } = useTranslation(['calendar', 'common']);
+
+  const currentDate = new Date();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>(currentDate);
+  const [endDate, setEndDate] = useState<Date>(currentDate);
   const [startTime, setStartTime] = useState(`${DefaultStartHour}:00`);
   const [endTime, setEndTime] = useState(`${DefaultEndHour}:00`);
   const [allDay, setAllDay] = useState(false);
@@ -68,8 +73,28 @@ export function EventDialog({
 
   // Debug log to check what event is being passed
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log('EventDialog received event:', event);
   }, [event]);
+
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setStartDate(new Date());
+    setEndDate(new Date());
+    setStartTime(`${DefaultStartHour}:00`);
+    setEndTime(`${DefaultEndHour}:00`);
+    setAllDay(false);
+    setLocation('');
+    setColor('blue');
+    setError(null);
+  };
+
+  const formatTimeForInput = (date: Date) => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = Math.floor(date.getMinutes() / 15) * 15;
+    return `${hours}:${minutes.toString().padStart(2, '0')}`;
+  };
 
   useEffect(() => {
     if (event) {
@@ -92,25 +117,6 @@ export function EventDialog({
       resetForm();
     }
   }, [event]);
-
-  const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setStartDate(new Date());
-    setEndDate(new Date());
-    setStartTime(`${DefaultStartHour}:00`);
-    setEndTime(`${DefaultEndHour}:00`);
-    setAllDay(false);
-    setLocation('');
-    setColor('blue');
-    setError(null);
-  };
-
-  const formatTimeForInput = (date: Date) => {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = Math.floor(date.getMinutes() / 15) * 15;
-    return `${hours}:${minutes.toString().padStart(2, '0')}`;
-  };
 
   // Memoize time options so they're only calculated once
   const timeOptions = useMemo(() => {
@@ -229,11 +235,11 @@ export function EventDialog({
     <Dialog open={isOpen} onOpenChange={open => !open && onClose()}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{event?.id ? 'Edit Event' : 'Create Event'}</DialogTitle>
+          <DialogTitle>{event?.id ? t('calendar:editEvent') : t('calendar:createEvent')}</DialogTitle>
           <DialogDescription className="sr-only">
             {event?.id
-              ? 'Edit the details of this event'
-              : 'Add a new event to your calendar'}
+              ? t('calendar:editEventDescription')
+              : t('calendar:createEventDescription')}
           </DialogDescription>
         </DialogHeader>
         {error && (
@@ -243,7 +249,7 @@ export function EventDialog({
         )}
         <div className="grid gap-4 py-4">
           <div className="*:not-first:mt-1.5">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">{t('calendar:attributes.title')}</Label>
             <Input
               id="title"
               value={title}
@@ -252,7 +258,7 @@ export function EventDialog({
           </div>
 
           <div className="*:not-first:mt-1.5">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t('calendar:attributes.description')}</Label>
             <Textarea
               id="description"
               value={description}
@@ -263,7 +269,7 @@ export function EventDialog({
 
           <div className="flex gap-4">
             <div className="flex-1 *:not-first:mt-1.5">
-              <Label htmlFor="start-date">Start Date</Label>
+              <Label htmlFor="start-date">{t('calendar:attributes.startDate')}</Label>
               <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
                 <PopoverTrigger asChild>
                   <Button
@@ -312,7 +318,7 @@ export function EventDialog({
 
             {!allDay && (
               <div className="min-w-28 *:not-first:mt-1.5">
-                <Label htmlFor="start-time">Start Time</Label>
+                <Label htmlFor="start-time">{t('calendar:attributes.startTime')}</Label>
                 <Select value={startTime} onValueChange={setStartTime}>
                   <SelectTrigger id="start-time">
                     <SelectValue placeholder="Select time" />
@@ -331,7 +337,7 @@ export function EventDialog({
 
           <div className="flex gap-4">
             <div className="flex-1 *:not-first:mt-1.5">
-              <Label htmlFor="end-date">End Date</Label>
+              <Label htmlFor="end-date">{t('calendar:attributes.endDate')}</Label>
               <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
                 <PopoverTrigger asChild>
                   <Button
@@ -377,7 +383,7 @@ export function EventDialog({
 
             {!allDay && (
               <div className="min-w-28 *:not-first:mt-1.5">
-                <Label htmlFor="end-time">End Time</Label>
+                <Label htmlFor="end-time">{t('calendar:attributes.endTime')}</Label>
                 <Select value={endTime} onValueChange={setEndTime}>
                   <SelectTrigger id="end-time">
                     <SelectValue placeholder="Select time" />
@@ -400,11 +406,11 @@ export function EventDialog({
               checked={allDay}
               onCheckedChange={checked => setAllDay(checked === true)}
             />
-            <Label htmlFor="all-day">All day</Label>
+            <Label htmlFor="all-day">{t('calendar:allDay')}</Label>
           </div>
 
           <div className="*:not-first:mt-1.5">
-            <Label htmlFor="location">Location</Label>
+            <Label htmlFor="location">{t('calendar:attributes.location')}</Label>
             <Input
               id="location"
               value={location}
@@ -413,7 +419,7 @@ export function EventDialog({
           </div>
           <fieldset className="space-y-4">
             <legend className="text-foreground text-sm leading-none font-medium">
-              Etiquette
+              {t('calendar:etiquette')}
             </legend>
             <RadioGroup
               className="flex gap-1.5"
@@ -451,9 +457,9 @@ export function EventDialog({
           )}
           <div className="flex flex-1 justify-end gap-2">
             <Button variant="outline" onClick={onClose}>
-              Cancel
+              {t('common:cancel')}
             </Button>
-            <Button onClick={handleSave}>Save</Button>
+            <Button onClick={handleSave}>{t('common:save')}</Button>
           </div>
         </DialogFooter>
       </DialogContent>

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type {
   CalendarEvent,
   CalendarView,
@@ -19,6 +20,7 @@ import {
   ChevronRightIcon,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -29,7 +31,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import {
   addHoursToDate,
@@ -55,14 +56,16 @@ export interface EventCalendarProps {
   initialView?: CalendarView;
 }
 
+const defaultEvents: CalendarEvent[] = [];
 export function EventCalendar({
-  events = [],
+  events = defaultEvents,
   onEventAdd,
   onEventUpdate,
   onEventDelete,
   className,
   initialView = 'month',
 }: EventCalendarProps) {
+  const { t } = useTranslation(['calendar', 'common']);
   // Use the shared calendar context instead of local state
   const { currentDate, setCurrentDate } = useCalendarContext();
   const [view, setView] = useState<CalendarView>(initialView);
@@ -70,7 +73,6 @@ export function EventCalendar({
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
     null,
   );
-  const { open } = useSidebar();
 
   // Add keyboard shortcuts for view switching
   useEffect(() => {
@@ -296,11 +298,6 @@ export function EventCalendar({
         >
           <div className="flex sm:flex-col max-sm:items-center justify-between gap-1.5">
             <div className="flex items-center gap-1.5">
-              <SidebarTrigger
-                data-state={open ? 'invisible' : 'visible'}
-                className="peer size-7 text-muted-foreground/80 hover:text-foreground/80 hover:bg-transparent! sm:-ms-1.5 lg:data-[state=invisible]:opacity-0 lg:data-[state=invisible]:pointer-events-none transition-opacity ease-in-out duration-200"
-                isOutsideSidebar
-              />
               <h2 className="font-semibold text-xl lg:peer-data-[state=invisible]:-translate-x-7.5 transition-transform ease-in-out duration-300">
                 {viewTitle}
               </h2>
@@ -332,7 +329,7 @@ export function EventCalendar({
                 className="max-sm:h-8 max-sm:px-2.5!"
                 onClick={handleToday}
               >
-                Today
+                {t('calendar:today')}
               </Button>
             </div>
             <div className="flex items-center justify-between gap-2">
@@ -344,7 +341,7 @@ export function EventCalendar({
                   setIsEventDialogOpen(true);
                 }}
               >
-                New Event
+                {t('calendar:newEvent')}
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -362,22 +359,22 @@ export function EventCalendar({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="min-w-32">
                   <DropdownMenuItem onClick={() => setView('month')}>
-                    Month
+                    {t('calendar:month')}
                     {' '}
                     <DropdownMenuShortcut>M</DropdownMenuShortcut>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setView('week')}>
-                    Week
+                    {t('calendar:week')}
                     {' '}
                     <DropdownMenuShortcut>W</DropdownMenuShortcut>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setView('day')}>
-                    Day
+                    {t('calendar:day')}
                     {' '}
                     <DropdownMenuShortcut>D</DropdownMenuShortcut>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setView('agenda')}>
-                    Agenda
+                    {t('calendar:agenda')}
                     {' '}
                     <DropdownMenuShortcut>A</DropdownMenuShortcut>
                   </DropdownMenuItem>

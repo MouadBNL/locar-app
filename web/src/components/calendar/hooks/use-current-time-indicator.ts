@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks-extra/no-direct-set-state-in-use-effect */
 import { endOfWeek, isSameDay, isWithinInterval, startOfWeek } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { EndHour, StartHour } from '../constants';

@@ -4,6 +4,7 @@ import type { CalendarEvent } from '.';
 import { differenceInMinutes, format, getMinutes, isPast } from 'date-fns';
 
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import {
 
@@ -61,6 +62,7 @@ function EventWrapper({
 
   return (
     <button
+      type="button"
       className={cn(
         'focus-visible:border-ring focus-visible:ring-ring/50 flex h-full w-full overflow-hidden px-1 text-left font-medium backdrop-blur-md transition outline-none select-none focus-visible:ring-[3px] data-dragging:cursor-grabbing data-dragging:shadow-lg data-past-event:line-through sm:px-2',
         getEventColorClasses(event.color),
@@ -114,7 +116,7 @@ export function EventItem({
   onTouchStart,
 }: EventItemProps) {
   const eventColor = event.color;
-
+  const { t } = useTranslation(['calendar', 'common']);
   // Use the provided currentTime (for dragging) or the event's actual time
   const displayStart = useMemo(() => {
     return currentTime || new Date(event.start);
@@ -229,6 +231,7 @@ export function EventItem({
   // Agenda view - kept separate since it's significantly different
   return (
     <button
+      type="button"
       className={cn(
         'focus-visible:border-ring focus-visible:ring-ring/50 flex w-full flex-col gap-1 rounded p-2 text-left transition outline-none focus-visible:ring-[3px] data-past-event:line-through data-past-event:opacity-90',
         getEventColorClasses(eventColor),
@@ -245,7 +248,7 @@ export function EventItem({
       <div className="text-xs opacity-70">
         {event.allDay
           ? (
-              <span>All day</span>
+              <span>{t('calendar:allDay')}</span>
             )
           : (
               <span className="uppercase">

@@ -621,7 +621,7 @@ export function BigCalendar() {
       onEventAdd={handleEventAdd}
       onEventUpdate={handleEventUpdate}
       onEventDelete={handleEventDelete}
-      initialView="week"
+      initialView="month"
     />
   );
 }

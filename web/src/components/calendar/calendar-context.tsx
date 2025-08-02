@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import React, { createContext, use, useState } from 'react';
-import { etiquettes } from '@/components/big-calendar';
+import { createContext, use, useState } from 'react';
+import { etiquettes } from '../big-calendar';
 
 interface CalendarContextType {
   // Date management
@@ -17,6 +17,7 @@ const CalendarContext = createContext<CalendarContextType | undefined>(
   undefined,
 );
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCalendarContext() {
   const context = use(CalendarContext);
   if (context === undefined) {
@@ -32,7 +33,8 @@ interface CalendarProviderProps {
 }
 
 export function CalendarProvider({ children }: CalendarProviderProps) {
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const defaultDate = new Date();
+  const [currentDate, setCurrentDate] = useState<Date>(defaultDate);
 
   // Initialize visibleColors based on the isActive property in etiquettes
   const [visibleColors, setVisibleColors] = useState<string[]>(() => {

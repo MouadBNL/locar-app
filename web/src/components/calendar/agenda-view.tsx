@@ -3,6 +3,7 @@ import { addDays, format, isToday } from 'date-fns';
 
 import { Calendar1Icon } from 'lucide-react';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   AgendaDaysToShow,
   EventItem,
@@ -20,16 +21,15 @@ export function AgendaView({
   events,
   onEventSelect,
 }: AgendaViewProps) {
+  const { t } = useTranslation(['calendar', 'common']);
   // Show events for the next days based on constant
   const days = useMemo(() => {
-    console.log('Agenda view updating with date:', currentDate.toISOString());
     return Array.from({ length: AgendaDaysToShow }, (_, i) =>
       addDays(new Date(currentDate), i));
   }, [currentDate]);
 
   const handleEventClick = (event: CalendarEvent, e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log('Agenda view event clicked:', event);
     onEventSelect(event);
   };
 
@@ -47,9 +47,9 @@ export function AgendaView({
                 size={32}
                 className="text-muted-foreground/50 mb-2"
               />
-              <h3 className="text-lg font-medium">No events found</h3>
+              <h3 className="text-lg font-medium">{t('calendar:noEvents')}</h3>
               <p className="text-muted-foreground">
-                There are no events scheduled for this time period.
+                {t('calendar:noEventsDescription')}
               </p>
             </div>
           )
