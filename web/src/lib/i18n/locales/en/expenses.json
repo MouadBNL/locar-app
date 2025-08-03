@@ -1,6 +1,8 @@
 {
   "label_singular": "Expense",
   "label_plural": "Expenses",
+  "expenses_and_maintenance": "Expenses & Maintenance",
+  "maintenance": "Maintenance",
   "search_placeholder": "Search expense...",
   "manage_expenses": "Manage Expenses",
   "add_expense": "Add Expense",

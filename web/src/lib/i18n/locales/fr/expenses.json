@@ -1,6 +1,8 @@
 {
   "label_singular": "Dépense",
   "label_plural": "Dépenses",
+  "expenses_and_maintenance": "Dépenses & Maintenance",
+  "maintenance": "Maintenance",
   "search_placeholder": "Rechercher une dépense...",
   "manage_expenses": "Gérer les dépenses",
   "add_expense": "Ajouter une dépense",

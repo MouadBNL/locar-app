@@ -30,7 +30,7 @@ import {
 } from '@/features/vehicle-repairs';
 import { breadcrumb } from '@/lib/breadcrumb';
 
-export const Route = createFileRoute('/app/vehicles/$id/repair')({
+export const Route = createFileRoute('/app/vehicles/$id/repairs')({
   component: RouteComponent,
   loader: async ({ params }) => {
     await useVehicleRepairIndex.prefetch({ vehicleId: params.id });

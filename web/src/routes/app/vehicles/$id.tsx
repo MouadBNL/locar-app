@@ -61,7 +61,7 @@ function RouteComponent() {
 
         tabs={[
           { label: t('common:summary'), path: '' },
-          { label: t('expenses:label_plural'), path: 'expenses' },
+          { label: t('expenses:maintenance'), path: 'expenses' },
           { label: t('repair:label_plural'), path: 'repair' },
           { label: t('rental:label_plural'), path: 'rentals' },
           { label: t('reservation:label_plural'), path: 'reservations' },
