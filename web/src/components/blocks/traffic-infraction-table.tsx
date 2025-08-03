@@ -1,4 +1,5 @@
 import type { TrafficInfractionResource } from '@/features/traffic-infractions';
+import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { CustomerTableCard } from './customer-table-card';
@@ -20,8 +21,9 @@ export function TrafficInfractionTable({
       <TableHeader>
         <TableRow>
           <TableHead>{t('traffic:attributes.date')}</TableHead>
-          <TableHead>{t('traffic:attributes.vehicle')}</TableHead>
+          <TableHead>{t('traffic:attributes.rental')}</TableHead>
           <TableHead>{t('traffic:attributes.customer')}</TableHead>
+          <TableHead>{t('traffic:attributes.vehicle')}</TableHead>
           <TableHead>{t('traffic:attributes.title')}</TableHead>
           <TableHead>{t('traffic:attributes.location')}</TableHead>
           <TableHead>{t('traffic:attributes.document')}</TableHead>
@@ -63,22 +65,34 @@ export function TrafficInfractionTable({
               </TableCell>
 
               <TableCell>
-                <CustomerTableCard
-                  id={trafficInfraction.customer_id ?? ''}
-                  fullName={trafficInfraction.customer.full_name}
-                  identifier={trafficInfraction.customer.identifier}
-                  phone={trafficInfraction.customer.phone}
-                />
+                {trafficInfraction.rental && (
+                  <Link to="/app/rentals/$id" params={{ id: trafficInfraction.rental.rental_number }} className="text-sm hover:underline">
+                    {trafficInfraction.rental.rental_number}
+                  </Link>
+                )}
               </TableCell>
 
               <TableCell>
-                <VehicleTableCard
-                  id={trafficInfraction.vehicle_id ?? ''}
-                  make={trafficInfraction.vehicle.make}
-                  model={trafficInfraction.vehicle.model}
-                  year={trafficInfraction.vehicle.year}
-                  license_plate={trafficInfraction.vehicle.license_plate}
-                />
+                {trafficInfraction.customer && (
+                  <CustomerTableCard
+                    id={trafficInfraction.customer_id ?? ''}
+                    fullName={trafficInfraction.customer.full_name}
+                    identifier={trafficInfraction.customer.identifier}
+                    phone={trafficInfraction.customer.phone}
+                  />
+                )}
+              </TableCell>
+
+              <TableCell>
+                {trafficInfraction.vehicle && (
+                  <VehicleTableCard
+                    id={trafficInfraction.vehicle_id ?? ''}
+                    make={trafficInfraction.vehicle.make}
+                    model={trafficInfraction.vehicle.model}
+                    year={trafficInfraction.vehicle.year}
+                    license_plate={trafficInfraction.vehicle.license_plate}
+                  />
+                )}
               </TableCell>
 
               <TableCell>
@@ -87,6 +101,12 @@ export function TrafficInfractionTable({
 
               <TableCell>
                 {trafficInfraction.location}
+              </TableCell>
+
+              <TableCell>
+                {trafficInfraction.document && (
+                  <p>{trafficInfraction.document.filename}</p>
+                )}
               </TableCell>
 
               {actions && (

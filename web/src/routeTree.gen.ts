@@ -41,6 +41,7 @@ import { Route as AppVehiclesIdRepairsRouteImport } from './routes/app/vehicles/
 import { Route as AppVehiclesIdRentalsRouteImport } from './routes/app/vehicles/$id/rentals'
 import { Route as AppVehiclesIdGeneralRouteImport } from './routes/app/vehicles/$id/general'
 import { Route as AppVehiclesIdExpensesRouteImport } from './routes/app/vehicles/$id/expenses'
+import { Route as AppRentalsIdTrafficInfractionsRouteImport } from './routes/app/rentals/$id/traffic-infractions'
 import { Route as AppRentalsIdPaymentsRouteImport } from './routes/app/rentals/$id/payments'
 import { Route as AppRentalsIdDocumentsRouteImport } from './routes/app/rentals/$id/documents'
 import { Route as AppCustomersIdReservationsRouteImport } from './routes/app/customers/$id/reservations'
@@ -207,6 +208,12 @@ const AppVehiclesIdExpensesRoute = AppVehiclesIdExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => AppVehiclesIdRoute,
 } as any)
+const AppRentalsIdTrafficInfractionsRoute =
+  AppRentalsIdTrafficInfractionsRouteImport.update({
+    id: '/traffic-infractions',
+    path: '/traffic-infractions',
+    getParentRoute: () => AppRentalsIdRoute,
+  } as any)
 const AppRentalsIdPaymentsRoute = AppRentalsIdPaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
@@ -258,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
+  '/app/rentals/$id/traffic-infractions': typeof AppRentalsIdTrafficInfractionsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
   '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
@@ -288,6 +296,7 @@ export interface FileRoutesByTo {
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
+  '/app/rentals/$id/traffic-infractions': typeof AppRentalsIdTrafficInfractionsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
   '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
@@ -327,6 +336,7 @@ export interface FileRoutesById {
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
+  '/app/rentals/$id/traffic-infractions': typeof AppRentalsIdTrafficInfractionsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
   '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
@@ -367,6 +377,7 @@ export interface FileRouteTypes {
     | '/app/customers/$id/reservations'
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
+    | '/app/rentals/$id/traffic-infractions'
     | '/app/vehicles/$id/expenses'
     | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
@@ -397,6 +408,7 @@ export interface FileRouteTypes {
     | '/app/customers/$id/reservations'
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
+    | '/app/rentals/$id/traffic-infractions'
     | '/app/vehicles/$id/expenses'
     | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
@@ -435,6 +447,7 @@ export interface FileRouteTypes {
     | '/app/customers/$id/reservations'
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
+    | '/app/rentals/$id/traffic-infractions'
     | '/app/vehicles/$id/expenses'
     | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
@@ -680,6 +693,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesIdExpensesRouteImport
       parentRoute: typeof AppVehiclesIdRoute
     }
+    '/app/rentals/$id/traffic-infractions': {
+      id: '/app/rentals/$id/traffic-infractions'
+      path: '/traffic-infractions'
+      fullPath: '/app/rentals/$id/traffic-infractions'
+      preLoaderRoute: typeof AppRentalsIdTrafficInfractionsRouteImport
+      parentRoute: typeof AppRentalsIdRoute
+    }
     '/app/rentals/$id/payments': {
       id: '/app/rentals/$id/payments'
       path: '/payments'
@@ -745,12 +765,14 @@ const AppCustomersRouteRouteWithChildren =
 interface AppRentalsIdRouteChildren {
   AppRentalsIdDocumentsRoute: typeof AppRentalsIdDocumentsRoute
   AppRentalsIdPaymentsRoute: typeof AppRentalsIdPaymentsRoute
+  AppRentalsIdTrafficInfractionsRoute: typeof AppRentalsIdTrafficInfractionsRoute
   AppRentalsIdIndexRoute: typeof AppRentalsIdIndexRoute
 }
 
 const AppRentalsIdRouteChildren: AppRentalsIdRouteChildren = {
   AppRentalsIdDocumentsRoute: AppRentalsIdDocumentsRoute,
   AppRentalsIdPaymentsRoute: AppRentalsIdPaymentsRoute,
+  AppRentalsIdTrafficInfractionsRoute: AppRentalsIdTrafficInfractionsRoute,
   AppRentalsIdIndexRoute: AppRentalsIdIndexRoute,
 }
 

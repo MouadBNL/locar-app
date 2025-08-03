@@ -1,12 +1,30 @@
 {
   "label_singular": "Traffic Infraction",
   "label_plural": "Traffic Infractions",
+  "traffic_infractions_description": "Manage traffic infractions for this rental.",
+  "add_traffic_infraction": "Add Traffic Infraction",
+  "edit_traffic_infraction": "Edit Traffic Infraction",
+  "action": {
+    "create": {
+      "success": "Traffic infraction created successfully",
+      "error": "Failed to create traffic infraction"
+    },
+    "delete": {
+      "success": "Traffic infraction deleted successfully",
+      "error": "Failed to delete traffic infraction"
+    },
+    "update": {
+      "success": "Traffic infraction updated successfully",
+      "error": "Failed to update traffic infraction"
+    }
+  },
   "attributes": {
     "date": "Date",
     "vehicle": "Vehicle",
     "customer": "Customer",
     "title": "Title",
     "location": "Location",
-    "document": "Document"
+    "document": "Document",
+    "rental": "Rental"
   }
 }

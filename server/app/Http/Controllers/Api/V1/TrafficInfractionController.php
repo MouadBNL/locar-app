@@ -39,7 +39,7 @@ class TrafficInfractionController extends ApiController
         if ($request->rental_id) {
             $rental = Rental::with('renter', 'vehicle')->findOrFail($request->rental_id);
             $data['customer_id'] = $rental->renter->customer_id;
-            $data['vehicle_id'] = $rental->vehicle->id;
+            $data['vehicle_id'] = $rental->vehicle->vehicle_id;
         }
 
         $trafficInfraction = TrafficInfraction::create($data);
@@ -57,7 +57,7 @@ class TrafficInfractionController extends ApiController
         if ($request->rental_id) {
             $rental = Rental::with('renter', 'vehicle')->findOrFail($request->rental_id);
             $data['customer_id'] = $rental->renter->customer_id;
-            $data['vehicle_id'] = $rental->vehicle->id;
+            $data['vehicle_id'] = $rental->vehicle->vehicle_id;
         }
 
         $trafficInfraction->update($data);

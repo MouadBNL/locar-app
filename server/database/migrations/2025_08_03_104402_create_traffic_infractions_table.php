@@ -15,11 +15,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->dateTime('date')->nullable();
             $table->string('title')->nullable();
-            $table->foreignUuid('document_id')->nullable()->constrained('documents');
+            $table->foreignUuid('document_id')->nullable();
             $table->string('location')->nullable();
-            $table->foreignUuid('vehicle_id')->nullable()->constrained('vehicles');
-            $table->foreignUuid('rental_id')->nullable()->constrained('rentals');
-            $table->foreignUuid('customer_id')->nullable()->constrained('customers');
+            $table->foreignUuid('vehicle_id')->nullable();
+            $table->foreignUuid('rental_id')->nullable();
+            $table->foreignUuid('customer_id')->nullable();
             $table->timestamps();
         });
     }

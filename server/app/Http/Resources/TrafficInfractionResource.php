@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\CustomerResource;
-use App\Http\Resources\RentalResource;
-use App\Http\Resources\VehicleResource;
 use App\Models\TrafficInfraction;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -26,12 +23,17 @@ class TrafficInfractionResource extends JsonResource
             'date' => $this->date,
             'title' => $this->title,
             'location' => $this->location,
-            'vehicle' => new VehicleResource($this->whenLoaded('vehicle')),
+            'vehicle_id' => $this->vehicle_id,
+            'rental_id' => $this->rental_id,
+            'customer_id' => $this->customer_id,
+            'document_id' => $this->document_id,
+            'vehicle' => new VehicleSummaryResource($this->whenLoaded('vehicle')),
             'rental' => $this->whenLoaded('rental') ? [
                 'id' => $this->rental->id,
                 'rental_number' => $this->rental->rental_number,
             ] : null,
-            'customer' => new CustomerResource($this->whenLoaded('customer')),
+            'customer' => new CustomerSummaryResource($this->whenLoaded('customer')),
+            'document' => new DocumentResource($this->whenLoaded('document')),
         ];
     }
 }

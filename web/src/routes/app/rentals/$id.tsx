@@ -9,6 +9,7 @@ import {
   LayoutPanelLeft,
   PlayIcon,
   ReceiptTextIcon,
+  TrafficConeIcon,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -55,7 +56,7 @@ export const Route = createFileRoute('/app/rentals/$id')({
 
 function RouteComponent() {
   const { id: code } = Route.useParams();
-  const { t } = useTranslation(['rental', 'common']);
+  const { t } = useTranslation(['rental', 'common', 'traffic']);
   const { data } = useRentalShow({ number: code });
   const rental = data?.data;
 
@@ -180,6 +181,15 @@ function RouteComponent() {
               </>
             ),
             path: 'payments',
+          },
+          {
+            label: (
+              <>
+                <TrafficConeIcon className="-ms-0.5 me-1.5 opacity-60" size={16} aria-hidden="true" />
+                {t('traffic:label_plural')}
+              </>
+            ),
+            path: 'traffic-infractions',
           },
         ]}
       />

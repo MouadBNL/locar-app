@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { TrafficInfractionSchema } from '@/features/traffic-infractions';
 import { fmt_date, get_date } from '@/lib/utils';
 import { Button } from '../ui/button';
-import { DateInput } from '../ui/dateinput';
+import { DateTimeInput } from '../ui/datetime-input';
 import { AppFormField, Form } from '../ui/form';
 import { Input } from '../ui/input';
 import { CustomerSelect } from './customer-select';
@@ -41,7 +41,7 @@ export function TrafficInfractionForm({
             name="date"
             label={t('traffic:attributes.date')}
             render={({ field }) => (
-              <DateInput
+              <DateTimeInput
                 {...field}
                 value={field.value ?? undefined}
                 onChange={value => field.onChange(value ?? undefined)}
@@ -53,13 +53,13 @@ export function TrafficInfractionForm({
             control={form.control}
             name="vehicle_id"
             label={t('traffic:attributes.vehicle')}
-            render={({ field }) => <VehicleSelect {...field} value={field.value ?? undefined} />}
+            render={({ field }) => <VehicleSelect onValueChange={value => field.onChange(value ?? undefined)} value={field.value ?? undefined} />}
           />
           <AppFormField
             control={form.control}
             name="customer_id"
             label={t('traffic:attributes.customer')}
-            render={({ field }) => <CustomerSelect {...field} value={field.value ?? undefined} />}
+            render={({ field }) => <CustomerSelect onValueChange={value => field.onChange(value ?? undefined)} value={field.value ?? undefined} />}
           />
           <AppFormField
             control={form.control}

@@ -46,7 +46,7 @@ class TrafficInfraction extends Model
 
     public function vehicle(): BelongsTo
     {
-        return $this->belongsTo(Vehicle::class);
+        return $this->belongsTo(Vehicle::class, 'vehicle_id');
     }
 
     public function rental(): BelongsTo

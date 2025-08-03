@@ -1,6 +1,7 @@
 import type { z } from 'zod';
 
 import type { CustomerSummaryResource } from '../customers';
+import type { DocumentResource } from '../documents';
 import type { VehicleSummaryResource } from '../vehicles/type';
 import type { TrafficInfractionSchema } from './schema';
 
@@ -19,10 +20,11 @@ export interface TrafficInfractionResource {
   vehicle_id: string | null;
   rental_id: string | null;
   customer_id: string | null;
-  vehicle: VehicleSummaryResource;
+  vehicle: VehicleSummaryResource | null;
   rental: {
     id: string;
     rental_number: string;
-  };
-  customer: CustomerSummaryResource;
+  } | null;
+  customer: CustomerSummaryResource | null;
+  document: DocumentResource | null;
 }
