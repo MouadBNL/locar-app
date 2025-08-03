@@ -28,6 +28,10 @@ Route::prefix('/auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('customers', CustomerController::class);
+
+    Route::get('customers/{customer}/ratings', [CustomerRatingController::class, 'index']);
+    Route::delete('customers/{customer}/ratings/{rating}', [CustomerRatingController::class, 'destroy']);
+
     Route::apiResource('vehicles', VehicleController::class);
     Route::apiResource('vehicles/{vehicle}/expenses', VehicleExpenseController::class);
     Route::apiResource('vehicles/{vehicle}/repairs', VehicleRepairController::class);

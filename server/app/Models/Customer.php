@@ -26,6 +26,7 @@ use Illuminate\Support\Collection;
  * @property-read ?Carbon $birth_date
  * @property-read Collection<array-key, Renter> $renters
  * @property-read Collection<array-key, Reservation> $reservations
+ * @property-read Collection<array-key, CustomerRating> $ratings
  */
 class Customer extends Model
 {
@@ -122,5 +123,10 @@ class Customer extends Model
     public function trafficInfractions(): HasMany
     {
         return $this->hasMany(TrafficInfraction::class);
+    }
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(CustomerRating::class);
     }
 }
