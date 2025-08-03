@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  * @property-read string $first_name
  * @property-read string $last_name
  * @property-read CustomerStatus $status
+ * @property-read ?float $rating
  * @property-read ?string $email
  * @property-read ?string $phone
  * @property-read ?string $address
@@ -79,6 +80,19 @@ class Customer extends Model
                 return [
                     'status' => CustomerStatus::ACTIVE,
                 ];
+            }
+        );
+    }
+
+    public function rating(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->relationLoaded('ratings') && $this->ratings->isNotEmpty()) {
+                    return $this->ratings->avg('rating');
+                }
+
+                return null;
             }
         );
     }

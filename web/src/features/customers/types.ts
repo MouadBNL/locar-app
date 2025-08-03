@@ -29,6 +29,7 @@ export interface CustomerResource {
   first_name: string;
   last_name: string;
   status: CustomerStatus;
+  rating: number | null;
   email: string;
   phone: string;
   address: string;
@@ -48,6 +49,7 @@ export interface CustomerSummaryResource {
   full_name: string;
   phone: string;
   identifier: string;
+  rating: number | null;
 }
 
 export interface CustomerRatingResource {
