@@ -118,4 +118,9 @@ class Customer extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function trafficInfractions(): HasMany
+    {
+        return $this->hasMany(TrafficInfraction::class);
+    }
 }

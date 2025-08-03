@@ -20,7 +20,7 @@ export const Route = createFileRoute('/app/customers/$id')({
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const { t } = useTranslation(['customer', 'rental', 'reservation', 'common']);
+  const { t } = useTranslation(['customer', 'rental', 'reservation', 'common', 'traffic']);
   const { data } = useCustomerShow({ id });
   const customer = data?.data;
 
@@ -48,6 +48,7 @@ function RouteComponent() {
             { label: t('common:summary'), path: '' },
             { label: t('rental:label_plural'), path: 'rentals' },
             { label: t('reservation:label_plural'), path: 'reservations' },
+            { label: t('traffic:label_plural'), path: 'traffic-infractions' },
           ]}
         />
       </div>

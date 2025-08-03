@@ -26,7 +26,7 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const { data } = useVehicleShow({ id });
   const vehicle = data?.data;
-  const { t } = useTranslation(['vehicle', 'rental', 'reservation', 'common', 'expenses', 'repair']);
+  const { t } = useTranslation(['vehicle', 'rental', 'reservation', 'common', 'expenses', 'repair', 'traffic']);
 
   if (!vehicle) {
     return null;
@@ -66,6 +66,7 @@ function RouteComponent() {
           { label: t('rental:label_plural'), path: 'rentals' },
           { label: t('reservation:label_plural'), path: 'reservations' },
           { label: t('vehicle:general'), path: 'general' },
+          { label: t('traffic:label_plural'), path: 'traffic-infractions' },
         ]}
       />
     </div>

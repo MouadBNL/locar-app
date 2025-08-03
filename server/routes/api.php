@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\RentalPaymentController;
 use App\Http\Controllers\Api\V1\RentalReturnController;
 use App\Http\Controllers\Api\V1\RentalStartController;
 use App\Http\Controllers\Api\V1\ReservationController;
+use App\Http\Controllers\Api\V1\TrafficInfractionController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
 use App\Http\Controllers\Api\V1\VehicleRepairController;
@@ -86,4 +87,13 @@ Route::middleware('auth:sanctum')->group(function () {
      * Calendar
      */
     Route::get('calendar', [CalendarController::class, 'index']);
+
+    /*
+     * Traffic Infractions
+     */
+    Route::get('traffic-infractions', [TrafficInfractionController::class, 'index']);
+    Route::post('traffic-infractions', [TrafficInfractionController::class, 'store']);
+    Route::get('traffic-infractions/{trafficInfraction}', [TrafficInfractionController::class, 'show']);
+    Route::put('traffic-infractions/{trafficInfraction}', [TrafficInfractionController::class, 'update']);
+    Route::delete('traffic-infractions/{trafficInfraction}', [TrafficInfractionController::class, 'destroy']);
 });

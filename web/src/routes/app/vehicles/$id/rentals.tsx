@@ -36,7 +36,7 @@ function RouteComponent() {
             loading={isLoading}
             actions={rental => (
               <Button variant="outline" size="sm" asChild>
-                <Link to="/app/rentals/$id" params={{ id: rental.id! }}>
+                <Link to="/app/rentals/$id" params={{ id: rental.rental_number }}>
                   <PencilIcon className="w-4 h-4" />
                 </Link>
               </Button>

@@ -36,13 +36,16 @@ import { Route as AppCustomersIdRouteImport } from './routes/app/customers/$id'
 import { Route as AppVehiclesIdIndexRouteImport } from './routes/app/vehicles/$id/index'
 import { Route as AppRentalsIdIndexRouteImport } from './routes/app/rentals/$id/index'
 import { Route as AppCustomersIdIndexRouteImport } from './routes/app/customers/$id/index'
+import { Route as AppVehiclesIdTrafficInfractionsRouteImport } from './routes/app/vehicles/$id/traffic-infractions'
 import { Route as AppVehiclesIdReservationsRouteImport } from './routes/app/vehicles/$id/reservations'
 import { Route as AppVehiclesIdRepairsRouteImport } from './routes/app/vehicles/$id/repairs'
 import { Route as AppVehiclesIdRentalsRouteImport } from './routes/app/vehicles/$id/rentals'
 import { Route as AppVehiclesIdGeneralRouteImport } from './routes/app/vehicles/$id/general'
 import { Route as AppVehiclesIdExpensesRouteImport } from './routes/app/vehicles/$id/expenses'
+import { Route as AppRentalsIdTrafficInfractionsRouteImport } from './routes/app/rentals/$id/traffic-infractions'
 import { Route as AppRentalsIdPaymentsRouteImport } from './routes/app/rentals/$id/payments'
 import { Route as AppRentalsIdDocumentsRouteImport } from './routes/app/rentals/$id/documents'
+import { Route as AppCustomersIdTrafficInfractionsRouteImport } from './routes/app/customers/$id/traffic-infractions'
 import { Route as AppCustomersIdReservationsRouteImport } from './routes/app/customers/$id/reservations'
 import { Route as AppCustomersIdRentalsRouteImport } from './routes/app/customers/$id/rentals'
 
@@ -181,6 +184,12 @@ const AppCustomersIdIndexRoute = AppCustomersIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppCustomersIdRoute,
 } as any)
+const AppVehiclesIdTrafficInfractionsRoute =
+  AppVehiclesIdTrafficInfractionsRouteImport.update({
+    id: '/traffic-infractions',
+    path: '/traffic-infractions',
+    getParentRoute: () => AppVehiclesIdRoute,
+  } as any)
 const AppVehiclesIdReservationsRoute =
   AppVehiclesIdReservationsRouteImport.update({
     id: '/reservations',
@@ -207,6 +216,12 @@ const AppVehiclesIdExpensesRoute = AppVehiclesIdExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => AppVehiclesIdRoute,
 } as any)
+const AppRentalsIdTrafficInfractionsRoute =
+  AppRentalsIdTrafficInfractionsRouteImport.update({
+    id: '/traffic-infractions',
+    path: '/traffic-infractions',
+    getParentRoute: () => AppRentalsIdRoute,
+  } as any)
 const AppRentalsIdPaymentsRoute = AppRentalsIdPaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
@@ -217,6 +232,12 @@ const AppRentalsIdDocumentsRoute = AppRentalsIdDocumentsRouteImport.update({
   path: '/documents',
   getParentRoute: () => AppRentalsIdRoute,
 } as any)
+const AppCustomersIdTrafficInfractionsRoute =
+  AppCustomersIdTrafficInfractionsRouteImport.update({
+    id: '/traffic-infractions',
+    path: '/traffic-infractions',
+    getParentRoute: () => AppCustomersIdRoute,
+  } as any)
 const AppCustomersIdReservationsRoute =
   AppCustomersIdReservationsRouteImport.update({
     id: '/reservations',
@@ -256,13 +277,16 @@ export interface FileRoutesByFullPath {
   '/app/vehicles/': typeof AppVehiclesIndexRoute
   '/app/customers/$id/rentals': typeof AppCustomersIdRentalsRoute
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
+  '/app/customers/$id/traffic-infractions': typeof AppCustomersIdTrafficInfractionsRoute
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
+  '/app/rentals/$id/traffic-infractions': typeof AppRentalsIdTrafficInfractionsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
   '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
   '/app/vehicles/$id/repairs': typeof AppVehiclesIdRepairsRoute
   '/app/vehicles/$id/reservations': typeof AppVehiclesIdReservationsRoute
+  '/app/vehicles/$id/traffic-infractions': typeof AppVehiclesIdTrafficInfractionsRoute
   '/app/customers/$id/': typeof AppCustomersIdIndexRoute
   '/app/rentals/$id/': typeof AppRentalsIdIndexRoute
   '/app/vehicles/$id/': typeof AppVehiclesIdIndexRoute
@@ -286,13 +310,16 @@ export interface FileRoutesByTo {
   '/app/vehicles': typeof AppVehiclesIndexRoute
   '/app/customers/$id/rentals': typeof AppCustomersIdRentalsRoute
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
+  '/app/customers/$id/traffic-infractions': typeof AppCustomersIdTrafficInfractionsRoute
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
+  '/app/rentals/$id/traffic-infractions': typeof AppRentalsIdTrafficInfractionsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
   '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
   '/app/vehicles/$id/repairs': typeof AppVehiclesIdRepairsRoute
   '/app/vehicles/$id/reservations': typeof AppVehiclesIdReservationsRoute
+  '/app/vehicles/$id/traffic-infractions': typeof AppVehiclesIdTrafficInfractionsRoute
   '/app/customers/$id': typeof AppCustomersIdIndexRoute
   '/app/rentals/$id': typeof AppRentalsIdIndexRoute
   '/app/vehicles/$id': typeof AppVehiclesIdIndexRoute
@@ -325,13 +352,16 @@ export interface FileRoutesById {
   '/app/vehicles/': typeof AppVehiclesIndexRoute
   '/app/customers/$id/rentals': typeof AppCustomersIdRentalsRoute
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
+  '/app/customers/$id/traffic-infractions': typeof AppCustomersIdTrafficInfractionsRoute
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
+  '/app/rentals/$id/traffic-infractions': typeof AppRentalsIdTrafficInfractionsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
   '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
   '/app/vehicles/$id/repairs': typeof AppVehiclesIdRepairsRoute
   '/app/vehicles/$id/reservations': typeof AppVehiclesIdReservationsRoute
+  '/app/vehicles/$id/traffic-infractions': typeof AppVehiclesIdTrafficInfractionsRoute
   '/app/customers/$id/': typeof AppCustomersIdIndexRoute
   '/app/rentals/$id/': typeof AppRentalsIdIndexRoute
   '/app/vehicles/$id/': typeof AppVehiclesIdIndexRoute
@@ -365,13 +395,16 @@ export interface FileRouteTypes {
     | '/app/vehicles/'
     | '/app/customers/$id/rentals'
     | '/app/customers/$id/reservations'
+    | '/app/customers/$id/traffic-infractions'
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
+    | '/app/rentals/$id/traffic-infractions'
     | '/app/vehicles/$id/expenses'
     | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
     | '/app/vehicles/$id/repairs'
     | '/app/vehicles/$id/reservations'
+    | '/app/vehicles/$id/traffic-infractions'
     | '/app/customers/$id/'
     | '/app/rentals/$id/'
     | '/app/vehicles/$id/'
@@ -395,13 +428,16 @@ export interface FileRouteTypes {
     | '/app/vehicles'
     | '/app/customers/$id/rentals'
     | '/app/customers/$id/reservations'
+    | '/app/customers/$id/traffic-infractions'
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
+    | '/app/rentals/$id/traffic-infractions'
     | '/app/vehicles/$id/expenses'
     | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
     | '/app/vehicles/$id/repairs'
     | '/app/vehicles/$id/reservations'
+    | '/app/vehicles/$id/traffic-infractions'
     | '/app/customers/$id'
     | '/app/rentals/$id'
     | '/app/vehicles/$id'
@@ -433,13 +469,16 @@ export interface FileRouteTypes {
     | '/app/vehicles/'
     | '/app/customers/$id/rentals'
     | '/app/customers/$id/reservations'
+    | '/app/customers/$id/traffic-infractions'
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
+    | '/app/rentals/$id/traffic-infractions'
     | '/app/vehicles/$id/expenses'
     | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
     | '/app/vehicles/$id/repairs'
     | '/app/vehicles/$id/reservations'
+    | '/app/vehicles/$id/traffic-infractions'
     | '/app/customers/$id/'
     | '/app/rentals/$id/'
     | '/app/vehicles/$id/'
@@ -645,6 +684,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCustomersIdIndexRouteImport
       parentRoute: typeof AppCustomersIdRoute
     }
+    '/app/vehicles/$id/traffic-infractions': {
+      id: '/app/vehicles/$id/traffic-infractions'
+      path: '/traffic-infractions'
+      fullPath: '/app/vehicles/$id/traffic-infractions'
+      preLoaderRoute: typeof AppVehiclesIdTrafficInfractionsRouteImport
+      parentRoute: typeof AppVehiclesIdRoute
+    }
     '/app/vehicles/$id/reservations': {
       id: '/app/vehicles/$id/reservations'
       path: '/reservations'
@@ -680,6 +726,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesIdExpensesRouteImport
       parentRoute: typeof AppVehiclesIdRoute
     }
+    '/app/rentals/$id/traffic-infractions': {
+      id: '/app/rentals/$id/traffic-infractions'
+      path: '/traffic-infractions'
+      fullPath: '/app/rentals/$id/traffic-infractions'
+      preLoaderRoute: typeof AppRentalsIdTrafficInfractionsRouteImport
+      parentRoute: typeof AppRentalsIdRoute
+    }
     '/app/rentals/$id/payments': {
       id: '/app/rentals/$id/payments'
       path: '/payments'
@@ -693,6 +746,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/rentals/$id/documents'
       preLoaderRoute: typeof AppRentalsIdDocumentsRouteImport
       parentRoute: typeof AppRentalsIdRoute
+    }
+    '/app/customers/$id/traffic-infractions': {
+      id: '/app/customers/$id/traffic-infractions'
+      path: '/traffic-infractions'
+      fullPath: '/app/customers/$id/traffic-infractions'
+      preLoaderRoute: typeof AppCustomersIdTrafficInfractionsRouteImport
+      parentRoute: typeof AppCustomersIdRoute
     }
     '/app/customers/$id/reservations': {
       id: '/app/customers/$id/reservations'
@@ -714,12 +774,14 @@ declare module '@tanstack/react-router' {
 interface AppCustomersIdRouteChildren {
   AppCustomersIdRentalsRoute: typeof AppCustomersIdRentalsRoute
   AppCustomersIdReservationsRoute: typeof AppCustomersIdReservationsRoute
+  AppCustomersIdTrafficInfractionsRoute: typeof AppCustomersIdTrafficInfractionsRoute
   AppCustomersIdIndexRoute: typeof AppCustomersIdIndexRoute
 }
 
 const AppCustomersIdRouteChildren: AppCustomersIdRouteChildren = {
   AppCustomersIdRentalsRoute: AppCustomersIdRentalsRoute,
   AppCustomersIdReservationsRoute: AppCustomersIdReservationsRoute,
+  AppCustomersIdTrafficInfractionsRoute: AppCustomersIdTrafficInfractionsRoute,
   AppCustomersIdIndexRoute: AppCustomersIdIndexRoute,
 }
 
@@ -745,12 +807,14 @@ const AppCustomersRouteRouteWithChildren =
 interface AppRentalsIdRouteChildren {
   AppRentalsIdDocumentsRoute: typeof AppRentalsIdDocumentsRoute
   AppRentalsIdPaymentsRoute: typeof AppRentalsIdPaymentsRoute
+  AppRentalsIdTrafficInfractionsRoute: typeof AppRentalsIdTrafficInfractionsRoute
   AppRentalsIdIndexRoute: typeof AppRentalsIdIndexRoute
 }
 
 const AppRentalsIdRouteChildren: AppRentalsIdRouteChildren = {
   AppRentalsIdDocumentsRoute: AppRentalsIdDocumentsRoute,
   AppRentalsIdPaymentsRoute: AppRentalsIdPaymentsRoute,
+  AppRentalsIdTrafficInfractionsRoute: AppRentalsIdTrafficInfractionsRoute,
   AppRentalsIdIndexRoute: AppRentalsIdIndexRoute,
 }
 
@@ -795,6 +859,7 @@ interface AppVehiclesIdRouteChildren {
   AppVehiclesIdRentalsRoute: typeof AppVehiclesIdRentalsRoute
   AppVehiclesIdRepairsRoute: typeof AppVehiclesIdRepairsRoute
   AppVehiclesIdReservationsRoute: typeof AppVehiclesIdReservationsRoute
+  AppVehiclesIdTrafficInfractionsRoute: typeof AppVehiclesIdTrafficInfractionsRoute
   AppVehiclesIdIndexRoute: typeof AppVehiclesIdIndexRoute
 }
 
@@ -804,6 +869,7 @@ const AppVehiclesIdRouteChildren: AppVehiclesIdRouteChildren = {
   AppVehiclesIdRentalsRoute: AppVehiclesIdRentalsRoute,
   AppVehiclesIdRepairsRoute: AppVehiclesIdRepairsRoute,
   AppVehiclesIdReservationsRoute: AppVehiclesIdReservationsRoute,
+  AppVehiclesIdTrafficInfractionsRoute: AppVehiclesIdTrafficInfractionsRoute,
   AppVehiclesIdIndexRoute: AppVehiclesIdIndexRoute,
 }
 
