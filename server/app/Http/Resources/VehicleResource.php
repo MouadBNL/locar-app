@@ -37,7 +37,7 @@ class VehicleResource extends JsonResource
             'status' => $this->status,
             'active_rental' => $this->activeRentalVehicle ? new RentalSummaryResource($this->activeRentalVehicle->rental) : null,
             'active_reservation' => $this->activeReservation ? new ReservationResource($this->activeReservation) : null,
-            'active_maintenance' => $this->activeMaintenance ? new VehicleMaintenanceResource($this->activeMaintenance) : null,
+            'active_repair' => $this->activeRepair ? new VehicleRepairResource($this->activeRepair) : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

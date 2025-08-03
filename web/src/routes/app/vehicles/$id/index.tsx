@@ -19,7 +19,7 @@ export const Route = createFileRoute('/app/vehicles/$id/')({
 });
 
 function RouteComponent() {
-  const { t } = useTranslation(['common', 'vehicle', 'rental', 'reservation', 'maintenance']);
+  const { t } = useTranslation(['common', 'vehicle', 'rental', 'reservation', 'repair']);
 
   const { vehicle } = Route.useLoaderData();
 

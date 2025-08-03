@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\V1\RentalStartController;
 use App\Http\Controllers\Api\V1\ReservationController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
-use App\Http\Controllers\Api\V1\VehicleMaintenanceController;
+use App\Http\Controllers\Api\V1\VehicleRepairController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/auth')->group(function () {
@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('vehicles', VehicleController::class);
     Route::apiResource('vehicles/{vehicle}/expenses', VehicleExpenseController::class);
-    Route::apiResource('vehicles/{vehicle}/maintenances', VehicleMaintenanceController::class);
+    Route::apiResource('vehicles/{vehicle}/repairs', VehicleRepairController::class);
 
     Route::get('reservations', [ReservationController::class, 'index']);
     Route::get('reservations/{reservation:reservation_number}', [ReservationController::class, 'show']);

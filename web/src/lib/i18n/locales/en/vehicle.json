@@ -29,7 +29,7 @@
     "available": "Available",
     "booked": "Booked",
     "rented": "Rented",
-    "maintenance": "Maintenance"
+    "repair": "Repair"
   },
   "transmission_enum": {
     "AT": "Automatic",

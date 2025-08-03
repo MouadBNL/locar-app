@@ -26,7 +26,7 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const { data } = useVehicleShow({ id });
   const vehicle = data?.data;
-  const { t } = useTranslation(['vehicle', 'rental', 'reservation', 'common', 'expenses', 'maintenance']);
+  const { t } = useTranslation(['vehicle', 'rental', 'reservation', 'common', 'expenses', 'repair']);
 
   if (!vehicle) {
     return null;
@@ -62,7 +62,7 @@ function RouteComponent() {
         tabs={[
           { label: t('common:summary'), path: '' },
           { label: t('expenses:label_plural'), path: 'expenses' },
-          { label: t('maintenance:label_plural'), path: 'maintenance' },
+          { label: t('repair:label_plural'), path: 'repair' },
           { label: t('rental:label_plural'), path: 'rentals' },
           { label: t('reservation:label_plural'), path: 'reservations' },
           { label: t('vehicle:general'), path: 'general' },

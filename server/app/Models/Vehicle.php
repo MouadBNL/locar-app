@@ -64,8 +64,8 @@ class Vehicle extends Model
     {
         return Attribute::make(
             get: function () {
-                if ($this->activeMaintenance) {
-                    return VehicleStatus::MAINTENANCE;
+                if ($this->activeRepair) {
+                    return VehicleStatus::REPAIR;
                 }
 
                 if ($this->activeReservation) {
@@ -106,11 +106,11 @@ class Vehicle extends Model
     }
 
     /**
-     * @return HasOne<VehicleMaintenance, $this>
+     * @return HasOne<VehicleRepair, $this>
      */
-    public function activeMaintenance(): HasOne
+    public function activeRepair(): HasOne
     {
-        return $this->hasOne(VehicleMaintenance::class, 'vehicle_id', 'id')
+        return $this->hasOne(VehicleRepair::class, 'vehicle_id', 'id')
             ->where('cancelled_at', null)
             ->where('started_at', '<=', now()->toDateTimeString())
             ->where(function ($query) {
@@ -124,9 +124,9 @@ class Vehicle extends Model
         return $this->hasMany(VehicleExpense::class);
     }
 
-    public function maintenances(): HasMany
+    public function repairs(): HasMany
     {
-        return $this->hasMany(VehicleMaintenance::class);
+        return $this->hasMany(VehicleRepair::class);
     }
 
     /**

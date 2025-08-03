@@ -14,7 +14,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property string $receipt_document_id
  * @property array<int, string>|null $expenses
  */
-class VehicleMaintenanceCreateRequest extends FormRequest
+class VehicleRepairCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

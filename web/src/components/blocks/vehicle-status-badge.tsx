@@ -10,7 +10,7 @@ export function VehicleStatusBadge({ status }: { status: VehicleStatusType }) {
       ? 'bg-yellow-500'
       : status === 'available'
         ? ' bg-emerald-500'
-        : status === 'maintenance'
+        : status === 'repair'
           ? 'bg-red-500'
           : 'bg-accent-foreground';
 

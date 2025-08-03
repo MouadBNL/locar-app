@@ -47,7 +47,7 @@ export const vehicleExpenseSchema = z.object({
 
 export const VehicleStatus = {
   available: 'Available',
-  maintenance: 'Maintenance',
+  repair: 'Repair',
   booked: 'Booked',
   rented: 'Rented',
 } as const;

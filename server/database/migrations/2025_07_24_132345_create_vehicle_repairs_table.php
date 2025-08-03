@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicle_maintenances', function (Blueprint $table) {
+        Schema::create('vehicle_repairs', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('vehicle_id')->references('id')->on('vehicles');
             $table->dateTime('started_at')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
         });
 
         Schema::table('vehicle_expenses', function (Blueprint $table) {
-            $table->foreignUuid('vehicle_maintenance_id')->nullable()->references('id')->on('vehicle_maintenances')->after('vehicle_id');
+            $table->foreignUuid('vehicle_repair_id')->nullable()->references('id')->on('vehicle_repairs')->after('vehicle_id');
         });
     }
 
@@ -35,9 +35,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('vehicle_expenses', function (Blueprint $table) {
-            $table->dropForeign(['vehicle_maintenance_id']);
-            $table->dropColumn('vehicle_maintenance_id');
+            $table->dropForeign(['vehicle_repair_id']);
+            $table->dropColumn('vehicle_repair_id');
         });
-        Schema::dropIfExists('vehicle_maintenances');
+        Schema::dropIfExists('vehicle_repairs');
     }
 };

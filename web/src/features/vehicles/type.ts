@@ -3,7 +3,7 @@ import type { VehicleSchema } from '.';
 import type { RentalSummaryData } from '../rentals';
 import type { ReservationResource } from '../reservations';
 import type { VehicleStatus } from '../vehicle-expenses';
-import type { VehicleMaintenanceResource } from '../vehicle-maintenances';
+import type { VehicleRepairResource } from '../vehicle-repairs';
 
 export type VehicleData = z.infer<typeof VehicleSchema>;
 
@@ -29,7 +29,7 @@ export interface VehicleResource {
 
   active_rental?: RentalSummaryData | null;
   active_reservation?: ReservationResource | null;
-  active_maintenance?: VehicleMaintenanceResource | null;
+  active_repair?: VehicleRepairResource | null;
 }
 
 export interface VehicleSummaryResource {

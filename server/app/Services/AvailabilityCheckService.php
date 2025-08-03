@@ -10,7 +10,7 @@ use App\Models\RentalVehicle;
 use App\Models\Renter;
 use App\Models\Reservation;
 use App\Models\Vehicle;
-use App\Models\VehicleMaintenance;
+use App\Models\VehicleRepair;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -188,8 +188,8 @@ class AvailabilityCheckService
             );
         }
 
-        /** @var ?VehicleMaintenance $collidingMaintenance */
-        $collidingMaintenance = $vehicle->maintenances()
+        /** @var ?VehicleRepair $collidingRepair */
+        $collidingRepair = $vehicle->repairs()
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->where(function ($q) use ($startDate, $endDate) {
                     $q->where('started_at', '<', $endDate)
@@ -198,14 +198,14 @@ class AvailabilityCheckService
             })
             ->first();
 
-        if ($collidingMaintenance) {
+        if ($collidingRepair) {
             return new AvailabilityData(
                 available: false,
-                message: 'vehicle.unavailable.maintenance',
+                message: 'vehicle.unavailable.repair',
                 entity_blocked: 'vehicle',
-                entity_blocker: 'maintenance',
-                start_date: $collidingMaintenance->started_at,
-                end_date: $collidingMaintenance->finished_at,
+                entity_blocker: 'repair',
+                start_date: $collidingRepair->started_at,
+                end_date: $collidingRepair->finished_at,
             );
         }
 
