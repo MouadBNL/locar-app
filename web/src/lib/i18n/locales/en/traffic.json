@@ -1,0 +1,12 @@
+{
+  "label_singular": "Traffic Infraction",
+  "label_plural": "Traffic Infractions",
+  "attributes": {
+    "date": "Date",
+    "vehicle": "Vehicle",
+    "customer": "Customer",
+    "title": "Title",
+    "location": "Location",
+    "document": "Document"
+  }
+}

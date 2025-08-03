@@ -10,12 +10,13 @@ import payment from './locales/en/payment.json';
 import rental from './locales/en/rental.json';
 import repair from './locales/en/repair.json';
 import reservation from './locales/en/reservation.json';
+import traffic from './locales/en/traffic.json';
 import vehicle from './locales/en/vehicle.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common';
-    ns: ['common', 'vehicle', 'customer', 'exceptions', 'rental', 'payment', 'document', 'auth', 'repair', 'expenses', 'calendar'];
+    ns: ['common', 'vehicle', 'customer', 'exceptions', 'rental', 'payment', 'document', 'auth', 'repair', 'expenses', 'calendar', 'traffic'];
     resources: {
       common: typeof common;
       vehicle: typeof vehicle;
@@ -29,6 +30,7 @@ declare module 'i18next' {
       repair: typeof repair;
       expenses: typeof expenses;
       calendar: typeof calendar;
+      traffic: typeof traffic;
     };
   }
 }

@@ -45,6 +45,7 @@
   "close": "Close",
   "more": "More",
   "open": "Open",
+  "no_data_found": "No data found",
   "max_files_and_file_size": "Max {{file_cnt}} files up to {{file_size}}MB.",
   "theme": {
     "light": "Light",

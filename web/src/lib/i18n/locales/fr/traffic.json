@@ -1,0 +1,12 @@
+{
+  "label_singular": "Infraction Routière",
+  "label_plural": "Infractions Routières",
+  "attributes": {
+    "date": "Date",
+    "vehicle": "Véhicule",
+    "customer": "Client",
+    "title": "Titre",
+    "location": "Lieu",
+    "document": "Document"
+  }
+}
