@@ -104,6 +104,7 @@
       "extra_rate": "Tarif extra",
       "extra_quantity": "Nombre d'extras",
       "extra_total": "Total",
+      "discount": "Remise",
       "total": "Total"
     }
   },
@@ -132,6 +133,7 @@
       "extra_rate": "Tarif extra",
       "extra_quantity": "Nombre d'extras",
       "extra_total": "Total",
+      "discount": "Remise",
       "total": "Total"
     }
   }

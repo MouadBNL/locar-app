@@ -353,6 +353,7 @@ function RentalRateFormSection({
   const daily_rate = form.watch('day_rate');
   const extra_rate = form.watch('extra_rate');
   const extra_quantity = form.watch('extra_quantity');
+  const discount = form.watch('discount');
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
     if (!a || !b)
@@ -383,7 +384,7 @@ function RentalRateFormSection({
     const day_total_price = number_of_days * (daily_rate ?? 0);
     form.setValue('day_quantity', number_of_days);
     form.setValue('day_total', day_total_price);
-    const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0);
+    const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0) - (discount ?? 0);
     form.setValue('total', total_price);
   }, [
     extra_rate,
@@ -489,7 +490,16 @@ function RentalRateFormSection({
                 )}
               />
 
-              <div className="col-span-3">
+              <AppFormField
+                control={form.control}
+                name="discount"
+                label={t('rental:rate.attributes.discount')}
+                render={({ field }) => (
+                  <NumberInput value={field.value ?? undefined} placeholder={t('rental:rate.attributes.discount')} onChange={value => field.onChange(value)} />
+                )}
+              />
+
+              <div className="col-span-2">
                 <AppFormField
                   control={form.control}
                   name="total"

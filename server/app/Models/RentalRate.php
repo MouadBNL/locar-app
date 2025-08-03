@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read ?float $extra_quantity
  * @property-read ?float $extra_rate
  * @property-read ?float $extra_total
+ * @property-read ?float $discount
  * @property-read ?float $total
  * @property-read Rental $rental
  */

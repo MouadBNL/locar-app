@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('extra_rate', 10, 2)->nullable();
             $table->decimal('extra_total', 10, 2)->nullable();
 
+            $table->decimal('discount', 10, 2)->nullable();
             $table->decimal('total', 10, 2)->nullable();
             $table->timestamps();
         });

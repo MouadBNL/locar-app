@@ -100,6 +100,8 @@ class RentalInitializationController extends ApiController
                 'extra_rate' => $data->rate->extra_rate,
                 'extra_total' => $data->rate->extra_total,
 
+                'discount' => $data->rate->discount,
+
                 'total' => $data->rate->total,
             ]);
 

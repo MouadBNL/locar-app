@@ -104,6 +104,7 @@
       "extra_rate": "Extra Rate",
       "extra_quantity": "Extra Quantity",
       "extra_total": "Extra Total",
+      "discount": "Discount",
       "total": "Total"
     }
   },
@@ -132,6 +133,7 @@
       "extra_rate": "Extra Rate",
       "extra_quantity": "Extra Quantity",
       "extra_total": "Extra Total",
+      "discount": "Discount",
       "total": "Total"
     }
   }

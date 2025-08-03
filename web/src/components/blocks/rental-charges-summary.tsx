@@ -59,6 +59,11 @@ export function RentalChargesSummary(props: {
                 <Separator />
 
                 <RentalChargesSummaryItem
+                  label={t('rental:charges.attributes.discount')}
+                  value={fmt_currency(props.charges.discount)}
+                />
+
+                <RentalChargesSummaryItem
                   label={t('rental:charges.attributes.total')}
                   value={fmt_currency(props.charges.total)}
                   labelClassName="font-bold text-base"

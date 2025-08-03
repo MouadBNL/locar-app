@@ -267,6 +267,10 @@
                             <td>{{ $rental->rate->extra_total ?? 0}}</td>
                         </tr>
                         <tr>
+                            <td>Discount:</td>
+                            <td>{{ $rental->rate->discount ?? 0}}</td>
+                        </tr>
+                        <tr>
                             <td>Total Amount:</td>
                             <td>{{ $rental->rate->total }}</td>
                         </tr>

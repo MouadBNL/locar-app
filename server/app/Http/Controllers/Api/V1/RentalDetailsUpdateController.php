@@ -10,6 +10,7 @@ use App\Data\RentalVehicleData;
 use App\Data\RenterData;
 use App\Models\Customer;
 use App\Models\Rental;
+use App\Models\RentalRate;
 use App\Models\Vehicle;
 use App\Services\AvailabilityCheckService;
 use App\Services\TimeframeService;
@@ -93,7 +94,7 @@ class RentalDetailsUpdateController extends ApiController
         $rental->rate->update([
             'day_quantity' => $days,
             'day_total' => $rental->rate->day_rate * $days,
-            'total' => $rental->rate->day_rate * $days + $rental->rate->extra_total,
+            'total' => $rental->rate->day_rate * $days + $rental->rate->extra_total - ($rental->rate->discount ?? 0),
         ]);
 
         return $this->success(null, 'rental.timeframe.updated');
@@ -101,17 +102,24 @@ class RentalDetailsUpdateController extends ApiController
 
     public function rate(RentalRateData $data, Rental $rental)
     {
-        $rental->rate->update([
+        $rental->load('rate');
+
+        $total = $data->day_quantity * $data->day_rate + $data->extra_quantity * $data->extra_rate - ($data->discount ?? 0);
+
+        RentalRate::where('rental_id', $rental->id)->update([
             'day_quantity' => $data->day_quantity,
             'day_rate' => $data->day_rate,
             'day_total' => $data->day_total,
             'extra_quantity' => $data->extra_quantity,
             'extra_rate' => $data->extra_rate,
             'extra_total' => $data->extra_total,
-            'total' => $data->total,
+            'discount' => $data->discount,
+            'total' => $total,
         ]);
 
-        return $this->success(null, 'rental.rate.updated');
+        $rental->rate->refresh();
+
+        return $this->success($rental->rate, 'rental.rate.updated');
     }
 
     public function notes(Request $request, Rental $rental)

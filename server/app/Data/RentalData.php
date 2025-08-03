@@ -99,6 +99,7 @@ class RentalData extends Data
                 extra_quantity: $rental->rate->extra_quantity,
                 extra_rate: $rental->rate->extra_rate,
                 extra_total: $rental->rate->extra_total,
+                discount: $rental->rate->discount,
             ),
             charges_summary: RentalChargesSummaryData::fromRental($rental),
         );

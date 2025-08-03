@@ -61,6 +61,7 @@ export const RentalRateSchema = z.object({
   extra_quantity: z.number().min(0).nullish(),
   extra_rate: z.number().min(0).nullish(),
   extra_total: z.number().min(0).nullish(),
+  discount: z.number().min(0).nullish(),
   total: z.number().min(0).nullish(),
 });
 
@@ -71,6 +72,7 @@ export const RentalChargesSummarySchema = z.object({
   extra_rate: z.number().min(0),
   extra_quantity: z.number().min(0),
   extra_total: z.number().min(0),
+  discount: z.number().min(0),
   total: z.number().min(0),
   paid: z.number().min(0),
   due: z.number().min(0),

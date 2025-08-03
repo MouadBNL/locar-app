@@ -15,6 +15,7 @@ class RentalRateData extends Data
         public ?float $extra_quantity,
         public ?float $extra_rate,
         public ?float $extra_total,
+        public ?float $discount,
         public ?float $total,
     ) {}
 
@@ -29,6 +30,7 @@ class RentalRateData extends Data
             'extra_quantity' => ['nullable', 'numeric', 'min:0'],
             'extra_rate' => ['nullable', 'numeric', 'min:0'],
             'extra_total' => ['nullable', 'numeric', 'min:0'],
+            'discount' => ['nullable', 'numeric', 'min:0'],
             'total' => ['nullable', 'numeric', 'min:0'],
         ];
     }
