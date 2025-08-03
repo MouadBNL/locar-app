@@ -38,6 +38,7 @@ import { Heading3 } from '@/components/ui/typography';
 import {
   useRentalAgreementGenerate,
   useRentalDelete,
+  useRentalIndex,
   useRentalReturn,
   useRentalShow,
   useRentalStart,
@@ -367,6 +368,7 @@ function DeleteRentalAction({
     onSuccess: () => {
       toast.success(t('rental:action.delete.success'));
       useRentalShow.invalidate({ number: code });
+      useRentalIndex.invalidate();
       setOpen(false);
       navigate({ to: '/app/rentals' });
     },
@@ -411,7 +413,7 @@ function DeleteRentalAction({
           <AlertDialogCancel>
             {t('common:cancel')}
           </AlertDialogCancel>
-          <Button variant="destructive" loading={isDeletingRental} onClick={handleDelete}>
+          <Button variant="destructive" disabled={code !== confirmCode} loading={isDeletingRental} onClick={handleDelete}>
             {t('common:delete')}
           </Button>
         </AlertDialogFooter>

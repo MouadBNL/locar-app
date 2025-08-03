@@ -40,5 +40,13 @@
     "diesel": "Diesel",
     "electric": "Électrique",
     "hybrid": "Hybride"
+  },
+  "action": {
+    "delete": {
+      "description": "Êtes-vous sûr de vouloir supprimer ce véhicule ? Cette action est irréversible.",
+      "confirm": "Écrivez le matricule pour confirmer la suppression.",
+      "success": "Véhicule supprimé avec succès",
+      "error": "Erreur lors de la suppression du véhicule"
+    }
   }
 }

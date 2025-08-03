@@ -1,10 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { VehicleStatusBadge } from '@/components/blocks/vehicle-status-badge';
 import { Button } from '@/components/ui/button';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
-import { useVehicleShow } from '@/features/vehicles';
+import { useVehicleDelete, useVehicleIndex, useVehicleShow } from '@/features/vehicles';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Trash2Icon } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 export const Route = createFileRoute('/app/vehicles/$id')({
   component: RouteComponent,
@@ -51,8 +56,9 @@ function RouteComponent() {
           </div>
         </div>
 
-        <div>
+        <div className="flex items-center gap-2">
           <Button variant="outline">{t('common:quick_actions')}</Button>
+          <DeleteVehicleAction id={id} plate={vehicle.license_plate} />
         </div>
       </div>
 
@@ -71,4 +77,73 @@ function RouteComponent() {
       />
     </div>
   );
+}
+
+
+function DeleteVehicleAction({
+  id,
+  plate,
+}: {
+  id: string;
+  plate: string;
+}) {
+  const { t } = useTranslation(['common', 'vehicle']);
+  const [open, setOpen] = useState(false);
+  const [confirmCode, setConfirmCode] = useState('');
+  const navigate = useNavigate();
+  const { mutate: deleteVehicle, isPending: isDeletingVehicle } = useVehicleDelete({
+    onSuccess: () => {
+      toast.success(t('vehicle:action.delete.success'));
+      setOpen(false);
+      useVehicleIndex.invalidate();
+      navigate({ to: '/app/vehicles' });
+    },
+    onError: () => {
+      toast.error(t('vehicle:action.delete.error'));
+    },
+  });
+
+  const handleDelete = () => {
+
+    if (confirmCode === plate) {
+      deleteVehicle(id);
+    } else {
+      toast.error(t('vehicle:action.delete.confirm'));
+    }
+  }
+
+  return (
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive">
+          <Trash2Icon className="w-4 h-4" />
+          {t('common:delete')}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t('common:delete')}</AlertDialogTitle>
+          <AlertDialogDescription>{t('vehicle:action.delete.description')}</AlertDialogDescription>
+
+          <div className="mt-4">
+            <div>
+              <p className="text-sm text-muted-foreground">{t('vehicle:action.delete.confirm')}</p>
+              <div className='flex items-center py-4'>
+                <code className="text-sm bg-muted p-2 rounded-md">{plate}</code>
+              </div>
+            </div>
+            <Input type="text" value={confirmCode} onChange={e => setConfirmCode(e.target.value)} />
+          </div>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>
+            {t('common:cancel')}
+          </AlertDialogCancel>
+          <Button variant="destructive" disabled={plate !== confirmCode} loading={isDeletingVehicle} onClick={handleDelete}>
+            {t('common:delete')}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
 }
