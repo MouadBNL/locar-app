@@ -33,5 +33,14 @@
     "booked": "Réservé",
     "renting": "En location",
     "active": "Actif"
+  },
+  "rating": {
+    "label_plural": "Notes",
+    "label_singular": "Note",
+    "attributes": {
+      "rating": "Note",
+      "comment": "Commentaire",
+      "rental": "Location"
+    }
   }
 }

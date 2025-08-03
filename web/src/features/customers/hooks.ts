@@ -3,6 +3,8 @@ import {
   customerCreateFn,
   customerDeleteFn,
   customerIndexFn,
+  customerRatingDeleteFn,
+  customerRatingFn,
   customerShowFn,
   customerUpdateFn,
 } from './api';
@@ -15,3 +17,6 @@ export const useCustomerShow = makeQueryHook(
 export const useCustomerUpdate = makeMutationHook(customerUpdateFn);
 export const useCustomerCreate = makeMutationHook(customerCreateFn);
 export const useCustomerDelete = makeMutationHook(customerDeleteFn);
+
+export const useCustomerRating = makeQueryHook(['customers-rating'], customerRatingFn);
+export const useCustomerRatingDelete = makeMutationHook(customerRatingDeleteFn);

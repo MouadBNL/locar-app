@@ -49,3 +49,16 @@ export interface CustomerSummaryResource {
   phone: string;
   identifier: string;
 }
+
+export interface CustomerRatingResource {
+  id: string;
+  customer_id: string;
+  rental_id: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+  updated_at: string;
+
+  rental?: RentalSummaryData;
+  customer?: CustomerSummaryResource;
+}

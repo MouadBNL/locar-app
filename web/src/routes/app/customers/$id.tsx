@@ -49,6 +49,7 @@ function RouteComponent() {
             { label: t('rental:label_plural'), path: 'rentals' },
             { label: t('reservation:label_plural'), path: 'reservations' },
             { label: t('traffic:label_plural'), path: 'traffic-infractions' },
+            { label: t('customer:rating.label_plural'), path: 'ratings' },
           ]}
         />
       </div>

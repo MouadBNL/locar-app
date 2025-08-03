@@ -33,5 +33,14 @@
     "booked": "Booked",
     "renting": "Renting",
     "active": "Active"
+  },
+  "rating": {
+    "label_plural": "Ratings",
+    "label_singular": "Rating",
+    "attributes": {
+      "rating": "Rating",
+      "comment": "Comment",
+      "rental": "Rental"
+    }
   }
 }

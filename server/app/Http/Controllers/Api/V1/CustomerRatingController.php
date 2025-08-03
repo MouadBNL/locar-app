@@ -10,7 +10,7 @@ class CustomerRatingController extends ApiController
 {
     public function index(Customer $customer)
     {
-        return $this->success(CustomerRatingResource::collection($customer->ratings));
+        return $this->success(CustomerRatingResource::collection($customer->ratings()->with('rental')->get()));
     }
 
     public function destroy(Customer $customer, CustomerRating $rating)
