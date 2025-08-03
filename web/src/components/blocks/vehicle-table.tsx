@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { VehicleStatusBadge } from './vehicle-status-badge';
+import { Link } from '@tanstack/react-router';
 
 export interface VehicleTableProps {
   data: VehicleResource[];
@@ -22,11 +23,17 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>{t('vehicle:attributes.model')}</TableHead>
+          <TableHead>
+            {t('vehicle:attributes.model')}
+            {' '}
+            {t('common:and')}
+            {' '}
+            {t('vehicle:attributes.make')}
+          </TableHead>
           <TableHead>{t('vehicle:attributes.plate')}</TableHead>
           <TableHead>{t('vehicle:attributes.year')}</TableHead>
           <TableHead>{t('vehicle:attributes.status')}</TableHead>
-          {actions && <TableHead>{t('common:actions')}</TableHead>}
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -50,9 +57,11 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
           && data.map(vehicle => (
             <TableRow key={vehicle.id}>
               <TableCell>
-                {vehicle.make}
-                {' '}
-                {vehicle.model}
+                <Link to="/app/vehicles/$id" params={{ id: vehicle.id! }} className="hover:underline">
+                  {vehicle.make}
+                  {' '}
+                  {vehicle.model}
+                </Link>
               </TableCell>
               <TableCell>{vehicle.license_plate}</TableCell>
               <TableCell>{vehicle.year}</TableCell>
@@ -60,7 +69,7 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
                 <VehicleStatusBadge status={vehicle.status} />
               </TableCell>
               {actions && (
-                <TableCell className="flex gap-2">{actions(vehicle)}</TableCell>
+                <TableCell className="flex gap-2 justify-end">{actions(vehicle)}</TableCell>
               )}
             </TableRow>
           ))}

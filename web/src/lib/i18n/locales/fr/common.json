@@ -13,6 +13,7 @@
   "allRightsReserved": "Tous droits réservés",
   "randomLink": "Lien aléatoire",
   "actions": "Actions",
+  "and": "et",
   "cancel": "Annuler",
   "submit": "Enregistrer",
   "view": "Voir",
@@ -47,6 +48,8 @@
   "open": "Ouvrir",
   "no_data_found": "Aucune donnée trouvée",
   "max_files_and_file_size": "Max {{file_cnt}} fichiers jusqu'à {{file_size}}MB.",
+  "archive": "Archiver",
+  "delete": "Supprimer",
   "theme": {
     "light": "Clair",
     "dark": "Sombre",

@@ -28,7 +28,7 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
           <TableHead>{t('customer:attributes.email')}</TableHead>
           <TableHead>{t('customer:attributes.phone')}</TableHead>
           <TableHead>{t('customer:attributes.status')}</TableHead>
-          {actions && <TableHead>{t('common:actions')}</TableHead>}
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -60,7 +60,7 @@ export function CustomerTable({ data, loading, actions }: CustomerTableProps) {
                 <CustomerStatusBadge status={customer.status} />
               </TableCell>
               {actions && (
-                <TableCell className="flex gap-2">
+                <TableCell className="flex gap-2 justify-end">
                   {actions(customer)}
                 </TableCell>
               )}

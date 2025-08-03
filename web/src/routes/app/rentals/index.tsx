@@ -1,12 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { EyeIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { EyeIcon, PlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
 import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
-import { useRentalDelete, useRentalIndex } from '@/features/rentals';
+import {  useRentalIndex } from '@/features/rentals';
 
 export const Route = createFileRoute('/app/rentals/')({
   component: RouteComponent,
@@ -19,16 +18,6 @@ function RouteComponent() {
   const { t } = useTranslation(['rental', 'common']);
 
   const { data, isFetching } = useRentalIndex();
-
-  const { mutate: deleteRental, isPending: isDeleting } = useRentalDelete({
-    onSuccess: () => {
-      toast.success(t('rental:action.delete.success'));
-      useRentalIndex.invalidate();
-    },
-    onError: () => {
-      toast.error(t('rental:action.delete.error'));
-    },
-  });
 
   return (
     <div className="pt-8 px-4 lg:px-12">
@@ -57,15 +46,6 @@ function RouteComponent() {
                 >
                   <EyeIcon className="w-4 h-4" />
                 </Link>
-              </Button>
-
-              <Button
-                variant="outline"
-                size="sm"
-                loading={isDeleting}
-                onClick={() => deleteRental({ id: rental.rental_number })}
-              >
-                <TrashIcon className="w-4 h-4" />
               </Button>
             </>
           )}

@@ -10,10 +10,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import {
+  useReservationDelete,
+  useReservationIndex,
   useReservationShow,
   useReservationUpdate,
 } from '@/features/reservations';
 import { parse_availability_error } from '@/lib/utils';
+import { AlertDialogDescription, AlertDialogTitle, AlertDialogFooter, AlertDialogTrigger, AlertDialogHeader, AlertDialogContent, AlertDialog, AlertDialogCancel } from '@/components/ui/alert-dialog';
 
 export const Route = createFileRoute('/app/reservations/$number')({
   component: RouteComponent,
@@ -38,6 +41,7 @@ function RouteComponent() {
     onSuccess: () => {
       toast.success(t('reservation:action.update.success'));
       useReservationShow.invalidate({ number });
+      useReservationIndex.invalidate();
       navigate({ to: '/app/reservations' });
     },
     onError: (error) => {
@@ -58,10 +62,12 @@ function RouteComponent() {
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">
         <Heading3>{t('reservation:edit_reservation')}</Heading3>
-
-        <Button asChild variant="destructive">
-          <Link to="/app/reservations">{t('common:cancel')}</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild variant="outline">
+            <Link to="/app/reservations">{t('common:cancel')}</Link>
+          </Button>
+          <DeleteReservationAction number={number} />
+        </div>
       </div>
 
       <Card>
@@ -76,3 +82,39 @@ function RouteComponent() {
     </div>
   );
 }
+
+function DeleteReservationAction({ number }: { number: string }) {
+  const { t } = useTranslation(['reservation', 'common']);
+  const navigate = useNavigate();
+  const { mutate: deleteReservation, isPending } = useReservationDelete({
+    onSuccess: () => {
+      toast.success(t('reservation:action.delete.success'));
+      navigate({ to: '/app/reservations' });
+    },
+  });
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+
+    <Button variant="destructive" loading={isPending}>
+      {t('common:delete')}
+    </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t('common:delete')}</AlertDialogTitle>
+          <AlertDialogDescription>{t('reservation:action.delete.description')}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>
+            {t('common:cancel')}
+          </AlertDialogCancel>
+          <Button variant="destructive" loading={isPending} onClick={() => deleteReservation({ number })}>
+            {t('common:delete')}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+  }

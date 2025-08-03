@@ -13,6 +13,7 @@ import { CustomerTableCard } from './customer-table-card';
 import { DateCard } from './date-card';
 import { RentalStatusBadge } from './rental-status-badge';
 import { VehicleTableCard } from './vehicle-table-card';
+import { Link } from '@tanstack/react-router';
 
 export interface RentalTableProps {
   data: RentalSummaryData[];
@@ -33,7 +34,7 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
           <TableHead>{t('rental:attributes.dropoff_date')}</TableHead>
           <TableHead>{t('rental:attributes.total_price')}</TableHead>
           <TableHead>{t('rental:attributes.status')}</TableHead>
-          {actions && <TableHead>{t('common:actions')}</TableHead>}
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -56,7 +57,11 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
           && data.length > 0
           && data.map(rental => (
             <TableRow key={rental.id}>
-              <TableCell>{rental.rental_number}</TableCell>
+              <TableCell>
+                <Link to="/app/rentals/$id" params={{ id: rental.rental_number }} className="hover:underline">
+                  {rental.rental_number}
+                </Link>
+              </TableCell>
               <TableCell>
                 <CustomerTableCard
                   id={rental.customer.id}
@@ -85,7 +90,7 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
                 <RentalStatusBadge status={rental.status ?? 'draft'} />
               </TableCell>
               {actions && (
-                <TableCell className="flex gap-2">{actions(rental)}</TableCell>
+                <TableCell className="flex gap-2 justify-end">{actions(rental)}</TableCell>
               )}
             </TableRow>
           ))}
