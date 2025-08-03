@@ -13,6 +13,7 @@ import { CustomerTableCard } from './customer-table-card';
 import { DateCard } from './date-card';
 import { RentalStatusBadge } from './rental-status-badge';
 import { VehicleTableCard } from './vehicle-table-card';
+import { Link } from '@tanstack/react-router';
 
 export interface RentalTableProps {
   data: RentalSummaryData[];
@@ -56,7 +57,11 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
           && data.length > 0
           && data.map(rental => (
             <TableRow key={rental.id}>
-              <TableCell>{rental.rental_number}</TableCell>
+              <TableCell>
+                <Link to="/app/rentals/$id" params={{ id: rental.rental_number }} className="hover:underline">
+                  {rental.rental_number}
+                </Link>
+              </TableCell>
               <TableCell>
                 <CustomerTableCard
                   id={rental.customer.id}

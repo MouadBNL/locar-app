@@ -22,7 +22,9 @@
     },
     "delete": {
       "success": "Rental deleted successfully",
-      "error": "Failed to delete rental"
+      "error": "Failed to delete rental",
+      "description": "Are you sure you want to delete this rental? This action cannot be undone.",
+      "confirm": "Write rental numberto confirm deletion."
     },
     "start": {
       "success": "Rental started successfully",

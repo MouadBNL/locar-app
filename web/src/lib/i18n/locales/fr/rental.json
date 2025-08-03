@@ -22,7 +22,9 @@
     },
     "delete": {
       "success": "Location supprimée avec succès",
-      "error": "Erreur lors de la suppression de la location"
+      "error": "Erreur lors de la suppression de la location",
+      "description": "Êtes-vous sûr de vouloir supprimer cette location ? Cette action est irréversible.",
+      "confirm": "Écrivez le numéro de location pour confirmer la suppression."
     },
     "start": {
       "success": "Location démarrée avec succès",
