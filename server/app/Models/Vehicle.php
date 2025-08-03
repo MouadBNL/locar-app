@@ -141,4 +141,9 @@ class Vehicle extends Model
     {
         return $this->hasMany(RentalVehicle::class);
     }
+
+    public function trafficInfractions(): HasMany
+    {
+        return $this->hasMany(TrafficInfraction::class);
+    }
 }
