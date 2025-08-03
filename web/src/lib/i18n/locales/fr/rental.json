@@ -54,7 +54,10 @@
   },
   "return_form": {
     "attributes": {
-      "actual_return_date": "Date de retour réelle"
+      "actual_return_date": "Date de retour réelle",
+      "mileage": "Kilométrage",
+      "rating": "Évaluation (0-5)",
+      "comment": "Commentaire"
     }
   },
   "status_enum": {

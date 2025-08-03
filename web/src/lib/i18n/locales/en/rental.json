@@ -50,7 +50,9 @@
   "return_form": {
     "attributes": {
       "actual_return_date": "Actual Return Date",
-      "mileage": "Mileage"
+      "mileage": "Mileage",
+      "rating": "Rating (0-5)",
+      "comment": "Comment"
     }
   },
   "start_form": {

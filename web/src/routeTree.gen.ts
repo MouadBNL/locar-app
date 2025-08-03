@@ -48,6 +48,7 @@ import { Route as AppRentalsIdDocumentsRouteImport } from './routes/app/rentals/
 import { Route as AppCustomersIdTrafficInfractionsRouteImport } from './routes/app/customers/$id/traffic-infractions'
 import { Route as AppCustomersIdReservationsRouteImport } from './routes/app/customers/$id/reservations'
 import { Route as AppCustomersIdRentalsRouteImport } from './routes/app/customers/$id/rentals'
+import { Route as AppCustomersIdRatingsRouteImport } from './routes/app/customers/$id/ratings'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -249,6 +250,11 @@ const AppCustomersIdRentalsRoute = AppCustomersIdRentalsRouteImport.update({
   path: '/rentals',
   getParentRoute: () => AppCustomersIdRoute,
 } as any)
+const AppCustomersIdRatingsRoute = AppCustomersIdRatingsRouteImport.update({
+  id: '/ratings',
+  path: '/ratings',
+  getParentRoute: () => AppCustomersIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -275,6 +281,7 @@ export interface FileRoutesByFullPath {
   '/app/rentals/': typeof AppRentalsIndexRoute
   '/app/reservations/': typeof AppReservationsIndexRoute
   '/app/vehicles/': typeof AppVehiclesIndexRoute
+  '/app/customers/$id/ratings': typeof AppCustomersIdRatingsRoute
   '/app/customers/$id/rentals': typeof AppCustomersIdRentalsRoute
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
   '/app/customers/$id/traffic-infractions': typeof AppCustomersIdTrafficInfractionsRoute
@@ -308,6 +315,7 @@ export interface FileRoutesByTo {
   '/app/rentals': typeof AppRentalsIndexRoute
   '/app/reservations': typeof AppReservationsIndexRoute
   '/app/vehicles': typeof AppVehiclesIndexRoute
+  '/app/customers/$id/ratings': typeof AppCustomersIdRatingsRoute
   '/app/customers/$id/rentals': typeof AppCustomersIdRentalsRoute
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
   '/app/customers/$id/traffic-infractions': typeof AppCustomersIdTrafficInfractionsRoute
@@ -350,6 +358,7 @@ export interface FileRoutesById {
   '/app/rentals/': typeof AppRentalsIndexRoute
   '/app/reservations/': typeof AppReservationsIndexRoute
   '/app/vehicles/': typeof AppVehiclesIndexRoute
+  '/app/customers/$id/ratings': typeof AppCustomersIdRatingsRoute
   '/app/customers/$id/rentals': typeof AppCustomersIdRentalsRoute
   '/app/customers/$id/reservations': typeof AppCustomersIdReservationsRoute
   '/app/customers/$id/traffic-infractions': typeof AppCustomersIdTrafficInfractionsRoute
@@ -393,6 +402,7 @@ export interface FileRouteTypes {
     | '/app/rentals/'
     | '/app/reservations/'
     | '/app/vehicles/'
+    | '/app/customers/$id/ratings'
     | '/app/customers/$id/rentals'
     | '/app/customers/$id/reservations'
     | '/app/customers/$id/traffic-infractions'
@@ -426,6 +436,7 @@ export interface FileRouteTypes {
     | '/app/rentals'
     | '/app/reservations'
     | '/app/vehicles'
+    | '/app/customers/$id/ratings'
     | '/app/customers/$id/rentals'
     | '/app/customers/$id/reservations'
     | '/app/customers/$id/traffic-infractions'
@@ -467,6 +478,7 @@ export interface FileRouteTypes {
     | '/app/rentals/'
     | '/app/reservations/'
     | '/app/vehicles/'
+    | '/app/customers/$id/ratings'
     | '/app/customers/$id/rentals'
     | '/app/customers/$id/reservations'
     | '/app/customers/$id/traffic-infractions'
@@ -768,10 +780,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCustomersIdRentalsRouteImport
       parentRoute: typeof AppCustomersIdRoute
     }
+    '/app/customers/$id/ratings': {
+      id: '/app/customers/$id/ratings'
+      path: '/ratings'
+      fullPath: '/app/customers/$id/ratings'
+      preLoaderRoute: typeof AppCustomersIdRatingsRouteImport
+      parentRoute: typeof AppCustomersIdRoute
+    }
   }
 }
 
 interface AppCustomersIdRouteChildren {
+  AppCustomersIdRatingsRoute: typeof AppCustomersIdRatingsRoute
   AppCustomersIdRentalsRoute: typeof AppCustomersIdRentalsRoute
   AppCustomersIdReservationsRoute: typeof AppCustomersIdReservationsRoute
   AppCustomersIdTrafficInfractionsRoute: typeof AppCustomersIdTrafficInfractionsRoute
@@ -779,6 +799,7 @@ interface AppCustomersIdRouteChildren {
 }
 
 const AppCustomersIdRouteChildren: AppCustomersIdRouteChildren = {
+  AppCustomersIdRatingsRoute: AppCustomersIdRatingsRoute,
   AppCustomersIdRentalsRoute: AppCustomersIdRentalsRoute,
   AppCustomersIdReservationsRoute: AppCustomersIdReservationsRoute,
   AppCustomersIdTrafficInfractionsRoute: AppCustomersIdTrafficInfractionsRoute,

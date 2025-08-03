@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\RentalStatus;
 use App\Http\Requests\RentalReturnRequest;
+use App\Models\CustomerRating;
 use App\Models\Rental;
 
 class RentalReturnController extends ApiController
@@ -27,6 +28,13 @@ class RentalReturnController extends ApiController
 
         $rental->vehicle->vehicle()->update([
             'mileage' => $request->mileage,
+        ]);
+
+        CustomerRating::create([
+            'customer_id' => $rental->renter->customer_id,
+            'rental_id' => $rental->id,
+            'rating' => $request->customer['rating'],
+            'comment' => isset($request->customer['comment']) ? $request->customer['comment'] : null,
         ]);
 
         return $this->success(null, 'rental.return.success');

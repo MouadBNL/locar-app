@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { CustomerRatingBadge } from '@/components/blocks/customer-rating-badge';
 import { CustomerStatusBadge } from '@/components/blocks/customer-status-badge';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
@@ -36,6 +37,9 @@ function RouteComponent() {
             {' '}
             {customer?.last_name}
           </Heading3>
+          {customer?.rating && (
+            <CustomerRatingBadge rating={2} />
+          )}
           <CustomerStatusBadge status={customer?.status} />
         </div>
 
@@ -49,6 +53,7 @@ function RouteComponent() {
             { label: t('rental:label_plural'), path: 'rentals' },
             { label: t('reservation:label_plural'), path: 'reservations' },
             { label: t('traffic:label_plural'), path: 'traffic-infractions' },
+            { label: t('customer:rating.label_plural'), path: 'ratings' },
           ]}
         />
       </div>

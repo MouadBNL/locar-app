@@ -8,6 +8,7 @@ import { Button } from '../ui/button';
 import { DateTimeInput } from '../ui/datetime-input';
 import { AppFormField, Form } from '../ui/form';
 import { NumberInput } from '../ui/number-input';
+import { Textarea } from '../ui/textarea';
 
 export function RentalReturnForm({
   initialValues,
@@ -24,6 +25,10 @@ export function RentalReturnForm({
     defaultValues: {
       actual_return_date: fmt_date(get_date(), { format: 'datetime' }),
       mileage: 0,
+      customer: {
+        rating: 2.5,
+        comment: '',
+      },
       ...initialValues,
     },
   });
@@ -49,6 +54,20 @@ export function RentalReturnForm({
           render={({ field }) => (
             <NumberInput value={field.value ?? undefined} onChange={field.onChange} />
           )}
+        />
+
+        <AppFormField
+          control={form.control}
+          name="customer.rating"
+          label={t('rental:return_form.attributes.rating')}
+          render={({ field }) => <NumberInput decimalScale={1} value={field.value ?? 2.5} onChange={field.onChange} min={0} max={5} step={0.5} />}
+        />
+
+        <AppFormField
+          control={form.control}
+          name="customer.comment"
+          label={t('rental:return_form.attributes.comment')}
+          render={({ field }) => <Textarea value={field.value ?? undefined} onChange={field.onChange} />}
         />
 
         <Button type="submit" loading={loading}>

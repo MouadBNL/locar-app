@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  * @property-read string $first_name
  * @property-read string $last_name
  * @property-read CustomerStatus $status
+ * @property-read ?float $rating
  * @property-read ?string $email
  * @property-read ?string $phone
  * @property-read ?string $address
@@ -26,6 +27,7 @@ use Illuminate\Support\Collection;
  * @property-read ?Carbon $birth_date
  * @property-read Collection<array-key, Renter> $renters
  * @property-read Collection<array-key, Reservation> $reservations
+ * @property-read Collection<array-key, CustomerRating> $ratings
  */
 class Customer extends Model
 {
@@ -82,6 +84,19 @@ class Customer extends Model
         );
     }
 
+    public function rating(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->relationLoaded('ratings') && $this->ratings->isNotEmpty()) {
+                    return $this->ratings->avg('rating');
+                }
+
+                return null;
+            }
+        );
+    }
+
     /**
      * @return HasOne<Renter, $this>
      */
@@ -122,5 +137,10 @@ class Customer extends Model
     public function trafficInfractions(): HasMany
     {
         return $this->hasMany(TrafficInfraction::class);
+    }
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(CustomerRating::class);
     }
 }

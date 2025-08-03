@@ -11,14 +11,14 @@ class CustomerController extends ApiController
 {
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::with('ratings')->get();
 
         return $this->success(CustomerResource::collection($customers), 'customer.index.success');
     }
 
     public function show(Customer $customer)
     {
-        $customer->load('activeRenter', 'activeReservation');
+        $customer->load('activeRenter', 'activeReservation', 'ratings');
 
         return $this->success(new CustomerResource($customer), 'customer.show.success');
     }
