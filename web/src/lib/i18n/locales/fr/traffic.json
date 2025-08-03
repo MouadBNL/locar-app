@@ -1,7 +1,9 @@
 {
   "label_singular": "Infraction Routière",
   "label_plural": "Infractions Routières",
-  "traffic_infractions_description": "Gérer les infractions routières pour cette location.",
+  "traffic_infractions_rental_description": "Gérer les infractions routières pour cette location.",
+  "traffic_infractions_vehicle_description": "Gérer les infractions routières pour ce véhicule.",
+  "traffic_infractions_customer_description": "Gérer les infractions routières pour ce client.",
   "add_traffic_infraction": "Ajouter une infraction routière",
   "edit_traffic_infraction": "Modifier une infraction routière",
   "action": {

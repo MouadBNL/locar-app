@@ -45,7 +45,7 @@ function RouteComponent() {
       <Card>
         <CardHeader>
           <CardTitle>{t('traffic:label_plural')}</CardTitle>
-          <CardDescription>{t('traffic:traffic_infractions_description')}</CardDescription>
+          <CardDescription>{t('traffic:traffic_infractions_rental_description')}</CardDescription>
           <CardAction>
             <AddTrafficInfractionDialog rental={rental?.data} />
           </CardAction>

@@ -1,7 +1,9 @@
 {
   "label_singular": "Traffic Infraction",
   "label_plural": "Traffic Infractions",
-  "traffic_infractions_description": "Manage traffic infractions for this rental.",
+  "traffic_infractions_rental_description": "Manage traffic infractions for this rental.",
+  "traffic_infractions_vehicle_description": "Manage traffic infractions for this vehicle.",
+  "traffic_infractions_customer_description": "Manage traffic infractions for this customer.",
   "add_traffic_infraction": "Add Traffic Infraction",
   "edit_traffic_infraction": "Edit Traffic Infraction",
   "action": {
