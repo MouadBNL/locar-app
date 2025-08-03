@@ -34,7 +34,7 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
           <TableHead>{t('rental:attributes.dropoff_date')}</TableHead>
           <TableHead>{t('rental:attributes.total_price')}</TableHead>
           <TableHead>{t('rental:attributes.status')}</TableHead>
-          {actions && <TableHead>{t('common:actions')}</TableHead>}
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -90,7 +90,7 @@ export function RentalTable({ data, loading, actions }: RentalTableProps) {
                 <RentalStatusBadge status={rental.status ?? 'draft'} />
               </TableCell>
               {actions && (
-                <TableCell className="flex gap-2">{actions(rental)}</TableCell>
+                <TableCell className="flex gap-2 justify-end">{actions(rental)}</TableCell>
               )}
             </TableRow>
           ))}

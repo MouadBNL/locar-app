@@ -42,5 +42,12 @@
       "comment": "Commentaire",
       "rental": "Location"
     }
+  },
+  "action": {
+    "delete": {
+      "description": "Êtes-vous sûr de vouloir supprimer ce client ? Cette action est irréversible.",
+      "success": "Client supprimé avec succès",
+      "error": "Erreur lors de la suppression du client"
+    }
   }
 }
