@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\VehicleExpenseType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('vehicle_expenses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('vehicle_id')->references('id')->on('vehicles');
-            $table->enum('type', ['fuel', 'maintenance', 'repair', 'other']);
+            $table->enum('type', VehicleExpenseType::values());
             $table->decimal('amount', 10, 2);
             $table->date('date')->nullable();
             $table->string('title')->nullable();

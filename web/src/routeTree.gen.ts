@@ -37,8 +37,9 @@ import { Route as AppVehiclesIdIndexRouteImport } from './routes/app/vehicles/$i
 import { Route as AppRentalsIdIndexRouteImport } from './routes/app/rentals/$id/index'
 import { Route as AppCustomersIdIndexRouteImport } from './routes/app/customers/$id/index'
 import { Route as AppVehiclesIdReservationsRouteImport } from './routes/app/vehicles/$id/reservations'
+import { Route as AppVehiclesIdRepairsRouteImport } from './routes/app/vehicles/$id/repairs'
 import { Route as AppVehiclesIdRentalsRouteImport } from './routes/app/vehicles/$id/rentals'
-import { Route as AppVehiclesIdMaintenanceRouteImport } from './routes/app/vehicles/$id/maintenance'
+import { Route as AppVehiclesIdGeneralRouteImport } from './routes/app/vehicles/$id/general'
 import { Route as AppVehiclesIdExpensesRouteImport } from './routes/app/vehicles/$id/expenses'
 import { Route as AppRentalsIdPaymentsRouteImport } from './routes/app/rentals/$id/payments'
 import { Route as AppRentalsIdDocumentsRouteImport } from './routes/app/rentals/$id/documents'
@@ -186,17 +187,21 @@ const AppVehiclesIdReservationsRoute =
     path: '/reservations',
     getParentRoute: () => AppVehiclesIdRoute,
   } as any)
+const AppVehiclesIdRepairsRoute = AppVehiclesIdRepairsRouteImport.update({
+  id: '/repairs',
+  path: '/repairs',
+  getParentRoute: () => AppVehiclesIdRoute,
+} as any)
 const AppVehiclesIdRentalsRoute = AppVehiclesIdRentalsRouteImport.update({
   id: '/rentals',
   path: '/rentals',
   getParentRoute: () => AppVehiclesIdRoute,
 } as any)
-const AppVehiclesIdMaintenanceRoute =
-  AppVehiclesIdMaintenanceRouteImport.update({
-    id: '/maintenance',
-    path: '/maintenance',
-    getParentRoute: () => AppVehiclesIdRoute,
-  } as any)
+const AppVehiclesIdGeneralRoute = AppVehiclesIdGeneralRouteImport.update({
+  id: '/general',
+  path: '/general',
+  getParentRoute: () => AppVehiclesIdRoute,
+} as any)
 const AppVehiclesIdExpensesRoute = AppVehiclesIdExpensesRouteImport.update({
   id: '/expenses',
   path: '/expenses',
@@ -254,8 +259,9 @@ export interface FileRoutesByFullPath {
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
-  '/app/vehicles/$id/maintenance': typeof AppVehiclesIdMaintenanceRoute
+  '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
+  '/app/vehicles/$id/repairs': typeof AppVehiclesIdRepairsRoute
   '/app/vehicles/$id/reservations': typeof AppVehiclesIdReservationsRoute
   '/app/customers/$id/': typeof AppCustomersIdIndexRoute
   '/app/rentals/$id/': typeof AppRentalsIdIndexRoute
@@ -283,8 +289,9 @@ export interface FileRoutesByTo {
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
-  '/app/vehicles/$id/maintenance': typeof AppVehiclesIdMaintenanceRoute
+  '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
+  '/app/vehicles/$id/repairs': typeof AppVehiclesIdRepairsRoute
   '/app/vehicles/$id/reservations': typeof AppVehiclesIdReservationsRoute
   '/app/customers/$id': typeof AppCustomersIdIndexRoute
   '/app/rentals/$id': typeof AppRentalsIdIndexRoute
@@ -321,8 +328,9 @@ export interface FileRoutesById {
   '/app/rentals/$id/documents': typeof AppRentalsIdDocumentsRoute
   '/app/rentals/$id/payments': typeof AppRentalsIdPaymentsRoute
   '/app/vehicles/$id/expenses': typeof AppVehiclesIdExpensesRoute
-  '/app/vehicles/$id/maintenance': typeof AppVehiclesIdMaintenanceRoute
+  '/app/vehicles/$id/general': typeof AppVehiclesIdGeneralRoute
   '/app/vehicles/$id/rentals': typeof AppVehiclesIdRentalsRoute
+  '/app/vehicles/$id/repairs': typeof AppVehiclesIdRepairsRoute
   '/app/vehicles/$id/reservations': typeof AppVehiclesIdReservationsRoute
   '/app/customers/$id/': typeof AppCustomersIdIndexRoute
   '/app/rentals/$id/': typeof AppRentalsIdIndexRoute
@@ -360,8 +368,9 @@ export interface FileRouteTypes {
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
     | '/app/vehicles/$id/expenses'
-    | '/app/vehicles/$id/maintenance'
+    | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
+    | '/app/vehicles/$id/repairs'
     | '/app/vehicles/$id/reservations'
     | '/app/customers/$id/'
     | '/app/rentals/$id/'
@@ -389,8 +398,9 @@ export interface FileRouteTypes {
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
     | '/app/vehicles/$id/expenses'
-    | '/app/vehicles/$id/maintenance'
+    | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
+    | '/app/vehicles/$id/repairs'
     | '/app/vehicles/$id/reservations'
     | '/app/customers/$id'
     | '/app/rentals/$id'
@@ -426,8 +436,9 @@ export interface FileRouteTypes {
     | '/app/rentals/$id/documents'
     | '/app/rentals/$id/payments'
     | '/app/vehicles/$id/expenses'
-    | '/app/vehicles/$id/maintenance'
+    | '/app/vehicles/$id/general'
     | '/app/vehicles/$id/rentals'
+    | '/app/vehicles/$id/repairs'
     | '/app/vehicles/$id/reservations'
     | '/app/customers/$id/'
     | '/app/rentals/$id/'
@@ -641,6 +652,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesIdReservationsRouteImport
       parentRoute: typeof AppVehiclesIdRoute
     }
+    '/app/vehicles/$id/repairs': {
+      id: '/app/vehicles/$id/repairs'
+      path: '/repairs'
+      fullPath: '/app/vehicles/$id/repairs'
+      preLoaderRoute: typeof AppVehiclesIdRepairsRouteImport
+      parentRoute: typeof AppVehiclesIdRoute
+    }
     '/app/vehicles/$id/rentals': {
       id: '/app/vehicles/$id/rentals'
       path: '/rentals'
@@ -648,11 +666,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVehiclesIdRentalsRouteImport
       parentRoute: typeof AppVehiclesIdRoute
     }
-    '/app/vehicles/$id/maintenance': {
-      id: '/app/vehicles/$id/maintenance'
-      path: '/maintenance'
-      fullPath: '/app/vehicles/$id/maintenance'
-      preLoaderRoute: typeof AppVehiclesIdMaintenanceRouteImport
+    '/app/vehicles/$id/general': {
+      id: '/app/vehicles/$id/general'
+      path: '/general'
+      fullPath: '/app/vehicles/$id/general'
+      preLoaderRoute: typeof AppVehiclesIdGeneralRouteImport
       parentRoute: typeof AppVehiclesIdRoute
     }
     '/app/vehicles/$id/expenses': {
@@ -773,16 +791,18 @@ const AppReservationsRouteRouteWithChildren =
 
 interface AppVehiclesIdRouteChildren {
   AppVehiclesIdExpensesRoute: typeof AppVehiclesIdExpensesRoute
-  AppVehiclesIdMaintenanceRoute: typeof AppVehiclesIdMaintenanceRoute
+  AppVehiclesIdGeneralRoute: typeof AppVehiclesIdGeneralRoute
   AppVehiclesIdRentalsRoute: typeof AppVehiclesIdRentalsRoute
+  AppVehiclesIdRepairsRoute: typeof AppVehiclesIdRepairsRoute
   AppVehiclesIdReservationsRoute: typeof AppVehiclesIdReservationsRoute
   AppVehiclesIdIndexRoute: typeof AppVehiclesIdIndexRoute
 }
 
 const AppVehiclesIdRouteChildren: AppVehiclesIdRouteChildren = {
   AppVehiclesIdExpensesRoute: AppVehiclesIdExpensesRoute,
-  AppVehiclesIdMaintenanceRoute: AppVehiclesIdMaintenanceRoute,
+  AppVehiclesIdGeneralRoute: AppVehiclesIdGeneralRoute,
   AppVehiclesIdRentalsRoute: AppVehiclesIdRentalsRoute,
+  AppVehiclesIdRepairsRoute: AppVehiclesIdRepairsRoute,
   AppVehiclesIdReservationsRoute: AppVehiclesIdReservationsRoute,
   AppVehiclesIdIndexRoute: AppVehiclesIdIndexRoute,
 }

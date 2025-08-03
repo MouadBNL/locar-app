@@ -1,9 +1,9 @@
 import type { RentalData } from '@/features/rentals';
 import { createFileRoute } from '@tanstack/react-router';
 import {
-  CircleArrowOutDownLeft,
   DownloadIcon,
   EyeIcon,
+  FileCheck2Icon,
   FileStackIcon,
   FileTextIcon,
   LayoutPanelLeft,
@@ -260,7 +260,7 @@ function RentalReturnAction({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
-          <CircleArrowOutDownLeft className="w-4 h-4" />
+          <FileCheck2Icon className="w-4 h-4" />
           {t('rental:return_rental')}
         </Button>
       </DialogTrigger>

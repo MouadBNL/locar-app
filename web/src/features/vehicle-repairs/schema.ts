@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const vehicleMaintenanceSchema = z.object({
+export const vehicleRepairSchema = z.object({
   started_at: z.string().datetime(),
   finished_at: z.string().datetime().nullish(),
   cancelled_at: z.string().datetime().nullish(),

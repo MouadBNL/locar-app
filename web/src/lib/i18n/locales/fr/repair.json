@@ -1,0 +1,37 @@
+{
+  "label_singular": "Réparation",
+  "label_plural": "Réparations",
+  "search_placeholder": "Rechercher une réparation...",
+  "manage_repairs": "Gérer les réparations",
+  "add_repair": "Ajouter une réparation",
+  "add_repair_description": "Ajouter une nouvelle réparation au système",
+  "edit_repair": "Modifier la réparation",
+  "edit_repair_description": "Modifier la réparation pour le véhicule",
+  "no_repairs_found": "Aucune réparation trouvée",
+  "active_repair": "Réparation active",
+  "details": "Détails",
+  "expenses": "Dépenses",
+  "attributes": {
+    "started_at": "Début",
+    "finished_at": "Fin",
+    "title": "Titre",
+    "reference": "Référence",
+    "notes": "Notes",
+    "receipt": "Document de réception",
+    "expenses": "Dépenses"
+  },
+  "action": {
+    "delete": {
+      "success": "Réparation supprimée",
+      "error": "Échec de la suppression de la réparation"
+    },
+    "create": {
+      "success": "Réparation créée",
+      "error": "Échec de la création de la réparation"
+    },
+    "update": {
+      "success": "Réparation mise à jour",
+      "error": "Échec de la mise à jour de la réparation"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import type { VehicleMaintenanceResource } from '@/features/vehicle-maintenances';
+import type { VehicleRepairResource } from '@/features/vehicle-repairs';
 import { useTranslation } from 'react-i18next';
 import { fmt_currency } from '@/lib/utils';
 import {
@@ -11,28 +11,28 @@ import {
 } from '../ui/table';
 import { DateCard } from './date-card';
 
-export interface VehicleMaintenanceTableProps {
-  data: VehicleMaintenanceResource[];
+export interface VehicleRepairTableProps {
+  data: VehicleRepairResource[];
   loading?: boolean;
-  actions?: (vehicleMaintenance: VehicleMaintenanceResource) => React.ReactNode;
+  actions?: (vehicleRepair: VehicleRepairResource) => React.ReactNode;
 }
 
-export function VehicleMaintenanceTable({
+export function VehicleRepairTable({
   data,
   loading,
   actions,
-}: VehicleMaintenanceTableProps) {
-  const { t } = useTranslation(['maintenance', 'common']);
+}: VehicleRepairTableProps) {
+  const { t } = useTranslation(['repair', 'common']);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>{t('maintenance:attributes.started_at')}</TableHead>
-          <TableHead>{t('maintenance:attributes.finished_at')}</TableHead>
-          <TableHead>{t('maintenance:attributes.title')}</TableHead>
-          <TableHead>{t('maintenance:attributes.reference')}</TableHead>
-          <TableHead>{t('maintenance:attributes.notes')}</TableHead>
-          <TableHead>{t('maintenance:attributes.expenses')}</TableHead>
+          <TableHead>{t('repair:attributes.started_at')}</TableHead>
+          <TableHead>{t('repair:attributes.finished_at')}</TableHead>
+          <TableHead>{t('repair:attributes.title')}</TableHead>
+          <TableHead>{t('repair:attributes.reference')}</TableHead>
+          <TableHead>{t('repair:attributes.notes')}</TableHead>
+          <TableHead>{t('repair:attributes.expenses')}</TableHead>
           {actions && <TableHead>{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
@@ -48,40 +48,40 @@ export function VehicleMaintenanceTable({
         {data && data.length === 0 && (
           <TableRow>
             <TableCell colSpan={5} className="text-center">
-              {t('maintenance:no_maintenances_found')}
+              {t('repair:no_repairs_found')}
             </TableCell>
           </TableRow>
         )}
         {data
           && data.length > 0
-          && data.map(vehicleMaintenance => (
-            <TableRow key={vehicleMaintenance.id}>
+          && data.map(vehicleRepair => (
+            <TableRow key={vehicleRepair.id}>
               <TableCell>
-                <DateCard date={vehicleMaintenance.started_at} />
+                <DateCard date={vehicleRepair.started_at} />
               </TableCell>
               <TableCell>
-                {vehicleMaintenance.finished_at && (
-                  <DateCard date={vehicleMaintenance.finished_at} />
+                {vehicleRepair.finished_at && (
+                  <DateCard date={vehicleRepair.finished_at} />
                 )}
               </TableCell>
-              <TableCell>{vehicleMaintenance.title}</TableCell>
-              <TableCell>{vehicleMaintenance.reference}</TableCell>
-              <TableCell>{vehicleMaintenance.notes}</TableCell>
+              <TableCell>{vehicleRepair.title}</TableCell>
+              <TableCell>{vehicleRepair.reference}</TableCell>
+              <TableCell>{vehicleRepair.notes}</TableCell>
               <TableCell>
                 <div className="">
                   <p className="text-sm font-bold">
-                    {fmt_currency(vehicleMaintenance.expenses_sum ?? 0)}
+                    {fmt_currency(vehicleRepair.expenses_sum ?? 0)}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {vehicleMaintenance.expenses_count}
+                    {vehicleRepair.expenses_count}
                     {' '}
-                    {t('maintenance:expenses')}
+                    {t('repair:expenses')}
                   </p>
                 </div>
               </TableCell>
               {actions && (
                 <TableCell className="flex gap-2">
-                  {actions(vehicleMaintenance)}
+                  {actions(vehicleRepair)}
                 </TableCell>
               )}
             </TableRow>

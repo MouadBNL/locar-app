@@ -1,5 +1,5 @@
 import type { VehicleExpenseResource } from '@/features/vehicle-expenses';
-import type { VehicleMaintenanceRequest } from '@/features/vehicle-maintenances';
+import type { VehicleRepairRequest } from '@/features/vehicle-repairs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,8 +13,8 @@ import {
 } from '@/features/vehicle-expenses';
 import {
 
-  vehicleMaintenanceSchema,
-} from '@/features/vehicle-maintenances';
+  vehicleRepairSchema,
+} from '@/features/vehicle-repairs';
 import { fmt_date, get_date } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { DateTimeInput } from '../ui/datetime-input';
@@ -27,20 +27,20 @@ import { DocumentUpload } from './document-upload';
 import { VehicleExpenseFormDialog } from './vehicle-expense-form-dialog';
 import { VehicleExpenseList } from './vehicle-expense-list';
 
-export interface VehicleMaintenanceFormProps {
+export interface VehicleRepairFormProps {
   vehicleId: string;
   loading?: boolean;
-  initialValues?: Partial<VehicleMaintenanceRequest>;
-  submit?: (data: VehicleMaintenanceRequest) => void;
+  initialValues?: Partial<VehicleRepairRequest>;
+  submit?: (data: VehicleRepairRequest) => void;
 }
 
-export function VehicleMaintenanceForm({
+export function VehicleRepairForm({
   vehicleId,
   loading,
   initialValues,
   submit,
-}: VehicleMaintenanceFormProps) {
-  const { t } = useTranslation(['maintenance', 'common']);
+}: VehicleRepairFormProps) {
+  const { t } = useTranslation(['repair', 'common']);
 
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [editExpense, setEditExpense] = useState<VehicleExpenseResource | null>(
@@ -48,7 +48,7 @@ export function VehicleMaintenanceForm({
   );
 
   const form = useForm({
-    resolver: zodResolver(vehicleMaintenanceSchema),
+    resolver: zodResolver(vehicleRepairSchema),
     defaultValues: {
       started_at: fmt_date(get_date()),
       finished_at: null,
@@ -92,7 +92,7 @@ export function VehicleMaintenanceForm({
     },
   });
 
-  const onSubmit = (data: VehicleMaintenanceRequest) => {
+  const onSubmit = (data: VehicleRepairRequest) => {
     submit?.(data);
   };
   return (
@@ -101,14 +101,14 @@ export function VehicleMaintenanceForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Tabs defaultValue="details">
             <TabsList>
-              <TabsTrigger value="details">{t('maintenance:details')}</TabsTrigger>
-              <TabsTrigger value="expenses">{t('maintenance:expenses')}</TabsTrigger>
+              <TabsTrigger value="details">{t('repair:details')}</TabsTrigger>
+              <TabsTrigger value="expenses">{t('repair:expenses')}</TabsTrigger>
             </TabsList>
             <TabsContent value="details">
               <ScrollArea className="h-[70vh]">
                 <AppFormField
                   control={form.control}
-                  label={t('maintenance:attributes.started_at')}
+                  label={t('repair:attributes.started_at')}
                   name="started_at"
                   render={({ field }) => (
                     <DateTimeInput {...field} type="string" />
@@ -116,7 +116,7 @@ export function VehicleMaintenanceForm({
                 />
                 <AppFormField
                   control={form.control}
-                  label={t('maintenance:attributes.finished_at')}
+                  label={t('repair:attributes.finished_at')}
                   name="finished_at"
                   render={({ field }) => (
                     <DateTimeInput {...field} type="string" />
@@ -124,23 +124,23 @@ export function VehicleMaintenanceForm({
                 />
                 <AppFormField
                   control={form.control}
-                  label={t('maintenance:attributes.title')}
+                  label={t('repair:attributes.title')}
                   name="title"
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? ''} />
                   )}
                 />
-                <AppFormField
+                {/* <AppFormField
                   control={form.control}
-                  label={t('maintenance:attributes.reference')}
+                  label={t('repair:attributes.reference')}
                   name="reference"
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? ''} />
                   )}
-                />
+                /> */}
                 <AppFormField
                   control={form.control}
-                  label={t('maintenance:attributes.notes')}
+                  label={t('repair:attributes.notes')}
                   name="notes"
                   render={({ field }) => (
                     <Textarea {...field} value={field.value ?? ''} />
@@ -148,7 +148,7 @@ export function VehicleMaintenanceForm({
                 />
                 <AppFormField
                   control={form.control}
-                  label={t('maintenance:attributes.receipt')}
+                  label={t('repair:attributes.receipt')}
                   name="receipt_document_id"
                   render={({ field }) => <DocumentUpload {...field} />}
                 />

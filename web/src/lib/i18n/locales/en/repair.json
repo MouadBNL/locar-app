@@ -1,0 +1,37 @@
+{
+  "label_singular": "Repair",
+  "label_plural": "Repairs",
+  "search_placeholder": "Search repair...",
+  "manage_repairs": "Manage Repairs",
+  "add_repair": "Add Repair",
+  "add_repair_description": "Add a new repair to the system",
+  "edit_repair": "Edit Repair",
+  "edit_repair_description": "Edit the repair for the vehicle",
+  "no_repairs_found": "No repairs found",
+  "active_repair": "Active Repair",
+  "details": "Details",
+  "expenses": "Expenses",
+  "attributes": {
+    "started_at": "Started At",
+    "finished_at": "Finished At",
+    "title": "Title",
+    "reference": "Reference",
+    "notes": "Notes",
+    "receipt": "Receipt Document",
+    "expenses": "Expenses"
+  },
+  "action": {
+    "delete": {
+      "success": "Repair deleted",
+      "error": "Failed to delete repair"
+    },
+    "create": {
+      "success": "Repair created",
+      "error": "Failed to create repair"
+    },
+    "update": {
+      "success": "Repair updated",
+      "error": "Failed to update repair"
+    }
+  }
+}

@@ -8,7 +8,7 @@ use App\Http\Resources\CustomerSummaryResource;
 use App\Http\Resources\VehicleSummaryResource;
 use App\Models\Rental;
 use App\Models\Reservation;
-use App\Models\VehicleMaintenance;
+use App\Models\VehicleRepair;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 
@@ -19,13 +19,13 @@ class CalendarService
         $reservations = $this->getReservationEvents($start, $end);
         $rentalDepartures = $this->getRentalDepartureEvents($start, $end);
         $rentalReturns = $this->getRentalReturnEvents($start, $end);
-        $maintenance = collect(); // $this->getMaintenanceEvents($start, $end);
+        $repair = collect(); // $this->getRepairEvents($start, $end);
 
         return collect([
             ...$reservations,
             ...$rentalDepartures,
             ...$rentalReturns,
-            ...$maintenance,
+            ...$repair,
         ]);
     }
 
@@ -34,7 +34,7 @@ class CalendarService
         $reservations = Reservation::query()
             ->with('vehicle', 'customer')
             ->where(
-                fn (Builder $query) => $query
+                fn(Builder $query) => $query
                     ->where('check_in_date', '<=', $end->toDateString())
                     ->where('check_in_date', '>=', $start->toDateString())
             )
@@ -102,9 +102,9 @@ class CalendarService
         });
     }
 
-    public function getMaintenanceEvents(Carbon $start, Carbon $end)
+    public function getRepairEvents(Carbon $start, Carbon $end)
     {
-        $maintenance = VehicleMaintenance::query()
+        $repair = VehicleRepair::query()
             ->with('vehicle')
             ->where('cancelled_at', null)
             ->where('started_at', '<=', $end->toDateTimeString())
@@ -114,15 +114,15 @@ class CalendarService
             })
             ->get();
 
-        return $maintenance->map(function (VehicleMaintenance $maintenance) {
+        return $repair->map(function (VehicleRepair $repair) {
             return new CalendarEventData(
-                id: $maintenance->id,
-                type: CalendarEventType::MAINTENANCE,
+                id: $repair->id,
+                type: CalendarEventType::REPAIR,
                 all_day: false,
-                title: $maintenance->title,
-                start: $maintenance->started_at?->toDateTimeString(),
-                end: $maintenance->finished_at?->toDateTimeString(),
-                vehicle: new VehicleSummaryResource($maintenance->vehicle),
+                title: $repair->title,
+                start: $repair->started_at?->toDateTimeString(),
+                end: $repair->finished_at?->toDateTimeString(),
+                vehicle: new VehicleSummaryResource($repair->vehicle),
                 customer: null,
             );
         });

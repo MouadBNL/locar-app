@@ -11,8 +11,8 @@
   "payments": "Payments",
   "start_rental": "Start Rental",
   "start_rental_description": "Start the rental by providing the actual departure date and mileage.",
-  "return_rental": "Return Rental",
-  "return_rental_description": "Return the rental by providing the actual return date and mileage.",
+  "return_rental": "Close Rental",
+  "return_rental_description": "Close the rental by providing the actual return date and mileage.",
   "generate_agreement": "Generate Agreement",
   "active_rental": "Active Rental",
   "action": {

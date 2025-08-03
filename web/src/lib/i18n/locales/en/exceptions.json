@@ -2,9 +2,9 @@
   "availability": {
     "vehicle.unavailable.rental": "Vehicle is rented between {{start_date}} and {{end_date}}",
     "vehicle.unavailable.reservation": "Vehicle is reserved between {{start_date}} and {{end_date}}",
-    "vehicle.unavailable.maintenance": "Vehicle is under maintenance between {{start_date}} and {{end_date}}",
+    "vehicle.unavailable.repair": "Vehicle is under repair between {{start_date}} and {{end_date}}",
     "customer.unavailable.rental": "Customer is rented between {{start_date}} and {{end_date}}",
     "customer.unavailable.reservation": "Customer is reserved between {{start_date}} and {{end_date}}",
-    "customer.unavailable.maintenance": "Customer is under maintenance between {{start_date}} and {{end_date}}"
+    "customer.unavailable.repair": "Customer is under repair between {{start_date}} and {{end_date}}"
   }
 }

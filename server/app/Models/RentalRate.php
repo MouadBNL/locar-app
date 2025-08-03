@@ -12,15 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read ?float $day_quantity
  * @property-read ?float $day_rate
  * @property-read ?float $day_total
- * @property-read ?float $week_quantity
- * @property-read ?float $week_rate
- * @property-read ?float $week_total
- * @property-read ?float $month_quantity
- * @property-read ?float $month_rate
- * @property-read ?float $month_total
- * @property-read ?float $insurance_quantity
- * @property-read ?float $insurance_rate
- * @property-read ?float $insurance_total
  * @property-read ?float $extra_quantity
  * @property-read ?float $extra_rate
  * @property-read ?float $extra_total
@@ -36,15 +27,6 @@ class RentalRate extends Model
         'day_quantity',
         'day_rate',
         'day_total',
-        'week_quantity',
-        'week_rate',
-        'week_total',
-        'month_quantity',
-        'month_rate',
-        'month_total',
-        'insurance_quantity',
-        'insurance_rate',
-        'insurance_total',
         'extra_quantity',
         'extra_rate',
         'extra_total',

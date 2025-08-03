@@ -32,7 +32,7 @@ function RouteComponent() {
             loading={isLoading}
             actions={reservation => (
               <Button variant="outline" size="sm" asChild>
-                <Link to="/app/reservations/$id" params={{ id: reservation.id! }}>
+                <Link to="/app/reservations/$number" params={{ number: reservation.reservation_number! }}>
                   <EyeIcon className="w-4 h-4" />
                 </Link>
               </Button>

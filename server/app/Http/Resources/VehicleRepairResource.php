@@ -2,14 +2,14 @@
 
 namespace App\Http\Resources;
 
-use App\Models\VehicleMaintenance;
+use App\Models\VehicleRepair;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin VehicleMaintenance
+ * @mixin VehicleRepair
  */
-class VehicleMaintenanceResource extends JsonResource
+class VehicleRepairResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

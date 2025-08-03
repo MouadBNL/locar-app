@@ -86,7 +86,7 @@ export function str_to_titlecase(str: string) {
 type MessageError = `${'vehicle' | 'customer'}.unavailable.${
   | 'rental'
   | 'reservation'
-  | 'maintenance'}`;
+  | 'repair'}`;
 export function parse_availability_error(error: unknown) {
   if (isAxiosError(error) && error.status === 409) {
     const data = error.response?.data as {
@@ -100,12 +100,12 @@ export function parse_availability_error(error: unknown) {
     // const [entity, , type] = data.message.split('.') as [
     //   'vehicle' | 'customer',
     //   'unavailable',
-    //   'rental' | 'reservation' | 'maintenance',
+    //   'rental' | 'reservation' | 'repair',
     // ];
 
     // let cause = 'not available';
-    // if (type === 'maintenance') {
-    //   cause = 'under maintenance';
+    // if (type === 'repair') {
+    //   cause = 'under repair';
     // }
     // if (type === 'reservation') {
     //   cause = 'already booked';

@@ -85,16 +85,16 @@ function RouteComponent() {
           <CardHeader>
             <CardTitle>
               {t('reservation:active_reservation')}
-              <Link to="/app/reservations/$id" params={{ id: customer.active_reservation.id }}>
+              <Link to="/app/reservations/$number" params={{ number: customer.active_reservation.reservation_number! }}>
                 <p className="text-sm text-muted-foreground inline-block ml-2 hover:underline">
                   #
-                  {customer.active_reservation.id}
+                  {customer.active_reservation.reservation_number}
                 </p>
               </Link>
             </CardTitle>
             <CardAction>
               <Button variant="outline" size="sm" asChild>
-                <Link to="/app/reservations/$id" params={{ id: customer.active_reservation.id }}>
+                <Link to="/app/reservations/$number" params={{ number: customer.active_reservation.reservation_number! }}>
                   <EyeIcon />
                 </Link>
               </Button>
