@@ -11,8 +11,8 @@
   "payments": "Paiements",
   "start_rental": "Démarrer la location",
   "start_rental_description": "Démarrez la location en fournissant la date de départ et le kilométrage réel.",
-  "return_rental": "Retourner la location",
-  "return_rental_description": "Retournez la location en fournissant la date de retour et le kilométrage réel.",
+  "return_rental": "Clôturer la location",
+  "return_rental_description": "Clôturez la location en fournissant la date de retour et le kilométrage réel.",
   "generate_agreement": "Générer le contrat",
   "active_rental": "Location active",
   "action": {
