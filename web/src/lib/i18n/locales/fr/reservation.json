@@ -16,6 +16,7 @@
       "error": "Erreur lors de la création de la réservation"
     },
     "delete": {
+      "description": "Êtes-vous sûr de vouloir supprimer cette réservation ? Cette action est irréversible.",
       "success": "Réservation supprimée avec succès",
       "error": "Erreur lors de la suppression de la réservation"
     },

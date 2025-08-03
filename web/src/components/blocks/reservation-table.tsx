@@ -11,6 +11,7 @@ import {
 import { CustomerTableCard } from './customer-table-card';
 import { DateCard } from './date-card';
 import { VehicleTableCard } from './vehicle-table-card';
+import { Link } from '@tanstack/react-router';
 
 export interface ReservationTableProps {
   data: ReservationResource[];
@@ -34,7 +35,7 @@ export function ReservationTable({
           <TableHead>{t('reservation:attributes.check_in_date')}</TableHead>
           <TableHead>{t('reservation:attributes.check_out_date')}</TableHead>
           <TableHead>{t('reservation:attributes.total_price')}</TableHead>
-          {actions && <TableHead>{t('common:actions')}</TableHead>}
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -58,7 +59,9 @@ export function ReservationTable({
           && data.map(reservation => (
             <TableRow key={reservation.id}>
               <TableCell>
-                {reservation.reservation_number}
+                <Link to="/app/reservations/$number" params={{ number: reservation.reservation_number }} className="hover:underline">
+                  {reservation.reservation_number}
+                </Link>
               </TableCell>
               <TableCell>
                 <CustomerTableCard
@@ -98,7 +101,7 @@ export function ReservationTable({
                 </div>
               </TableCell>
               {actions && (
-                <TableCell className="flex gap-2">
+                <TableCell className="flex gap-2 justify-end">
                   {actions(reservation)}
                 </TableCell>
               )}
