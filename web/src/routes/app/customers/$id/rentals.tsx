@@ -25,21 +25,17 @@ function RouteComponent() {
 
   return (
     <div>
-      <Card>
-        <CardContent>
-          <RentalTable
-            data={data?.data ?? []}
-            loading={isLoading}
-            actions={rental => (
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/app/rentals/$id" params={{ id: rental.rental_number }}>
-                  <EyeIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            )}
-          />
-        </CardContent>
-      </Card>
+      <RentalTable
+        data={data?.data ?? []}
+        loading={isLoading}
+        actions={rental => (
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/app/rentals/$id" params={{ id: rental.rental_number }}>
+              <EyeIcon className="w-4 h-4" />
+            </Link>
+          </Button>
+        )}
+      />
     </div>
   );
 }
