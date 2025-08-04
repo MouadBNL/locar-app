@@ -3,10 +3,26 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Vehicle;
+use App\Services\GlobalStatisticsService;
 use App\Services\VehicleStatisticsService;
 
 class StatisticsController extends ApiController
 {
+    public function global()
+    {
+        $stats = [
+            'rental_count' => GlobalStatisticsService::rentalCount(null, null),
+            'expenses_count' => GlobalStatisticsService::expensesCount(null, null),
+            'reservation_count' => GlobalStatisticsService::reservationCount(null, null),
+            'revenue' => GlobalStatisticsService::revenue(null, null),
+            'expenses' => GlobalStatisticsService::expenses(null, null),
+            'revenue_per_day' => GlobalStatisticsService::revenuePerDay(null, null),
+            'expenses_per_day' => GlobalStatisticsService::expensesPerDay(null, null),
+            'expenses_per_type' => GlobalStatisticsService::expensesPerType(null, null),
+        ];
+        return $this->success($stats);
+    }
+
     public function vehicle(Vehicle $vehicle)
     {
         $stats = [

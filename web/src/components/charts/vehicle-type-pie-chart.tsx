@@ -89,7 +89,7 @@ export function VehicleTypePieChart({ data }: { data: VehicleStatistics }) {
       color: COLORS.other,
     },
   } satisfies ChartConfig;
-  const chartData = Object.keys(VehicleExpenseTypeEnum).map((type, idx) => {
+  const chartData = Object.keys(VehicleExpenseTypeEnum).map((type) => {
     return {
       type,
       total: data.expenses_per_type?.find(item => item.type === type)?.total ?? 0,

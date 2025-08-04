@@ -106,5 +106,6 @@ Route::middleware('auth:sanctum')->group(function () {
     /**
      * Statistics
      */
+    Route::get('statistics/global', [StatisticsController::class, 'global']);
     Route::get('statistics/vehicles/{vehicle}', [StatisticsController::class, 'vehicle']);
 });

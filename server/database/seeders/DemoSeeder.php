@@ -38,20 +38,21 @@ class DemoSeeder extends Seeder
             'email' => 'admin@email.com',
             'password' => Hash::make('password'),
         ]);
-        Customer::factory(20)->create();
+        Customer::factory(100)->create();
         Vehicle::factory(10)->create();
 
 
         foreach (Vehicle::all() as $vehicle) {
 
-            $time = Carbon::now()->subDays(rand(365 * 1, 365 * 3));
+            $total_days = rand(365 * 1, 365 * 2);
+            $time = Carbon::now()->subDays($total_days);
 
-            $entities_count = rand(20, 50);
+            $entities_count = ceil($total_days / 4);
 
             for ($i = 0; $i < $entities_count; $i++) {
 
-                $start = $time->copy()->addDays(rand(1, 14));
-                $end = $start->copy()->addDays(rand(1, 30));
+                $start = $time->copy()->addDays(rand(1, 3));
+                $end = $start->copy()->addDays(rand(1, 5));
                 $customer = $this->getAvailableCustomers($vehicle, $start, $end);
 
                 if (!$customer) {
