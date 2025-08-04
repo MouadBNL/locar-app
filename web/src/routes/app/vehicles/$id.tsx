@@ -3,6 +3,7 @@ import { Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import { VehicleLicensePlateBadge } from '@/components/blocks/vehicle-license-plate-badge';
 import { VehicleStatusBadge } from '@/components/blocks/vehicle-status-badge';
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
@@ -49,7 +50,9 @@ function RouteComponent() {
               {' '}
               {vehicle?.year}
             </Heading3>
-            <p>{vehicle?.license_plate}</p>
+            <VehicleLicensePlateBadge>
+              {vehicle?.license_plate}
+            </VehicleLicensePlateBadge>
           </div>
           <div>
             <VehicleStatusBadge status={vehicle.status} />

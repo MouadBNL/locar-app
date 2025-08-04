@@ -5,7 +5,7 @@ import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
-import {  useRentalIndex } from '@/features/rentals';
+import { useRentalIndex } from '@/features/rentals';
 
 export const Route = createFileRoute('/app/rentals/')({
   component: RouteComponent,

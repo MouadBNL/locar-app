@@ -43,6 +43,7 @@ class TrafficInfractionController extends ApiController
         }
 
         $trafficInfraction = TrafficInfraction::create($data);
+
         return $this->success(new TrafficInfractionResource($trafficInfraction));
     }
 
@@ -61,12 +62,14 @@ class TrafficInfractionController extends ApiController
         }
 
         $trafficInfraction->update($data);
+
         return $this->success(new TrafficInfractionResource($trafficInfraction));
     }
 
     public function destroy(TrafficInfraction $trafficInfraction)
     {
         $trafficInfraction->delete();
+
         return $this->success(new TrafficInfractionResource($trafficInfraction));
     }
 }

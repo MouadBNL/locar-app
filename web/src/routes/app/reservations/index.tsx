@@ -18,7 +18,6 @@ function RouteComponent() {
   const { t } = useTranslation(['reservation', 'common']);
   const { data, isFetching } = useReservationIndex();
 
-
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center mb-6">

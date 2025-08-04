@@ -6,6 +6,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import ReservationForm from '@/components/blocks/reservation-form';
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
@@ -16,7 +17,6 @@ import {
   useReservationUpdate,
 } from '@/features/reservations';
 import { parse_availability_error } from '@/lib/utils';
-import { AlertDialogDescription, AlertDialogTitle, AlertDialogFooter, AlertDialogTrigger, AlertDialogHeader, AlertDialogContent, AlertDialog, AlertDialogCancel } from '@/components/ui/alert-dialog';
 
 export const Route = createFileRoute('/app/reservations/$number')({
   component: RouteComponent,
@@ -97,9 +97,9 @@ function DeleteReservationAction({ number }: { number: string }) {
     <AlertDialog>
       <AlertDialogTrigger asChild>
 
-    <Button variant="destructive" loading={isPending}>
-      {t('common:delete')}
-    </Button>
+        <Button variant="destructive" loading={isPending}>
+          {t('common:delete')}
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -117,4 +117,4 @@ function DeleteReservationAction({ number }: { number: string }) {
       </AlertDialogContent>
     </AlertDialog>
   );
-  }
+}

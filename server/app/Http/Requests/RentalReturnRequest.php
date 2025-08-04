@@ -35,7 +35,7 @@ class RentalReturnRequest extends FormRequest
             'customer' => [
                 'rating' => ['required', 'integer', 'min:0', 'max:5'],
                 'comment' => ['nullable', 'string'],
-            ]
+            ],
         ];
     }
 }

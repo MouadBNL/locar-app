@@ -1,6 +1,7 @@
 import type { CalendarEvent } from '.';
 import { addDays, format, isToday } from 'date-fns';
 
+import { fr } from 'date-fns/locale';
 import { Calendar1Icon } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -66,10 +67,10 @@ export function AgendaView({
                   className="border-border/70 relative my-12 border-t"
                 >
                   <span
-                    className="bg-background absolute -top-3 left-0 flex h-6 items-center pe-4 text-[10px] uppercase data-today:font-medium sm:pe-4 sm:text-xs"
+                    className="absolute -top-3 left-0 flex h-6 items-center pe-4 text-[10px] uppercase data-today:font-medium sm:pe-4 sm:text-xs"
                     data-today={isToday(day) || undefined}
                   >
-                    {format(day, 'd MMM, EEEE')}
+                    {format(day, 'EEEE d MMM', { locale: fr })}
                   </span>
                   <div className="mt-6 space-y-2">
                     {dayEvents.map(event => (

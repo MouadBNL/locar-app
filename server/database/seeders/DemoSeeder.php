@@ -17,8 +17,8 @@ use App\Models\Vehicle;
 use App\Services\AvailabilityCheckService;
 use App\Services\TimeframeService;
 use Carbon\Carbon;
-use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class DemoSeeder extends Seeder
@@ -27,6 +27,7 @@ class DemoSeeder extends Seeder
         private TimeframeService $timeframeService,
         private AvailabilityCheckService $availabilityCheckService,
     ) {}
+
     /**
      * Run the database seeds.
      */
@@ -38,24 +39,25 @@ class DemoSeeder extends Seeder
             'email' => 'admin@email.com',
             'password' => Hash::make('password'),
         ]);
-        Customer::factory(20)->create();
+        Customer::factory(100)->create();
         Vehicle::factory(10)->create();
-
 
         foreach (Vehicle::all() as $vehicle) {
 
-            $time = Carbon::now()->subDays(rand(365 * 1, 365 * 3));
+            $total_days = rand(365 * 1, 365 * 2);
+            $time = Carbon::now()->subDays($total_days);
 
-            $entities_count = rand(20, 50);
+            $entities_count = ceil($total_days / 4);
 
             for ($i = 0; $i < $entities_count; $i++) {
 
-                $start = $time->copy()->addDays(rand(1, 14));
-                $end = $start->copy()->addDays(rand(1, 30));
+                $start = $time->copy()->addDays(rand(1, 3));
+                $end = $start->copy()->addDays(rand(1, 5));
                 $customer = $this->getAvailableCustomers($vehicle, $start, $end);
 
-                if (!$customer) {
+                if (! $customer) {
                     $time = $end->copy()->addDays(1);
+
                     continue;
                 }
 
@@ -72,7 +74,7 @@ class DemoSeeder extends Seeder
                         'receipt_document_id' => null,
                     ]);
                     $repair->expenses()->createMany(
-                        array_map(fn() => [
+                        array_map(fn () => [
                             'vehicle_id' => $vehicle->id,
                             'vehicle_repair_id' => $repair->id,
                             'type' => VehicleExpenseType::values()[rand(0, count(VehicleExpenseType::values()) - 1)],
@@ -84,13 +86,13 @@ class DemoSeeder extends Seeder
                             'notes' => $faker->paragraph,
                         ], range(0, rand(1, 3)))
                     );
-                } else if ($chance >= 12) {
+                } elseif ($chance >= 12) {
                     // Reservation
                     $daily_rate = rand(2, 9) * 100;
                     $total_days = $this->timeframeService->diffInDays($start, $end);
 
                     Reservation::create([
-                        'reservation_number' => 'RES-' . str()->random(16),
+                        'reservation_number' => 'RES-'.str()->random(16),
                         'customer_id' => $customer->id,
                         'vehicle_id' => $vehicle->id,
                         'check_in_date' => $start,
@@ -104,7 +106,7 @@ class DemoSeeder extends Seeder
                 } else {
                     // Rental
                     $rental = Rental::create([
-                        'rental_number' => 'RNT-' . str()->random(16),
+                        'rental_number' => 'RNT-'.str()->random(16),
                         'notes' => $faker->paragraph(3),
                     ]);
 
@@ -138,7 +140,7 @@ class DemoSeeder extends Seeder
                     $renter = Renter::create([
                         'rental_id' => $rental->id,
                         'customer_id' => $customer->id,
-                        'full_name' => $customer->first_name . ' ' . $customer->last_name,
+                        'full_name' => $customer->first_name.' '.$customer->last_name,
                         'phone' => $customer->phone,
                         'email' => $customer->email,
 
@@ -182,7 +184,6 @@ class DemoSeeder extends Seeder
                         'total' => $day_total - $discount,
                     ]);
                 }
-
 
                 $time = $end->copy()->addDays(1);
             }

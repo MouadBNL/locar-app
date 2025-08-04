@@ -393,6 +393,7 @@ function RentalRateFormSection({
     departure_date,
     return_date,
     form,
+    discount,
   ]);
 
   const onSubmit = form.handleSubmit((data) => {

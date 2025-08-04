@@ -1,4 +1,5 @@
 import type { VehicleResource } from '@/features/vehicles';
+import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import {
   Table,
@@ -8,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { VehicleLicensePlateBadge } from './vehicle-license-plate-badge';
 import { VehicleStatusBadge } from './vehicle-status-badge';
-import { Link } from '@tanstack/react-router';
 
 export interface VehicleTableProps {
   data: VehicleResource[];
@@ -63,7 +64,11 @@ export function VehicleTable({ data, loading, actions }: VehicleTableProps) {
                   {vehicle.model}
                 </Link>
               </TableCell>
-              <TableCell>{vehicle.license_plate}</TableCell>
+              <TableCell>
+                <VehicleLicensePlateBadge>
+                  {vehicle.license_plate}
+                </VehicleLicensePlateBadge>
+              </TableCell>
               <TableCell>{vehicle.year}</TableCell>
               <TableCell>
                 <VehicleStatusBadge status={vehicle.status} />
