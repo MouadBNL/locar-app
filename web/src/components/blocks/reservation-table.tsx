@@ -1,4 +1,5 @@
 import type { ReservationResource } from '@/features/reservations';
+import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import {
   Table,
@@ -11,7 +12,6 @@ import {
 import { CustomerTableCard } from './customer-table-card';
 import { DateCard } from './date-card';
 import { VehicleTableCard } from './vehicle-table-card';
-import { Link } from '@tanstack/react-router';
 
 export interface ReservationTableProps {
   data: ReservationResource[];
@@ -87,8 +87,8 @@ export function ReservationTable({
                 <DateCard date={reservation.check_out_date} />
               </TableCell>
               <TableCell>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium -mb-1">
                     {reservation.total_price}
                     {' '}
                     {t('common:dh')}

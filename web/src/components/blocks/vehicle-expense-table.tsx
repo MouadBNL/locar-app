@@ -31,10 +31,9 @@ export function VehicleExpenseTable({
           <TableHead>{t('expenses:attributes.amount')}</TableHead>
           <TableHead>{t('expenses:attributes.date')}</TableHead>
           <TableHead>{t('expenses:attributes.title')}</TableHead>
-          <TableHead>{t('expenses:attributes.reference')}</TableHead>
-          <TableHead>{t('expenses:attributes.receipt')}</TableHead>
+          {/* <TableHead>{t('expenses:attributes.receipt')}</TableHead> */}
           <TableHead>{t('expenses:attributes.notes')}</TableHead>
-          {actions && <TableHead>{t('common:actions')}</TableHead>}
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -66,12 +65,11 @@ export function VehicleExpenseTable({
               <TableCell>
                 <DateCard date={vehicleExpense.date} />
               </TableCell>
-              <TableCell>{vehicleExpense.title}</TableCell>
-              <TableCell>{vehicleExpense.reference}</TableCell>
-              <TableCell>{vehicleExpense.receipt_document?.id}</TableCell>
-              <TableCell>{vehicleExpense.notes}</TableCell>
+              <TableCell className="max-w-[150px] truncate" title={vehicleExpense.title}>{vehicleExpense.title}</TableCell>
+              {/* <TableCell>{vehicleExpense.receipt_document?.id}</TableCell> */}
+              <TableCell className="max-w-[250px] truncate" title={vehicleExpense.notes}>{vehicleExpense.notes}</TableCell>
               {actions && (
-                <TableCell className="flex gap-2">
+                <TableCell className="flex gap-2 justify-end">
                   {actions(vehicleExpense)}
                 </TableCell>
               )}

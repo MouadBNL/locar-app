@@ -27,7 +27,7 @@ export function TrafficInfractionTable({
           <TableHead>{t('traffic:attributes.title')}</TableHead>
           <TableHead>{t('traffic:attributes.location')}</TableHead>
           <TableHead>{t('traffic:attributes.document')}</TableHead>
-          {actions && <TableHead>{t('common:actions')}</TableHead>}
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -110,7 +110,7 @@ export function TrafficInfractionTable({
               </TableCell>
 
               {actions && (
-                <TableCell className="flex gap-2">
+                <TableCell className="flex gap-2 justify-end">
                   {actions(trafficInfraction)}
                 </TableCell>
               )}

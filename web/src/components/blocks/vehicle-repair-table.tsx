@@ -30,10 +30,10 @@ export function VehicleRepairTable({
           <TableHead>{t('repair:attributes.started_at')}</TableHead>
           <TableHead>{t('repair:attributes.finished_at')}</TableHead>
           <TableHead>{t('repair:attributes.title')}</TableHead>
-          <TableHead>{t('repair:attributes.reference')}</TableHead>
+          {/* <TableHead>{t('repair:attributes.reference')}</TableHead> */}
           <TableHead>{t('repair:attributes.notes')}</TableHead>
           <TableHead>{t('repair:attributes.expenses')}</TableHead>
-          {actions && <TableHead>{t('common:actions')}</TableHead>}
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -64,9 +64,9 @@ export function VehicleRepairTable({
                   <DateCard date={vehicleRepair.finished_at} />
                 )}
               </TableCell>
-              <TableCell>{vehicleRepair.title}</TableCell>
-              <TableCell>{vehicleRepair.reference}</TableCell>
-              <TableCell>{vehicleRepair.notes}</TableCell>
+              <TableCell className="max-w-[150px] truncate" title={vehicleRepair.title ?? ''}>{vehicleRepair.title}</TableCell>
+              {/* <TableCell>{vehicleRepair.reference}</TableCell> */}
+              <TableCell className="max-w-[250px] truncate" title={vehicleRepair.notes ?? ''}>{vehicleRepair.notes}</TableCell>
               <TableCell>
                 <div className="">
                   <p className="text-sm font-bold">
@@ -80,7 +80,7 @@ export function VehicleRepairTable({
                 </div>
               </TableCell>
               {actions && (
-                <TableCell className="flex gap-2">
+                <TableCell className="flex gap-2 justify-end">
                   {actions(vehicleRepair)}
                 </TableCell>
               )}

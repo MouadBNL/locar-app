@@ -21,7 +21,7 @@ export function CustomerRatingTable({
           <TableHead>{t('customer:rating.attributes.rating')}</TableHead>
           <TableHead>{t('customer:rating.attributes.rental')}</TableHead>
           <TableHead>{t('customer:rating.attributes.comment')}</TableHead>
-          <TableHead>{t('common:actions')}</TableHead>
+          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -34,8 +34,12 @@ export function CustomerRatingTable({
                 {rating.rental?.rental_number}
               </Link>
             </TableCell>
-            <TableCell>{rating.comment}</TableCell>
-            <TableCell>{actions?.(rating)}</TableCell>
+            <TableCell className="max-w-[250px] truncate" title={rating.comment}>{rating.comment}</TableCell>
+            {actions && (
+              <TableCell className="flex gap-2 justify-end">
+                {actions(rating)}
+              </TableCell>
+            )}
           </TableRow>
         ))}
       </TableBody>
