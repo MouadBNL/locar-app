@@ -2,7 +2,6 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { EyeIcon } from 'lucide-react';
 import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useRentalIndex } from '@/features/rentals';
 import { breadcrumb } from '@/lib/breadcrumb';
 

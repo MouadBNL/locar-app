@@ -12,6 +12,7 @@ interface UsePaginationReturn {
   rightEllipsisPages: number[];
 }
 
+// eslint-disable-next-line react-hooks-extra/no-unnecessary-use-prefix
 export function usePagination({
   currentPage,
   totalPages,
