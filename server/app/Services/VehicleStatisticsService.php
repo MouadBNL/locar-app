@@ -125,7 +125,7 @@ class VehicleStatisticsService
             ->where('rental_vehicles.vehicle_id', $vehicle->id)
             ->when($startDate, fn($query) => $query->where('rental_timeframes.departure_date', '>=', $startDate->toDateTimeString()))
             ->when($endDate, fn($query) => $query->where('rental_timeframes.return_date', '<=', $endDate->toDateTimeString()))
-            ->selectRaw("strftime('%Y-%m-%d', rental_timeframes.departure_date) as day, SUM(rental_rates.total) as total_revenue")
+            ->selectRaw("strftime('%Y-%m-%d', rental_timeframes.departure_date) as day, SUM(rental_rates.total) as total, COUNT(*) as count")
             ->groupBy('day')
             ->orderBy('day')
             ->get();

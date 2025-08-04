@@ -1,3 +1,4 @@
+import type { VehicleStatistics } from '@/features/statistics';
 import {
   createFileRoute,
   Link,
@@ -6,6 +7,8 @@ import { EyeIcon, TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CustomerSummaryCard } from '@/components/blocks/customer-summary-card';
 import { PeriodSummaryCard } from '@/components/blocks/period-summary-card';
+import { VehicleSummaryChart } from '@/components/charts/vehicle-summary-chart';
+import { VehicleTypePieChart } from '@/components/charts/vehicle-type-pie-chart';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,8 +26,9 @@ export const Route = createFileRoute('/app/vehicles/$id/')({
 
 function RouteComponent() {
   const { t } = useTranslation(['common', 'vehicle', 'rental', 'reservation', 'repair']);
-
+  const { id } = Route.useParams();
   const { vehicle } = Route.useLoaderData();
+  const { data } = useVehicleStatistics({ id: id! });
 
   return (
     <div>
@@ -116,26 +120,28 @@ function RouteComponent() {
           </CardContent>
         </Card>
       )}
+      {data && (
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <VehicleSummaryCards data={data.data} />
+              <div className="px-4 lg:px-6">
+                <VehicleSummaryChart data={data.data} />
+              </div>
 
-      <div className="flex flex-1 flex-col">
-        <div className="@container/main flex flex-1 flex-col gap-2">
-          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <VehicleSummaryCards />
-            {/* <div className="px-4 lg:px-6">
-              <ChartAreaInteractive />
+              <div className="px-4 lg:px-6 grid grid-cols-2 gap-8">
+                <VehicleTypePieChart data={data.data} />
+                <VehicleSummaryChart data={data.data} />
+              </div>
             </div>
-            <DataTable data={data} /> */}
           </div>
         </div>
-      </div>
-
+      )}
     </div>
   );
 }
 
-export function VehicleSummaryCards() {
-  const { id } = Route.useParams();
-  const { data } = useVehicleStatistics({ id: id! });
+export function VehicleSummaryCards({ data }: { data: VehicleStatistics }) {
   const { t } = useTranslation(['stats']);
 
   return (
@@ -144,7 +150,7 @@ export function VehicleSummaryCards() {
         <CardHeader>
           <CardDescription>{t('stats:total_revenue')}</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {fmt_currency(data?.data.revenue ?? 0)}
+            {fmt_currency(data.revenue ?? 0)}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -168,7 +174,7 @@ export function VehicleSummaryCards() {
         <CardHeader>
           <CardDescription>{t('stats:total_expenses')}</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {fmt_currency(data?.data.expenses ?? 0)}
+            {fmt_currency(data.expenses ?? 0)}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -192,7 +198,7 @@ export function VehicleSummaryCards() {
         <CardHeader>
           <CardDescription>{t('stats:rentals_count')}</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.rental_count}
+            {data.rental_count}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -214,7 +220,7 @@ export function VehicleSummaryCards() {
         <CardHeader>
           <CardDescription>{t('stats:repairs_count')}</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.repairs_count}
+            {data.repairs_count}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">

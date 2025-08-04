@@ -16,6 +16,9 @@ class StatisticsController extends ApiController
             'repairs_count' => VehicleStatisticsService::repairsCount($vehicle, null, null),
             'revenue' => VehicleStatisticsService::revenue($vehicle, null, null),
             'expenses' => VehicleStatisticsService::expenses($vehicle, null, null),
+            'revenue_per_day' => VehicleStatisticsService::revenuePerDay($vehicle,  null, null),
+            'expenses_per_day' => VehicleStatisticsService::expensesPerDay($vehicle, null, null),
+            'expenses_per_type' => VehicleStatisticsService::expensesPerType($vehicle, null, null),
         ];
         return $this->success($stats);
     }

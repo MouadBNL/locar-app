@@ -48,6 +48,17 @@ export function get_date_range(date: Date, days: number) {
   };
 }
 
+export function get_date_enum(start_date: Date, end_date: Date) {
+  const dates = [];
+  const currentDate = new Date(start_date); // Create a mutable copy of the start date
+  while (currentDate.getTime() <= end_date.getTime()) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dates;
+}
+
 export function fmt_date(date: Date, opt?: { format: 'date' | 'datetime' }) {
   const str = date.toISOString();
   const match = str.match(
