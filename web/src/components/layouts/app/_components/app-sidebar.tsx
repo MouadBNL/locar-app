@@ -1,6 +1,7 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import {
   CalendarClockIcon,
+  CalendarIcon,
   GaugeIcon,
   ReceiptTextIcon,
   ShapesIcon,
@@ -8,6 +9,7 @@ import {
   WarehouseIcon,
 } from 'lucide-react';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Sidebar,
@@ -19,11 +21,21 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { NavUser } from './nav-user';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['calendar', 'common']);
+
+  const { setOpenMobile } = useSidebar();
+  const router = useRouter();
+  useEffect(() => {
+    router.subscribe('onBeforeLoad', () => {
+      setOpenMobile(false);
+    });
+  }, [router, setOpenMobile]);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -36,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <a href="#">
                 <ShapesIcon className="!size-5" />
                 <span className="text-base font-semibold">
-                  {t('app_name')}
+                  {t('common:app_name')}
                 </span>
               </a>
             </SidebarMenuButton>
@@ -51,39 +63,52 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuButton asChild>
                   <Link to="/app">
                     <GaugeIcon />
-                    <span>{t('dashboard')}</span>
+                    <span>{t('common:dashboard')}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/app/vehicles">
-                    <WarehouseIcon />
-                    <span>{t('vehicles')}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/app/customers">
-                    <UsersIcon />
-                    <span>{t('customers')}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/app/reservations">
-                    <CalendarClockIcon />
-                    <span>{t('reservations')}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/app/rentals">
                     <ReceiptTextIcon />
-                    <span>{t('rentals')}</span>
+                    <span>{t('common:rentals')}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/app/reservations">
+                    <CalendarClockIcon />
+                    <span>{t('common:reservations')}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/app/vehicles">
+                    <WarehouseIcon />
+                    <span>{t('common:vehicles')}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/app/customers">
+                    <UsersIcon />
+                    <span>{t('common:customers')}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/app/calendar">
+                    <CalendarIcon />
+                    <span>{t('calendar:agenda')}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

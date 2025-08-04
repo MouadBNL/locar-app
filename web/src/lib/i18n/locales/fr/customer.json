@@ -11,6 +11,7 @@
   "attributes": {
     "first_name": "Prénom",
     "last_name": "Nom",
+    "id_card_number": "Numero carte d'identité",
     "email": "Email",
     "phone": "Téléphone",
     "address": "Adresse",
@@ -32,5 +33,21 @@
     "booked": "Réservé",
     "renting": "En location",
     "active": "Actif"
+  },
+  "rating": {
+    "label_plural": "Notes",
+    "label_singular": "Note",
+    "attributes": {
+      "rating": "Note",
+      "comment": "Commentaire",
+      "rental": "Location"
+    }
+  },
+  "action": {
+    "delete": {
+      "description": "Êtes-vous sûr de vouloir supprimer ce client ? Cette action est irréversible.",
+      "success": "Client supprimé avec succès",
+      "error": "Erreur lors de la suppression du client"
+    }
   }
 }

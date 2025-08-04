@@ -1,0 +1,20 @@
+{
+  "revenue": "Revenue",
+  "expenses": "Expenses",
+  "total_revenue": "Total Revenue",
+  "total_expenses": "Total Expenses",
+  "reservations": "Reservations",
+  "repairs": "Repairs",
+  "infractions": "Infractions",
+  "ratings": "Ratings",
+  "income": "Income",
+  "rentals_count": "Rentals Count",
+  "repairs_count": "Repairs Count",
+  "revenue_expenses": "Revenue / Expenses",
+  "last_3_months": "Last 3 months",
+  "last_30_days": "Last 30 days",
+  "last_7_days": "Last 7 days",
+  "expenses_by_type": "Expenses by Type",
+  "reservations_count": "Reservations Count",
+  "global_statistics": "Global Statistics"
+}

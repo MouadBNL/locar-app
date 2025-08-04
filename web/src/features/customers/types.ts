@@ -29,6 +29,7 @@ export interface CustomerResource {
   first_name: string;
   last_name: string;
   status: CustomerStatus;
+  rating: number | null;
   email: string;
   phone: string;
   address: string;
@@ -48,4 +49,18 @@ export interface CustomerSummaryResource {
   full_name: string;
   phone: string;
   identifier: string;
+  rating: number | null;
+}
+
+export interface CustomerRatingResource {
+  id: string;
+  customer_id: string;
+  rental_id: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+  updated_at: string;
+
+  rental?: RentalSummaryData;
+  customer?: CustomerSummaryResource;
 }

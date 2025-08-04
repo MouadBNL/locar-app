@@ -11,8 +11,8 @@
   "payments": "Paiements",
   "start_rental": "Démarrer la location",
   "start_rental_description": "Démarrez la location en fournissant la date de départ et le kilométrage réel.",
-  "return_rental": "Retourner la location",
-  "return_rental_description": "Retournez la location en fournissant la date de retour et le kilométrage réel.",
+  "return_rental": "Clôturer la location",
+  "return_rental_description": "Clôturez la location en fournissant la date de retour et le kilométrage réel.",
   "generate_agreement": "Générer le contrat",
   "active_rental": "Location active",
   "action": {
@@ -22,7 +22,9 @@
     },
     "delete": {
       "success": "Location supprimée avec succès",
-      "error": "Erreur lors de la suppression de la location"
+      "error": "Erreur lors de la suppression de la location",
+      "description": "Êtes-vous sûr de vouloir supprimer cette location ? Cette action est irréversible.",
+      "confirm": "Écrivez le numéro de location pour confirmer la suppression."
     },
     "start": {
       "success": "Location démarrée avec succès",
@@ -54,7 +56,10 @@
   },
   "return_form": {
     "attributes": {
-      "actual_return_date": "Date de retour réelle"
+      "actual_return_date": "Date de retour réelle",
+      "mileage": "Kilométrage",
+      "rating": "Évaluation (0-5)",
+      "comment": "Commentaire"
     }
   },
   "status_enum": {
@@ -99,6 +104,7 @@
       "extra_rate": "Tarif extra",
       "extra_quantity": "Nombre d'extras",
       "extra_total": "Total",
+      "discount": "Remise",
       "total": "Total"
     }
   },
@@ -127,6 +133,7 @@
       "extra_rate": "Tarif extra",
       "extra_quantity": "Nombre d'extras",
       "extra_total": "Total",
+      "discount": "Remise",
       "total": "Total"
     }
   }

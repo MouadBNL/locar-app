@@ -11,8 +11,8 @@
   "payments": "Payments",
   "start_rental": "Start Rental",
   "start_rental_description": "Start the rental by providing the actual departure date and mileage.",
-  "return_rental": "Return Rental",
-  "return_rental_description": "Return the rental by providing the actual return date and mileage.",
+  "return_rental": "Close Rental",
+  "return_rental_description": "Close the rental by providing the actual return date and mileage.",
   "generate_agreement": "Generate Agreement",
   "active_rental": "Active Rental",
   "action": {
@@ -22,7 +22,9 @@
     },
     "delete": {
       "success": "Rental deleted successfully",
-      "error": "Failed to delete rental"
+      "error": "Failed to delete rental",
+      "description": "Are you sure you want to delete this rental? This action cannot be undone.",
+      "confirm": "Write rental numberto confirm deletion."
     },
     "start": {
       "success": "Rental started successfully",
@@ -50,7 +52,9 @@
   "return_form": {
     "attributes": {
       "actual_return_date": "Actual Return Date",
-      "mileage": "Mileage"
+      "mileage": "Mileage",
+      "rating": "Rating (0-5)",
+      "comment": "Comment"
     }
   },
   "start_form": {
@@ -100,6 +104,7 @@
       "extra_rate": "Extra Rate",
       "extra_quantity": "Extra Quantity",
       "extra_total": "Extra Total",
+      "discount": "Discount",
       "total": "Total"
     }
   },
@@ -128,6 +133,7 @@
       "extra_rate": "Extra Rate",
       "extra_quantity": "Extra Quantity",
       "extra_total": "Extra Total",
+      "discount": "Discount",
       "total": "Total"
     }
   }

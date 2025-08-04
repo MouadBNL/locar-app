@@ -13,6 +13,7 @@
   "allRightsReserved": "Tous droits réservés",
   "randomLink": "Lien aléatoire",
   "actions": "Actions",
+  "and": "et",
   "cancel": "Annuler",
   "submit": "Enregistrer",
   "view": "Voir",
@@ -45,11 +46,22 @@
   "close": "Fermer",
   "more": "Plus",
   "open": "Ouvrir",
+  "no_data_found": "Aucune donnée trouvée",
   "max_files_and_file_size": "Max {{file_cnt}} fichiers jusqu'à {{file_size}}MB.",
+  "archive": "Archiver",
+  "delete": "Supprimer",
   "theme": {
     "light": "Clair",
     "dark": "Sombre",
     "system": "Système",
     "toggle_theme": "Basculer le thème"
+  },
+  "table": {
+    "page": "Page",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "pagination_index_to_of": "Page {{index}} de {{total}}",
+    "more": "Plus de pages",
+    "no_data_found": "Aucune donnée trouvée"
   }
 }

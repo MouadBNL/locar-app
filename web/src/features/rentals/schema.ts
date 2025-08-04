@@ -58,18 +58,10 @@ export const RentalRateSchema = z.object({
   day_quantity: z.number().min(0).nullish(),
   day_rate: z.number().min(0).nullish(),
   day_total: z.number().min(0).nullish(),
-  week_quantity: z.number().min(0).nullish(),
-  week_rate: z.number().min(0).nullish(),
-  week_total: z.number().min(0).nullish(),
-  month_quantity: z.number().min(0).nullish(),
-  month_rate: z.number().min(0).nullish(),
-  month_total: z.number().min(0).nullish(),
-  insurance_quantity: z.number().min(0).nullish(),
-  insurance_rate: z.number().min(0).nullish(),
-  insurance_total: z.number().min(0).nullish(),
   extra_quantity: z.number().min(0).nullish(),
   extra_rate: z.number().min(0).nullish(),
   extra_total: z.number().min(0).nullish(),
+  discount: z.number().min(0).nullish(),
   total: z.number().min(0).nullish(),
 });
 
@@ -80,9 +72,7 @@ export const RentalChargesSummarySchema = z.object({
   extra_rate: z.number().min(0),
   extra_quantity: z.number().min(0),
   extra_total: z.number().min(0),
-  insurance_rate: z.number().min(0),
-  insurance_quantity: z.number().min(0),
-  insurance_total: z.number().min(0),
+  discount: z.number().min(0),
   total: z.number().min(0),
   paid: z.number().min(0),
   due: z.number().min(0),
@@ -110,4 +100,8 @@ export const RentalStartSchema = z.object({
 export const RentalReturnSchema = z.object({
   actual_return_date: z.string().datetime(),
   mileage: z.number().int().min(0).nullish(),
+  customer: z.object({
+    rating: z.number().min(0).max(5),
+    comment: z.string().max(255).nullish(),
+  }).nullish(),
 });

@@ -15,7 +15,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <main className="p-0 h-full">{children}</main>
 
         <footer className="mt-8">
-          <div className="container mx-auto">
+          <div className="container mx-auto px-4">
             <Separator />
             <div className="flex items-center justify-between text-muted-foreground py-4 text-sm ">
               <p>

@@ -18,14 +18,16 @@ type DateInputProps
     type: 'string';
     value?: string | null;
     onChange?: (value: string) => void;
+    disabled?: boolean;
   }
   | {
     type: 'date';
     value?: Date | null;
     onChange?: (value: Date) => void;
+    disabled?: boolean;
   };
 
-export function DateTimeInput({ value, onChange, type }: DateInputProps) {
+export function DateTimeInput({ value, onChange, type, disabled }: DateInputProps) {
   const onDateChange = (value: CalendarDateTime | null) => {
     value?.set({ second: 0, millisecond: 0 });
     // console.log('[onDateChange] value:', {
@@ -81,6 +83,7 @@ export function DateTimeInput({ value, onChange, type }: DateInputProps) {
         granularity="minute"
         hideTimeZone
         onChange={value => onDateChange(value)}
+        isDisabled={disabled}
       >
         <div className="flex">
           <Group className="w-full">

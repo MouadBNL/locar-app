@@ -6,10 +6,11 @@ import { useTranslation } from 'react-i18next';
 import {
   ReservationSchema,
 } from '@/features/reservations';
-import { fmt_date, get_date } from '@/lib/utils';
+import { fmt_date, generate_reservation_number, get_date } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { DateInput } from '../ui/dateinput';
 import { AppFormField, Form } from '../ui/form';
+import { Input } from '../ui/input';
 import { NumberInput } from '../ui/number-input';
 import { Textarea } from '../ui/textarea';
 import { CustomerSelect } from './customer-select';
@@ -29,6 +30,7 @@ export default function ReservationForm({
   const form = useForm({
     resolver: zodResolver(ReservationSchema),
     defaultValues: {
+      reservation_number: generate_reservation_number(),
       customer_id: '',
       vehicle_id: '',
       check_in_date: fmt_date(get_date(), { format: 'date' }),
@@ -36,6 +38,7 @@ export default function ReservationForm({
       total_price: 0,
       daily_rate: 300,
       total_days: 1,
+      deposit: 0,
       ...initialValues,
     },
   });
@@ -81,6 +84,17 @@ export default function ReservationForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="md:col-span-2">
+
+            <AppFormField
+              control={form.control}
+              name="reservation_number"
+              label={t('reservation:attributes.reservation_number')}
+              render={({ field }) => (
+                <Input {...field} value={field.value ?? undefined} />
+              )}
+            />
+          </div>
           <AppFormField
             control={form.control}
             name="vehicle_id"
@@ -165,6 +179,17 @@ export default function ReservationForm({
               />
             )}
           />
+
+          <div className="md:col-span-3">
+            <AppFormField
+              control={form.control}
+              name="deposit"
+              label={t('reservation:attributes.deposit')}
+              render={({ field }) => (
+                <NumberInput value={field.value} onChange={field.onChange} />
+              )}
+            />
+          </div>
         </div>
 
         <div>

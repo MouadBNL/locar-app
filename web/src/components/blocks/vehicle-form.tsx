@@ -3,7 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { VehicleSchema } from '@/features/vehicles';
+import { fmt_date } from '@/lib/utils';
 import { Button } from '../ui/button';
+import { DateInput } from '../ui/dateinput';
 import { AppFormField, Form } from '../ui/form';
 import { Input } from '../ui/input';
 import { NumberInput } from '../ui/number-input';
@@ -38,7 +40,7 @@ export default function VehicleForm({
       mileage: 0,
       number_of_seats: 1,
       number_of_doors: 1,
-      year: 2025,
+      first_service_date: fmt_date(new Date(), { format: 'date' }),
       transmission: 'AT',
       fuel_type: 'gasoline',
       ...initialValues,
@@ -73,10 +75,40 @@ export default function VehicleForm({
 
           <AppFormField
             control={form.control}
-            name="year"
-            label={t('vehicle:attributes.year')}
+            name="first_service_date"
+            label={t('vehicle:attributes.first_service_date')}
             render={({ field }) => (
-              <NumberInput placeholder={t('vehicle:attributes.year')} value={field.value} onChange={field.onChange} />
+              <DateInput
+                type="string"
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="license_plate"
+            label={t('vehicle:attributes.plate')}
+            render={({ field }) => (
+              <Input
+                type="text"
+                placeholder={t('vehicle:attributes.plate')}
+                {...field}
+              />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="vin"
+            label={t('vehicle:attributes.vin')}
+            render={({ field }) => (
+              <Input
+                type="text"
+                placeholder={t('vehicle:attributes.vin')}
+                {...field}
+              />
             )}
           />
 
@@ -137,19 +169,6 @@ export default function VehicleForm({
             label={t('vehicle:attributes.doors')}
             render={({ field }) => (
               <NumberInput placeholder={t('vehicle:attributes.doors')} value={field.value} onChange={field.onChange} />
-            )}
-          />
-
-          <AppFormField
-            control={form.control}
-            name="license_plate"
-            label={t('vehicle:attributes.plate')}
-            render={({ field }) => (
-              <Input
-                type="text"
-                placeholder={t('vehicle:attributes.plate')}
-                {...field}
-              />
             )}
           />
 

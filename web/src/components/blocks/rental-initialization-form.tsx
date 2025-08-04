@@ -52,6 +52,7 @@ export default function RentalInitializationForm({
         extra_rate: 100,
         extra_quantity: 0,
         extra_total: 100,
+        discount: 0,
         total: 300,
       },
       renter: {
@@ -367,7 +368,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
   const onVehicleSelected = (vehicle: VehicleData) => {
     form.setValue('vehicle.make', vehicle.make);
     form.setValue('vehicle.model', vehicle.model);
-    form.setValue('vehicle.year', vehicle.year);
+    form.setValue('vehicle.year', new Date(vehicle.first_service_date).getFullYear() ?? undefined);
     form.setValue('vehicle.license_plate', vehicle.license_plate);
   };
 
@@ -378,7 +379,7 @@ function RentalVehicleForm({ form }: { form: UseFormReturn<RentalData> }) {
           heading={t('rental:vehicle.heading')}
           subheading={t('rental:vehicle.subheading')}
         />
-        <div className="w-48">
+        <div className="w-64">
           <AppFormField
             control={form.control}
             name="vehicle.vehicle_id"
@@ -451,6 +452,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
   const daily_rate = form.watch('rate.day_rate');
   const extra_rate = form.watch('rate.extra_rate');
   const extra_quantity = form.watch('rate.extra_quantity');
+  const discount = form.watch('rate.discount');
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
     if (!a || !b)
@@ -481,7 +483,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
     const day_total_price = number_of_days * (daily_rate ?? 0);
     form.setValue('rate.day_quantity', number_of_days);
     form.setValue('rate.day_total', day_total_price);
-    const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0);
+    const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0) - (discount ?? 0);
     form.setValue('rate.total', total_price);
   }, [
     extra_rate,
@@ -489,6 +491,7 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
     daily_rate,
     departure_date,
     return_date,
+    discount,
     form,
   ]);
 
@@ -553,7 +556,16 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
           )}
         />
 
-        <div className="col-span-3">
+        <AppFormField
+          control={form.control}
+          name="rate.discount"
+          label={t('rental:rate.attributes.discount')}
+          render={({ field }) => (
+            <NumberInput value={field.value} onChange={field.onChange} />
+          )}
+        />
+
+        <div className="col-span-2">
           <AppFormField
             control={form.control}
             name="rate.total"

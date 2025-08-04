@@ -15,8 +15,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('make');
             $table->string('model');
-            $table->integer('year');
+            $table->date('first_service_date');
+            $table->date('last_service_date')->nullable();
             $table->string('license_plate'); // should it be unique ?
+            $table->string('vin');
             $table->integer('mileage')->default(0);
             $table->enum('fuel_type', ['gasoline', 'diesel', 'electric', 'hybrid']);
             $table->enum('transmission', ['AT', 'MT']);

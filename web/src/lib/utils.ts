@@ -20,12 +20,43 @@ export function generate_rental_code() {
   );
 }
 
+export function generate_reservation_number() {
+  const d = new Date();
+  return (
+    `RS${
+      d.getFullYear().toString().slice(-2)
+    }${(d.getMonth() + 1).toString().padStart(2, '0') // Month is 0-indexed
+    }${d.getDate().toString().padStart(2, '0')
+    }${d.getHours().toString().padStart(2, '0')
+    }${d.getMinutes().toString().padStart(2, '0')
+    }${d.getSeconds().toString().padStart(2, '0')}`
+  );
+}
+
 export function get_date(opt?: { day?: number }) {
   const d = new Date();
   if (opt?.day) {
     d.setDate(d.getDate() + opt.day);
   }
   return d;
+}
+
+export function get_date_range(date: Date, days: number) {
+  return {
+    start_date: new Date(date.getTime() - days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    end_date: new Date(date.getTime() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+  };
+}
+
+export function get_date_enum(start_date: Date, end_date: Date) {
+  const dates = [];
+  const currentDate = new Date(start_date); // Create a mutable copy of the start date
+  while (currentDate.getTime() <= end_date.getTime()) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dates;
 }
 
 export function fmt_date(date: Date, opt?: { format: 'date' | 'datetime' }) {
@@ -66,7 +97,7 @@ export function str_to_titlecase(str: string) {
 type MessageError = `${'vehicle' | 'customer'}.unavailable.${
   | 'rental'
   | 'reservation'
-  | 'maintenance'}`;
+  | 'repair'}`;
 export function parse_availability_error(error: unknown) {
   if (isAxiosError(error) && error.status === 409) {
     const data = error.response?.data as {
@@ -80,12 +111,12 @@ export function parse_availability_error(error: unknown) {
     // const [entity, , type] = data.message.split('.') as [
     //   'vehicle' | 'customer',
     //   'unavailable',
-    //   'rental' | 'reservation' | 'maintenance',
+    //   'rental' | 'reservation' | 'repair',
     // ];
 
     // let cause = 'not available';
-    // if (type === 'maintenance') {
-    //   cause = 'under maintenance';
+    // if (type === 'repair') {
+    //   cause = 'under repair';
     // }
     // if (type === 'reservation') {
     //   cause = 'already booked';

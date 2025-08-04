@@ -1,26 +1,32 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en_auth from './locales/en/auth.json';
+import en_calendar from './locales/en/calendar.json';
 import en_common from './locales/en/common.json';
 import en_customer from './locales/en/customer.json';
 import en_document from './locales/en/document.json';
 import en_exceptions from './locales/en/exceptions.json';
 import en_expenses from './locales/en/expenses.json';
-import en_maintenance from './locales/en/maintenance.json';
 import en_payment from './locales/en/payment.json';
 import en_rental from './locales/en/rental.json';
+import en_repair from './locales/en/repair.json';
 import en_reservation from './locales/en/reservation.json';
+import en_stats from './locales/en/stats.json';
+import en_traffic from './locales/en/traffic.json';
 import en_vehicle from './locales/en/vehicle.json';
 import fr_auth from './locales/fr/auth.json';
+import fr_calendar from './locales/fr/calendar.json';
 import fr_common from './locales/fr/common.json';
 import fr_customer from './locales/fr/customer.json';
 import fr_document from './locales/fr/document.json';
 import fr_exceptions from './locales/fr/exceptions.json';
 import fr_expenses from './locales/fr/expenses.json';
-import fr_maintenance from './locales/fr/maintenance.json';
 import fr_payment from './locales/fr/payment.json';
 import fr_rental from './locales/fr/rental.json';
+import fr_repair from './locales/fr/repair.json';
 import fr_reservation from './locales/fr/reservation.json';
+import fr_stats from './locales/fr/stats.json';
+import fr_traffic from './locales/fr/traffic.json';
 import fr_vehicle from './locales/fr/vehicle.json';
 
 // the translations
@@ -29,6 +35,7 @@ import fr_vehicle from './locales/fr/vehicle.json';
 const resources = {
   en: {
     translation: {},
+    calendar: en_calendar,
     common: en_common,
     vehicle: en_vehicle,
     customer: en_customer,
@@ -38,11 +45,14 @@ const resources = {
     payment: en_payment,
     document: en_document,
     auth: en_auth,
-    maintenance: en_maintenance,
+    repair: en_repair,
     expenses: en_expenses,
+    traffic: en_traffic,
+    stats: en_stats,
   },
   fr: {
     translation: {},
+    calendar: fr_calendar,
     common: fr_common,
     vehicle: fr_vehicle,
     customer: fr_customer,
@@ -52,8 +62,10 @@ const resources = {
     payment: fr_payment,
     document: fr_document,
     auth: fr_auth,
-    maintenance: fr_maintenance,
+    repair: fr_repair,
     expenses: fr_expenses,
+    traffic: fr_traffic,
+    stats: fr_stats,
   },
 };
 i18n
@@ -63,7 +75,7 @@ i18n
     returnNull: false,
     resources,
     defaultNS: 'common',
-    ns: ['common', 'vehicle', 'customer', 'rental', 'exceptions', 'payment', 'document', 'auth', 'maintenance', 'expenses'],
+    ns: ['common', 'vehicle', 'customer', 'rental', 'exceptions', 'payment', 'document', 'auth', 'repair', 'expenses', 'traffic', 'stats', 'reservation'],
     fallbackLng: 'en',
     lng: localStorage.getItem('lang') ?? 'en', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage

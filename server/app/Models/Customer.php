@@ -6,6 +6,7 @@ use App\Enums\CustomerStatus;
 use App\Traits\HasUuidAsPrimary;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -16,6 +17,7 @@ use Illuminate\Support\Collection;
  * @property-read string $first_name
  * @property-read string $last_name
  * @property-read CustomerStatus $status
+ * @property-read ?float $rating
  * @property-read ?string $email
  * @property-read ?string $phone
  * @property-read ?string $address
@@ -25,9 +27,15 @@ use Illuminate\Support\Collection;
  * @property-read ?Carbon $birth_date
  * @property-read Collection<array-key, Renter> $renters
  * @property-read Collection<array-key, Reservation> $reservations
+ * @property-read Collection<array-key, CustomerRating> $ratings
  */
 class Customer extends Model
 {
+    /**
+     * @use HasFactory<\Database\Factories\CustomerFactory>
+     */
+    use HasFactory;
+
     use HasUuidAsPrimary;
 
     protected $casts = [
@@ -65,13 +73,26 @@ class Customer extends Model
                     return [
                         'status' => CustomerStatus::BOOKED,
                         'entity_type' => 'reservation',
-                        'entity_id' => $activeReservation->id,
+                        'entity_id' => $activeReservation->reservation_number,
                     ];
                 }
 
                 return [
                     'status' => CustomerStatus::ACTIVE,
                 ];
+            }
+        );
+    }
+
+    public function rating(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->relationLoaded('ratings') && $this->ratings->isNotEmpty()) {
+                    return $this->ratings->avg('rating');
+                }
+
+                return null;
             }
         );
     }
@@ -111,5 +132,15 @@ class Customer extends Model
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function trafficInfractions(): HasMany
+    {
+        return $this->hasMany(TrafficInfraction::class);
+    }
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(CustomerRating::class);
     }
 }

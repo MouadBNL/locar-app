@@ -22,6 +22,7 @@ class ReservationCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'reservation_number' => 'required|string|unique:reservations,reservation_number',
             'customer_id' => 'required|exists:customers,id',
             'vehicle_id' => 'required|exists:vehicles,id',
             'check_in_date' => 'required|date',
@@ -29,6 +30,7 @@ class ReservationCreateRequest extends FormRequest
             'daily_rate' => 'required|numeric|min:0',
             'total_days' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0',
+            'deposit' => 'required|numeric|min:0',
             'notes' => 'nullable|string',
         ];
     }

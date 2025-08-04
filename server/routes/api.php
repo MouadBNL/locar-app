@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CalendarController;
 use App\Http\Controllers\Api\V1\CustomerController;
+use App\Http\Controllers\Api\V1\CustomerRatingController;
 use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\V1\RentalAgreementGenerateController;
 use App\Http\Controllers\Api\V1\RentalController;
@@ -12,9 +14,11 @@ use App\Http\Controllers\Api\V1\RentalPaymentController;
 use App\Http\Controllers\Api\V1\RentalReturnController;
 use App\Http\Controllers\Api\V1\RentalStartController;
 use App\Http\Controllers\Api\V1\ReservationController;
+use App\Http\Controllers\Api\V1\StatisticsController;
+use App\Http\Controllers\Api\V1\TrafficInfractionController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
-use App\Http\Controllers\Api\V1\VehicleMaintenanceController;
+use App\Http\Controllers\Api\V1\VehicleRepairController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/auth')->group(function () {
@@ -26,10 +30,19 @@ Route::prefix('/auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('customers', CustomerController::class);
-    Route::apiResource('reservations', ReservationController::class);
+
+    Route::get('customers/{customer}/ratings', [CustomerRatingController::class, 'index']);
+    Route::delete('customers/{customer}/ratings/{rating}', [CustomerRatingController::class, 'destroy']);
+
     Route::apiResource('vehicles', VehicleController::class);
     Route::apiResource('vehicles/{vehicle}/expenses', VehicleExpenseController::class);
-    Route::apiResource('vehicles/{vehicle}/maintenances', VehicleMaintenanceController::class);
+    Route::apiResource('vehicles/{vehicle}/repairs', VehicleRepairController::class);
+
+    Route::get('reservations', [ReservationController::class, 'index']);
+    Route::get('reservations/{reservation:reservation_number}', [ReservationController::class, 'show']);
+    Route::post('reservations', [ReservationController::class, 'store']);
+    Route::put('reservations/{reservation:reservation_number}', [ReservationController::class, 'update']);
+    Route::delete('reservations/{reservation:reservation_number}', [ReservationController::class, 'destroy']);
 
     /**
      * Rentals
@@ -75,4 +88,24 @@ Route::middleware('auth:sanctum')->group(function () {
      */
     Route::post('documents', [DocumentController::class, 'store']);
     Route::get('documents/{document}', [DocumentController::class, 'show']);
+
+    /**
+     * Calendar
+     */
+    Route::get('calendar', [CalendarController::class, 'index']);
+
+    /*
+     * Traffic Infractions
+     */
+    Route::get('traffic-infractions', [TrafficInfractionController::class, 'index']);
+    Route::post('traffic-infractions', [TrafficInfractionController::class, 'store']);
+    Route::get('traffic-infractions/{trafficInfraction}', [TrafficInfractionController::class, 'show']);
+    Route::put('traffic-infractions/{trafficInfraction}', [TrafficInfractionController::class, 'update']);
+    Route::delete('traffic-infractions/{trafficInfraction}', [TrafficInfractionController::class, 'destroy']);
+
+    /**
+     * Statistics
+     */
+    Route::get('statistics/global', [StatisticsController::class, 'global']);
+    Route::get('statistics/vehicles/{vehicle}', [StatisticsController::class, 'vehicle']);
 });

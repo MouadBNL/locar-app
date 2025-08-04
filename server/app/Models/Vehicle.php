@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Enums\VehicleStatus;
 use App\Traits\HasUuidAsPrimary;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -14,8 +16,10 @@ use Illuminate\Support\Collection;
  * @property-read string $id
  * @property-read string $make
  * @property-read string $model
- * @property-read int $year
+ * @property-read ?Carbon $first_service_date
+ * @property-read ?Carbon $last_service_date
  * @property-read string $license_plate
+ * @property-read string $vin
  * @property-read int $mileage
  * @property-read string $fuel_type
  * @property-read string $transmission
@@ -28,13 +32,20 @@ use Illuminate\Support\Collection;
  */
 class Vehicle extends Model
 {
+    /**
+     * @use HasFactory<\Database\Factories\VehicleFactory>
+     */
+    use HasFactory;
+
     use HasUuidAsPrimary;
 
     protected $fillable = [
         'make',
         'model',
-        'year',
+        'first_service_date',
+        'last_service_date',
         'license_plate',
+        'vin',
         'mileage',
         'fuel_type',
         'transmission',
@@ -44,12 +55,17 @@ class Vehicle extends Model
         'photo_url',
     ];
 
+    protected $casts = [
+        'first_service_date' => 'date',
+        'last_service_date' => 'date',
+    ];
+
     public function status(): Attribute
     {
         return Attribute::make(
             get: function () {
-                if ($this->activeMaintenance) {
-                    return VehicleStatus::MAINTENANCE;
+                if ($this->activeRepair) {
+                    return VehicleStatus::REPAIR;
                 }
 
                 if ($this->activeReservation) {
@@ -90,11 +106,11 @@ class Vehicle extends Model
     }
 
     /**
-     * @return HasOne<VehicleMaintenance, $this>
+     * @return HasOne<VehicleRepair, $this>
      */
-    public function activeMaintenance(): HasOne
+    public function activeRepair(): HasOne
     {
-        return $this->hasOne(VehicleMaintenance::class, 'vehicle_id', 'id')
+        return $this->hasOne(VehicleRepair::class, 'vehicle_id', 'id')
             ->where('cancelled_at', null)
             ->where('started_at', '<=', now()->toDateTimeString())
             ->where(function ($query) {
@@ -108,9 +124,9 @@ class Vehicle extends Model
         return $this->hasMany(VehicleExpense::class);
     }
 
-    public function maintenances(): HasMany
+    public function repairs(): HasMany
     {
-        return $this->hasMany(VehicleMaintenance::class);
+        return $this->hasMany(VehicleRepair::class);
     }
 
     /**
@@ -124,5 +140,10 @@ class Vehicle extends Model
     public function rentalVehicles(): HasMany
     {
         return $this->hasMany(RentalVehicle::class);
+    }
+
+    public function trafficInfractions(): HasMany
+    {
+        return $this->hasMany(TrafficInfraction::class);
     }
 }

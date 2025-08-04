@@ -1,14 +1,16 @@
 import type { RentalData } from '@/features/rentals';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import {
-  CircleArrowOutDownLeft,
   DownloadIcon,
   EyeIcon,
+  FileCheck2Icon,
   FileStackIcon,
   FileTextIcon,
   LayoutPanelLeft,
   PlayIcon,
   ReceiptTextIcon,
+  TrafficConeIcon,
+  Trash2Icon,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +22,16 @@ import { RentalReturnForm } from '@/components/blocks/rental-return-form';
 import { RentalStartForm } from '@/components/blocks/rental-start-form';
 import { RentalStatusBadge } from '@/components/blocks/rental-status-badge';
 import { VehicleSummaryCard } from '@/components/blocks/vehicle-summary-card';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -30,11 +42,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
 import {
   useRentalAgreementGenerate,
+  useRentalDelete,
+  useRentalIndex,
   useRentalReturn,
   useRentalShow,
   useRentalStart,
@@ -55,7 +70,7 @@ export const Route = createFileRoute('/app/rentals/$id')({
 
 function RouteComponent() {
   const { id: code } = Route.useParams();
-  const { t } = useTranslation(['rental', 'common']);
+  const { t } = useTranslation(['rental', 'common', 'traffic']);
   const { data } = useRentalShow({ number: code });
   const rental = data?.data;
 
@@ -65,7 +80,7 @@ function RouteComponent() {
 
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
         <div className="flex items-center gap-8">
           <Heading3>
             {t('rental:label_singular')}
@@ -93,12 +108,13 @@ function RouteComponent() {
               <RentalReturnAction code={code} rental={rental} />
             </>
           )}
+          <DeleteRentalAction code={code} rental={rental} />
         </div>
       </div>
 
       <Card className="mb-8">
         <CardContent>
-          <div className="flex space-x-4 h-26 items-center">
+          <div className="flex space-x-4  items-center lg:flex-nowrap flex-wrap gap-y-8">
             <div className="w-full">
               <CustomerSummaryCard
                 id={rental.renter.customer_id ?? ''}
@@ -181,6 +197,15 @@ function RouteComponent() {
             ),
             path: 'payments',
           },
+          {
+            label: (
+              <>
+                <TrafficConeIcon className="-ms-0.5 me-1.5 opacity-60" size={16} aria-hidden="true" />
+                {t('traffic:label_plural')}
+              </>
+            ),
+            path: 'traffic-infractions',
+          },
         ]}
       />
     </div>
@@ -260,7 +285,7 @@ function RentalReturnAction({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
-          <CircleArrowOutDownLeft className="w-4 h-4" />
+          <FileCheck2Icon className="w-4 h-4" />
           {t('rental:return_rental')}
         </Button>
       </DialogTrigger>
@@ -325,5 +350,73 @@ function RentalAgreementAction({
       <DownloadIcon className="w-4 h-4" />
       {t('rental:generate_agreement')}
     </Button>
+  );
+}
+
+function DeleteRentalAction({
+  code,
+}: {
+  code: string;
+  rental: RentalData;
+}) {
+  const { t } = useTranslation(['common', 'rental']);
+  const [open, setOpen] = useState(false);
+  const [confirmCode, setConfirmCode] = useState('');
+  const navigate = useNavigate();
+  const { mutate: deleteRental, isPending: isDeletingRental } = useRentalDelete({
+    onSuccess: () => {
+      toast.success(t('rental:action.delete.success'));
+      useRentalShow.invalidate({ number: code });
+      useRentalIndex.invalidate();
+      setOpen(false);
+      navigate({ to: '/app/rentals' });
+    },
+    onError: () => {
+      toast.error(t('rental:action.delete.error'));
+    },
+  });
+
+  const handleDelete = () => {
+    if (confirmCode === code) {
+      deleteRental({ id: code });
+    }
+    else {
+      toast.error(t('rental:action.delete.confirm'));
+    }
+  };
+
+  return (
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive">
+          <Trash2Icon className="w-4 h-4" />
+          {t('common:delete')}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t('common:delete')}</AlertDialogTitle>
+          <AlertDialogDescription>{t('rental:action.delete.description')}</AlertDialogDescription>
+
+          <div className="mt-4">
+            <div>
+              <p className="text-sm text-muted-foreground">{t('rental:action.delete.confirm')}</p>
+              <div className="flex items-center py-4">
+                <code className="text-sm bg-muted p-2 rounded-md">{code}</code>
+              </div>
+            </div>
+            <Input type="text" value={confirmCode} onChange={e => setConfirmCode(e.target.value)} />
+          </div>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>
+            {t('common:cancel')}
+          </AlertDialogCancel>
+          <Button variant="destructive" disabled={code !== confirmCode} loading={isDeletingRental} onClick={handleDelete}>
+            {t('common:delete')}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

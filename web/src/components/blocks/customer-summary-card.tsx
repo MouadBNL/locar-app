@@ -34,18 +34,18 @@ export function CustomerSummaryCard(props: CustomerSummaryCardProps) {
           </h4>
           <h5 className="text-sm text-muted-foreground">{props.phone}</h5>
         </div>
-        <div className="grid grid-cols-2 text-sm gap-2">
-          <div className="flex gap-2 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 text-sm gap-2">
+          <div className="flex gap-2 items-start justify-between lg:justify-start">
             <span>{t('customer:attributes.id_number')}</span>
             {' '}
             <span className="text-muted-foreground">{props.id_number}</span>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-start justify-between lg:justify-start">
             <span>{t('customer:attributes.driver_license_number')}</span>
             {' '}
             <span className="text-muted-foreground">{props.license}</span>
           </div>
-          <div className="flex gap-2 items-center col-span-2">
+          <div className="flex gap-2 items-start justify-between lg:justify-start lg:col-span-2">
             <span>{t('customer:attributes.address')}</span>
             {' '}
             <span className="text-muted-foreground">{props.address}</span>

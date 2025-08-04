@@ -6,10 +6,14 @@
   "no_vehicles_found": "No vehicles found",
   "create_vehicle": "Create Vehicle",
   "edit_vehicle": "Edit Vehicle",
+  "general": "General",
   "attributes": {
     "make": "Make",
     "model": "Model",
     "year": "Year",
+    "first_service_date": "First Service Date",
+    "last_service_date": "Last Service Date",
+    "vin": "VIN",
     "color": "Color",
     "plate": "Plate",
     "price": "Price",
@@ -25,7 +29,7 @@
     "available": "Available",
     "booked": "Booked",
     "rented": "Rented",
-    "maintenance": "Maintenance"
+    "repair": "Repair"
   },
   "transmission_enum": {
     "AT": "Automatic",
@@ -36,5 +40,13 @@
     "diesel": "Diesel",
     "electric": "Electric",
     "hybrid": "Hybrid"
+  },
+  "action": {
+    "delete": {
+      "description": "Are you sure you want to delete this vehicle? This action cannot be undone.",
+      "confirm": "Write the plate to confirm deletion.",
+      "success": "Vehicle deleted successfully",
+      "error": "Failed to delete vehicle"
+    }
   }
 }

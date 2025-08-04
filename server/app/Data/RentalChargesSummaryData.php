@@ -15,9 +15,7 @@ class RentalChargesSummaryData extends Data
         public float $extra_rate,
         public float $extra_quantity,
         public float $extra_total,
-        public float $insurance_rate,
-        public float $insurance_quantity,
-        public float $insurance_total,
+        public float $discount,
         public float $total,
         public float $paid,
         public float $due,
@@ -40,11 +38,9 @@ class RentalChargesSummaryData extends Data
         $extra_quantity = $rate->extra_quantity ?? 0;
         $extra_total = $extra_rate * $extra_quantity;
 
-        $insurance_rate = $rate->insurance_rate ?? 0;
-        $insurance_quantity = $rate->insurance_quantity ?? 0;
-        $insurance_total = $insurance_rate * $insurance_quantity;
+        $discount = $rate->discount ?? 0;
 
-        $total = $day_total + $extra_total + $insurance_total;
+        $total = $day_total + $extra_total - $discount;
         $paid = $rental->payments->where('type', RentalPaymentType::NORMAL)->sum('amount') ?? 0;
         $due = $total - $paid;
         $deposit = $rental->payments->where('type', RentalPaymentType::DEPOSIT)->sum('amount') ?? 0;
@@ -58,9 +54,7 @@ class RentalChargesSummaryData extends Data
             extra_rate: $extra_rate,
             extra_quantity: $extra_quantity,
             extra_total: $extra_total,
-            insurance_rate: $insurance_rate,
-            insurance_quantity: $insurance_quantity,
-            insurance_total: $insurance_total,
+            discount: $discount,
             total: $total,
             paid: $paid,
             due: $due,

@@ -1,6 +1,8 @@
 {
   "label_singular": "Expense",
   "label_plural": "Expenses",
+  "expenses_and_maintenance": "Expenses & Maintenance",
+  "maintenance": "Maintenance",
   "search_placeholder": "Search expense...",
   "manage_expenses": "Manage Expenses",
   "add_expense": "Add Expense",
@@ -9,10 +11,18 @@
   "total": "Total",
   "type_enum": {
     "fuel": "Fuel",
-    "maintenance": "Maintenance",
-    "repair": "Repair",
+    "car_wash": "Car Wash",
+    "tires": "Tires",
+    "oil_change": "Oil Change",
+    "tax": "Tax",
+    "brakes": "Brakes",
+    "diagnostic": "Diagnostic",
+    "inspection": "Inspection",
+    "electrician": "Electrician",
     "insurance": "Insurance",
-    "registration": "Registration",
+    "mechanic": "Mechanic",
+    "parking": "Parking",
+    "spare_parts": "Spare Parts",
     "other": "Other"
   },
   "attributes": {

@@ -5,7 +5,7 @@ namespace App\Enums;
 enum VehicleStatus: string
 {
     case AVAILABLE = 'available';
-    case MAINTENANCE = 'maintenance';
+    case REPAIR = 'repair';
     case BOOKED = 'booked';
     case RENTED = 'rented';
     // case SOLD = 'sold';

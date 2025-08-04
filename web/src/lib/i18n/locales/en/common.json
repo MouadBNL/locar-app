@@ -13,6 +13,7 @@
   "allRightsReserved": "All rights reserved",
   "randomLink": "Random Link",
   "actions": "Actions",
+  "and": "and",
   "cancel": "Cancel",
   "submit": "Submit",
   "view": "View",
@@ -45,11 +46,22 @@
   "close": "Close",
   "more": "More",
   "open": "Open",
+  "no_data_found": "No data found",
   "max_files_and_file_size": "Max {{file_cnt}} files up to {{file_size}}MB.",
+  "archive": "Archive",
+  "delete": "Delete",
   "theme": {
     "light": "Light",
     "dark": "Dark",
     "system": "System",
     "toggle_theme": "Toggle Theme"
+  },
+  "table": {
+    "page": "Page",
+    "prev": "Previous",
+    "next": "Next",
+    "pagination_index_to_of": "Page {{index}} of {{total}}",
+    "more": "More pages",
+    "no_data_found": "No data found"
   }
 }

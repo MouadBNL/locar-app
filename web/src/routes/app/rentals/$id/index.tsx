@@ -58,8 +58,8 @@ function RouteComponent() {
     return null;
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      <div className="col-span-2 grid grid-cols-1 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="lg:col-span-2 grid grid-cols-1 gap-8">
         <RentalVehicleFormSection
           code={id}
           vehicle={rental.vehicle}
@@ -87,7 +87,7 @@ function RouteComponent() {
           onUpdate={handleUpdate}
         />
       </div>
-      <div className="col-span-1">
+      <div className="col-span-1 order-first lg:order-none">
         <RentalChargesSummary charges={rental.charges_summary ?? undefined} />
       </div>
     </div>
@@ -353,6 +353,7 @@ function RentalRateFormSection({
   const daily_rate = form.watch('day_rate');
   const extra_rate = form.watch('extra_rate');
   const extra_quantity = form.watch('extra_quantity');
+  const discount = form.watch('discount');
 
   function dateDiffInDays(a?: string | null, b?: string | null) {
     if (!a || !b)
@@ -383,7 +384,7 @@ function RentalRateFormSection({
     const day_total_price = number_of_days * (daily_rate ?? 0);
     form.setValue('day_quantity', number_of_days);
     form.setValue('day_total', day_total_price);
-    const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0);
+    const total_price = (extra_total_price ?? 0) + (day_total_price ?? 0) - (discount ?? 0);
     form.setValue('total', total_price);
   }, [
     extra_rate,
@@ -392,6 +393,7 @@ function RentalRateFormSection({
     departure_date,
     return_date,
     form,
+    discount,
   ]);
 
   const onSubmit = form.handleSubmit((data) => {
@@ -489,7 +491,16 @@ function RentalRateFormSection({
                 )}
               />
 
-              <div className="col-span-3">
+              <AppFormField
+                control={form.control}
+                name="discount"
+                label={t('rental:rate.attributes.discount')}
+                render={({ field }) => (
+                  <NumberInput value={field.value ?? undefined} placeholder={t('rental:rate.attributes.discount')} onChange={value => field.onChange(value)} />
+                )}
+              />
+
+              <div className="md:col-span-2">
                 <AppFormField
                   control={form.control}
                   name="total"

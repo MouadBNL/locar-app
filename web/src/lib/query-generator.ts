@@ -1,12 +1,12 @@
 /* eslint-disable ts/no-explicit-any */
 import type { UseMutationOptions, UseMutationResult, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import {
+  QueryClient,
   useMutation,
-
   useQuery,
-
 } from '@tanstack/react-query';
-import { queryClient } from '@/routes/__root';
+
+export const queryClient = new QueryClient();
 
 /**
  * Utility to obtain the variable type (handles “no args” nicely).
@@ -67,7 +67,7 @@ export function makeQueryHook<
     variables?: TVariables,
     opts: Omit<
       UseQueryOptions<TData, TError, TData, TKey>,
-      'queryKey' | 'queryFn'
+'queryKey' | 'queryFn'
     > = {},
   ): UseQueryResult<TData, TError> => {
     // console.log("queryKey", [...prefix, variables]);

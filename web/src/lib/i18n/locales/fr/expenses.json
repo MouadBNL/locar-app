@@ -1,6 +1,8 @@
 {
   "label_singular": "Dépense",
   "label_plural": "Dépenses",
+  "expenses_and_maintenance": "Dépenses & Maintenance",
+  "maintenance": "Maintenance",
   "search_placeholder": "Rechercher une dépense...",
   "manage_expenses": "Gérer les dépenses",
   "add_expense": "Ajouter une dépense",
@@ -8,11 +10,19 @@
   "no_expenses_found": "Aucune dépense trouvée",
   "total": "Total",
   "type_enum": {
-    "fuel": "Essence",
-    "maintenance": "Maintenance",
-    "repair": "Réparation",
+    "fuel": "Carburant",
+    "car_wash": "Lavage de voiture",
+    "tires": "Pneus",
+    "oil_change": "Vidange",
+    "tax": "Vignette",
+    "brakes": "Freins",
+    "diagnostic": "Diagnostic",
+    "inspection": "Visite technique",
+    "electrician": "Electricien",
     "insurance": "Assurance",
-    "registration": "Immatriculation",
+    "mechanic": "Mécanicien",
+    "parking": "Parking",
+    "spare_parts": "Pièces détachées",
     "other": "Autre"
   },
   "attributes": {

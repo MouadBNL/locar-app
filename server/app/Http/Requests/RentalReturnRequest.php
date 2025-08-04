@@ -7,6 +7,10 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @property-read string $actual_return_date
  * @property-read int $mileage
+ * @property-read array{
+ *     rating: int,
+ *     comment: ?string,
+ * } $customer
  */
 class RentalReturnRequest extends FormRequest
 {
@@ -28,6 +32,10 @@ class RentalReturnRequest extends FormRequest
         return [
             'actual_return_date' => ['required', 'date'],
             'mileage' => ['required', 'integer', 'min:0'],
+            'customer' => [
+                'rating' => ['required', 'integer', 'min:0', 'max:5'],
+                'comment' => ['nullable', 'string'],
+            ],
         ];
     }
 }

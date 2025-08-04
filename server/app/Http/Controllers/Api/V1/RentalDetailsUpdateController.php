@@ -10,6 +10,7 @@ use App\Data\RentalVehicleData;
 use App\Data\RenterData;
 use App\Models\Customer;
 use App\Models\Rental;
+use App\Models\RentalRate;
 use App\Models\Vehicle;
 use App\Services\AvailabilityCheckService;
 use App\Services\TimeframeService;
@@ -93,7 +94,7 @@ class RentalDetailsUpdateController extends ApiController
         $rental->rate->update([
             'day_quantity' => $days,
             'day_total' => $rental->rate->day_rate * $days,
-            'total' => $rental->rate->day_rate * $days + $rental->rate->insurance_total + $rental->rate->extra_total,
+            'total' => $rental->rate->day_rate * $days + $rental->rate->extra_total - ($rental->rate->discount ?? 0),
         ]);
 
         return $this->success(null, 'rental.timeframe.updated');
@@ -101,26 +102,24 @@ class RentalDetailsUpdateController extends ApiController
 
     public function rate(RentalRateData $data, Rental $rental)
     {
-        $rental->rate->update([
+        $rental->load('rate');
+
+        $total = $data->day_quantity * $data->day_rate + $data->extra_quantity * $data->extra_rate - ($data->discount ?? 0);
+
+        RentalRate::where('rental_id', $rental->id)->update([
             'day_quantity' => $data->day_quantity,
             'day_rate' => $data->day_rate,
             'day_total' => $data->day_total,
-            'week_quantity' => $data->week_quantity,
-            'week_rate' => $data->week_rate,
-            'week_total' => $data->week_total,
-            'month_quantity' => $data->month_quantity,
-            'month_rate' => $data->month_rate,
-            'month_total' => $data->month_total,
-            'insurance_quantity' => $data->insurance_quantity,
-            'insurance_rate' => $data->insurance_rate,
-            'insurance_total' => $data->insurance_total,
             'extra_quantity' => $data->extra_quantity,
             'extra_rate' => $data->extra_rate,
             'extra_total' => $data->extra_total,
-            'total' => $data->total,
+            'discount' => $data->discount,
+            'total' => $total,
         ]);
 
-        return $this->success(null, 'rental.rate.updated');
+        $rental->rate->refresh();
+
+        return $this->success($rental->rate, 'rental.rate.updated');
     }
 
     public function notes(Request $request, Rental $rental)

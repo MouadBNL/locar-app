@@ -19,22 +19,11 @@ return new class extends Migration
             $table->decimal('day_rate', 10, 2)->nullable();
             $table->decimal('day_total', 10, 2)->nullable();
 
-            $table->decimal('week_quantity')->nullable();
-            $table->decimal('week_rate', 10, 2)->nullable();
-            $table->decimal('week_total', 10, 2)->nullable();
-
-            $table->decimal('month_quantity')->nullable();
-            $table->decimal('month_rate', 10, 2)->nullable();
-            $table->decimal('month_total', 10, 2)->nullable();
-
-            $table->decimal('insurance_quantity')->nullable();
-            $table->decimal('insurance_rate', 10, 2)->nullable();
-            $table->decimal('insurance_total', 10, 2)->nullable();
-
             $table->decimal('extra_quantity')->nullable();
             $table->decimal('extra_rate', 10, 2)->nullable();
             $table->decimal('extra_total', 10, 2)->nullable();
 
+            $table->decimal('discount', 10, 2)->nullable();
             $table->decimal('total', 10, 2)->nullable();
             $table->timestamps();
         });

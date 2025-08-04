@@ -49,9 +49,6 @@
     "total_due": "Total Due",
     "deposit_total": "Deposit Total",
     "deposit_refunded": "Refunded",
-    "deposit_due": "Remaining to refund",
-    "insurance_rate": "Insurance Rate",
-    "insurance_quantity": "Insurance Quantity",
-    "insurance_total": "Insurance Total"
+    "deposit_due": "Remaining to refund"
   }
 }

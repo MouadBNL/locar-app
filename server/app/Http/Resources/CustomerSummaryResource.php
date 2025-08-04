@@ -23,6 +23,7 @@ class CustomerSummaryResource extends JsonResource
             'full_name' => $this->first_name.' '.$this->last_name,
             'phone' => $this->phone,
             'identifier' => $this->id_card_number ?? $this->passport_number ?? $this->driver_license_number,
+            'rating' => $this->rating,
         ];
     }
 }

@@ -1,0 +1,27 @@
+{
+  "allDay": "All day",
+  "attributes": {
+    "title": "Title",
+    "description": "Description",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "location": "Location"
+  },
+  "editEvent": "Edit Event",
+  "editEventDescription": "Edit the details of this event",
+  "createEvent": "Create Event",
+  "createEventDescription": "Add a new event to your calendar",
+  "etiquette": "Etiquette",
+  "noEvents": "No events",
+  "noEventsDescription": "There are no events scheduled for this time period.",
+  "details": "Details",
+  "detailsDescription": "The details of this event",
+  "today": "Today",
+  "newEvent": "New Event",
+  "month": "Month",
+  "week": "Week",
+  "day": "Day",
+  "agenda": "Agenda"
+}

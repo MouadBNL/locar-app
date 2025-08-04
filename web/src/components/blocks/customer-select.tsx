@@ -5,6 +5,7 @@ import { Plus } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCustomerCreate, useCustomerIndex } from '@/features/customers';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import {
   Dialog,
@@ -23,6 +24,7 @@ import {
   SelectTrigger,
 } from '../ui/select';
 import CustomerForm from './customer-form';
+import { CustomerRatingBadge } from './customer-rating-badge';
 
 export type CustomerSelectProps = React.ComponentProps<typeof Select> & {
   onCustomerSelected?: (customer: CustomerData) => void;
@@ -78,6 +80,8 @@ export function CustomerSelect(props: CustomerSelectProps) {
     return (
       customer.first_name.toLowerCase().includes(searchLower)
       || customer.last_name.toLowerCase().includes(searchLower)
+      || (customer.id_card_number ?? '').toLowerCase().includes(searchLower)
+
     );
   }) ?? [];
 
@@ -117,23 +121,29 @@ export function CustomerSelect(props: CustomerSelectProps) {
           </div>
           <hr className="mb-2 mx-2" />
           {filteredCustomers.map(customer => (
-            <SelectItem key={customer.id} value={customer.id!}>
-              {customer.first_name}
-              {' '}
-              {customer.last_name}
-              {' '}
-              <i className="opacity-15">
-                {customer.id_card_number}
-                {' '}
-                |
-                {' '}
-                {customer.email}
-                {' '}
-                |
-                {' '}
-                {customer.phone}
-                {' '}
-              </i>
+            <SelectItem key={customer.id} value={customer.id!} className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Avatar className="size-6 rounded-lg">
+                  <AvatarImage src="#" />
+                  <AvatarFallback className="rounded-lg text-xs">
+                    {customer.first_name.charAt(0)}
+                    {customer.last_name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              <div className="w-32">
+                <h4 className="text-sm font-bold -mb-1 truncate">
+                  {customer.first_name}
+                  {' '}
+                  {customer.last_name}
+                </h4>
+                <h5 className="text-xs text-muted-foreground truncate">{customer.id_card_number}</h5>
+              </div>
+              {customer.rating && (
+                <div className="text-sm">
+                  <CustomerRatingBadge rating={customer.rating} />
+                </div>
+              )}
             </SelectItem>
           ))}
         </SelectContent>

@@ -59,19 +59,9 @@ export function RentalChargesSummary(props: {
                 <Separator />
 
                 <RentalChargesSummaryItem
-                  label={t('payment:extra.insurance_rate')}
-                  value={fmt_currency(props.charges.insurance_rate)}
+                  label={t('rental:charges.attributes.discount')}
+                  value={fmt_currency(props.charges.discount)}
                 />
-                <RentalChargesSummaryItem
-                  label={t('payment:extra.insurance_quantity')}
-                  value={props.charges.insurance_quantity.toString()}
-                />
-                <RentalChargesSummaryItem
-                  label={t('payment:extra.insurance_total')}
-                  value={fmt_currency(props.charges.insurance_total)}
-                />
-
-                <Separator />
 
                 <RentalChargesSummaryItem
                   label={t('rental:charges.attributes.total')}

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('reservation_number')->unique();
             $table->foreignUuid('customer_id')->constrained('customers');
             $table->foreignUuid('vehicle_id')->constrained('vehicles');
             $table->date('check_in_date');
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->decimal('daily_rate', 10, 2);
             $table->integer('total_days');
             $table->decimal('total_price', 10, 2);
+            $table->decimal('deposit', 10, 2)->default(0);
             $table->text('notes')->nullable();
             $table->timestamps();
         });
