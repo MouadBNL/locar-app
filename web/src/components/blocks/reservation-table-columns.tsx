@@ -11,7 +11,7 @@ export function useReservationTableColumns({ actions }: { actions?: (reservation
 
   const columns: ColumnDef<ReservationResource>[] = [
     {
-      header: t('common:reservations'),
+      header: () => t('common:reservations'),
       accessorKey: 'reservation_number',
       cell: ({ row }) => (
         <Link to="/app/reservations/$number" params={{ number: row.original.reservation_number }} className="hover:underline">
@@ -20,7 +20,7 @@ export function useReservationTableColumns({ actions }: { actions?: (reservation
       ),
     },
     {
-      header: t('reservation:attributes.customer'),
+      header: () => t('reservation:attributes.customer'),
       accessorKey: 'customer.full_name',
       cell: ({ row }) => (
         <CustomerTableCard
@@ -32,7 +32,7 @@ export function useReservationTableColumns({ actions }: { actions?: (reservation
       ),
     },
     {
-      header: t('reservation:attributes.vehicle'),
+      header: () => t('reservation:attributes.vehicle'),
       accessorKey: 'vehicle.make',
       cell: ({ row }) => (
         <VehicleTableCard
@@ -45,17 +45,17 @@ export function useReservationTableColumns({ actions }: { actions?: (reservation
       ),
     },
     {
-      header: t('reservation:attributes.check_in_date'),
+      header: () => t('reservation:attributes.check_in_date'),
       accessorKey: 'check_in_date',
       cell: ({ row }) => <DateCard date={row.original.check_in_date} />,
     },
     {
-      header: t('reservation:attributes.check_out_date'),
+      header: () => t('reservation:attributes.check_out_date'),
       accessorKey: 'check_out_date',
       cell: ({ row }) => <DateCard date={row.original.check_out_date} />,
     },
     {
-      header: t('reservation:attributes.total_price'),
+      header: () => t('reservation:attributes.total_price'),
       accessorKey: 'total_price',
       cell: ({ row }) => (
         <div className="flex flex-col">
@@ -73,7 +73,8 @@ export function useReservationTableColumns({ actions }: { actions?: (reservation
       ),
     },
     {
-      header: t('common:actions'),
+      header: () => t('common:actions'),
+      accessorKey: 'actions',
       cell: ({ row }) => (
         <div className="flex gap-2 justify-end">
           {actions?.(row.original)}

@@ -3,7 +3,6 @@ import { EyeIcon, PlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { VehicleTable } from '@/components/blocks/vehicle-table';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import { useVehicleIndex } from '@/features/vehicles';
 
@@ -30,25 +29,23 @@ function RouteComponent() {
         </Button>
       </div>
 
-      <Card className="p-2 mb-4">
-        <VehicleTable
-          data={data?.data || []}
-          loading={isLoading}
-          actions={vehicle => (
-            <>
-              <Button variant="outline" size="sm" asChild>
-                <Link
-                  from="/"
-                  to="/app/vehicles/$id"
-                  params={{ id: vehicle.id! }}
-                >
-                  <EyeIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            </>
-          )}
-        />
-      </Card>
+      <VehicleTable
+        data={data?.data || []}
+        loading={isLoading}
+        actions={vehicle => (
+          <>
+            <Button variant="outline" size="sm" asChild>
+              <Link
+                from="/"
+                to="/app/vehicles/$id"
+                params={{ id: vehicle.id! }}
+              >
+                <EyeIcon className="w-4 h-4" />
+              </Link>
+            </Button>
+          </>
+        )}
+      />
     </div>
   );
 }

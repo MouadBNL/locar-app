@@ -3,7 +3,6 @@ import { EyeIcon, PlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CustomerTable } from '@/components/blocks/customer-table';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import { useCustomerIndex } from '@/features/customers';
 
@@ -31,25 +30,23 @@ function RouteComponent() {
         </Button>
       </div>
 
-      <Card className="p-2 mb-4">
-        <CustomerTable
-          data={data?.data || []}
-          loading={isLoading}
-          actions={customer => (
-            <>
-              <Button variant="outline" size="sm" asChild>
-                <Link
-                  from="/"
-                  to="/app/customers/$id"
-                  params={{ id: customer.id! }}
-                >
-                  <EyeIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            </>
-          )}
-        />
-      </Card>
+      <CustomerTable
+        data={data?.data || []}
+        loading={isLoading}
+        actions={customer => (
+          <>
+            <Button variant="outline" size="sm" asChild>
+              <Link
+                from="/"
+                to="/app/customers/$id"
+                params={{ id: customer.id! }}
+              >
+                <EyeIcon className="w-4 h-4" />
+              </Link>
+            </Button>
+          </>
+        )}
+      />
     </div>
   );
 }
