@@ -38,10 +38,10 @@ class StatisticsController extends ApiController
             'revenue_per_day' => GlobalStatisticsService::revenuePerDay(null, null),
             'expenses_per_day' => GlobalStatisticsService::expensesPerDay(null, null),
             'expenses_per_type' => GlobalStatisticsService::expensesPerType(null, null),
-            'revenue_monthly_progress' => ($thisMonthRevenue - $lastMonthRevenue) / $lastMonthRevenue * 100,
-            'expenses_monthly_progress' => ($thisMonthExpenses - $lastMonthExpenses) / $lastMonthExpenses * 100,
-            'rentals_monthly_progress' => ($thisMonthRentals - $lastMonthRentals) / $lastMonthRentals * 100,
-            'reservations_monthly_progress' => ($thisMonthReservations - $lastMonthReservations) / $lastMonthReservations * 100,
+            'revenue_monthly_progress' => $lastMonthRevenue > 0 ? ($thisMonthRevenue - $lastMonthRevenue) / $lastMonthRevenue * 100 : 0,
+            'expenses_monthly_progress' => $lastMonthExpenses > 0 ? ($thisMonthExpenses - $lastMonthExpenses) / $lastMonthExpenses * 100 : 0,
+            'rentals_monthly_progress' => $lastMonthRentals > 0 ? ($thisMonthRentals - $lastMonthRentals) / $lastMonthRentals * 100 : 0,
+            'reservations_monthly_progress' => $lastMonthReservations > 0 ? ($thisMonthReservations - $lastMonthReservations) / $lastMonthReservations * 100 : 0,
         ];
 
         return $this->success($stats);
@@ -79,11 +79,11 @@ class StatisticsController extends ApiController
             'revenue_per_day' => VehicleStatisticsService::revenuePerDay($vehicle, null, null),
             'expenses_per_day' => VehicleStatisticsService::expensesPerDay($vehicle, null, null),
             'expenses_per_type' => VehicleStatisticsService::expensesPerType($vehicle, null, null),
-            'revenue_monthly_progress' => ($thisMonthRevenue - $lastMonthRevenue) / $lastMonthRevenue * 100,
-            'expenses_monthly_progress' => ($thisMonthExpenses - $lastMonthExpenses) / $lastMonthExpenses * 100,
-            'rentals_monthly_progress' => ($thisMonthRentals - $lastMonthRentals) / $lastMonthRentals * 100,
-            'reservations_monthly_progress' => ($thisMonthReservations - $lastMonthReservations) / $lastMonthReservations * 100,
-            'repairs_monthly_progress' => ($thisMonthRepairs - $lastMonthRepairs) / $lastMonthRepairs * 100,
+            'revenue_monthly_progress' => $lastMonthRevenue > 0 ? ($thisMonthRevenue - $lastMonthRevenue) / $lastMonthRevenue * 100 : 0,
+            'expenses_monthly_progress' => $lastMonthExpenses > 0 ? ($thisMonthExpenses - $lastMonthExpenses) / $lastMonthExpenses * 100 : 0,
+            'rentals_monthly_progress' => $lastMonthRentals > 0 ? ($thisMonthRentals - $lastMonthRentals) / $lastMonthRentals * 100 : 0,
+            'reservations_monthly_progress' => $lastMonthReservations > 0 ? ($thisMonthReservations - $lastMonthReservations) / $lastMonthReservations * 100 : 0,
+            'repairs_monthly_progress' => $lastMonthRepairs > 0 ? ($thisMonthRepairs - $lastMonthRepairs) / $lastMonthRepairs * 100 : 0,
         ];
 
         return $this->success($stats);
