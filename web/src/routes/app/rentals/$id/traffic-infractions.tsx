@@ -43,7 +43,7 @@ function RouteComponent() {
   return (
     <div>
       <Card>
-        <CardHeader className="flex flex-wrap">
+        <CardHeader>
           <CardTitle>{t('traffic:label_plural')}</CardTitle>
           <CardDescription>{t('traffic:traffic_infractions_rental_description')}</CardDescription>
           <CardAction>
@@ -52,7 +52,7 @@ function RouteComponent() {
         </CardHeader>
         <CardContent>
           <TrafficInfractionTable
-            data={trafficInfractions?.data}
+            data={trafficInfractions?.data ?? []}
             loading={trafficInfractionsLoading}
             actions={trafficInfraction => (
               <>

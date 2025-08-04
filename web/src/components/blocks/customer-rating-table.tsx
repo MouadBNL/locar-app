@@ -1,8 +1,34 @@
+import type { ColumnDef } from '@tanstack/react-table';
 import type { CustomerRatingResource } from '@/features/customers';
-import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { Skeleton } from '../ui/skeleton';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { DataTable } from './datatable';
+
+function useCustomerRatingTableColumns({ actions }: { actions?: (rating: CustomerRatingResource) => React.ReactNode }) {
+  const { t } = useTranslation(['customer', 'common']);
+  const columns: ColumnDef<CustomerRatingResource>[] = [
+    {
+      header: () => t('customer:rating.attributes.rating'),
+      accessorKey: 'rating',
+      cell: ({ row }) => <span>{row.original.rating}</span>,
+    },
+    {
+      header: () => t('customer:rating.attributes.rental'),
+      accessorKey: 'rental',
+      cell: ({ row }) => <span>{row.original.rental?.rental_number}</span>,
+    },
+    {
+      header: () => t('customer:rating.attributes.comment'),
+      accessorKey: 'comment',
+      cell: ({ row }) => <p className="max-w-[250px] truncate" title={row.original.comment}>{row.original.comment}</p>,
+    },
+    {
+      header: () => t('common:actions'),
+      accessorKey: 'actions',
+      cell: ({ row }) => <div className="flex gap-2 justify-end">{actions?.(row.original)}</div>,
+    },
+  ];
+  return { columns };
+}
 
 export function CustomerRatingTable({
   data,
@@ -13,36 +39,6 @@ export function CustomerRatingTable({
   loading?: boolean;
   actions?: (rating: CustomerRatingResource) => React.ReactNode;
 }) {
-  const { t } = useTranslation(['customer', 'common']);
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>{t('customer:rating.attributes.rating')}</TableHead>
-          <TableHead>{t('customer:rating.attributes.rental')}</TableHead>
-          <TableHead>{t('customer:rating.attributes.comment')}</TableHead>
-          {actions && <TableHead className="text-right">{t('common:actions')}</TableHead>}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {loading && <TableRow><TableCell colSpan={3}><Skeleton className="h-10 w-full" /></TableCell></TableRow>}
-        {data.map(rating => (
-          <TableRow key={rating.id}>
-            <TableCell>{rating.rating}</TableCell>
-            <TableCell>
-              <Link to="/app/rentals/$id" params={{ id: rating.rental?.rental_number ?? '' }} className="hover:underline">
-                {rating.rental?.rental_number}
-              </Link>
-            </TableCell>
-            <TableCell className="max-w-[250px] truncate" title={rating.comment}>{rating.comment}</TableCell>
-            {actions && (
-              <TableCell className="flex gap-2 justify-end">
-                {actions(rating)}
-              </TableCell>
-            )}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
+  const { columns } = useCustomerRatingTableColumns({ actions });
+  return <DataTable data={data} loading={loading} columns={columns} rowId={row => row.id!} />;
 }

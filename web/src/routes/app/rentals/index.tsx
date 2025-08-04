@@ -3,7 +3,6 @@ import { EyeIcon, PlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import { useRentalIndex } from '@/features/rentals';
 
@@ -32,25 +31,23 @@ function RouteComponent() {
         </Button>
       </div>
 
-      <Card className="p-2 mb-4">
-        <RentalTable
-          data={data?.data ?? []}
-          loading={isFetching}
-          actions={rental => (
-            <>
-              <Button variant="outline" size="sm" asChild>
-                <Link
-                  from="/"
-                  to="/app/rentals/$id"
-                  params={{ id: rental.rental_number }}
-                >
-                  <EyeIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            </>
-          )}
-        />
-      </Card>
+      <RentalTable
+        data={data?.data ?? []}
+        loading={isFetching}
+        actions={rental => (
+          <>
+            <Button variant="outline" size="sm" asChild>
+              <Link
+                from="/"
+                to="/app/rentals/$id"
+                params={{ id: rental.rental_number }}
+              >
+                <EyeIcon className="w-4 h-4" />
+              </Link>
+            </Button>
+          </>
+        )}
+      />
     </div>
   );
 }

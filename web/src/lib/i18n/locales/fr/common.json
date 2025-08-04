@@ -55,5 +55,13 @@
     "dark": "Sombre",
     "system": "Système",
     "toggle_theme": "Basculer le thème"
+  },
+  "table": {
+    "page": "Page",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "pagination_index_to_of": "Page {{index}} de {{total}}",
+    "more": "Plus de pages",
+    "no_data_found": "Aucune donnée trouvée"
   }
 }
