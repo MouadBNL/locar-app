@@ -59,11 +59,11 @@ export default function RentalInitializationForm({
         customer_id: null,
         full_name: 'John Doe',
         phone: '+212 6 66 66 66 66',
+        id_card_number: 'AA123456',
+        birth_date: fmt_date(get_date(), { format: 'date' }),
         address_primary: '123 Main St',
         address_secondary: 'Apt 4B',
-        id_card_number: '1234567890',
-        birth_date: fmt_date(get_date(), { format: 'date' }),
-        driver_license_number: '1234567890',
+        driver_license_number: '123456789',
         driver_license_issuing_city: 'Casablanca',
         driver_license_issuing_date: fmt_date(get_date(), { format: 'date' }),
         driver_license_expiration_date: fmt_date(get_date({ day: 365 * 5 }), {
@@ -190,6 +190,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         heading={t('rental:customer.heading')}
         subheading={t('rental:customer.subheading')}
       />
+      <div className="grid grid-cols-1 gap-4">
       <AppFormField
         control={form.control}
         name="renter.customer_id"
@@ -203,10 +204,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         )}
       />
 
-      <div className="grid grid-cols-1 gap-4">
-      <hr className="w-1/2 mx-auto my-2" />
-
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
           <AppFormField
             control={form.control}
             name="renter.full_name"
@@ -261,9 +259,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
           />
         </div>
             
-            <hr className="w-1/2 mx-auto mb-4" />
-
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
           <AppFormField
             control={form.control}
             name="renter.driver_license_number"
@@ -308,9 +304,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
           />
         </div>
 
-        <hr className="w-1/2 mx-auto mb-4" />
-
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
           <AppFormField
             control={form.control}
             name="renter.passport_number"
@@ -356,9 +350,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
           />
         </div>
 
-        <hr className="w-1/2 mx-auto mb-4" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <AppFormField
             control={form.control}
             name="renter.id_card_scan_document"

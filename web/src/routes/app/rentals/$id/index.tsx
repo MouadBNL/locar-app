@@ -591,22 +591,6 @@ function RentalRenterFormSection({
               />
               <AppFormField
                 control={form.control}
-                name="address_primary"
-                label={t('customer:attributes.address')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="address_secondary"
-                label={t('customer:attributes.address')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
-              <AppFormField
-                control={form.control}
                 name="id_card_number"
                 label={t('customer:attributes.id_number')}
                 render={({ field }) => (
@@ -623,6 +607,22 @@ function RentalRenterFormSection({
                     value={field.value ?? undefined}
                     type="string"
                   />
+                )}
+              />
+              <AppFormField
+                control={form.control}
+                name="address_primary"
+                label={t('customer:attributes.address')}
+                render={({ field }) => (
+                  <Input {...field} value={field.value ?? undefined} />
+                )}
+              />
+              <AppFormField
+                control={form.control}
+                name="address_secondary"
+                label={t('customer:attributes.address')}
+                render={({ field }) => (
+                  <Input {...field} value={field.value ?? undefined} />
                 )}
               />
               <AppFormField
