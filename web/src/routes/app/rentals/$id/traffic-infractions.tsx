@@ -43,7 +43,7 @@ function RouteComponent() {
   return (
     <div>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-wrap">
           <CardTitle>{t('traffic:label_plural')}</CardTitle>
           <CardDescription>{t('traffic:traffic_infractions_rental_description')}</CardDescription>
           <CardAction>

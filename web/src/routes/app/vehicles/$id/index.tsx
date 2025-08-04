@@ -149,7 +149,7 @@ function RouteComponent() {
             <VehicleSummaryChart data={data.data} />
           </div>
 
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <VehicleTypePieChart data={data.data} />
             <VehicleSummaryChart data={data.data} />
           </div>

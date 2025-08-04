@@ -19,7 +19,7 @@ function RouteComponent() {
   const { data, isLoading } = useVehicleIndex();
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
         <Heading3>{t('vehicle:manage_vehicles')}</Heading3>
 
         <Button asChild>

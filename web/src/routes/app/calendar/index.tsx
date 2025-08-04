@@ -4,6 +4,7 @@ import { EventCalendar } from '@/components/calendar';
 import { CalendarProvider } from '@/components/calendar/calendar-context';
 import { useCalendarIndex } from '@/features/calendar';
 import { mapCalendarEvent } from '@/features/calendar/mappers';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { get_date_range } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/calendar/')({
@@ -12,6 +13,7 @@ export const Route = createFileRoute('/app/calendar/')({
 
 function RouteComponent() {
   const today = new Date();
+  const isMobile = useIsMobile();
   const [selectedDate, setSelectedDate] = useState<Date>(today);
   const { data: events } = useCalendarIndex({
     query_params: get_date_range(selectedDate, 45),
@@ -32,7 +34,7 @@ function RouteComponent() {
 
   return (
     <div>
-      <CalendarProvider onDateChange={onDateChange}>
+      <CalendarProvider onDateChange={onDateChange} defaultView={isMobile ? 'agenda' : 'month'}>
         <EventCalendar events={mappedEvents} />
       </CalendarProvider>
     </div>

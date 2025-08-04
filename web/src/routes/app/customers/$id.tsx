@@ -31,8 +31,8 @@ function RouteComponent() {
 
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
+      <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
+        <div className="flex items-start gap-4">
           <Heading3>
             {t('customer:label_singular')}
             :

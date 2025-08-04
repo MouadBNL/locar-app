@@ -40,7 +40,7 @@ function RouteComponent() {
 
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-start mb-8">
+      <div className="flex justify-between items-start flex-wrap gap-4 mb-8">
         <div className="flex items-start gap-8">
           <div>
             <Heading3>
@@ -60,7 +60,7 @@ function RouteComponent() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="outline">{t('common:quick_actions')}</Button>
+          {/* <Button variant="outline">{t('common:quick_actions')}</Button> */}
           <DeleteVehicleAction id={id} plate={vehicle.license_plate} />
         </div>
       </div>

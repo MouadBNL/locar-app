@@ -80,7 +80,7 @@ function RouteComponent() {
 
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
         <div className="flex items-center gap-8">
           <Heading3>
             {t('rental:label_singular')}
@@ -114,7 +114,7 @@ function RouteComponent() {
 
       <Card className="mb-8">
         <CardContent>
-          <div className="flex space-x-4 h-26 items-center">
+          <div className="flex space-x-4  items-center lg:flex-nowrap flex-wrap gap-y-8">
             <div className="w-full">
               <CustomerSummaryCard
                 id={rental.renter.customer_id ?? ''}
