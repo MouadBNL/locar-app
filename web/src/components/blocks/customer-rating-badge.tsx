@@ -5,7 +5,7 @@ export function CustomerRatingBadge({ rating }: { rating: number }) {
   return (
     <div className={cn('flex items-center gap-2', ratingToColor(rating))}>
       <StarIcon />
-      {rating}
+      {rating.toFixed(1)}
     </div>
   );
 }
