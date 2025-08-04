@@ -1,4 +1,5 @@
 import type { RentalSummaryData } from '@/features/rentals';
+import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import {
   Table,
@@ -13,7 +14,6 @@ import { CustomerTableCard } from './customer-table-card';
 import { DateCard } from './date-card';
 import { RentalStatusBadge } from './rental-status-badge';
 import { VehicleTableCard } from './vehicle-table-card';
-import { Link } from '@tanstack/react-router';
 
 export interface RentalTableProps {
   data: RentalSummaryData[];

@@ -90,12 +90,12 @@ class GlobalStatisticsService
 
     public static function revenuePerDay(?Carbon $startDate, ?Carbon $endDate)
     {
-        return  DB::table('rentals')
+        return DB::table('rentals')
             ->join('rental_vehicles', 'rentals.id', '=', 'rental_vehicles.rental_id')
             ->join('rental_timeframes', 'rentals.id', '=', 'rental_timeframes.rental_id')
             ->join('rental_rates', 'rentals.id', '=', 'rental_rates.rental_id')
-            ->when($startDate, fn($query) => $query->where('rental_timeframes.departure_date', '>=', $startDate->toDateTimeString()))
-            ->when($endDate, fn($query) => $query->where('rental_timeframes.return_date', '<=', $endDate->toDateTimeString()))
+            ->when($startDate, fn ($query) => $query->where('rental_timeframes.departure_date', '>=', $startDate->toDateTimeString()))
+            ->when($endDate, fn ($query) => $query->where('rental_timeframes.return_date', '<=', $endDate->toDateTimeString()))
             ->selectRaw("strftime('%Y-%m-%d', rental_timeframes.departure_date) as day, SUM(rental_rates.total) as total, COUNT(*) as count")
             ->groupBy('day')
             ->orderBy('day')
@@ -104,9 +104,9 @@ class GlobalStatisticsService
 
     public static function expensesPerDay(?Carbon $startDate, ?Carbon $endDate)
     {
-        return  DB::table('vehicle_expenses')
-            ->when($startDate, fn($query) => $query->where('date', '>=', $startDate->toDateTimeString()))
-            ->when($endDate, fn($query) => $query->where('date', '<=', $endDate->toDateTimeString()))
+        return DB::table('vehicle_expenses')
+            ->when($startDate, fn ($query) => $query->where('date', '>=', $startDate->toDateTimeString()))
+            ->when($endDate, fn ($query) => $query->where('date', '<=', $endDate->toDateTimeString()))
             ->selectRaw("strftime('%Y-%m-%d', date) as day, SUM(amount) as total, COUNT(*) as count")
             ->groupBy('day')
             ->orderBy('day')
@@ -115,10 +115,10 @@ class GlobalStatisticsService
 
     public static function expensesPerType(?Carbon $startDate, ?Carbon $endDate)
     {
-        return  DB::table('vehicle_expenses')
-            ->when($startDate, fn($query) => $query->where('date', '>=', $startDate->toDateTimeString()))
-            ->when($endDate, fn($query) => $query->where('date', '<=', $endDate->toDateTimeString()))
-            ->selectRaw("type, SUM(amount) as total, COUNT(*) as count")
+        return DB::table('vehicle_expenses')
+            ->when($startDate, fn ($query) => $query->where('date', '>=', $startDate->toDateTimeString()))
+            ->when($endDate, fn ($query) => $query->where('date', '<=', $endDate->toDateTimeString()))
+            ->selectRaw('type, SUM(amount) as total, COUNT(*) as count')
             ->groupBy('type')
             ->orderBy('type')
             ->get();

@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 import { VehicleLicensePlateBadge } from '@/components/blocks/vehicle-license-plate-badge';
 import { VehicleStatusBadge } from '@/components/blocks/vehicle-status-badge';
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';

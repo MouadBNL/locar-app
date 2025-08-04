@@ -43,6 +43,7 @@ class StatisticsController extends ApiController
             'rentals_monthly_progress' => ($thisMonthRentals - $lastMonthRentals) / $lastMonthRentals * 100,
             'reservations_monthly_progress' => ($thisMonthReservations - $lastMonthReservations) / $lastMonthReservations * 100,
         ];
+
         return $this->success($stats);
     }
 
@@ -75,7 +76,7 @@ class StatisticsController extends ApiController
             'repairs_count' => VehicleStatisticsService::repairsCount($vehicle, null, null),
             'revenue' => VehicleStatisticsService::revenue($vehicle, null, null),
             'expenses' => VehicleStatisticsService::expenses($vehicle, null, null),
-            'revenue_per_day' => VehicleStatisticsService::revenuePerDay($vehicle,  null, null),
+            'revenue_per_day' => VehicleStatisticsService::revenuePerDay($vehicle, null, null),
             'expenses_per_day' => VehicleStatisticsService::expensesPerDay($vehicle, null, null),
             'expenses_per_type' => VehicleStatisticsService::expensesPerType($vehicle, null, null),
             'revenue_monthly_progress' => ($thisMonthRevenue - $lastMonthRevenue) / $lastMonthRevenue * 100,
@@ -84,6 +85,7 @@ class StatisticsController extends ApiController
             'reservations_monthly_progress' => ($thisMonthReservations - $lastMonthReservations) / $lastMonthReservations * 100,
             'repairs_monthly_progress' => ($thisMonthRepairs - $lastMonthRepairs) / $lastMonthRepairs * 100,
         ];
+
         return $this->success($stats);
     }
 }

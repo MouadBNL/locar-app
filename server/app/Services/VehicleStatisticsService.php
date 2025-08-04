@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\RentalPaymentType;
 use App\Models\Rental;
 use App\Models\Reservation;
 use App\Models\Vehicle;
@@ -118,13 +117,13 @@ class VehicleStatisticsService
 
     public static function revenuePerDay(Vehicle $vehicle, ?Carbon $startDate, ?Carbon $endDate)
     {
-        return  DB::table('rentals')
+        return DB::table('rentals')
             ->join('rental_vehicles', 'rentals.id', '=', 'rental_vehicles.rental_id')
             ->join('rental_timeframes', 'rentals.id', '=', 'rental_timeframes.rental_id')
             ->join('rental_rates', 'rentals.id', '=', 'rental_rates.rental_id')
             ->where('rental_vehicles.vehicle_id', $vehicle->id)
-            ->when($startDate, fn($query) => $query->where('rental_timeframes.departure_date', '>=', $startDate->toDateTimeString()))
-            ->when($endDate, fn($query) => $query->where('rental_timeframes.return_date', '<=', $endDate->toDateTimeString()))
+            ->when($startDate, fn ($query) => $query->where('rental_timeframes.departure_date', '>=', $startDate->toDateTimeString()))
+            ->when($endDate, fn ($query) => $query->where('rental_timeframes.return_date', '<=', $endDate->toDateTimeString()))
             ->selectRaw("strftime('%Y-%m-%d', rental_timeframes.departure_date) as day, SUM(rental_rates.total) as total, COUNT(*) as count")
             ->groupBy('day')
             ->orderBy('day')
@@ -133,10 +132,10 @@ class VehicleStatisticsService
 
     public static function expensesPerDay(Vehicle $vehicle, ?Carbon $startDate, ?Carbon $endDate)
     {
-        return  DB::table('vehicle_expenses')
+        return DB::table('vehicle_expenses')
             ->where('vehicle_id', $vehicle->id)
-            ->when($startDate, fn($query) => $query->where('date', '>=', $startDate->toDateTimeString()))
-            ->when($endDate, fn($query) => $query->where('date', '<=', $endDate->toDateTimeString()))
+            ->when($startDate, fn ($query) => $query->where('date', '>=', $startDate->toDateTimeString()))
+            ->when($endDate, fn ($query) => $query->where('date', '<=', $endDate->toDateTimeString()))
             ->selectRaw("strftime('%Y-%m-%d', date) as day, SUM(amount) as total, COUNT(*) as count")
             ->groupBy('day')
             ->orderBy('day')
@@ -145,11 +144,11 @@ class VehicleStatisticsService
 
     public static function expensesPerType(Vehicle $vehicle, ?Carbon $startDate, ?Carbon $endDate)
     {
-        return  DB::table('vehicle_expenses')
+        return DB::table('vehicle_expenses')
             ->where('vehicle_id', $vehicle->id)
-            ->when($startDate, fn($query) => $query->where('date', '>=', $startDate->toDateTimeString()))
-            ->when($endDate, fn($query) => $query->where('date', '<=', $endDate->toDateTimeString()))
-            ->selectRaw("type, SUM(amount) as total, COUNT(*) as count")
+            ->when($startDate, fn ($query) => $query->where('date', '>=', $startDate->toDateTimeString()))
+            ->when($endDate, fn ($query) => $query->where('date', '<=', $endDate->toDateTimeString()))
+            ->selectRaw('type, SUM(amount) as total, COUNT(*) as count')
             ->groupBy('type')
             ->orderBy('type')
             ->get();

@@ -1,14 +1,14 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { CustomerRatingBadge } from '@/components/blocks/customer-rating-badge';
 import { CustomerStatusBadge } from '@/components/blocks/customer-status-badge';
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
 import { useCustomerDelete, useCustomerIndex, useCustomerShow } from '@/features/customers';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Trash2Icon } from 'lucide-react';
 
 export const Route = createFileRoute('/app/customers/$id')({
   component: RouteComponent,
@@ -68,7 +68,6 @@ function RouteComponent() {
   );
 }
 
-
 function DeleteCustomerAction({ id }: { id: string }) {
   const { t } = useTranslation(['customer', 'common']);
   const navigate = useNavigate();
@@ -84,7 +83,7 @@ function DeleteCustomerAction({ id }: { id: string }) {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="destructive" loading={isPending}>
-          <Trash2Icon  />
+          <Trash2Icon />
           {t('common:delete')}
         </Button>
       </AlertDialogTrigger>
@@ -97,7 +96,7 @@ function DeleteCustomerAction({ id }: { id: string }) {
           <AlertDialogCancel>
             {t('common:cancel')}
           </AlertDialogCancel>
-          <Button variant="destructive" loading={isPending} onClick={() => deleteCustomer({ id })}> 
+          <Button variant="destructive" loading={isPending} onClick={() => deleteCustomer({ id })}>
             {t('common:delete')}
           </Button>
         </AlertDialogFooter>
