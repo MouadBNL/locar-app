@@ -42,7 +42,7 @@ export function AppBreadcrumbs() {
     return (
       <React.Fragment key={breadcrumb.path}>
         <BreadcrumbSeparator className="hidden md:block" />
-        <BreadcrumbItem>
+        <BreadcrumbItem className="hidden md:block">
           <BreadcrumbLink asChild>
             <Link to={breadcrumb.path}>
               {translatedTitle}
