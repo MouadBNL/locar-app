@@ -3,7 +3,6 @@ import { PencilIcon, PlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ReservationTable } from '@/components/blocks/reservation-table';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import { useReservationIndex } from '@/features/reservations';
 
@@ -31,25 +30,23 @@ function RouteComponent() {
         </Button>
       </div>
 
-      <Card className="p-2 mb-4">
-        <ReservationTable
-          data={data?.data || []}
-          loading={isFetching}
-          actions={reservation => (
-            <>
-              <Button variant="outline" size="sm" asChild>
-                <Link
-                  from="/"
-                  to="/app/reservations/$number"
-                  params={{ number: reservation.reservation_number }}
-                >
-                  <PencilIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            </>
-          )}
-        />
-      </Card>
+      <ReservationTable
+        data={data?.data || []}
+        loading={isFetching}
+        actions={reservation => (
+          <>
+            <Button variant="outline" size="sm" asChild>
+              <Link
+                from="/"
+                to="/app/reservations/$number"
+                params={{ number: reservation.reservation_number }}
+              >
+                <PencilIcon className="w-4 h-4" />
+              </Link>
+            </Button>
+          </>
+        )}
+      />
     </div>
   );
 }

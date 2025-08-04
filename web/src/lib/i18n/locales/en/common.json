@@ -61,6 +61,7 @@
     "prev": "Previous",
     "next": "Next",
     "pagination_index_to_of": "Page {{index}} of {{total}}",
-    "more": "More pages"
+    "more": "More pages",
+    "no_data_found": "No data found"
   }
 }

@@ -2,7 +2,6 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { EyeIcon } from 'lucide-react';
 import { ReservationTable } from '@/components/blocks/reservation-table';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useReservationIndex } from '@/features/reservations';
 import { breadcrumb } from '@/lib/breadcrumb';
 
@@ -27,21 +26,17 @@ function RouteComponent() {
   });
   return (
     <div>
-      <Card>
-        <CardContent>
-          <ReservationTable
-            data={data?.data || []}
-            loading={isLoading}
-            actions={reservation => (
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/app/reservations/$number" params={{ number: reservation.reservation_number! }}>
-                  <EyeIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            )}
-          />
-        </CardContent>
-      </Card>
+      <ReservationTable
+        data={data?.data || []}
+        loading={isLoading}
+        actions={reservation => (
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/app/reservations/$number" params={{ number: reservation.reservation_number! }}>
+              <EyeIcon className="w-4 h-4" />
+            </Link>
+          </Button>
+        )}
+      />
     </div>
   );
 }
