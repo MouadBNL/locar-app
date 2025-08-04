@@ -5,7 +5,7 @@ import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } 
 
 export interface StatisticCardProps {
   label: string;
-  stat: string;
+  stat: string | number;
   trend?: number;
   footer?: () => ReactNode;
 }
@@ -17,18 +17,16 @@ export function StatisticCard(props: StatisticCardProps) {
         <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
           {props.stat}
         </CardTitle>
-        {
-          props.trend && (
-            <CardAction>
-              <Badge variant="outline">
-                {props.trend > 0 ? <TrendingUpIcon /> : <TrendingDownIcon />}
-                {props.trend > 0 ? '+' : '-'}
-                {Math.abs(props.trend).toFixed(2)}
-                %
-              </Badge>
-            </CardAction>
-          )
-        }
+        {(props.trend || props.trend === 0) && (
+          <CardAction>
+            <Badge variant="outline">
+              {props.trend >= 0 ? <TrendingUpIcon /> : <TrendingDownIcon />}
+              {props.trend >= 0 ? '+' : '-'}
+              {Math.abs(props.trend).toFixed(2)}
+              %
+            </Badge>
+          </CardAction>
+        )}
       </CardHeader>
       {props.footer && (
         <CardFooter className="flex-col items-start gap-1.5 text-sm">

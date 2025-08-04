@@ -37,22 +37,22 @@ function RouteComponent() {
             <StatisticCard
               label={t('stats:total_revenue')}
               stat={fmt_currency(globalStatistics?.data.revenue ?? 0)}
-              trend={12.5}
+              trend={globalStatistics?.data.revenue_monthly_progress ?? undefined}
             />
             <StatisticCard
               label={t('stats:total_expenses')}
               stat={fmt_currency(globalStatistics?.data.expenses ?? 0)}
-              trend={-20}
+              trend={globalStatistics?.data.expenses_monthly_progress ?? undefined}
             />
             <StatisticCard
               label={t('stats:rentals_count')}
               stat={globalStatistics?.data.rental_count.toString() ?? '0'}
-              trend={12.5}
+              trend={globalStatistics?.data.rentals_monthly_progress ?? undefined}
             />
             <StatisticCard
               label={t('stats:reservations_count')}
               stat={globalStatistics?.data.reservation_count.toString() ?? '0'}
-              trend={4.5}
+              trend={globalStatistics?.data.reservations_monthly_progress ?? undefined}
             />
           </StatisticCardGrid>
         </div>
@@ -67,7 +67,7 @@ function RouteComponent() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle>Global Statistics</CardTitle>
+              <CardTitle>{t('stats:global_statistics')}</CardTitle>
             </CardHeader>
             <CardContent></CardContent>
           </Card>

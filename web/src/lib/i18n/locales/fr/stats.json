@@ -15,5 +15,6 @@
   "last_30_days": "Derniers 30 jours",
   "last_7_days": "Derniers 7 jours",
   "expenses_by_type": "Dépenses par type",
-  "reservations_count": "Nombre de réservations"
+  "reservations_count": "Nombre de réservations",
+  "global_statistics": "Statistiques globales"
 }

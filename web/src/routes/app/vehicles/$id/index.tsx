@@ -126,22 +126,22 @@ function RouteComponent() {
             <StatisticCard
               label={t('stats:total_revenue')}
               stat={fmt_currency(data.data.revenue ?? 0)}
-              trend={12.5}
+              trend={data.data.revenue_monthly_progress ?? undefined}
             />
             <StatisticCard
               label={t('stats:total_expenses')}
               stat={fmt_currency(data.data.expenses ?? 0)}
-              trend={-20}
+              trend={data.data.expenses_monthly_progress ?? undefined}
             />
             <StatisticCard
               label={t('stats:rentals_count')}
-              stat={data.data.rental_count.toString()}
-              trend={12.5}
+              stat={data.data.rental_count}
+              trend={data.data.rentals_monthly_progress ?? undefined}
             />
             <StatisticCard
               label={t('stats:repairs_count')}
-              stat={data.data.repairs_count.toString()}
-              trend={4.5}
+              stat={data.data.repairs_count}
+              trend={data.data.repairs_monthly_progress ?? undefined}
             />
           </StatisticCardGrid>
 
@@ -149,7 +149,7 @@ function RouteComponent() {
             <VehicleSummaryChart data={data.data} />
           </div>
 
-          <div className="px-4 lg:px-6 grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 gap-8">
             <VehicleTypePieChart data={data.data} />
             <VehicleSummaryChart data={data.data} />
           </div>

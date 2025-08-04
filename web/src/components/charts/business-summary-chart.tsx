@@ -5,7 +5,7 @@ import type { PerDayData } from '@/features/statistics';
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import {
   Card,
   CardAction,
