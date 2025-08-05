@@ -66,6 +66,20 @@ export default function CustomerForm({
 
           <AppFormField
             control={form.control}
+            name="phone"
+            label={t('customer:attributes.phone')}
+            render={({ field }) => (
+              <Input
+                type="text"
+                placeholder={t('customer:attributes.phone')}
+                {...field}
+                value={field.value ?? ''}
+              />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
             name="id_card_number"
             label={t('customer:attributes.id_card_number')}
             render={({ field }) => (
@@ -80,28 +94,14 @@ export default function CustomerForm({
 
           <AppFormField
             control={form.control}
-            name="email"
-            label={t('customer:attributes.email')}
+            name="birth_date"
+            label={t('customer:attributes.birth_date')}
             render={({ field }) => (
-              <Input
-                type="email"
-                placeholder={t('customer:attributes.email')}
+              <DateInput
                 {...field}
-                value={field.value ?? ''}
-              />
-            )}
-          />
-
-          <AppFormField
-            control={form.control}
-            name="phone"
-            label={t('customer:attributes.phone')}
-            render={({ field }) => (
-              <Input
-                type="text"
-                placeholder={t('customer:attributes.phone')}
-                {...field}
-                value={field.value ?? ''}
+                value={field.value ?? undefined}
+                onChange={value => field.onChange(value)}
+                type="string"
               />
             )}
           />
@@ -136,17 +136,18 @@ export default function CustomerForm({
 
           <AppFormField
             control={form.control}
-            name="birth_date"
-            label={t('customer:attributes.birth_date')}
+            name="email"
+            label={t('customer:attributes.email')}
             render={({ field }) => (
-              <DateInput
+              <Input
+                type="email"
+                placeholder={t('customer:attributes.email')}
                 {...field}
-                value={field.value ?? undefined}
-                onChange={value => field.onChange(value)}
-                type="string"
+                value={field.value ?? ''}
               />
             )}
           />
+
         </div>
 
         <Button type="submit" loading={loading}>
