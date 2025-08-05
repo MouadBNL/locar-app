@@ -12,6 +12,8 @@
     "first_name": "First Name",
     "last_name": "Last Name",
     "id_card_number": "ID Card Number",
+    "id_card_issuing_date": "ID Card Issuing Date",
+    "id_card_expiration_date": "ID Card Expiration Date",
     "email": "Email",
     "phone": "Phone",
     "address": "Address",

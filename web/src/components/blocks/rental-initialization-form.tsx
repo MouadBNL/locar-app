@@ -61,8 +61,13 @@ export default function RentalInitializationForm({
         phone: '+212 6 66 66 66 66',
         id_card_number: 'AA123456',
         birth_date: fmt_date(get_date(), { format: 'date' }),
-        address_primary: '123 Main St',
-        address_secondary: 'Apt 4B',
+        id_card_issuing_date: fmt_date(get_date(), { format: 'date' }),
+        id_card_expiration_date: fmt_date(get_date({ day: 365 * 5 }), {
+          format: 'date',
+        }),
+        address_primary: '',
+        address_secondary: '',
+        address_tertiary: '',
         driver_license_number: '123456789',
         driver_license_issuing_city: 'Casablanca',
         driver_license_issuing_date: fmt_date(get_date(), { format: 'date' }),
@@ -204,7 +209,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         )}
       />
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2'>
           <AppFormField
             control={form.control}
             name="renter.full_name"
@@ -243,23 +248,33 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
           />
           <AppFormField
             control={form.control}
+            name="renter.id_card_issuing_date"
+            label={t('customer:attributes.id_card_issuing_date')}
+            render={({ field }) => (
+              <DateInput {...field} value={field.value ?? undefined} type="string" />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="renter.id_card_expiration_date"
+            label={t('customer:attributes.id_card_expiration_date')}
+            render={({ field }) => (
+              <DateInput {...field} value={field.value ?? undefined} type="string" />
+            )}
+          />
+          <AppFormField
+            control={form.control}
             name="renter.address_primary"
             label={t('customer:attributes.address')}
             render={({ field }) => (
               <Input {...field} value={field.value ?? undefined} />
             )}
           />
-          <AppFormField
-            control={form.control}
-            name="renter.address_secondary"
-            label={t('customer:attributes.address')}
-            render={({ field }) => (
-              <Input {...field} value={field.value ?? undefined} />
-            )}
-          />
+
         </div>
             
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2'>
           <AppFormField
             control={form.control}
             name="renter.driver_license_number"
@@ -302,9 +317,17 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
               />
             )}
           />
+          <AppFormField
+            control={form.control}
+            name="renter.address_secondary"
+            label={t('customer:attributes.address')}
+            render={({ field }) => (
+              <Input {...field} value={field.value ?? undefined} />
+            )}
+          />          
         </div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2'>
           <AppFormField
             control={form.control}
             name="renter.passport_number"
@@ -348,6 +371,14 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
               />
             )}
           />
+          <AppFormField
+            control={form.control}
+            name="renter.address_tertiary"
+            label={t('customer:attributes.address')}
+            render={({ field }) => (
+              <Input {...field} value={field.value ?? undefined} />
+            )}
+          />    
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

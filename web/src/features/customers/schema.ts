@@ -7,6 +7,8 @@ export const CustomerSchema = z.object({
   phone: z.string().max(255).nullish(),
   address: z.string().max(255).nullish(),
   id_card_number: z.string().max(255).nullish(),
+  id_card_issuing_date: z.string().datetime().nullish(),
+  id_card_expiration_date: z.string().datetime().nullish(),
   driver_license_number: z.string().max(255).nullish(),
   passport_number: z.string().max(255).nullish(),
   birth_date: z.string().datetime().nullish(),

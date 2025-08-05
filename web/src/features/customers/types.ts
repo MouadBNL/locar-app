@@ -34,6 +34,8 @@ export interface CustomerResource {
   phone: string;
   address: string;
   id_card_number: string;
+  id_card_issuing_date: string;
+  id_card_expiration_date: string;
   driver_license_number: string;
   passport_number: string;
   birth_date: string;

@@ -12,6 +12,8 @@
     "first_name": "Prénom",
     "last_name": "Nom",
     "id_card_number": "Numero carte d'identité",
+    "id_card_issuing_date": "Date de délivrance du CIN",
+    "id_card_expiration_date": "Date d'expiration du CIN",
     "email": "Email",
     "phone": "Téléphone",
     "address": "Adresse",

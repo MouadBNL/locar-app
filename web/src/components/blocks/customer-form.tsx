@@ -108,6 +108,24 @@ export default function CustomerForm({
 
           <AppFormField
             control={form.control}
+            name="id_card_issuing_date"
+            label={t('customer:attributes.id_card_issuing_date')}
+            render={({ field }) => (
+              <DateInput {...field} value={field.value ?? undefined} type="string" />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="id_card_expiration_date"
+            label={t('customer:attributes.id_card_expiration_date')}
+            render={({ field }) => (
+              <DateInput {...field} value={field.value ?? undefined} type="string" />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
             name="address"
             label={t('customer:attributes.address')}
             render={({ field }) => (
