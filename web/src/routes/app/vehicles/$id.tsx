@@ -1,15 +1,16 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Trash2Icon } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
+import { VehicleLicensePlateBadge } from '@/components/blocks/vehicle-license-plate-badge';
 import { VehicleStatusBadge } from '@/components/blocks/vehicle-status-badge';
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
 import { useVehicleDelete, useVehicleIndex, useVehicleShow } from '@/features/vehicles';
-import { toast } from 'sonner';
-import { useState } from 'react';
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Trash2Icon } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 
 export const Route = createFileRoute('/app/vehicles/$id')({
   component: RouteComponent,
@@ -39,7 +40,7 @@ function RouteComponent() {
 
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-start mb-8">
+      <div className="flex justify-between items-start flex-wrap gap-4 mb-8">
         <div className="flex items-start gap-8">
           <div>
             <Heading3>
@@ -49,7 +50,9 @@ function RouteComponent() {
               {' '}
               {vehicle?.year}
             </Heading3>
-            <p>{vehicle?.license_plate}</p>
+            <VehicleLicensePlateBadge>
+              {vehicle?.license_plate}
+            </VehicleLicensePlateBadge>
           </div>
           <div>
             <VehicleStatusBadge status={vehicle.status} />
@@ -57,7 +60,7 @@ function RouteComponent() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="outline">{t('common:quick_actions')}</Button>
+          {/* <Button variant="outline">{t('common:quick_actions')}</Button> */}
           <DeleteVehicleAction id={id} plate={vehicle.license_plate} />
         </div>
       </div>
@@ -68,7 +71,7 @@ function RouteComponent() {
         tabs={[
           { label: t('common:summary'), path: '' },
           { label: t('expenses:maintenance'), path: 'expenses' },
-          { label: t('repair:label_plural'), path: 'repair' },
+          { label: t('repair:label_plural'), path: 'repairs' },
           { label: t('rental:label_plural'), path: 'rentals' },
           { label: t('reservation:label_plural'), path: 'reservations' },
           { label: t('vehicle:general'), path: 'general' },
@@ -78,7 +81,6 @@ function RouteComponent() {
     </div>
   );
 }
-
 
 function DeleteVehicleAction({
   id,
@@ -104,13 +106,13 @@ function DeleteVehicleAction({
   });
 
   const handleDelete = () => {
-
     if (confirmCode === plate) {
       deleteVehicle(id);
-    } else {
+    }
+    else {
       toast.error(t('vehicle:action.delete.confirm'));
     }
-  }
+  };
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -128,7 +130,7 @@ function DeleteVehicleAction({
           <div className="mt-4">
             <div>
               <p className="text-sm text-muted-foreground">{t('vehicle:action.delete.confirm')}</p>
-              <div className='flex items-center py-4'>
+              <div className="flex items-center py-4">
                 <code className="text-sm bg-muted p-2 rounded-md">{plate}</code>
               </div>
             </div>
@@ -145,5 +147,5 @@ function DeleteVehicleAction({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

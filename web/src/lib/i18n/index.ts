@@ -11,6 +11,7 @@ import en_payment from './locales/en/payment.json';
 import en_rental from './locales/en/rental.json';
 import en_repair from './locales/en/repair.json';
 import en_reservation from './locales/en/reservation.json';
+import en_stats from './locales/en/stats.json';
 import en_traffic from './locales/en/traffic.json';
 import en_vehicle from './locales/en/vehicle.json';
 import fr_auth from './locales/fr/auth.json';
@@ -24,6 +25,7 @@ import fr_payment from './locales/fr/payment.json';
 import fr_rental from './locales/fr/rental.json';
 import fr_repair from './locales/fr/repair.json';
 import fr_reservation from './locales/fr/reservation.json';
+import fr_stats from './locales/fr/stats.json';
 import fr_traffic from './locales/fr/traffic.json';
 import fr_vehicle from './locales/fr/vehicle.json';
 
@@ -46,6 +48,7 @@ const resources = {
     repair: en_repair,
     expenses: en_expenses,
     traffic: en_traffic,
+    stats: en_stats,
   },
   fr: {
     translation: {},
@@ -62,6 +65,7 @@ const resources = {
     repair: fr_repair,
     expenses: fr_expenses,
     traffic: fr_traffic,
+    stats: fr_stats,
   },
 };
 i18n
@@ -71,7 +75,7 @@ i18n
     returnNull: false,
     resources,
     defaultNS: 'common',
-    ns: ['common', 'vehicle', 'customer', 'rental', 'exceptions', 'payment', 'document', 'auth', 'repair', 'expenses', 'traffic'],
+    ns: ['common', 'vehicle', 'customer', 'rental', 'exceptions', 'payment', 'document', 'auth', 'repair', 'expenses', 'traffic', 'stats', 'reservation'],
     fallbackLng: 'en',
     lng: localStorage.getItem('lang') ?? 'en', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage

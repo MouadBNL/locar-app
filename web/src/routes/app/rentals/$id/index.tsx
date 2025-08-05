@@ -58,8 +58,8 @@ function RouteComponent() {
     return null;
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      <div className="col-span-2 grid grid-cols-1 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="lg:col-span-2 grid grid-cols-1 gap-8">
         <RentalVehicleFormSection
           code={id}
           vehicle={rental.vehicle}
@@ -87,7 +87,7 @@ function RouteComponent() {
           onUpdate={handleUpdate}
         />
       </div>
-      <div className="col-span-1">
+      <div className="col-span-1 order-first lg:order-none">
         <RentalChargesSummary charges={rental.charges_summary ?? undefined} />
       </div>
     </div>
@@ -393,6 +393,7 @@ function RentalRateFormSection({
     departure_date,
     return_date,
     form,
+    discount,
   ]);
 
   const onSubmit = form.handleSubmit((data) => {
@@ -499,7 +500,7 @@ function RentalRateFormSection({
                 )}
               />
 
-              <div className="col-span-2">
+              <div className="md:col-span-2">
                 <AppFormField
                   control={form.control}
                   name="total"

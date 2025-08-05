@@ -34,7 +34,7 @@ class CalendarService
         $reservations = Reservation::query()
             ->with('vehicle', 'customer')
             ->where(
-                fn(Builder $query) => $query
+                fn (Builder $query) => $query
                     ->where('check_in_date', '<=', $end->toDateString())
                     ->where('check_in_date', '>=', $start->toDateString())
             )

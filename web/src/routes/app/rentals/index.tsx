@@ -3,9 +3,8 @@ import { EyeIcon, PlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
-import {  useRentalIndex } from '@/features/rentals';
+import { useRentalIndex } from '@/features/rentals';
 
 export const Route = createFileRoute('/app/rentals/')({
   component: RouteComponent,
@@ -21,7 +20,7 @@ function RouteComponent() {
 
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
         <Heading3>{t('rental:manage_rentals')}</Heading3>
 
         <Button asChild>
@@ -32,25 +31,23 @@ function RouteComponent() {
         </Button>
       </div>
 
-      <Card className="p-2 mb-4">
-        <RentalTable
-          data={data?.data ?? []}
-          loading={isFetching}
-          actions={rental => (
-            <>
-              <Button variant="outline" size="sm" asChild>
-                <Link
-                  from="/"
-                  to="/app/rentals/$id"
-                  params={{ id: rental.rental_number }}
-                >
-                  <EyeIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            </>
-          )}
-        />
-      </Card>
+      <RentalTable
+        data={data?.data ?? []}
+        loading={isFetching}
+        actions={rental => (
+          <>
+            <Button variant="outline" size="sm" asChild>
+              <Link
+                from="/"
+                to="/app/rentals/$id"
+                params={{ id: rental.rental_number }}
+              >
+                <EyeIcon className="w-4 h-4" />
+              </Link>
+            </Button>
+          </>
+        )}
+      />
     </div>
   );
 }

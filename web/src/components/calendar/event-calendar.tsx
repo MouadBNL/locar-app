@@ -276,7 +276,7 @@ export function EventCalendar({
       {!calendarOnly && (
         <div
           className={cn(
-            'flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-5 sm:px-4',
+            'flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-5 px-4',
             className,
           )}
         >
@@ -333,7 +333,7 @@ export function EventCalendar({
                     variant="outline"
                     className="gap-1.5 max-sm:h-8 max-sm:px-2! max-sm:gap-1"
                   >
-                    <span className="capitalize">{view}</span>
+                    <span className="capitalize">{t(`calendar:${view}`)}</span>
                     <ChevronDownIcon
                       className="-me-1 opacity-60"
                       size={16}

@@ -32,7 +32,7 @@ class ReservationController extends ApiController
             $query->where('customer_id', $request->customer_id);
         }
 
-        $reservations = $query->get();
+        $reservations = $query->orderBy('check_in_date', 'desc')->get();
 
         return $this->success(ReservationResource::collection($reservations));
     }

@@ -80,7 +80,7 @@ function RouteComponent() {
         </CardHeader>
         <CardContent>
           <Card className="p-0 mb-8">
-            <CardContent className="py-4 flex justify-between items-center">
+            <CardContent className="py-4 flex justify-between flex-wrap gap-y-8 items-center">
               <PaymentSummary
                 payment_total={rental?.data?.meta.total ?? 0}
                 payment_paid={rental?.data?.meta.paid ?? 0}

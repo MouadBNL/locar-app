@@ -59,7 +59,7 @@ export function VehicleSummaryCard(props: VehicleSummaryCardProps) {
           <h5 className="text-sm text-muted-foreground">{props.plate}</h5>
         </div>
         {props.attributes && (
-          <div className="grid grid-cols-3 text-sm gap-2">
+          <div className="grid grid-cols-2 lg:grid-cols-3 text-sm gap-2">
             <div className="flex gap-2 items-center">
               <CarDoorIcon className="size-4" />
               {' '}

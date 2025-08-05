@@ -69,7 +69,7 @@ function RouteComponent() {
         <CardTitle>
           {t('expenses:label_plural')}
         </CardTitle>
-        <CardAction className="flex items-center gap-2">
+        <CardAction className="flex items-center flex-wrap gap-2">
           <AddExpenseDialog
             vehicleId={id}
             onChange={handleExpensesChange}

@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import {
   CalendarClockIcon,
   CalendarIcon,
@@ -9,6 +9,7 @@ import {
   WarehouseIcon,
 } from 'lucide-react';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Sidebar,
@@ -20,11 +21,21 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { NavUser } from './nav-user';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation(['calendar', 'common']);
+
+  const { setOpenMobile } = useSidebar();
+  const router = useRouter();
+  useEffect(() => {
+    router.subscribe('onBeforeLoad', () => {
+      setOpenMobile(false);
+    });
+  }, [router, setOpenMobile]);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

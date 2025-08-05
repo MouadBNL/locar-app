@@ -22,6 +22,16 @@ import { RentalReturnForm } from '@/components/blocks/rental-return-form';
 import { RentalStartForm } from '@/components/blocks/rental-start-form';
 import { RentalStatusBadge } from '@/components/blocks/rental-status-badge';
 import { VehicleSummaryCard } from '@/components/blocks/vehicle-summary-card';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -32,6 +42,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { TabsNavigation } from '@/components/ui/tabs-navigation';
 import { Heading3 } from '@/components/ui/typography';
@@ -43,17 +54,6 @@ import {
   useRentalShow,
   useRentalStart,
 } from '@/features/rentals';
-import { 
-  AlertDialog, 
-  AlertDialogHeader, 
-  AlertDialogTitle, 
-  AlertDialogDescription, 
-  AlertDialogContent, 
-  AlertDialogTrigger, 
-  AlertDialogFooter,
-  AlertDialogCancel,
-} from '@/components/ui/alert-dialog';
-import { Input } from '@/components/ui/input';
 
 export const Route = createFileRoute('/app/rentals/$id')({
   component: RouteComponent,
@@ -80,7 +80,7 @@ function RouteComponent() {
 
   return (
     <div className="pt-8 px-4 lg:px-12">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
         <div className="flex items-center gap-8">
           <Heading3>
             {t('rental:label_singular')}
@@ -108,13 +108,13 @@ function RouteComponent() {
               <RentalReturnAction code={code} rental={rental} />
             </>
           )}
-            <DeleteRentalAction code={code} rental={rental} />
+          <DeleteRentalAction code={code} rental={rental} />
         </div>
       </div>
 
       <Card className="mb-8">
         <CardContent>
-          <div className="flex space-x-4 h-26 items-center">
+          <div className="flex space-x-4  items-center lg:flex-nowrap flex-wrap gap-y-8">
             <div className="w-full">
               <CustomerSummaryCard
                 id={rental.renter.customer_id ?? ''}
@@ -353,7 +353,6 @@ function RentalAgreementAction({
   );
 }
 
-
 function DeleteRentalAction({
   code,
 }: {
@@ -378,13 +377,13 @@ function DeleteRentalAction({
   });
 
   const handleDelete = () => {
-
     if (confirmCode === code) {
       deleteRental({ id: code });
-    } else {
+    }
+    else {
       toast.error(t('rental:action.delete.confirm'));
     }
-  }
+  };
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -402,7 +401,7 @@ function DeleteRentalAction({
           <div className="mt-4">
             <div>
               <p className="text-sm text-muted-foreground">{t('rental:action.delete.confirm')}</p>
-              <div className='flex items-center py-4'>
+              <div className="flex items-center py-4">
                 <code className="text-sm bg-muted p-2 rounded-md">{code}</code>
               </div>
             </div>
@@ -419,5 +418,5 @@ function DeleteRentalAction({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

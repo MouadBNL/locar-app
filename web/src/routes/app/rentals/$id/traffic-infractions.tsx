@@ -52,7 +52,7 @@ function RouteComponent() {
         </CardHeader>
         <CardContent>
           <TrafficInfractionTable
-            data={trafficInfractions?.data}
+            data={trafficInfractions?.data ?? []}
             loading={trafficInfractionsLoading}
             actions={trafficInfraction => (
               <>

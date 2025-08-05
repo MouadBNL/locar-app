@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+import { VehicleLicensePlateBadge } from './vehicle-license-plate-badge';
 
 export interface VehicleTableCardProps {
   id: string;
@@ -20,7 +21,11 @@ export function VehicleTableCard(props: VehicleTableCardProps) {
           {props.year}
         </p>
       </Link>
-      <p className="text-muted-foreground text-xs">{props.license_plate}</p>
+      <p className="text-muted-foreground text-xs">
+        <VehicleLicensePlateBadge>
+          {props.license_plate}
+        </VehicleLicensePlateBadge>
+      </p>
     </div>
   );
 }

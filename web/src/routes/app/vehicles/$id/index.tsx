@@ -6,9 +6,15 @@ import { EyeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CustomerSummaryCard } from '@/components/blocks/customer-summary-card';
 import { PeriodSummaryCard } from '@/components/blocks/period-summary-card';
+import { StatisticCard } from '@/components/blocks/statistic-card';
+import { StatisticCardGrid } from '@/components/blocks/statistic-card-grid';
+import { VehicleSummaryChart } from '@/components/charts/vehicle-summary-chart';
+import { VehicleTypePieChart } from '@/components/charts/vehicle-type-pie-chart';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useVehicleStatistics } from '@/features/statistics';
 import { useVehicleShow } from '@/features/vehicles';
+import { fmt_currency } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/vehicles/$id/')({
   component: RouteComponent,
@@ -19,9 +25,10 @@ export const Route = createFileRoute('/app/vehicles/$id/')({
 });
 
 function RouteComponent() {
-  const { t } = useTranslation(['common', 'vehicle', 'rental', 'reservation', 'repair']);
-
+  const { t } = useTranslation(['common', 'vehicle', 'rental', 'reservation', 'repair', 'stats']);
+  const { id } = Route.useParams();
   const { vehicle } = Route.useLoaderData();
+  const { data } = useVehicleStatistics({ id: id! });
 
   return (
     <div>
@@ -112,6 +119,41 @@ function RouteComponent() {
             </div>
           </CardContent>
         </Card>
+      )}
+      {data && (
+        <div className="">
+          <StatisticCardGrid className="mb-6">
+            <StatisticCard
+              label={t('stats:total_revenue')}
+              stat={fmt_currency(data.data.revenue ?? 0)}
+              trend={data.data.revenue_monthly_progress ?? undefined}
+            />
+            <StatisticCard
+              label={t('stats:total_expenses')}
+              stat={fmt_currency(data.data.expenses ?? 0)}
+              trend={data.data.expenses_monthly_progress ?? undefined}
+            />
+            <StatisticCard
+              label={t('stats:rentals_count')}
+              stat={data.data.rental_count}
+              trend={data.data.rentals_monthly_progress ?? undefined}
+            />
+            <StatisticCard
+              label={t('stats:repairs_count')}
+              stat={data.data.repairs_count}
+              trend={data.data.repairs_monthly_progress ?? undefined}
+            />
+          </StatisticCardGrid>
+
+          <div className="mb-6">
+            <VehicleSummaryChart data={data.data} />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <VehicleTypePieChart data={data.data} />
+            <VehicleSummaryChart data={data.data} />
+          </div>
+        </div>
       )}
     </div>
   );

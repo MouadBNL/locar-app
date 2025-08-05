@@ -1,18 +1,24 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StatisticCard } from '@/components/blocks/statistic-card';
+import { StatisticCardGrid } from '@/components/blocks/statistic-card-grid';
 import { EventCalendar } from '@/components/calendar';
 import { CalendarProvider } from '@/components/calendar/calendar-context';
+import { BusinessSummaryChart } from '@/components/charts/business-summary-chart';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import { useCalendarIndex } from '@/features/calendar';
 import { mapCalendarEvent } from '@/features/calendar/mappers';
-import { get_date_range } from '@/lib/utils';
+import { useGlobalStatistics } from '@/features/statistics';
+import { fmt_currency, get_date_range } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { data: globalStatistics } = useGlobalStatistics();
   const { data } = useCalendarIndex({
     query_params: get_date_range(new Date(), 3),
   });
@@ -21,24 +27,61 @@ function RouteComponent() {
     return data?.data.map(mapCalendarEvent) ?? [];
   }, [data]);
 
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['common', 'stats', 'calendar']);
   return (
     <div className="flex h-full">
       <div className="flex-1 pt-8 px-4 lg:px-12">
         <Heading3 className="mb-6">{t('common:dashboard')}</Heading3>
-        <div className="flex flex-1 flex-col gap-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-          </div>
-          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
+        <div className=" mb-6">
+          <StatisticCardGrid>
+            <StatisticCard
+              label={t('stats:total_revenue')}
+              stat={fmt_currency(globalStatistics?.data.revenue ?? 0)}
+              trend={globalStatistics?.data.revenue_monthly_progress ?? undefined}
+            />
+            <StatisticCard
+              label={t('stats:total_expenses')}
+              stat={fmt_currency(globalStatistics?.data.expenses ?? 0)}
+              trend={globalStatistics?.data.expenses_monthly_progress ?? undefined}
+            />
+            <StatisticCard
+              label={t('stats:rentals_count')}
+              stat={globalStatistics?.data.rental_count.toString() ?? '0'}
+              trend={globalStatistics?.data.rentals_monthly_progress ?? undefined}
+            />
+            <StatisticCard
+              label={t('stats:reservations_count')}
+              stat={globalStatistics?.data.reservation_count.toString() ?? '0'}
+              trend={globalStatistics?.data.reservations_monthly_progress ?? undefined}
+            />
+          </StatisticCardGrid>
         </div>
-      </div>
-      <div className="w-0 md:w-[200px] lg:w-[300px] xl:w-[500px] h-full border-l">
-        <CalendarProvider defaultView="agenda" calendarOnly>
-          <EventCalendar events={events} />
-        </CalendarProvider>
+
+        <div className="mb-6">
+          <BusinessSummaryChart
+            expenses={globalStatistics?.data.expenses_per_day ?? []}
+            revenue={globalStatistics?.data.revenue_per_day ?? []}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>{t('stats:global_statistics')}</CardTitle>
+            </CardHeader>
+            <CardContent></CardContent>
+          </Card>
+          <Card className="col-span-1">
+            <CardHeader>
+              <CardTitle>{t('calendar:agenda')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CalendarProvider defaultView="agenda" calendarOnly>
+                <EventCalendar events={events} />
+              </CalendarProvider>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

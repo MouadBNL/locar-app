@@ -2,7 +2,6 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { PencilIcon } from 'lucide-react';
 import { RentalTable } from '@/components/blocks/rental-table';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useRentalIndex } from '@/features/rentals';
 import { breadcrumb } from '@/lib/breadcrumb';
 
@@ -29,21 +28,17 @@ function RouteComponent() {
 
   return (
     <div>
-      <Card>
-        <CardContent>
-          <RentalTable
-            data={data?.data || []}
-            loading={isLoading}
-            actions={rental => (
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/app/rentals/$id" params={{ id: rental.rental_number }}>
-                  <PencilIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            )}
-          />
-        </CardContent>
-      </Card>
+      <RentalTable
+        data={data?.data || []}
+        loading={isLoading}
+        actions={rental => (
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/app/rentals/$id" params={{ id: rental.rental_number }}>
+              <PencilIcon className="w-4 h-4" />
+            </Link>
+          </Button>
+        )}
+      />
     </div>
   );
 }
