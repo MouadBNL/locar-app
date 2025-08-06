@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\V1\TrafficInfractionController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
 use App\Http\Controllers\Api\V1\VehicleRepairController;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/auth')->group(function () {
@@ -28,7 +30,19 @@ Route::prefix('/auth')->group(function () {
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware([
+    'auth:sanctum',
+    'tenancy',
+])->group(function () {
+
+    Route::get('/tenant', function () {
+        return [
+            'tenant' => tenant('id'),
+            'database' => DB::connection()->getDatabaseName(),
+            'users' => User::all(),
+        ];
+    });
+
     Route::apiResource('customers', CustomerController::class);
 
     Route::get('customers/{customer}/ratings', [CustomerRatingController::class, 'index']);
@@ -95,8 +109,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('calendar', [CalendarController::class, 'index']);
 
     /*
-     * Traffic Infractions
-     */
+         * Traffic Infractions
+         */
     Route::get('traffic-infractions', [TrafficInfractionController::class, 'index']);
     Route::post('traffic-infractions', [TrafficInfractionController::class, 'store']);
     Route::get('traffic-infractions/{trafficInfraction}', [TrafficInfractionController::class, 'show']);
