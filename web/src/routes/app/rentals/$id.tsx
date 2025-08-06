@@ -123,7 +123,12 @@ function RouteComponent() {
                 id_number={rental.renter.identifier ?? ''}
                 license={rental.renter.driver_license_number ?? ''}
                 phone={rental.renter.phone ?? ''}
-                address={rental.renter.id_card_address ?? ''} 
+                address={
+                  rental.renter.id_card_address ??
+                  rental.renter.driver_license_address ??
+                  rental.renter.passport_address ??
+                  ''
+                }
               />
             </div>
             <Separator orientation="vertical" />
