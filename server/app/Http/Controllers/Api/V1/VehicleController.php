@@ -24,15 +24,17 @@ class VehicleController extends ApiController
         return $this->success(new VehicleResource($vehicle), 'vehicle.store.success');
     }
 
-    public function show(Vehicle $vehicle)
+    public function show($vehicle)
     {
-        $vehicle->load('activeRentalVehicle', 'activeReservation', 'activeRepair');
+        $vehicle = Vehicle::findOrFail($vehicle);
+        $vehicle->load(['activeRentalVehicle', 'activeReservation', 'activeRepair']);
 
         return $this->success(new VehicleResource($vehicle));
     }
 
-    public function update(VehicleUpdateRequest $request, Vehicle $vehicle)
+    public function update(VehicleUpdateRequest $request, $vehicle)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $data = $request->validated();
         $vehicle->update($data);
 

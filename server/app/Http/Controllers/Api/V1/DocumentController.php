@@ -15,12 +15,12 @@ class DocumentController extends ApiController
 
         $request->validated();
         $document = Document::create([
-            'filename' => now()->format('Ymd').'_'.$request->file->getClientOriginalName(),
+            'filename' => now()->format('Ymd') . '_' . $request->file->getClientOriginalName(),
             'original_filename' => $request->file->getClientOriginalName(),
             'disk' => 'public',
             'path' => $request->file->storeAs(
                 'documents',
-                now()->format('Ymd').'_'.$request->file->getClientOriginalName(),
+                now()->format('Ymd') . '_' . $request->file->getClientOriginalName(),
                 'public'
             ),
             'mime_type' => $request->file->getClientMimeType(),
@@ -32,8 +32,9 @@ class DocumentController extends ApiController
         return $this->success(new DocumentResource($document), 'document.store.success');
     }
 
-    public function show(Document $document)
+    public function show($document)
     {
+        $document = Document::findOrFail($document);
         return $this->success(new DocumentResource($document), 'document.show.success');
     }
 }

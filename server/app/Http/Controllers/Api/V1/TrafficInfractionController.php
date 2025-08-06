@@ -47,13 +47,15 @@ class TrafficInfractionController extends ApiController
         return $this->success(new TrafficInfractionResource($trafficInfraction));
     }
 
-    public function show(TrafficInfraction $trafficInfraction)
+    public function show($trafficInfraction)
     {
+        $trafficInfraction = TrafficInfraction::findOrFail($trafficInfraction);
         return $this->success(new TrafficInfractionResource($trafficInfraction));
     }
 
-    public function update(TrafficInfractionCreateRequest $request, TrafficInfraction $trafficInfraction)
+    public function update(TrafficInfractionCreateRequest $request, $trafficInfraction)
     {
+        $trafficInfraction = TrafficInfraction::findOrFail($trafficInfraction);
         $data = $request->validated();
         if ($request->rental_id) {
             $rental = Rental::with('renter', 'vehicle')->findOrFail($request->rental_id);
@@ -66,8 +68,9 @@ class TrafficInfractionController extends ApiController
         return $this->success(new TrafficInfractionResource($trafficInfraction));
     }
 
-    public function destroy(TrafficInfraction $trafficInfraction)
+    public function destroy($trafficInfraction)
     {
+        $trafficInfraction = TrafficInfraction::findOrFail($trafficInfraction);
         $trafficInfraction->delete();
 
         return $this->success(new TrafficInfractionResource($trafficInfraction));

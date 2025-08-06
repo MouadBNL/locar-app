@@ -10,8 +10,9 @@ use App\Models\RentalPayment;
 
 class RentalPaymentController extends ApiController
 {
-    public function index(Rental $rental)
+    public function index($rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $payments = $rental->payments()->get();
 
         return $this->success([
@@ -20,15 +21,18 @@ class RentalPaymentController extends ApiController
         ]);
     }
 
-    public function store(Rental $rental, RentalPaymentCreateRequest $request)
+    public function store(RentalPaymentCreateRequest $request, $rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $payment = $rental->payments()->create($request->validated());
 
         return $this->success(new RentalPaymentResource($payment), 'rental.payment.store.success');
     }
 
-    public function show(Rental $rental, RentalPayment $payment)
+    public function show($rental_number, $payment)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
+        $payment = RentalPayment::findOrFail($payment);
         if ($payment->rental_id !== $rental->id) {
             return $this->error('rental.payment.show.error.not_found', 404);
         }
@@ -36,8 +40,10 @@ class RentalPaymentController extends ApiController
         return $this->success(new RentalPaymentResource($payment), 'rental.payment.show.success');
     }
 
-    public function update(Rental $rental, RentalPayment $payment, RentalPaymentCreateRequest $request)
+    public function update(RentalPaymentCreateRequest $request, $rental_number, $payment)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
+        $payment = RentalPayment::findOrFail($payment);
         if ($payment->rental_id !== $rental->id) {
             return $this->error('rental.payment.update.error.not_found', 404);
         }
@@ -47,8 +53,10 @@ class RentalPaymentController extends ApiController
         return $this->success(new RentalPaymentResource($payment), 'rental.payment.update.success');
     }
 
-    public function destroy(Rental $rental, RentalPayment $payment)
+    public function destroy($rental_number, $payment)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
+        $payment = RentalPayment::findOrFail($payment);
         if ($payment->rental_id !== $rental->id) {
             return $this->error('rental.payment.destroy.error.not_found', 404);
         }

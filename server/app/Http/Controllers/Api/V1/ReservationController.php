@@ -37,8 +37,9 @@ class ReservationController extends ApiController
         return $this->success(ReservationResource::collection($reservations));
     }
 
-    public function show(Reservation $reservation)
+    public function show($reservation_number)
     {
+        $reservation = Reservation::where('reservation_number', $reservation_number)->firstOrFail();
         return $this->success(new ReservationResource($reservation));
     }
 
@@ -62,8 +63,9 @@ class ReservationController extends ApiController
         return $this->success(new ReservationResource($reservation));
     }
 
-    public function update(ReservationUpdateRequest $request, Reservation $reservation)
+    public function update(ReservationUpdateRequest $request, $reservation_number)
     {
+        $reservation = Reservation::where('reservation_number', $reservation_number)->firstOrFail();
         $data = $request->validated();
 
         $availability = $this->availabilityCheckService->check(new AvailabilityCheckData(
@@ -84,8 +86,9 @@ class ReservationController extends ApiController
         return $this->success(new ReservationResource($reservation));
     }
 
-    public function destroy(Reservation $reservation)
+    public function destroy($reservation_number)
     {
+        $reservation = Reservation::where('reservation_number', $reservation_number)->firstOrFail();
         $reservation->delete();
 
         return $this->success(null, 'reservation.delete.success');

@@ -30,13 +30,15 @@ class RentalController extends ApiController
         return $this->success(RentalSummaryResource::collection($rentals));
     }
 
-    public function show(Rental $rental)
+    public function show($rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         return $this->success(RentalData::fromModel($rental));
     }
 
-    public function destroy(Rental $rental)
+    public function destroy($rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $rental->load(['rate', 'timeframe', 'renter', 'vehicle']);
 
         $rental->rate->delete();

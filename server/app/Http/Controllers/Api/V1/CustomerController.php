@@ -16,9 +16,10 @@ class CustomerController extends ApiController
         return $this->success(CustomerResource::collection($customers), 'customer.index.success');
     }
 
-    public function show(Customer $customer)
+    public function show($customer)
     {
-        $customer->load('activeRenter', 'activeReservation', 'ratings');
+        $customer = Customer::findOrFail($customer);
+        $customer->load(['activeRenter', 'activeReservation', 'ratings']);
 
         return $this->success(new CustomerResource($customer), 'customer.show.success');
     }
@@ -30,8 +31,9 @@ class CustomerController extends ApiController
         return $this->success(new CustomerResource($customer), 'customer.create.success');
     }
 
-    public function update(CustomerUpdateRequest $request, Customer $customer)
+    public function update(CustomerUpdateRequest $request, $customer)
     {
+        $customer = Customer::findOrFail($customer);
         $customer->update($request->validated());
 
         return $this->success(new CustomerResource($customer), 'customer.update.success');
