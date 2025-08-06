@@ -9,6 +9,10 @@ http.defaults.withXSRFToken = true;
 
 http.interceptors.request.use(
   (config) => {
+    const tenant = localStorage.getItem('tenant');
+    if (tenant) {
+      config.headers['X-Tenant'] = tenant;
+    }
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -17,6 +21,20 @@ http.interceptors.request.use(
   },
   (error) => {
     // Do something with request error
+    return Promise.reject(error);
+  },
+);
+
+http.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.data.message === 'Access denied.') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('tenant');
+      window.location.href = '/';
+    }
     return Promise.reject(error);
   },
 );
