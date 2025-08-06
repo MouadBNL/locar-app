@@ -23,6 +23,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 Route::prefix('/auth')->group(function () {
@@ -32,10 +33,9 @@ Route::prefix('/auth')->group(function () {
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 });
 
-Route::middleware([
+Route::prefix('/{tenant}')->middleware([
     'api',
-    InitializeTenancyByDomain::class,
-    PreventAccessFromCentralDomains::class,
+    InitializeTenancyByPath::class,
 ])->group(function () {
     Route::get('/', function () {
         return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
