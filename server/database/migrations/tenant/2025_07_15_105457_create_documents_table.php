@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('mime_type')->nullable();
             $table->string('size')->nullable();
             $table->string('uploaded_for')->nullable();
-            $table->foreignUuid('uploaded_by')->nullable();
+            $table->foreignUuid('uploaded_by')->constrained('users', 'id');
             $table->timestamps();
         });
     }
