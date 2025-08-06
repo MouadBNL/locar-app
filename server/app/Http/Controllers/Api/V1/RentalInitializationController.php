@@ -74,6 +74,9 @@ class RentalInitializationController extends ApiController
                 'id_card_number' => $data->renter->id_card_number,
                 'birth_date' => $data->renter->birth_date,
                 'address_primary' => $data->renter->address_primary,
+                'id_card_address' => $data->renter->id_card_address,
+                'driver_license_address' => $data->renter->driver_license_address,
+                'passport_address' => $data->renter->passport_address,
 
                 'driver_license_number' => $data->renter->driver_license_number,
                 'driver_license_issuing_city' => $data->renter->driver_license_issuing_city,

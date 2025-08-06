@@ -53,6 +53,9 @@ class Renter extends Model
         'id_card_number',
         'birth_date',
         'address_primary',
+        'id_card_address',
+        'driver_license_address',
+        'passport_address',
 
         // Driver's license information
         'driver_license_number',
