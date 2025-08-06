@@ -1,6 +1,7 @@
 import type { AuthMeResponse, AuthResponse, SignInRequest, SignUpRequest } from '.';
 import type { ApiResponse } from '@/lib/http';
 import { http } from '@/lib/http';
+import { queryClient } from '@/lib/query-generator';
 
 export async function singinFn(request: SignInRequest) {
   return await http.post<ApiResponse<AuthResponse>>('/auth/signin', request).then((res) => {
@@ -20,6 +21,7 @@ export async function signoutFn() {
   const res = await http.delete<ApiResponse>('/auth/signout').finally(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('tenant');
+    queryClient.invalidateQueries();
   });
 
   return res;
