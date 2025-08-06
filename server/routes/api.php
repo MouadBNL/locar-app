@@ -19,13 +19,35 @@ use App\Http\Controllers\Api\V1\TrafficInfractionController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
 use App\Http\Controllers\Api\V1\VehicleRepairController;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 Route::prefix('/auth')->group(function () {
     Route::post('signup', [AuthController::class, 'signup']);
     Route::post('signin', [AuthController::class, 'signin']);
     Route::delete('signout', [AuthController::class, 'signout'])->middleware('auth:sanctum');
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+});
+
+Route::middleware([
+    'api',
+    InitializeTenancyByDomain::class,
+    PreventAccessFromCentralDomains::class,
+])->group(function () {
+    Route::get('/', function () {
+        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
+    });
+
+    Route::get('/test', function () {
+        return [
+            'tenant' => tenant('id'),
+            'database' => DB::connection()->getDatabaseName(),
+            'users' => User::all(),
+        ];
+    });
 });
 
 Route::middleware('auth:sanctum')->group(function () {
