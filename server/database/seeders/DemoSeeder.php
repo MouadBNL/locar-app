@@ -20,7 +20,6 @@ use App\Services\TimeframeService;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 
 class DemoSeeder extends Seeder
@@ -70,7 +69,7 @@ class DemoSeeder extends Seeder
                 $total_days = rand(365 * 1, 365 * 2);
                 $time = Carbon::now()->subDays($total_days);
 
-                $entities_count = ceil($total_days / 16);
+                $entities_count = ceil($total_days / 8);
 
                 for ($i = 0; $i < $entities_count; $i++) {
 
@@ -97,7 +96,7 @@ class DemoSeeder extends Seeder
                             'receipt_document_id' => null,
                         ]);
                         $repair->expenses()->createMany(
-                            array_map(fn() => [
+                            array_map(fn () => [
                                 'vehicle_id' => $vehicle->id,
                                 'vehicle_repair_id' => $repair->id,
                                 'type' => VehicleExpenseType::values()[rand(0, count(VehicleExpenseType::values()) - 1)],
@@ -115,7 +114,7 @@ class DemoSeeder extends Seeder
                         $total_days = $this->timeframeService->diffInDays($start, $end);
 
                         Reservation::create([
-                            'reservation_number' => 'RES-' . str()->random(16),
+                            'reservation_number' => 'RES-'.str()->random(16),
                             'customer_id' => $customer->id,
                             'vehicle_id' => $vehicle->id,
                             'check_in_date' => $start,
@@ -129,7 +128,7 @@ class DemoSeeder extends Seeder
                     } else {
                         // Rental
                         $rental = Rental::create([
-                            'rental_number' => 'RNT-' . str()->random(16),
+                            'rental_number' => 'RNT-'.str()->random(16),
                             'notes' => $faker->paragraph(3),
                         ]);
 
@@ -163,7 +162,7 @@ class DemoSeeder extends Seeder
                         $renter = Renter::create([
                             'rental_id' => $rental->id,
                             'customer_id' => $customer->id,
-                            'full_name' => $customer->first_name . ' ' . $customer->last_name,
+                            'full_name' => $customer->first_name.' '.$customer->last_name,
                             'phone' => $customer->phone,
                             'email' => $customer->email,
 
