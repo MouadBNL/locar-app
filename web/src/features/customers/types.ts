@@ -32,8 +32,9 @@ export interface CustomerResource {
   rating: number | null;
   email: string;
   phone: string;
-  address: string;
-  id_card_number: string;
+  id_card_address: string;
+  driver_license_address: string;
+  passport_address: string;  id_card_number: string;
   id_card_issuing_date: string;
   id_card_expiration_date: string;
   driver_license_number: string;

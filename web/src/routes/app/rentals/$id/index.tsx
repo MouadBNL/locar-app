@@ -630,8 +630,8 @@ function RentalRenterFormSection({
                 />
                 <AppFormField
                   control={form.control}
-                  name="address_primary"
-                  label={t('customer:attributes.address')}
+                  name="id_card_address"
+                  label={t('customer:attributes.id_card_address')}
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? undefined} />
                   )}
@@ -684,8 +684,8 @@ function RentalRenterFormSection({
                 />
                 <AppFormField
                   control={form.control}
-                  name="address_secondary"
-                  label={t('customer:attributes.address')}
+                  name="driver_license_address"
+                  label={t('customer:attributes.driver_license_address')}
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? undefined} />
                   )}
@@ -738,8 +738,8 @@ function RentalRenterFormSection({
                 />
                 <AppFormField
                   control={form.control}
-                  name="address_tertiary"
-                  label={t('customer:attributes.address')}
+                  name="passport_address"
+                  label={t('customer:attributes.passport_address')}
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? undefined} />
                   )}
