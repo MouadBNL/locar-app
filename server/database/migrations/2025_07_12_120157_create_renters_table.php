@@ -19,12 +19,16 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
 
+            $table->string('address_primary')->nullable();
+
+
             // Identification information
-            $table->string('id_card_number')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('profession')->nullable();
-            $table->string('address_primary')->nullable();
-            $table->string('address_secondary')->nullable();
+            $table->string('id_card_number')->nullable();
+            $table->date('id_card_issuing_date')->nullable();
+            $table->date('id_card_expiration_date')->nullable();
+            $table->string('id_card_address')->nullable();
             $table->string('id_card_scan_document')->nullable();
 
             // Driver's license information
@@ -32,6 +36,7 @@ return new class extends Migration
             $table->string('driver_license_issuing_city')->nullable();
             $table->date('driver_license_issuing_date')->nullable();
             $table->date('driver_license_expiration_date')->nullable();
+            $table->string('driver_license_address')->nullable();
             $table->string('driver_license_scan_document')->nullable();
 
             // Passport information
@@ -39,6 +44,7 @@ return new class extends Migration
             $table->string('passport_country')->nullable();
             $table->date('passport_issuing_date')->nullable();
             $table->date('passport_expiration_date')->nullable();
+            $table->string('passport_address')->nullable();
             $table->string('passport_scan_document')->nullable();
 
             $table->timestamps();

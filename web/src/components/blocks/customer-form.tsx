@@ -22,20 +22,24 @@ export default function CustomerForm({
   const form = useForm({
     resolver: zodResolver(CustomerSchema),
     defaultValues: {
-      first_name: '',
-      last_name: '',
+      first_name: 'john',
+      last_name: 'doe',
       email: '',
-      phone: '',
-      id_card_address: '',
-      driver_license_address: '',
-      passport_address: '',
-      id_card_number: '',
+      phone: '060807040201',
+      id_card_number: 'AA456789',
+      driver_license_number: 'BB98765',
+      passport_number: 'XX123456',
+      id_card_address: 'test id card address',
+      driver_license_address: 'test driver license address',
+      passport_address: 'test passport address',
       ...initialValues,
     },
   });
+  console.log(initialValues)
 
   const onSubmit = (data: CustomerData) => {
     submit?.(data);
+    console.log('Submitted data:', data);
   };
 
   return (
@@ -110,7 +114,6 @@ export default function CustomerForm({
           />
 
 
-
           <AppFormField
             control={form.control}
             name="id_card_issuing_date"
@@ -159,6 +162,24 @@ export default function CustomerForm({
 
           <AppFormField
             control={form.control}
+            name="driver_license_issuing_date"
+            label={t('customer:attributes.driver_license_issuing_date')}
+            render={({ field }) => (
+              <DateInput {...field} value={field.value ?? undefined} type="string" />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="driver_license_expiration_date"
+            label={t('customer:attributes.driver_license_expiration_date')}
+            render={({ field }) => (
+              <DateInput {...field} value={field.value ?? undefined} type="string" />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
             name="driver_license_address"
             label={t('customer:attributes.driver_license_address')}
             render={({ field }) => (
@@ -168,6 +189,38 @@ export default function CustomerForm({
                 {...field}
                 value={field.value ?? ''}
               />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="passport_number"
+            label={t('customer:attributes.passport_number')}
+            render={({ field }) => (
+              <Input
+                type="text"
+                placeholder={t('customer:attributes.passport_number')}
+                {...field}
+                value={field.value ?? ''}
+              />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="passport_issuing_date"
+            label={t('customer:attributes.passport_issuing_date')}
+            render={({ field }) => (
+              <DateInput {...field} value={field.value ?? undefined} type="string" />
+            )}
+          />
+
+          <AppFormField
+            control={form.control}
+            name="passport_expiration_date"
+            label={t('customer:attributes.passport_expiration_date')}
+            render={({ field }) => (
+              <DateInput {...field} value={field.value ?? undefined} type="string" />
             )}
           />
 

@@ -40,6 +40,12 @@ class Customer extends Model
 
     protected $casts = [
         'birth_date' => 'datetime',
+        'id_card_issuing_date' => 'date',
+        'id_card_expiration_date' => 'date',
+        'driver_license_issuing_date' => 'date',
+        'driver_license_expiration_date' => 'date',
+        'passport_issuing_date' => 'date',
+        'passport_expiration_date' => 'date',
     ];
 
     protected $fillable = [
@@ -48,10 +54,19 @@ class Customer extends Model
         'email',
         'phone',
         'address',
-        'id_card_number',
-        'driver_license_number',
-        'passport_number',
         'birth_date',
+        'id_card_number',
+        'id_card_issuing_date',
+        'id_card_expiration_date',
+        'id_card_address',
+        'driver_license_number',
+        'driver_license_issuing_date',
+        'driver_license_expiration_date',
+        'driver_license_address',
+        'passport_number',
+        'passport_issuing_date',
+        'passport_expiration_date',
+        'passport_address',
     ];
 
     public function status(): Attribute

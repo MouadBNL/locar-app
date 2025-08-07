@@ -558,8 +558,10 @@ function RentalRenterFormSection({
   });
   const onSubmit = form.handleSubmit((data) => {
     updateRenter({ id: code, data });
+    console.log('Updated renter data:', data);
   });
 
+  console.log('renter', renter);
   return (
     <Card>
       <Form {...form}>

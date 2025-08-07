@@ -59,19 +59,26 @@ export default function RentalInitializationForm({
         customer_id: null,
         full_name: 'John Doe',
         phone: '+212 6 66 66 66 66',
-        id_card_number: 'AA123456',
         birth_date: fmt_date(get_date(), { format: 'date' }),
+        
+        id_card_number: 'AA123456',
+        id_card_address: 'adresse to test 1',
         id_card_issuing_date: fmt_date(get_date(), { format: 'date' }),
         id_card_expiration_date: fmt_date(get_date({ day: 365 * 5 }), {
           format: 'date',
         }),
-        id_card_address: '',
-        driver_license_address: '',
-        passport_address: '',
+        driver_license_address: 'adresse to test 2',
         driver_license_number: '123456789',
         driver_license_issuing_city: 'Casablanca',
         driver_license_issuing_date: fmt_date(get_date(), { format: 'date' }),
         driver_license_expiration_date: fmt_date(get_date({ day: 365 * 5 }), {
+          format: 'date',
+        }),
+        passport_address: 'adresse to test 3',
+        passport_number: '123456789',
+        passport_country: 'Morocco',
+        passport_issuing_date: fmt_date(get_date(), { format: 'date' }),
+        passport_expiration_date: fmt_date(get_date({ day: 365 * 5 }), {
           format: 'date',
         }),
       },
@@ -80,6 +87,7 @@ export default function RentalInitializationForm({
 
   const onSubmit = (data: RentalData) => {
     submit?.(data);
+    console.log("renter submitted data", data.renter);
   };
 
   return (
@@ -181,6 +189,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
       `${customer.first_name} ${customer.last_name}`,
     );
     form.setValue('renter.phone', customer.phone);
+    
     form.setValue('renter.id_card_address', customer.id_card_address ?? '');
     form.setValue('renter.driver_license_address', customer.driver_license_address ?? '');
     form.setValue('renter.passport_address', customer.passport_address ?? '');
@@ -189,7 +198,18 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
       'renter.driver_license_number',
       customer.driver_license_number ?? '',
     );
+    form.setValue('renter.id_card_issuing_date', customer.id_card_issuing_date ?? '');
+    form.setValue('renter.id_card_expiration_date', customer.id_card_expiration_date ?? '');
+    form.setValue('renter.birth_date', customer.birth_date ?? '');
+    form.setValue('renter.driver_license_issuing_date', customer.driver_license_issuing_date ?? '');
+    form.setValue('renter.driver_license_expiration_date', customer.driver_license_expiration_date ?? '');
+    form.setValue('renter.driver_license_issuing_city', customer.driver_license_issuing_city ?? '');
+    form.setValue('renter.passport_number', customer.passport_number ?? '');
+    form.setValue('renter.passport_country', customer.passport_country ?? '');
+    form.setValue('renter.passport_issuing_date', customer.passport_issuing_date ?? '');
+    form.setValue('renter.passport_expiration_date', customer.passport_expiration_date ?? '');
   };
+  
 
   return (
     <div>

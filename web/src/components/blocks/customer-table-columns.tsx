@@ -22,11 +22,11 @@ export function useCustomerTableColumns({ actions }: { actions?: (customer: Cust
       accessorKey: 'id_card_number',
       cell: ({ row }) => <span>{row.original.id_card_number}</span>,
     },
-    {
-      header: () => t('customer:attributes.email'),
-      accessorKey: 'email',
-      cell: ({ row }) => <span>{row.original.email}</span>,
-    },
+    // {
+    //   header: () => t('customer:attributes.email'),
+    //   accessorKey: 'email',
+    //   cell: ({ row }) => <span>{row.original.email}</span>,
+    // },
     {
       header: () => t('customer:attributes.phone'),
       accessorKey: 'phone',

@@ -70,23 +70,25 @@ class RentalInitializationController extends ApiController
                 'full_name' => $data->renter->full_name,
                 'phone' => $data->renter->phone,
                 'email' => $data->renter->email,
+                'address_primary' => $data->renter->address_primary,
 
                 'id_card_number' => $data->renter->id_card_number,
                 'birth_date' => $data->renter->birth_date,
-                'address_primary' => $data->renter->address_primary,
+                'id_card_issuing_date' => $data->renter->id_card_issuing_date,
+                'id_card_expiration_date' => $data->renter->id_card_expiration_date,
                 'id_card_address' => $data->renter->id_card_address,
-                'driver_license_address' => $data->renter->driver_license_address,
-                'passport_address' => $data->renter->passport_address,
-
+                
                 'driver_license_number' => $data->renter->driver_license_number,
                 'driver_license_issuing_city' => $data->renter->driver_license_issuing_city,
                 'driver_license_issuing_date' => $data->renter->driver_license_issuing_date,
                 'driver_license_expiration_date' => $data->renter->driver_license_expiration_date,
-
+                'driver_license_address' => $data->renter->driver_license_address,
+                
                 'passport_number' => $data->renter->passport_number,
                 'passport_country' => $data->renter->passport_country,
                 'passport_issuing_date' => $data->renter->passport_issuing_date,
                 'passport_expiration_date' => $data->renter->passport_expiration_date,
+                'passport_address' => $data->renter->passport_address,
 
                 'id_card_scan_document' => $data->renter->id_card_scan_document,
                 'driver_license_scan_document' => $data->renter->driver_license_scan_document,
