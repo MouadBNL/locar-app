@@ -123,4 +123,11 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+
+
+    // Sentry
+    'sentry' => [
+        'enabled' => env('SENTRY_ENABLED', false),
+    ],
+
 ];

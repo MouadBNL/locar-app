@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        if (config('sentry.enabled')) {
+        if (config('app.sentry.enabled')) {
             Integration::handles($exceptions);
         }
     })->create();

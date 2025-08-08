@@ -7,8 +7,6 @@
  */
 return [
 
-    'enabled' => env('SENTRY_ENABLED', false),
-
     // @see https://docs.sentry.io/product/sentry-basics/dsn-explainer/
     'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
 
