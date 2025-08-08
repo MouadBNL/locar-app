@@ -50,6 +50,7 @@
   "max_files_and_file_size": "Max {{file_cnt}} fichiers jusqu'à {{file_size}}MB.",
   "archive": "Archiver",
   "delete": "Supprimer",
+  "break": "Briser le monde",
   "theme": {
     "light": "Clair",
     "dark": "Sombre",
