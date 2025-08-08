@@ -146,18 +146,22 @@ class DemoSeeder extends Seeder
 
                         'id_card_number' => $customer->id_card_number,
                         'birth_date' => $customer->birth_date,
-                        'address_primary' => $customer->address,
-                        'address_secondary' => $customer->address,
+                        'id_card_issuing_date' => $customer->id_card_issuing_date,
+                        'id_card_expiration_date' => $customer->id_card_expiration_date,
+                        'id_card_address' => $customer->id_card_address,
+
 
                         'driver_license_number' => $customer->driver_license_number,
                         'driver_license_issuing_city' => $customer->driver_license_issuing_city,
                         'driver_license_issuing_date' => $customer->driver_license_issuing_date,
                         'driver_license_expiration_date' => $customer->driver_license_expiration_date,
+                        'driver_license_address' => $customer->driver_license_address,
 
                         'passport_number' => $customer->passport_number,
                         'passport_country' => $customer->passport_country,
                         'passport_issuing_date' => $customer->passport_issuing_date,
                         'passport_expiration_date' => $customer->passport_expiration_date,
+                        'passport_address' => $customer->passport_address,
 
                         'id_card_scan_document' => $customer->id_card_scan_document,
                         'driver_license_scan_document' => $customer->driver_license_scan_document,
