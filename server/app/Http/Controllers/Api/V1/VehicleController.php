@@ -41,8 +41,9 @@ class VehicleController extends ApiController
         return $this->success(new VehicleResource($vehicle), 'vehicle.update.success');
     }
 
-    public function destroy(Vehicle $vehicle)
+    public function destroy($vehicle)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $vehicle->delete();
 
         return $this->success(null, 'vehicle.destroy.success');
