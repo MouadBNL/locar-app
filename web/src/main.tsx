@@ -10,12 +10,15 @@ import { routeTree } from './routeTree.gen';
 import './index.css';
 import './lib/i18n';
 
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
-  integrations: [Sentry.browserTracingIntegration()],
-  tracesSampleRate: Number(import.meta.env.VITE_SENTRY_TRACES_SAMPLE_RATE ?? '0'),
-  environment: import.meta.env.VITE_SENTRY_ENVIRONMENT,
-});
+const isSentryEnabled = import.meta.env.VITE_SENTRY_DSN === 'true';
+if (isSentryEnabled) {
+  Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    integrations: [Sentry.browserTracingIntegration()],
+    tracesSampleRate: Number(import.meta.env.VITE_SENTRY_TRACES_SAMPLE_RATE ?? '0'),
+    environment: import.meta.env.VITE_SENTRY_ENVIRONMENT,
+  });
+}
 
 // Create a new router instance
 const router = createRouter({
