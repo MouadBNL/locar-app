@@ -10,8 +10,9 @@ use App\Models\VehicleRepair;
 
 class VehicleRepairController extends ApiController
 {
-    public function index(Vehicle $vehicle)
+    public function index($vehicle)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $repairs = $vehicle->repairs()
             ->with('expenses')
             ->orderBy('started_at', 'desc')

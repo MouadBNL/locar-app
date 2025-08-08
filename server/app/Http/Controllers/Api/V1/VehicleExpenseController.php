@@ -9,8 +9,9 @@ use App\Models\VehicleExpense;
 
 class VehicleExpenseController extends ApiController
 {
-    public function index(Vehicle $vehicle)
+    public function index($vehicle)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $query = $vehicle->expenses();
         if (request()->has('ids')) {
             $query->whereIn('id', explode(',', request()->ids));
