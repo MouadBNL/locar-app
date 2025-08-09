@@ -1,12 +1,13 @@
+'use no memo';
 import type { ReservationData } from '@/features/reservations';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
   ReservationSchema,
 } from '@/features/reservations';
-import { fmt_date, generate_reservation_number, get_date } from '@/lib/utils';
+import { date_diff_in_days, fmt_date, generate_reservation_number, get_date } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { DateInput } from '../ui/dateinput';
 import { AppFormField, Form } from '../ui/form';
@@ -47,29 +48,8 @@ export default function ReservationForm({
   const checkout_date = form.watch('check_out_date');
   const daily_rate = form.watch('daily_rate');
 
-  function dateDiffInDays(a?: string | null, b?: string | null) {
-    if (!a || !b)
-      return 0;
-    const dateA = new Date(a);
-    const dateB = new Date(b);
-    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    // Discard the time and time-zone information.
-    const utc1 = Date.UTC(
-      dateA.getFullYear(),
-      dateA.getMonth(),
-      dateA.getDate(),
-    );
-    const utc2 = Date.UTC(
-      dateB.getFullYear(),
-      dateB.getMonth(),
-      dateB.getDate(),
-    );
-
-    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-  }
-
   useEffect(() => {
-    const number_of_days = dateDiffInDays(checkin_date, checkout_date);
+    const number_of_days = date_diff_in_days(checkin_date, checkout_date);
     const total_price = number_of_days * (daily_rate ?? 0);
     form.setValue('total_days', number_of_days);
     form.setValue('total_price', total_price);

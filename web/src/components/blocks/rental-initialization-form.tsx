@@ -1,3 +1,4 @@
+'use no memo';
 import type { Resolver, UseFormReturn } from 'react-hook-form';
 import type { CustomerData } from '@/features/customers';
 import type { RentalData } from '@/features/rentals';
@@ -7,7 +8,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { RentalSchema } from '@/features/rentals';
-import { fmt_date, generate_rental_code, get_date } from '@/lib/utils';
+import { date_diff_in_days, fmt_date, generate_rental_code, get_date } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { DateInput } from '../ui/dateinput';
 import { DateTimeInput } from '../ui/datetime-input';
@@ -454,32 +455,11 @@ function RentalRateForm({ form }: { form: UseFormReturn<RentalData> }) {
   const extra_quantity = form.watch('rate.extra_quantity');
   const discount = form.watch('rate.discount');
 
-  function dateDiffInDays(a?: string | null, b?: string | null) {
-    if (!a || !b)
-      return 0;
-    const dateA = new Date(a);
-    const dateB = new Date(b);
-    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    // Discard the time and time-zone information.
-    const utc1 = Date.UTC(
-      dateA.getFullYear(),
-      dateA.getMonth(),
-      dateA.getDate(),
-    );
-    const utc2 = Date.UTC(
-      dateB.getFullYear(),
-      dateB.getMonth(),
-      dateB.getDate(),
-    );
-
-    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-  }
-
   useEffect(() => {
     const extra_total_price = (extra_rate ?? 0) * (extra_quantity ?? 0);
     form.setValue('rate.extra_total', extra_total_price);
     form.setValue('rate.total', extra_total_price);
-    const number_of_days = dateDiffInDays(departure_date, return_date);
+    const number_of_days = date_diff_in_days(departure_date, return_date);
     const day_total_price = number_of_days * (daily_rate ?? 0);
     form.setValue('rate.day_quantity', number_of_days);
     form.setValue('rate.day_total', day_total_price);
