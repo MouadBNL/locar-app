@@ -10,6 +10,19 @@ export function mapCalendarEvent(event: CalendarEventData): CalendarEvent {
     title = `Rental return: ${event.title}`;
   }
 
+  let url;
+  if (event.entity_code) {
+    if (event.type === 'rental_departure') {
+      url = `/app/rentals/${event.entity_code}`;
+    }
+    if (event.type === 'rental_return') {
+      url = `/app/rentals/${event.entity_code}`;
+    }
+    if (event.type === 'reservation') {
+      url = `/app/reservations/${event.entity_code}`;
+    }
+  }
+
   return {
     id: event.id,
     title,
@@ -17,6 +30,7 @@ export function mapCalendarEvent(event: CalendarEventData): CalendarEvent {
     end: new Date(event.end),
     color: mapCalendarEventTypeToColor(event.type),
     allDay: event.all_day ?? false,
+    url,
   };
 }
 
