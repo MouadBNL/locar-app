@@ -33,6 +33,7 @@ class RentalController extends ApiController
     public function show($rental_number)
     {
         $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
+
         return $this->success(RentalData::fromModel($rental));
     }
 

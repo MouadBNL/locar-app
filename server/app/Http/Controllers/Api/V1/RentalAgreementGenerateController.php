@@ -18,7 +18,7 @@ class RentalAgreementGenerateController extends ApiController
         $rental->documents()->create([
             'title' => 'Rental Agreement',
             'type' => 'rental_agreement',
-            'description' => 'GeneratedRental Agreement for rental ' . $rental->rental_number,
+            'description' => 'GeneratedRental Agreement for rental '.$rental->rental_number,
             'document_id' => $document->id,
         ]);
 

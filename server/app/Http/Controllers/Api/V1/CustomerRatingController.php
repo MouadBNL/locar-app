@@ -11,6 +11,7 @@ class CustomerRatingController extends ApiController
     public function index($customer)
     {
         $customer = Customer::findOrFail($customer);
+
         return $this->success(CustomerRatingResource::collection($customer->ratings()->with('rental')->get()));
     }
 

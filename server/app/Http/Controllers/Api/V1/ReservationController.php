@@ -40,6 +40,7 @@ class ReservationController extends ApiController
     public function show($reservation_number)
     {
         $reservation = Reservation::where('reservation_number', $reservation_number)->firstOrFail();
+
         return $this->success(new ReservationResource($reservation));
     }
 

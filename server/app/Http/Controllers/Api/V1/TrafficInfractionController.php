@@ -50,6 +50,7 @@ class TrafficInfractionController extends ApiController
     public function show($trafficInfraction)
     {
         $trafficInfraction = TrafficInfraction::findOrFail($trafficInfraction);
+
         return $this->success(new TrafficInfractionResource($trafficInfraction));
     }
 

@@ -19,8 +19,6 @@ use App\Http\Controllers\Api\V1\TrafficInfractionController;
 use App\Http\Controllers\Api\V1\VehicleController;
 use App\Http\Controllers\Api\V1\VehicleExpenseController;
 use App\Http\Controllers\Api\V1\VehicleRepairController;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/auth')->group(function () {
