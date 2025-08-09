@@ -9,7 +9,7 @@ import { BusinessSummaryChart } from '@/components/charts/business-summary-chart
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heading3 } from '@/components/ui/typography';
 import { useCalendarIndex } from '@/features/calendar';
-import { mapCalendarEvent } from '@/features/calendar/mappers';
+import { useMapCalendarEvent } from '@/features/calendar/mappers';
 import { useGlobalStatistics } from '@/features/statistics';
 import { fmt_currency, get_date_range } from '@/lib/utils';
 
@@ -23,9 +23,11 @@ function RouteComponent() {
     query_params: get_date_range(new Date(), 3),
   });
 
+  const { mapCalendarEvent } = useMapCalendarEvent();
+
   const events = useMemo(() => {
     return data?.data.map(mapCalendarEvent) ?? [];
-  }, [data]);
+  }, [data, mapCalendarEvent]);
 
   const { t } = useTranslation(['common', 'stats', 'calendar']);
   return (
