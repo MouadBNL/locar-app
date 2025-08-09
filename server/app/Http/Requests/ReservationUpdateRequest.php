@@ -6,7 +6,7 @@ use App\Models\Reservation;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * @property-read Reservation $reservation
+ * @property-read string $reservation_number
  */
 class ReservationUpdateRequest extends FormRequest
 {
@@ -25,8 +25,9 @@ class ReservationUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $reservation = Reservation::where('reservation_number', $this->reservation_number)->firstOrFail();
         return [
-            'reservation_number' => 'required|string|unique:reservations,reservation_number,'.$this->reservation->id,
+            'reservation_number' => 'required|string|unique:reservations,reservation_number,' . $reservation->id,
             'customer_id' => 'required|exists:customers,id',
             'vehicle_id' => 'required|exists:vehicles,id',
             'check_in_date' => 'required|date',
