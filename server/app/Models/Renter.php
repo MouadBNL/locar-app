@@ -50,16 +50,16 @@ class Renter extends Model
         'full_name',
         'email',
         'phone',
-        
+
         'address_primary',
-        
+
         // Identification information
         'birth_date',
         'id_card_number',
         'id_card_issuing_date',
         'id_card_expiration_date',
         'id_card_address',
-        
+
         // Driver's license information
         'driver_license_number',
         'driver_license_issuing_city',

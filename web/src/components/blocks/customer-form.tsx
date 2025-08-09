@@ -35,11 +35,9 @@ export default function CustomerForm({
       ...initialValues,
     },
   });
-  console.log(initialValues)
 
   const onSubmit = (data: CustomerData) => {
     submit?.(data);
-    console.log('Submitted data:', data);
   };
 
   return (
@@ -112,7 +110,6 @@ export default function CustomerForm({
               />
             )}
           />
-
 
           <AppFormField
             control={form.control}
@@ -238,8 +235,6 @@ export default function CustomerForm({
             )}
           />
 
-
-
           {/* //* Uncomment if email is needed
           <AppFormField
             control={form.control}
@@ -253,7 +248,7 @@ export default function CustomerForm({
                 value={field.value ?? ''}
               />
             )}
-          /> 
+          />
           */}
 
         </div>

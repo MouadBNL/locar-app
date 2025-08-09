@@ -60,7 +60,7 @@ export default function RentalInitializationForm({
         full_name: 'John Doe',
         phone: '+212 6 66 66 66 66',
         birth_date: fmt_date(get_date(), { format: 'date' }),
-        
+
         id_card_number: 'AA123456',
         id_card_address: 'adresse to test 1',
         id_card_issuing_date: fmt_date(get_date(), { format: 'date' }),
@@ -87,7 +87,6 @@ export default function RentalInitializationForm({
 
   const onSubmit = (data: RentalData) => {
     submit?.(data);
-    console.log("renter submitted data", data.renter);
   };
 
   return (
@@ -189,7 +188,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
       `${customer.first_name} ${customer.last_name}`,
     );
     form.setValue('renter.phone', customer.phone);
-    
+
     form.setValue('renter.id_card_address', customer.id_card_address ?? '');
     form.setValue('renter.driver_license_address', customer.driver_license_address ?? '');
     form.setValue('renter.passport_address', customer.passport_address ?? '');
@@ -209,7 +208,6 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
     form.setValue('renter.passport_issuing_date', customer.passport_issuing_date ?? '');
     form.setValue('renter.passport_expiration_date', customer.passport_expiration_date ?? '');
   };
-  
 
   return (
     <div>
@@ -218,20 +216,20 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
         subheading={t('rental:customer.subheading')}
       />
       <div className="grid grid-cols-1 gap-4">
-      <AppFormField
-        control={form.control}
-        name="renter.customer_id"
-        label={t('customer:label_singular')}
-        render={({ field }) => (
-          <CustomerSelect
-            onValueChange={field.onChange}
-            onCustomerSelected={onCustomerSelected}
-            value={field.value ?? undefined}
-          />
-        )}
-      />
+        <AppFormField
+          control={form.control}
+          name="renter.customer_id"
+          label={t('customer:label_singular')}
+          render={({ field }) => (
+            <CustomerSelect
+              onValueChange={field.onChange}
+              onCustomerSelected={onCustomerSelected}
+              value={field.value ?? undefined}
+            />
+          )}
+        />
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 border-b-2 border-accent [&>*:last-child]:lg:col-span-2'>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 border-b-2 border-accent [&>*:last-child]:lg:col-span-2">
           <AppFormField
             control={form.control}
             name="renter.full_name"
@@ -295,8 +293,8 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
           />
 
         </div>
-            
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4  border-b-2 border-accent [&>*:last-child]:lg:col-span-2'>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  border-b-2 border-accent [&>*:last-child]:lg:col-span-2">
           <AppFormField
             control={form.control}
             name="renter.driver_license_number"
@@ -346,10 +344,10 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
             render={({ field }) => (
               <Input {...field} value={field.value ?? undefined} />
             )}
-          />          
+          />
         </div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4  border-b-2 border-accent [&>*:last-child]:lg:col-span-2'>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  border-b-2 border-accent [&>*:last-child]:lg:col-span-2">
           <AppFormField
             control={form.control}
             name="renter.passport_number"
@@ -400,7 +398,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
             render={({ field }) => (
               <Input {...field} value={field.value ?? undefined} />
             )}
-          />    
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -422,7 +420,7 @@ function RentalCustomerForm({ form }: { form: UseFormReturn<RentalData> }) {
             )}
           />
         </div>
-        
+
       </div>
     </div>
   );

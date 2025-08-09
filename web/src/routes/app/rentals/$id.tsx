@@ -77,7 +77,7 @@ function RouteComponent() {
   if (!rental) {
     return <div>{t('rental:not_found')}</div>;
   }
-  //console.log('rental:', rental)
+  // console.log('rental:', rental)
   return (
     <div className="pt-8 px-4 lg:px-12">
       <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
@@ -124,10 +124,10 @@ function RouteComponent() {
                 license={rental.renter.driver_license_number ?? ''}
                 phone={rental.renter.phone ?? ''}
                 address={
-                  rental.renter.id_card_address ??
-                  rental.renter.driver_license_address ??
-                  rental.renter.passport_address ??
-                  ''
+                  rental.renter.id_card_address
+                  ?? rental.renter.driver_license_address
+                  ?? rental.renter.passport_address
+                  ?? ''
                 }
               />
             </div>

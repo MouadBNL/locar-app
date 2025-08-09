@@ -43,7 +43,7 @@ export interface CustomerResource {
   passport_number: string;
   passport_issuing_date: string;
   passport_expiration_date: string;
-  passport_address: string;  
+  passport_address: string;
   birth_date: string;
   created_at: string;
   updated_at: string;

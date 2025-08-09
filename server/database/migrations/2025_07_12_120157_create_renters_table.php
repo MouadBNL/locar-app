@@ -21,7 +21,6 @@ return new class extends Migration
 
             $table->string('address_primary')->nullable();
 
-
             // Identification information
             $table->date('birth_date')->nullable();
             $table->string('profession')->nullable();

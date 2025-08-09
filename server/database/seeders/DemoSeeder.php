@@ -150,7 +150,6 @@ class DemoSeeder extends Seeder
                         'id_card_expiration_date' => $customer->id_card_expiration_date,
                         'id_card_address' => $customer->id_card_address,
 
-
                         'driver_license_number' => $customer->driver_license_number,
                         'driver_license_issuing_city' => $customer->driver_license_issuing_city,
                         'driver_license_issuing_date' => $customer->driver_license_issuing_date,

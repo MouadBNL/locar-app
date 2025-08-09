@@ -48,14 +48,14 @@ class RentalDetailsUpdateController extends ApiController
             'birth_date' => $data->birth_date,
             'address_primary' => $data->address_primary,
             'id_card_address' => $data->id_card_address,
-            
+
             // Driver's license information
             'driver_license_number' => $data->driver_license_number,
             'driver_license_issuing_city' => $data->driver_license_issuing_city,
             'driver_license_issuing_date' => $data->driver_license_issuing_date,
             'driver_license_expiration_date' => $data->driver_license_expiration_date,
             'driver_license_address' => $data->driver_license_address,
-            
+
             // Passport information
             'passport_number' => $data->passport_number,
             'passport_country' => $data->passport_country,

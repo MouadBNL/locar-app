@@ -558,10 +558,8 @@ function RentalRenterFormSection({
   });
   const onSubmit = form.handleSubmit((data) => {
     updateRenter({ id: code, data });
-    console.log('Updated renter data:', data);
   });
 
-  console.log('renter', renter);
   return (
     <Card>
       <Form {...form}>
@@ -576,7 +574,7 @@ function RentalRenterFormSection({
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 gap-4">
-              <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2'>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2">
                 <AppFormField
                   control={form.control}
                   name="full_name"
@@ -640,8 +638,8 @@ function RentalRenterFormSection({
                 />
 
               </div>
-                  
-              <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2'>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2">
                 <AppFormField
                   control={form.control}
                   name="driver_license_number"
@@ -691,10 +689,10 @@ function RentalRenterFormSection({
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? undefined} />
                   )}
-                />          
+                />
               </div>
 
-              <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2'>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2">
                 <AppFormField
                   control={form.control}
                   name="passport_number"
@@ -745,7 +743,7 @@ function RentalRenterFormSection({
                   render={({ field }) => (
                     <Input {...field} value={field.value ?? undefined} />
                   )}
-                />    
+                />
               </div>
             </div>
           </CardContent>
