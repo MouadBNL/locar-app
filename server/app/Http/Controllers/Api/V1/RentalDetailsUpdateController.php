@@ -42,7 +42,6 @@ class RentalDetailsUpdateController extends ApiController
         $rental->renter->update([
             'customer_id' => $data->customer_id,
             'full_name' => $data->full_name,
-            'email' => $data->email,
             'phone' => $data->phone,
 
             // Identification information
@@ -64,10 +63,6 @@ class RentalDetailsUpdateController extends ApiController
             'passport_issuing_date' => $data->passport_issuing_date,
             'passport_expiration_date' => $data->passport_expiration_date,
             'passport_address' => $data->passport_address,
-
-            // Documents
-            'id_card_scan_document' => $data->id_card_scan_document,
-            'driver_license_scan_document' => $data->driver_license_scan_document,
         ]);
 
         return $this->success(null, 'rental.renter.updated');

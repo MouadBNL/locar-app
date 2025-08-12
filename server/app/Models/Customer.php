@@ -18,9 +18,7 @@ use Illuminate\Support\Collection;
  * @property-read string $last_name
  * @property-read CustomerStatus $status
  * @property-read ?float $rating
- * @property-read ?string $email
  * @property-read ?string $phone
- * @property-read ?string $address
  * @property-read ?string $id_card_number
  * @property-read ?string $driver_license_number
  * @property-read ?string $passport_number

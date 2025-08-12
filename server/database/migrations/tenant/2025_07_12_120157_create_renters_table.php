@@ -15,20 +15,18 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('rental_id')->constrained('rentals');
             $table->foreignUuid('customer_id')->nullable();
-            $table->string('full_name');
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-
-            $table->string('address_primary')->nullable();
 
             // Identification information
+            $table->string('full_name');
+            $table->string('phone')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('profession')->nullable();
+
+            // ID card information
             $table->string('id_card_number')->nullable();
             $table->date('id_card_issuing_date')->nullable();
             $table->date('id_card_expiration_date')->nullable();
             $table->string('id_card_address')->nullable();
-            $table->string('id_card_scan_document')->nullable();
 
             // Driver's license information
             $table->string('driver_license_number')->nullable();
@@ -36,7 +34,6 @@ return new class extends Migration
             $table->date('driver_license_issuing_date')->nullable();
             $table->date('driver_license_expiration_date')->nullable();
             $table->string('driver_license_address')->nullable();
-            $table->string('driver_license_scan_document')->nullable();
 
             // Passport information
             $table->string('passport_number')->nullable();
@@ -44,7 +41,6 @@ return new class extends Migration
             $table->date('passport_issuing_date')->nullable();
             $table->date('passport_expiration_date')->nullable();
             $table->string('passport_address')->nullable();
-            $table->string('passport_scan_document')->nullable();
 
             $table->timestamps();
         });

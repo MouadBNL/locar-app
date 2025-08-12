@@ -13,7 +13,6 @@ class RenterData extends Data
         public ?string $customer_id,
         public string $full_name,
         public ?string $phone,
-        public ?string $email,
         public ?string $id_card_number,
         public ?Carbon $birth_date,
         public ?string $address_primary,
@@ -31,7 +30,7 @@ class RenterData extends Data
         public ?Carbon $passport_issuing_date,
         public ?Carbon $passport_expiration_date,
 
-        // Documents
+        // Documents (Upload)
         public ?string $id_card_scan_document,
         public ?string $driver_license_scan_document,
 
@@ -47,7 +46,6 @@ class RenterData extends Data
             'customer_id' => ['nullable', 'uuid', 'exists:customers,id'],
             'full_name' => ['required', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
-            'email' => ['nullable', 'email', 'max:255'],
             'id_card_number' => ['nullable', 'string', 'max:255'],
             'id_card_issuing_date' => ['nullable', 'date'],
             'id_card_expiration_date' => ['nullable', 'date'],

@@ -19,9 +19,7 @@ class CustomerFactory extends Factory
         return [
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName,
-            'email' => fake()->email,
             'phone' => fake()->phoneNumber,
-            'address' => fake()->address,
             'id_card_number' => fake()->unique()->regexify('[A-Z]{2}[0-9]{10}'),
             'driver_license_number' => fake()->unique()->regexify('[0-9]{10}'),
             'passport_number' => fake()->unique()->regexify('[0-9A-Z]{24}'),

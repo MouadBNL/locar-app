@@ -96,7 +96,7 @@ class DemoSeeder extends Seeder
                             'receipt_document_id' => null,
                         ]);
                         $repair->expenses()->createMany(
-                            array_map(fn() => [
+                            array_map(fn () => [
                                 'vehicle_id' => $vehicle->id,
                                 'vehicle_repair_id' => $repair->id,
                                 'type' => VehicleExpenseType::values()[rand(0, count(VehicleExpenseType::values()) - 1)],
@@ -114,7 +114,7 @@ class DemoSeeder extends Seeder
                         $total_days = $this->timeframeService->diffInDays($start, $end);
 
                         Reservation::create([
-                            'reservation_number' => 'RES-' . str()->random(16),
+                            'reservation_number' => 'RES-'.str()->random(16),
                             'customer_id' => $customer->id,
                             'vehicle_id' => $vehicle->id,
                             'check_in_date' => $start,
@@ -128,7 +128,7 @@ class DemoSeeder extends Seeder
                     } else {
                         // Rental
                         $rental = Rental::create([
-                            'rental_number' => 'RNT-' . str()->random(16),
+                            'rental_number' => 'RNT-'.str()->random(16),
                             'notes' => $faker->paragraph(3),
                         ]);
 
@@ -162,9 +162,8 @@ class DemoSeeder extends Seeder
                         $renter = Renter::create([
                             'rental_id' => $rental->id,
                             'customer_id' => $customer->id,
-                            'full_name' => $customer->first_name . ' ' . $customer->last_name,
+                            'full_name' => $customer->first_name.' '.$customer->last_name,
                             'phone' => $customer->phone,
-                            'email' => $customer->email,
 
                             'id_card_number' => $customer->id_card_number,
                             'birth_date' => $customer->birth_date,
@@ -184,8 +183,6 @@ class DemoSeeder extends Seeder
                             'passport_expiration_date' => $customer->passport_expiration_date,
                             'passport_address' => $customer->passport_address,
 
-                            'id_card_scan_document' => $customer->id_card_scan_document,
-                            'driver_license_scan_document' => $customer->driver_license_scan_document,
                         ]);
 
                         $day_quantity = $this->timeframeService->diffInDays($start, $end);
