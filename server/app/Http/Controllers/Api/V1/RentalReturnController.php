@@ -12,8 +12,9 @@ class RentalReturnController extends ApiController
     /**
      * Handle the incoming request.
      */
-    public function __invoke(RentalReturnRequest $request, Rental $rental)
+    public function __invoke(RentalReturnRequest $request, $rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         if ($rental->status !== RentalStatus::STARTED) {
             return $this->error(null, 'rental.return.error.not_started');
         }

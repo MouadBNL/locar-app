@@ -47,8 +47,9 @@ class StatisticsController extends ApiController
         return $this->success($stats);
     }
 
-    public function vehicle(Vehicle $vehicle)
+    public function vehicle($vehicle)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $thisMonth = [
             'start' => Carbon::now()->subMonth(),
             'end' => Carbon::now(),

@@ -22,8 +22,9 @@ class RentalDetailsUpdateController extends ApiController
         private AvailabilityCheckService $availabilityCheckService
     ) {}
 
-    public function vehicle(RentalVehicleData $data, Rental $rental)
+    public function vehicle(RentalVehicleData $data, $rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $rental->vehicle->update([
             'vehicle_id' => $data->vehicle_id,
             'make' => $data->make,
@@ -35,41 +36,41 @@ class RentalDetailsUpdateController extends ApiController
         return $this->success(null, 'rental.vehicle.updated');
     }
 
-    public function renter(RenterData $data, Rental $rental)
+    public function renter(RenterData $data, $rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $rental->renter->update([
             'customer_id' => $data->customer_id,
             'full_name' => $data->full_name,
-            'email' => $data->email,
             'phone' => $data->phone,
 
             // Identification information
             'id_card_number' => $data->id_card_number,
             'birth_date' => $data->birth_date,
             'address_primary' => $data->address_primary,
+            'id_card_address' => $data->id_card_address,
 
             // Driver's license information
             'driver_license_number' => $data->driver_license_number,
             'driver_license_issuing_city' => $data->driver_license_issuing_city,
             'driver_license_issuing_date' => $data->driver_license_issuing_date,
             'driver_license_expiration_date' => $data->driver_license_expiration_date,
+            'driver_license_address' => $data->driver_license_address,
 
             // Passport information
             'passport_number' => $data->passport_number,
             'passport_country' => $data->passport_country,
             'passport_issuing_date' => $data->passport_issuing_date,
             'passport_expiration_date' => $data->passport_expiration_date,
-
-            // Documents
-            'id_card_scan_document' => $data->id_card_scan_document,
-            'driver_license_scan_document' => $data->driver_license_scan_document,
+            'passport_address' => $data->passport_address,
         ]);
 
         return $this->success(null, 'rental.renter.updated');
     }
 
-    public function timeframe(RentalTimeframeData $data, Rental $rental, TimeframeService $timeframeService)
+    public function timeframe(RentalTimeframeData $data, $rental_number, TimeframeService $timeframeService)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $availability = $this->availabilityCheckService->check(new AvailabilityCheckData(
             vehicle: Vehicle::find($rental->vehicle->vehicle_id),
             customer: Customer::find($rental->renter->customer_id),
@@ -100,8 +101,9 @@ class RentalDetailsUpdateController extends ApiController
         return $this->success(null, 'rental.timeframe.updated');
     }
 
-    public function rate(RentalRateData $data, Rental $rental)
+    public function rate(RentalRateData $data, $rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $rental->load('rate');
 
         $total = $data->day_quantity * $data->day_rate + $data->extra_quantity * $data->extra_rate - ($data->discount ?? 0);
@@ -122,8 +124,9 @@ class RentalDetailsUpdateController extends ApiController
         return $this->success($rental->rate, 'rental.rate.updated');
     }
 
-    public function notes(Request $request, Rental $rental)
+    public function notes(Request $request, $rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $data = $request->validate([
             'notes' => 'nullable|string|max:2048',
         ]);

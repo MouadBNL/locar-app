@@ -2,6 +2,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import type { CustomerResource } from '@/features/customers';
 import { useTranslation } from 'react-i18next';
 
+import { CustomerRatingBadge } from './customer-rating-badge';
 import { CustomerStatusBadge } from './customer-status-badge';
 
 export function useCustomerTableColumns({ actions }: { actions?: (customer: CustomerResource) => React.ReactNode }) {
@@ -22,11 +23,11 @@ export function useCustomerTableColumns({ actions }: { actions?: (customer: Cust
       accessorKey: 'id_card_number',
       cell: ({ row }) => <span>{row.original.id_card_number}</span>,
     },
-    {
-      header: () => t('customer:attributes.email'),
-      accessorKey: 'email',
-      cell: ({ row }) => <span>{row.original.email}</span>,
-    },
+    // {
+    //   header: () => t('customer:attributes.email'),
+    //   accessorKey: 'email',
+    //   cell: ({ row }) => <span>{row.original.email}</span>,
+    // },
     {
       header: () => t('customer:attributes.phone'),
       accessorKey: 'phone',
@@ -36,6 +37,21 @@ export function useCustomerTableColumns({ actions }: { actions?: (customer: Cust
       header: () => t('customer:attributes.status'),
       accessorKey: 'status',
       cell: ({ row }) => <CustomerStatusBadge status={row.original.status} />,
+    },
+    {
+      header: () => t('customer:rating.label_singular'),
+      accessorKey: 'rating',
+      cell: ({ row }) => (
+        <>
+          {row.original.rating === null
+            ? (
+                <span>-</span>
+              )
+            : (
+                <CustomerRatingBadge rating={row.original.rating} />
+              )}
+        </>
+      ),
     },
     {
       header: () => t('common:actions'),

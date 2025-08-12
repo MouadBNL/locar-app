@@ -9,8 +9,9 @@ use App\Models\VehicleExpense;
 
 class VehicleExpenseController extends ApiController
 {
-    public function index(Vehicle $vehicle)
+    public function index($vehicle)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $query = $vehicle->expenses();
         if (request()->has('ids')) {
             $query->whereIn('id', explode(',', request()->ids));
@@ -20,8 +21,10 @@ class VehicleExpenseController extends ApiController
         return $this->success(VehicleExpenseResource::collection($expenses));
     }
 
-    public function show(Vehicle $vehicle, VehicleExpense $expense)
+    public function show($vehicle, $expense)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
+        $expense = VehicleExpense::findOrFail($expense);
         if ($expense->vehicle_id !== $vehicle->id) {
             return $this->error('Expense not found', 404);
         }
@@ -29,15 +32,18 @@ class VehicleExpenseController extends ApiController
         return $this->success(new VehicleExpenseResource($expense));
     }
 
-    public function store(Vehicle $vehicle, VehicleExpenseCreateRequest $request)
+    public function store($vehicle, VehicleExpenseCreateRequest $request)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $expense = $vehicle->expenses()->create($request->validated());
 
         return $this->success(new VehicleExpenseResource($expense));
     }
 
-    public function update(Vehicle $vehicle, VehicleExpense $expense, VehicleExpenseCreateRequest $request)
+    public function update(VehicleExpenseCreateRequest $request, $vehicle, $expense)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
+        $expense = VehicleExpense::findOrFail($expense);
         if ($expense->vehicle_id !== $vehicle->id) {
             return $this->error('Expense not found', 404);
         }
@@ -46,8 +52,10 @@ class VehicleExpenseController extends ApiController
         return $this->success(new VehicleExpenseResource($expense));
     }
 
-    public function destroy(Vehicle $vehicle, VehicleExpense $expense)
+    public function destroy($vehicle, $expense)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
+        $expense = VehicleExpense::findOrFail($expense);
         if ($expense->vehicle_id !== $vehicle->id) {
             return $this->error('Expense not found', 404);
         }

@@ -9,15 +9,17 @@ use App\Models\RentalDocument;
 
 class RentalDocumentController extends ApiController
 {
-    public function index(Rental $rental)
+    public function index($rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $documents = $rental->documents()->with('document')->get();
 
         return $this->success(RentalDocumentResource::collection($documents), 'rental.document.index.success');
     }
 
-    public function store(Rental $rental, RentalDocumentCreateRequest $request)
+    public function store(RentalDocumentCreateRequest $request, $rental_number)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $document = $rental->documents()->create([
             'document_id' => $request->document_id,
             'title' => $request->title,
@@ -28,8 +30,10 @@ class RentalDocumentController extends ApiController
         return $this->success(new RentalDocumentResource($document), 'rental.document.store.success');
     }
 
-    public function update(Rental $rental, RentalDocument $document, RentalDocumentCreateRequest $request)
+    public function update(RentalDocumentCreateRequest $request, $rental_number, $document)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
+        $document = RentalDocument::findOrFail($document);
         if ($document->rental_id !== $rental->id) {
             return $this->error('rental.document.show.error.not_found', 404);
         }
@@ -44,8 +48,10 @@ class RentalDocumentController extends ApiController
         return $this->success(new RentalDocumentResource($document), 'rental.document.update.success');
     }
 
-    public function show(Rental $rental, RentalDocument $document)
+    public function show($rental_number, $document)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
+        $document = RentalDocument::findOrFail($document);
         if ($document->rental_id !== $rental->id) {
             return $this->error('rental.document.show.error.not_found', 404);
         }
@@ -53,8 +59,10 @@ class RentalDocumentController extends ApiController
         return $this->success(new RentalDocumentResource($document), 'rental.document.show.success');
     }
 
-    public function destroy(Rental $rental, RentalDocument $document)
+    public function destroy($rental_number, $document)
     {
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
+        $document = RentalDocument::findOrFail($document);
         if ($document->rental_id !== $rental->id) {
             return $this->error('rental.document.show.error.not_found', 404);
         }

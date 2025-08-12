@@ -50,6 +50,7 @@ class CalendarService
                 end: $reservation->check_in_date->addMinutes(15)->toDateTimeString(),
                 vehicle: new VehicleSummaryResource($reservation->vehicle),
                 customer: new CustomerSummaryResource($reservation->customer),
+                entity_code: $reservation->reservation_number,
             );
         });
     }
@@ -74,6 +75,7 @@ class CalendarService
                 end: $rental->timeframe->departure_date->addMinutes(15)->toDateTimeString(),
                 vehicle: new VehicleSummaryResource($rental->vehicle),
                 customer: new CustomerSummaryResource($rental->renter->customer),
+                entity_code: $rental->rental_number,
             );
         });
     }
@@ -98,6 +100,7 @@ class CalendarService
                 end: $rental->timeframe->return_date->addMinutes(15)->toDateTimeString(),
                 vehicle: new VehicleSummaryResource($rental->vehicle->vehicle),
                 customer: new CustomerSummaryResource($rental->renter->customer),
+                entity_code: $rental->rental_number,
             );
         });
     }
@@ -124,6 +127,7 @@ class CalendarService
                 end: $repair->finished_at?->toDateTimeString(),
                 vehicle: new VehicleSummaryResource($repair->vehicle),
                 customer: null,
+                entity_code: null,
             );
         });
     }

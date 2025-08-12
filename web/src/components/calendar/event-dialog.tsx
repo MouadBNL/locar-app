@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks-extra/no-direct-set-state-in-use-effect */
 import type { CalendarEvent } from '.';
 
+import { Link } from '@tanstack/react-router';
+import { EyeIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -102,6 +104,14 @@ export function EventDialog({
         </div>
         <DialogFooter className="flex-row sm:justify-between">
           <div className="flex flex-1 justify-end gap-2">
+            {event?.url && (
+              <Button asChild>
+                <Link to={event?.url}>
+                  <EyeIcon />
+                  {t('common:view')}
+                </Link>
+              </Button>
+            )}
             <Button variant="outline" onClick={onClose}>
               {t('common:close')}
             </Button>

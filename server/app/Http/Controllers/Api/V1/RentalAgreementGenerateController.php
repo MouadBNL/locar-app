@@ -9,9 +9,9 @@ use App\Services\RentalAgreementGenetator;
 
 class RentalAgreementGenerateController extends ApiController
 {
-    public function __invoke(Rental $rental, RentalAgreementGenetator $generator)
+    public function __invoke($rental_number, RentalAgreementGenetator $generator)
     {
-
+        $rental = Rental::where('rental_number', $rental_number)->firstOrFail();
         $rentalData = RentalData::fromModel($rental);
         $document = $generator->generate($rentalData);
 

@@ -27,10 +27,22 @@ class CustomerUpdateRequest extends FormRequest
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
-            'id_card_number' => 'nullable|string|max:255',
-            'driver_license_number' => 'nullable|string|max:255',
-            'passport_number' => 'nullable|string|max:255',
             'birth_date' => 'nullable|date',
+
+            'id_card_number' => 'nullable|string|max:255',
+            'id_card_issuing_date' => 'nullable|date',
+            'id_card_expiration_date' => 'nullable|date',
+            'id_card_address' => 'nullable|string|max:1024',
+
+            'driver_license_number' => 'nullable|string|max:255',
+            'driver_license_issuing_date' => 'nullable|date',
+            'driver_license_expiration_date' => 'nullable|date',
+            'driver_license_address' => 'nullable|string|max:1024',
+
+            'passport_number' => 'nullable|string|max:255',
+            'passport_issuing_date' => 'nullable|date',
+            'passport_expiration_date' => 'nullable|date',
+            'passport_address' => 'nullable|string|max:1024',
         ];
     }
 }

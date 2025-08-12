@@ -1,3 +1,4 @@
+'use no memo';
 import type { RentalRateData, RentalTimeframeData, RentalVehichleData, RenterData } from '@/features/rentals';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createFileRoute } from '@tanstack/react-router';
@@ -34,7 +35,7 @@ import {
   useRentalTimeframeUpdate,
   useRentalVehicleUpdate,
 } from '@/features/rentals';
-import { parse_availability_error } from '@/lib/utils';
+import { date_diff_in_days, parse_availability_error } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/rentals/$id/')({
   component: RouteComponent,
@@ -355,32 +356,11 @@ function RentalRateFormSection({
   const extra_quantity = form.watch('extra_quantity');
   const discount = form.watch('discount');
 
-  function dateDiffInDays(a?: string | null, b?: string | null) {
-    if (!a || !b)
-      return 0;
-    const dateA = new Date(a);
-    const dateB = new Date(b);
-    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    // Discard the time and time-zone information.
-    const utc1 = Date.UTC(
-      dateA.getFullYear(),
-      dateA.getMonth(),
-      dateA.getDate(),
-    );
-    const utc2 = Date.UTC(
-      dateB.getFullYear(),
-      dateB.getMonth(),
-      dateB.getDate(),
-    );
-
-    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-  }
-
   useEffect(() => {
     const extra_total_price = (extra_rate ?? 0) * (extra_quantity ?? 0);
     form.setValue('extra_total', extra_total_price);
     form.setValue('total', extra_total_price);
-    const number_of_days = dateDiffInDays(departure_date, return_date);
+    const number_of_days = date_diff_in_days(departure_date, return_date);
     const day_total_price = number_of_days * (daily_rate ?? 0);
     form.setValue('day_quantity', number_of_days);
     form.setValue('day_total', day_total_price);
@@ -573,144 +553,178 @@ function RentalRenterFormSection({
             </CardAction>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-              <AppFormField
-                control={form.control}
-                name="full_name"
-                label={t('rental:customer.attributes.full_name')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="phone"
-                label={t('customer:attributes.phone')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="address_primary"
-                label={t('customer:attributes.address')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="address_secondary"
-                label={t('customer:attributes.address')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="id_card_number"
-                label={t('customer:attributes.id_number')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="birth_date"
-                label={t('customer:attributes.birth_date')}
-                render={({ field }) => (
-                  <DateInput
-                    {...field}
-                    value={field.value ?? undefined}
-                    type="string"
-                  />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="driver_license_number"
-                label={t('customer:attributes.driver_license_number')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
+            <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2">
+                <AppFormField
+                  control={form.control}
+                  name="full_name"
+                  label={t('rental:customer.attributes.full_name')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
+                <AppFormField
+                  control={form.control}
+                  name="phone"
+                  label={t('customer:attributes.phone')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
+                <AppFormField
+                  control={form.control}
+                  name="id_card_number"
+                  label={t('customer:attributes.id_number')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
+                <AppFormField
+                  control={form.control}
+                  name="birth_date"
+                  label={t('customer:attributes.birth_date')}
+                  render={({ field }) => (
+                    <DateInput
+                      {...field}
+                      value={field.value ?? undefined}
+                      type="string"
+                    />
+                  )}
+                />
+                <AppFormField
+                  control={form.control}
+                  name="id_card_issuing_date"
+                  label={t('customer:attributes.id_card_issuing_date')}
+                  render={({ field }) => (
+                    <DateInput {...field} value={field.value ?? undefined} type="string" />
+                  )}
+                />
 
-              <AppFormField
-                control={form.control}
-                name="driver_license_issuing_city"
-                label={t('customer:attributes.driver_license_issuing_city')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="driver_license_issuing_date"
-                label={t('customer:attributes.driver_license_issuing_date')}
-                render={({ field }) => (
-                  <DateInput
-                    {...field}
-                    value={field.value ?? undefined}
-                    type="string"
-                  />
-                )}
-              />
+                <AppFormField
+                  control={form.control}
+                  name="id_card_expiration_date"
+                  label={t('customer:attributes.id_card_expiration_date')}
+                  render={({ field }) => (
+                    <DateInput {...field} value={field.value ?? undefined} type="string" />
+                  )}
+                />
+                <AppFormField
+                  control={form.control}
+                  name="id_card_address"
+                  label={t('customer:attributes.id_card_address')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
 
-              <AppFormField
-                control={form.control}
-                name="driver_license_expiration_date"
-                label={t('customer:attributes.driver_license_expiration_date')}
-                render={({ field }) => (
-                  <DateInput
-                    {...field}
-                    value={field.value ?? undefined}
-                    type="string"
-                  />
-                )}
-              />
-              <AppFormField
-                control={form.control}
-                name="passport_number"
-                label={t('customer:attributes.passport_number')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
+              </div>
 
-              <AppFormField
-                control={form.control}
-                name="passport_country"
-                label={t('customer:attributes.passport_country')}
-                render={({ field }) => (
-                  <Input {...field} value={field.value ?? undefined} />
-                )}
-              />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2">
+                <AppFormField
+                  control={form.control}
+                  name="driver_license_number"
+                  label={t('customer:attributes.driver_license_number')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
 
-              <AppFormField
-                control={form.control}
-                name="passport_issuing_date"
-                label={t('customer:attributes.passport_issuing_date')}
-                render={({ field }) => (
-                  <DateInput
-                    {...field}
-                    value={field.value ?? undefined}
-                    type="string"
-                  />
-                )}
-              />
+                <AppFormField
+                  control={form.control}
+                  name="driver_license_issuing_city"
+                  label={t('customer:attributes.driver_license_issuing_city')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
+                <AppFormField
+                  control={form.control}
+                  name="driver_license_issuing_date"
+                  label={t('customer:attributes.driver_license_issuing_date')}
+                  render={({ field }) => (
+                    <DateInput
+                      {...field}
+                      value={field.value ?? undefined}
+                      type="string"
+                    />
+                  )}
+                />
 
-              <AppFormField
-                control={form.control}
-                name="passport_expiration_date"
-                label={t('customer:attributes.passport_expiration_date')}
-                render={({ field }) => (
-                  <DateInput
-                    {...field}
-                    value={field.value ?? undefined}
-                    type="string"
-                  />
-                )}
-              />
+                <AppFormField
+                  control={form.control}
+                  name="driver_license_expiration_date"
+                  label={t('customer:attributes.driver_license_expiration_date')}
+                  render={({ field }) => (
+                    <DateInput
+                      {...field}
+                      value={field.value ?? undefined}
+                      type="string"
+                    />
+                  )}
+                />
+                <AppFormField
+                  control={form.control}
+                  name="driver_license_address"
+                  label={t('customer:attributes.driver_license_address')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*:last-child]:lg:col-span-2">
+                <AppFormField
+                  control={form.control}
+                  name="passport_number"
+                  label={t('customer:attributes.passport_number')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
+
+                <AppFormField
+                  control={form.control}
+                  name="passport_country"
+                  label={t('customer:attributes.passport_country')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
+
+                <AppFormField
+                  control={form.control}
+                  name="passport_issuing_date"
+                  label={t('customer:attributes.passport_issuing_date')}
+                  render={({ field }) => (
+                    <DateInput
+                      {...field}
+                      value={field.value ?? undefined}
+                      type="string"
+                    />
+                  )}
+                />
+
+                <AppFormField
+                  control={form.control}
+                  name="passport_expiration_date"
+                  label={t('customer:attributes.passport_expiration_date')}
+                  render={({ field }) => (
+                    <DateInput
+                      {...field}
+                      value={field.value ?? undefined}
+                      type="string"
+                    />
+                  )}
+                />
+                <AppFormField
+                  control={form.control}
+                  name="passport_address"
+                  label={t('customer:attributes.passport_address')}
+                  render={({ field }) => (
+                    <Input {...field} value={field.value ?? undefined} />
+                  )}
+                />
+              </div>
             </div>
           </CardContent>
         </form>
