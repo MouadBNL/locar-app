@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { EventCalendar } from '@/components/calendar';
 import { CalendarProvider } from '@/components/calendar/calendar-context';
 import { useCalendarIndex } from '@/features/calendar';
-import { mapCalendarEvent } from '@/features/calendar/mappers';
+import { useMapCalendarEvent } from '@/features/calendar/mappers';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { get_date_range } from '@/lib/utils';
 
@@ -24,13 +24,15 @@ function RouteComponent() {
     },
   });
 
+  const { mapCalendarEvent } = useMapCalendarEvent();
+
   const onDateChange = (date: Date) => {
     setSelectedDate(date);
   };
 
   const mappedEvents = useMemo(() => {
     return events?.data.map(mapCalendarEvent) ?? [];
-  }, [events]);
+  }, [events, mapCalendarEvent]);
 
   return (
     <div>

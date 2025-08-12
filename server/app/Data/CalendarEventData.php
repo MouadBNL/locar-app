@@ -17,6 +17,7 @@ class CalendarEventData extends Data
         public string $end,
         public ?VehicleSummaryResource $vehicle,
         public ?CustomerSummaryResource $customer,
+        public ?string $entity_code,
         public ?bool $all_day = false,
     ) {}
 }

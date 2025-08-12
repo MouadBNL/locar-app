@@ -10,8 +10,9 @@ use App\Models\VehicleRepair;
 
 class VehicleRepairController extends ApiController
 {
-    public function index(Vehicle $vehicle)
+    public function index($vehicle)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $repairs = $vehicle->repairs()
             ->with('expenses')
             ->orderBy('started_at', 'desc')
@@ -20,8 +21,10 @@ class VehicleRepairController extends ApiController
         return $this->success(VehicleRepairResource::collection($repairs));
     }
 
-    public function show(Vehicle $vehicle, VehicleRepair $repair)
+    public function show($vehicle, $repair)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
+        $repair = VehicleRepair::findOrFail($repair);
         if ($repair->vehicle_id !== $vehicle->id) {
             return $this->error('Repair not found', 404);
         }
@@ -29,8 +32,9 @@ class VehicleRepairController extends ApiController
         return $this->success(new VehicleRepairResource($repair));
     }
 
-    public function store(Vehicle $vehicle, VehicleRepairCreateRequest $request)
+    public function store($vehicle, VehicleRepairCreateRequest $request)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
         $request->validated();
         /** @var VehicleRepair $repair */
         $repair = $vehicle->repairs()->create([
@@ -51,8 +55,10 @@ class VehicleRepairController extends ApiController
         return $this->success(new VehicleRepairResource($repair));
     }
 
-    public function update(Vehicle $vehicle, VehicleRepair $repair, VehicleRepairCreateRequest $request)
+    public function update(VehicleRepairCreateRequest $request, $vehicle, $repair)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
+        $repair = VehicleRepair::findOrFail($repair);
         $request->validated();
         if ($repair->vehicle_id !== $vehicle->id) {
             return $this->error('Repair not found', 404);
@@ -81,8 +87,10 @@ class VehicleRepairController extends ApiController
         return $this->success(new VehicleRepairResource($repair));
     }
 
-    public function destroy(Vehicle $vehicle, VehicleRepair $repair)
+    public function destroy($vehicle, $repair)
     {
+        $vehicle = Vehicle::findOrFail($vehicle);
+        $repair = VehicleRepair::findOrFail($repair);
         if ($repair->vehicle_id !== $vehicle->id) {
             return $this->error('Repair not found', 404);
         }

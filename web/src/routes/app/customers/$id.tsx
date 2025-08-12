@@ -42,7 +42,7 @@ function RouteComponent() {
             {customer?.last_name}
           </Heading3>
           {customer?.rating && (
-            <CustomerRatingBadge rating={2} />
+            <CustomerRatingBadge rating={customer.rating} />
           )}
           <CustomerStatusBadge status={customer?.status} />
         </div>

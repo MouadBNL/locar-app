@@ -32,8 +32,10 @@ class DocumentController extends ApiController
         return $this->success(new DocumentResource($document), 'document.store.success');
     }
 
-    public function show(Document $document)
+    public function show($document)
     {
+        $document = Document::findOrFail($document);
+
         return $this->success(new DocumentResource($document), 'document.show.success');
     }
 }

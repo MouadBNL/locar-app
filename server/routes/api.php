@@ -28,7 +28,11 @@ Route::prefix('/auth')->group(function () {
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware([
+    'auth:sanctum',
+    'tenancy',
+])->group(function () {
+
     Route::apiResource('customers', CustomerController::class);
 
     Route::get('customers/{customer}/ratings', [CustomerRatingController::class, 'index']);
@@ -39,49 +43,49 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('vehicles/{vehicle}/repairs', VehicleRepairController::class);
 
     Route::get('reservations', [ReservationController::class, 'index']);
-    Route::get('reservations/{reservation:reservation_number}', [ReservationController::class, 'show']);
+    Route::get('reservations/{reservation_number}', [ReservationController::class, 'show']);
     Route::post('reservations', [ReservationController::class, 'store']);
-    Route::put('reservations/{reservation:reservation_number}', [ReservationController::class, 'update']);
-    Route::delete('reservations/{reservation:reservation_number}', [ReservationController::class, 'destroy']);
+    Route::put('reservations/{reservation_number}', [ReservationController::class, 'update']);
+    Route::delete('reservations/{reservation_number}', [ReservationController::class, 'destroy']);
 
     /**
      * Rentals
      */
     Route::post('rentals', RentalInitializationController::class);
     Route::get('rentals', [RentalController::class, 'index']);
-    Route::get('rentals/{rental:rental_number}', [RentalController::class, 'show']);
-    Route::delete('rentals/{rental:rental_number}', [RentalController::class, 'destroy']);
+    Route::get('rentals/{rental_number}', [RentalController::class, 'show']);
+    Route::delete('rentals/{rental_number}', [RentalController::class, 'destroy']);
 
-    Route::put('rentals/{rental:rental_number}/vehicle', [RentalDetailsUpdateController::class, 'vehicle']);
-    Route::put('rentals/{rental:rental_number}/renter', [RentalDetailsUpdateController::class, 'renter']);
-    Route::put('rentals/{rental:rental_number}/timeframe', [RentalDetailsUpdateController::class, 'timeframe']);
-    Route::put('rentals/{rental:rental_number}/rate', [RentalDetailsUpdateController::class, 'rate']);
-    Route::put('rentals/{rental:rental_number}/notes', [RentalDetailsUpdateController::class, 'notes']);
+    Route::put('rentals/{rental_number}/vehicle', [RentalDetailsUpdateController::class, 'vehicle']);
+    Route::put('rentals/{rental_number}/renter', [RentalDetailsUpdateController::class, 'renter']);
+    Route::put('rentals/{rental_number}/timeframe', [RentalDetailsUpdateController::class, 'timeframe']);
+    Route::put('rentals/{rental_number}/rate', [RentalDetailsUpdateController::class, 'rate']);
+    Route::put('rentals/{rental_number}/notes', [RentalDetailsUpdateController::class, 'notes']);
 
     /**
      * Rental actions
      */
-    Route::post('rentals/{rental:rental_number}/start', RentalStartController::class);
-    Route::post('rentals/{rental:rental_number}/return', RentalReturnController::class);
-    Route::post('rentals/{rental:rental_number}/agreement', RentalAgreementGenerateController::class);
+    Route::post('rentals/{rental_number}/start', RentalStartController::class);
+    Route::post('rentals/{rental_number}/return', RentalReturnController::class);
+    Route::post('rentals/{rental_number}/agreement', RentalAgreementGenerateController::class);
 
     /**
      * Rental Documents
      */
-    Route::get('rentals/{rental:rental_number}/documents', [RentalDocumentController::class, 'index']);
-    Route::post('rentals/{rental:rental_number}/documents', [RentalDocumentController::class, 'store']);
-    Route::get('rentals/{rental:rental_number}/documents/{document}', [RentalDocumentController::class, 'show']);
-    Route::put('rentals/{rental:rental_number}/documents/{document}', [RentalDocumentController::class, 'update']);
-    Route::delete('rentals/{rental:rental_number}/documents/{document}', [RentalDocumentController::class, 'destroy']);
+    Route::get('rentals/{rental_number}/documents', [RentalDocumentController::class, 'index']);
+    Route::post('rentals/{rental_number}/documents', [RentalDocumentController::class, 'store']);
+    Route::get('rentals/{rental_number}/documents/{document}', [RentalDocumentController::class, 'show']);
+    Route::put('rentals/{rental_number}/documents/{document}', [RentalDocumentController::class, 'update']);
+    Route::delete('rentals/{rental_number}/documents/{document}', [RentalDocumentController::class, 'destroy']);
 
     /**
      * Rental Payments
      */
-    Route::get('rentals/{rental:rental_number}/payments', [RentalPaymentController::class, 'index']);
-    Route::post('rentals/{rental:rental_number}/payments', [RentalPaymentController::class, 'store']);
-    Route::get('rentals/{rental:rental_number}/payments/{payment}', [RentalPaymentController::class, 'show']);
-    Route::put('rentals/{rental:rental_number}/payments/{payment}', [RentalPaymentController::class, 'update']);
-    Route::delete('rentals/{rental:rental_number}/payments/{payment}', [RentalPaymentController::class, 'destroy']);
+    Route::get('rentals/{rental_number}/payments', [RentalPaymentController::class, 'index']);
+    Route::post('rentals/{rental_number}/payments', [RentalPaymentController::class, 'store']);
+    Route::get('rentals/{rental_number}/payments/{payment}', [RentalPaymentController::class, 'show']);
+    Route::put('rentals/{rental_number}/payments/{payment}', [RentalPaymentController::class, 'update']);
+    Route::delete('rentals/{rental_number}/payments/{payment}', [RentalPaymentController::class, 'destroy']);
 
     /**
      * Documents
@@ -95,8 +99,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('calendar', [CalendarController::class, 'index']);
 
     /*
-     * Traffic Infractions
-     */
+         * Traffic Infractions
+         */
     Route::get('traffic-infractions', [TrafficInfractionController::class, 'index']);
     Route::post('traffic-infractions', [TrafficInfractionController::class, 'store']);
     Route::get('traffic-infractions/{trafficInfraction}', [TrafficInfractionController::class, 'show']);

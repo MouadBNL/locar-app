@@ -10,6 +10,7 @@ export interface CalendarEvent {
   color?: EventColor;
   label?: string;
   location?: string;
+  url?: string;
 }
 
 export type EventColor = 'blue' | 'orange' | 'violet' | 'rose' | 'emerald';

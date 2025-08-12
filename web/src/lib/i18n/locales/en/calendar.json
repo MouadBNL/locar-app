@@ -23,5 +23,10 @@
   "month": "Month",
   "week": "Week",
   "day": "Day",
-  "agenda": "Agenda"
+  "agenda": "Agenda",
+  "event": {
+    "rental_departure_title": "Departure: {{title}}",
+    "rental_return_title": "Return: {{title}}",
+    "reservation_title": "Reservation: {{title}}"
+  }
 }

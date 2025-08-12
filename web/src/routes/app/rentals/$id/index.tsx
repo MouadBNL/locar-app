@@ -1,3 +1,4 @@
+'use no memo';
 import type { RentalRateData, RentalTimeframeData, RentalVehichleData, RenterData } from '@/features/rentals';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createFileRoute } from '@tanstack/react-router';
@@ -34,7 +35,7 @@ import {
   useRentalTimeframeUpdate,
   useRentalVehicleUpdate,
 } from '@/features/rentals';
-import { parse_availability_error } from '@/lib/utils';
+import { date_diff_in_days, parse_availability_error } from '@/lib/utils';
 
 export const Route = createFileRoute('/app/rentals/$id/')({
   component: RouteComponent,
@@ -355,32 +356,11 @@ function RentalRateFormSection({
   const extra_quantity = form.watch('extra_quantity');
   const discount = form.watch('discount');
 
-  function dateDiffInDays(a?: string | null, b?: string | null) {
-    if (!a || !b)
-      return 0;
-    const dateA = new Date(a);
-    const dateB = new Date(b);
-    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    // Discard the time and time-zone information.
-    const utc1 = Date.UTC(
-      dateA.getFullYear(),
-      dateA.getMonth(),
-      dateA.getDate(),
-    );
-    const utc2 = Date.UTC(
-      dateB.getFullYear(),
-      dateB.getMonth(),
-      dateB.getDate(),
-    );
-
-    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-  }
-
   useEffect(() => {
     const extra_total_price = (extra_rate ?? 0) * (extra_quantity ?? 0);
     form.setValue('extra_total', extra_total_price);
     form.setValue('total', extra_total_price);
-    const number_of_days = dateDiffInDays(departure_date, return_date);
+    const number_of_days = date_diff_in_days(departure_date, return_date);
     const day_total_price = number_of_days * (daily_rate ?? 0);
     form.setValue('day_quantity', number_of_days);
     form.setValue('day_total', day_total_price);

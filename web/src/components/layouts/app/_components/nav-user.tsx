@@ -1,4 +1,3 @@
-import { useNavigate } from '@tanstack/react-router';
 import {
   BellIcon,
   CreditCardIcon,
@@ -29,11 +28,10 @@ import { useSignout } from '@/features/auth';
 export function NavUser() {
   const { user } = useAuth();
   const { isMobile } = useSidebar();
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const { mutate: signOut } = useSignout({
-    onSuccess: () => {
-      navigate({ to: '/auth/signin' });
+    onSettled: () => {
+      window.location.href = '/';
     },
   });
 

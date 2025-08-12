@@ -140,3 +140,24 @@ export function parse_availability_error(error: unknown) {
     // }`;
   }
 }
+
+export function date_diff_in_days(a?: string | null, b?: string | null) {
+  if (!a || !b)
+    return 0;
+  const dateA = new Date(a);
+  const dateB = new Date(b);
+  const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+  // Discard the time and time-zone information.
+  const utc1 = Date.UTC(
+    dateA.getFullYear(),
+    dateA.getMonth(),
+    dateA.getDate(),
+  );
+  const utc2 = Date.UTC(
+    dateB.getFullYear(),
+    dateB.getMonth(),
+    dateB.getDate(),
+  );
+
+  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+}
