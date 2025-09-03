@@ -10,3 +10,7 @@ The backend is created using Laravel, php version 8.3 is needed as well as the s
 To start the backend server run: `cd server` then `php artisan serve`.<br/>
 
 To start the frontend, run: `cd web` then `pnpm run dev`.<br/>
+
+## License
+
+Locar is open-sourced software licensed under the [MIT license](LICENSE.md).
